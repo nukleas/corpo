@@ -16,6 +16,9 @@
   font-size: var(--corpo-text-base);
   cursor: pointer;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  line-height: normal;
   transition: border-color var(--corpo-dur) var(--corpo-ease);
 }
 .cp-select__control:hover { border-color: var(--corpo-border-strong); }
