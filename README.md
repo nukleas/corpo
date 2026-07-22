@@ -2,6 +2,9 @@
 
 ![CI](https://github.com/nukleas/corpo/actions/workflows/ci.yml/badge.svg)
 
+**[Live demo →](https://nukleas.github.io/corpo/)** — Storybook, a raw-CSS visual demo, and a
+composed console example.
+
 Calm, light-first, WCAG-AA corporate design system — the company-friendly sibling of
 [cyberdesign](https://github.com/nukleas/cyberdesign)'s cyber/terminal aesthetic. Same skeleton
 (mono micro-labels, 1px borders, swappable accent themes), reworked for compliance-officer calm:

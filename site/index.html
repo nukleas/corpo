@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Corpo — a calm, light-first design system</title>
+<meta name="description" content="Corpo is a calm, light-first, WCAG-AA corporate design system: CSS tokens, components, and a full React API." />
+<link rel="stylesheet" href="./dist/corpo.css" />
+<style>
+  body { margin: 0; padding: 0 24px 64px; max-width: 880px; margin-inline: auto; }
+  header { padding: 56px 0 40px; }
+  header .cp-badge { margin-bottom: 16px; }
+  h1 {
+    font-family: var(--corpo-font-mono);
+    font-size: var(--corpo-text-2xl);
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+  }
+  header p {
+    font-size: var(--corpo-text-base);
+    color: var(--corpo-text-secondary);
+    max-width: 52ch;
+    line-height: 1.55;
+    margin: 0 0 24px;
+  }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .grid .cp-card { height: 100%; }
+  .grid a.cp-card { text-decoration: none; color: inherit; transition: border-color 120ms var(--corpo-ease); }
+  .grid a.cp-card:hover { border-color: var(--corpo-accent); }
+  section h2 {
+    font-family: var(--corpo-font-mono);
+    font-size: var(--corpo-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--corpo-label-tracking-wide);
+    color: var(--corpo-text-muted);
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--corpo-border-dim);
+  }
+  ul.checks { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  ul.checks li { font-size: var(--corpo-text-sm); color: var(--corpo-text-secondary); }
+  footer {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--corpo-border-dim);
+    font-size: var(--corpo-text-sm);
+    color: var(--corpo-text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer a { color: var(--corpo-text-secondary); }
+</style>
+</head>
+<body>
+  <header>
+    <span class="cp-badge cp-badge--accent">v0.1.0</span>
+    <h1>Corpo</h1>
+    <p>
+      A calm, light-first, WCAG-AA design system for business software — the company-friendly
+      sibling of <a href="https://github.com/nukleas/cyberdesign">cyberdesign</a>. Plain CSS
+      tokens and components, plus a full React API with Storybook docs.
+    </p>
+    <div class="hero-actions">
+      <a class="cp-btn cp-btn--primary" href="./storybook/">Browse components</a>
+      <a class="cp-btn" href="https://github.com/nukleas/corpo">View on GitHub</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>Explore</h2>
+    <div class="grid">
+      <a class="cp-card" href="./storybook/">
+        <div class="cp-card__body">
+          <h3 class="cp-card__title" style="font-size: var(--corpo-text-base); text-transform: none; letter-spacing: normal;">Storybook</h3>
+          <p class="cp-card__description">Every component, documented — props, variants, and the theme toolbar.</p>
+        </div>
+      </a>
+      <a class="cp-card" href="./demo/">
+        <div class="cp-card__body">
+          <h3 class="cp-card__title" style="font-size: var(--corpo-text-base); text-transform: none; letter-spacing: normal;">Visual demo</h3>
+          <p class="cp-card__description">The raw CSS bundle in one page, with a live theme toggle — no React involved.</p>
+        </div>
+      </a>
+      <a class="cp-card" href="./console/">
+        <div class="cp-card__body">
+          <h3 class="cp-card__title" style="font-size: var(--corpo-text-base); text-transform: none; letter-spacing: normal;">Console example</h3>
+          <p class="cp-card__description">A composed admin console — sidebar, table, tabs, settings form.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>What it is</h2>
+    <ul class="checks">
+      <li>52 components, from Button to Spreadsheet</li>
+      <li>Five accent themes (teal default, amber, green, red, steel) plus a dark scope</li>
+      <li>Public Sans for body text, JetBrains Mono reserved for labels, data, and code</li>
+      <li>2px/4px radii and quiet shadow elevation — no glow, no scanlines</li>
+      <li>MIT licensed, published as <code>corpo</code> (CSS) and <code>react-corpo</code> (React)</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>MIT licensed</span>
+    <a href="https://github.com/nukleas/corpo">github.com/nukleas/corpo</a>
+  </footer>
+</body>
+</html>
