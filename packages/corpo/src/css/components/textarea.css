@@ -1,0 +1,23 @@
+.cp-textarea {
+  display: block;
+  width: 100%;
+  min-height: 88px;
+  padding: 10px 12px;
+  background: var(--corpo-bg-panel);
+  color: var(--corpo-text);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-base);
+  line-height: 1.55;
+  resize: vertical;
+  transition: border-color var(--corpo-dur) var(--corpo-ease);
+}
+.cp-textarea::placeholder { color: var(--corpo-text-dim); }
+.cp-textarea:hover { border-color: var(--corpo-border-strong); }
+.cp-textarea:focus { outline: none; border-color: var(--corpo-accent); }
+.cp-textarea:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.cp-textarea--error,
+.cp-textarea--error:hover,
+.cp-textarea--error:focus { border-color: var(--corpo-red); }

@@ -1,0 +1,27 @@
+export const palette: Record<string, string> = {
+  white: '#ffffff',
+  grey50: '#f6f8fa',
+  grey100: '#eef1f5',
+  grey200: '#dde3ec',
+  grey300: '#c9d2de',
+  grey400: '#a3b1c4',
+  grey500: '#75839a',
+  grey600: '#5b6980',
+  grey700: '#3f4c63',
+  grey800: '#242e42',
+  grey900: '#101623',
+
+  green: '#157244',
+  red: '#bf2443',
+  amber: '#8f5f00',
+  blue: '#2758c0',
+  purple: '#6742c9',
+  magenta: '#ad1a7d',
+  teal: '#0f6f80',
+  orange: '#b35100',
+
+  greenSubtle: 'rgba(21, 114, 68, 0.08)',
+  redSubtle: 'rgba(191, 36, 67, 0.08)',
+  amberSubtle: 'rgba(143, 95, 0, 0.08)',
+  blueSubtle: 'rgba(39, 88, 192, 0.08)',
+};

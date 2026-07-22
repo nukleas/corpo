@@ -1,0 +1,27 @@
+.cp-progress { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+.cp-progress__header {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+.cp-progress__label { text-transform: uppercase; letter-spacing: var(--corpo-label-tracking); font-weight: 600; }
+
+.cp-progress__track {
+  width: 100%;
+  height: 4px;
+  background: var(--corpo-grey-200);
+  border-radius: var(--corpo-radius);
+  overflow: hidden;
+}
+.cp-progress__track--thick { height: 8px; }
+
+.cp-progress__fill {
+  height: 100%;
+  background: var(--corpo-accent);
+  transition: width var(--corpo-dur-slow) var(--corpo-ease);
+}
+.cp-progress__fill--success { background: var(--corpo-green); }
+.cp-progress__fill--warning { background: var(--corpo-amber); }
+.cp-progress__fill--danger { background: var(--corpo-red); }

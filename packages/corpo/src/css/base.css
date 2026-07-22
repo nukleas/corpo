@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'Public Sans';
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/public-sans:vf@latest/latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@latest/latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  font-family: var(--corpo-font-sans);
+  background-color: var(--corpo-bg);
+  color: var(--corpo-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--corpo-accent-muted); color: var(--corpo-text); }
+
+:focus-visible { outline: 2px solid var(--corpo-accent); outline-offset: 2px; }
+
+a { color: var(--corpo-accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--corpo-accent-strong); }
+
+/* the Corpo micro-label — uppercase mono, relaxed tracking */
+.corpo-label {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+}
+.corpo-label--wide { letter-spacing: var(--corpo-label-tracking-wide); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

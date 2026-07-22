@@ -1,0 +1,31 @@
+.cp-spinner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.cp-spinner__ring {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--corpo-grey-200);
+  border-top-color: var(--corpo-accent);
+  border-radius: 50%;
+  animation: cp-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+.cp-spinner__label {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+}
+.cp-spinner__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+@keyframes cp-spin { to { transform: rotate(360deg); } }

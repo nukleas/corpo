@@ -1,0 +1,80 @@
+{
+  "name": "react-corpo",
+  "version": "0.1.0",
+  "description": "React component library for the Corpo design system — semantic props, calm corporate UI, light-first with a dark scope",
+  "license": "MIT",
+  "author": "Nader Heidari <nukleas2001@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nukleas/corpo.git",
+    "directory": "packages/react-corpo"
+  },
+  "bugs": {
+    "url": "https://github.com/nukleas/corpo/issues"
+  },
+  "homepage": "https://github.com/nukleas/corpo/tree/master/packages/react-corpo#readme",
+  "keywords": [
+    "react",
+    "component-library",
+    "design-system",
+    "corporate",
+    "accessible",
+    "corpo",
+    "ui",
+    "typescript"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/copy-styles.mjs",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006 --ci",
+    "build-storybook": "storybook build",
+    "lint": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "corpo": "workspace:*"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^8.6.14",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@storybook/test": "^8.6.14",
+    "@types/node": "^22",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "storybook": "^8.6.14",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
+}

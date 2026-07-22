@@ -1,0 +1,25 @@
+{
+  "name": "corpo-monorepo",
+  "private": true,
+  "description": "Monorepo for corpo (CSS) and react-corpo (React + Storybook)",
+  "license": "MIT",
+  "author": "Nader Heidari <nukleas2001@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nukleas/corpo.git"
+  },
+  "packageManager": "pnpm@11.2.2",
+  "scripts": {
+    "build": "pnpm -r --filter corpo --filter react-corpo run build",
+    "build:css": "pnpm --filter corpo run build",
+    "build:react": "pnpm --filter react-corpo run build",
+    "dev": "pnpm --filter corpo run dev",
+    "storybook": "pnpm --filter react-corpo run storybook",
+    "build-storybook": "pnpm --filter react-corpo run build-storybook",
+    "typecheck": "pnpm --filter react-corpo run typecheck",
+    "demo": "pnpm --filter corpo run demo"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

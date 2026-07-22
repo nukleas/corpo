@@ -1,0 +1,29 @@
+.cp-input {
+  display: block;
+  width: 100%;
+  height: var(--corpo-control-h);
+  padding: 0 10px;
+  background: var(--corpo-bg-panel);
+  color: var(--corpo-text);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-base);
+  appearance: none;
+  transition: border-color var(--corpo-dur) var(--corpo-ease);
+}
+.cp-input::placeholder { color: var(--corpo-text-dim); }
+.cp-input:hover { border-color: var(--corpo-border-strong); }
+.cp-input:focus { outline: none; border-color: var(--corpo-accent); }
+.cp-input:focus-visible { outline: none; border-color: var(--corpo-accent); }
+.cp-input:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.cp-input--sm { height: var(--corpo-control-h-sm); font-size: var(--corpo-text-sm); }
+.cp-input--lg { height: var(--corpo-control-h-lg); }
+
+/* left accent bar — heritage search-field pattern */
+.cp-input--accent { padding-left: 9px; border-left: 3px solid var(--corpo-accent); }
+
+.cp-input--error,
+.cp-input--error:hover,
+.cp-input--error:focus { border-color: var(--corpo-red); }

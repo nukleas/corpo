@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Corpo — visual demo</title>
+<link rel="stylesheet" href="../dist/corpo.css" />
+<style>
+  body { margin: 0; padding: 32px; max-width: 960px; margin-inline: auto; }
+  .demo-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .demo-header h1 { font-family: var(--corpo-font-mono); font-size: var(--corpo-text-xl); margin: 0; }
+  .demo-theme-toggle { display: flex; gap: 8px; }
+  .demo-theme-toggle button {
+    height: 28px; padding: 0 10px; border: 1px solid var(--corpo-border); border-radius: var(--corpo-radius);
+    background: var(--corpo-bg-panel); font-family: var(--corpo-font-mono); font-size: var(--corpo-text-xs);
+    text-transform: uppercase; letter-spacing: var(--corpo-label-tracking); cursor: pointer;
+  }
+  .demo-theme-toggle button[aria-pressed="true"] { border-color: var(--corpo-accent); color: var(--corpo-accent); }
+  section { margin-bottom: 40px; }
+  section h2 {
+    font-family: var(--corpo-font-mono); font-size: var(--corpo-text-xs); font-weight: 600; text-transform: uppercase;
+    letter-spacing: var(--corpo-label-tracking-wide); color: var(--corpo-text-muted); margin: 0 0 12px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--corpo-border-dim);
+  }
+  .demo-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .demo-col { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
+</style>
+</head>
+<body>
+  <div class="demo-header">
+    <h1>Corpo</h1>
+    <div class="demo-theme-toggle" id="theme-toggle">
+      <button data-theme="" aria-pressed="true">Teal</button>
+      <button data-theme="theme-amber">Amber</button>
+      <button data-theme="theme-green">Green</button>
+      <button data-theme="theme-red">Red</button>
+      <button data-theme="theme-steel">Steel</button>
+      <button data-theme="corpo-dark" data-scope="true">Dark</button>
+    </div>
+  </div>
+
+  <section>
+    <h2>Buttons</h2>
+    <div class="demo-row">
+      <button class="cp-btn">Cancel</button>
+      <button class="cp-btn cp-btn--primary">Save changes</button>
+      <button class="cp-btn cp-btn--ghost">Ghost</button>
+      <button class="cp-btn cp-btn--danger">Delete</button>
+      <button class="cp-btn cp-btn--sm">Small</button>
+      <button class="cp-btn cp-btn--lg">Large</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Form controls</h2>
+    <div class="demo-col">
+      <input class="cp-input" placeholder="Company registration number" />
+      <input class="cp-input cp-input--accent" placeholder="Search invoices…" />
+      <input class="cp-input cp-input--error" value="GB000" />
+      <textarea class="cp-textarea" placeholder="Add a note for the reviewer…"></textarea>
+      <span class="cp-select">
+        <select class="cp-select__control"><option>Net 30</option><option>Net 60</option></select>
+        <span class="cp-select__chevron" aria-hidden="true"></span>
+      </span>
+      <label class="cp-checkbox">
+        <input type="checkbox" class="cp-checkbox__input" checked />
+        <span class="cp-checkbox__box" aria-hidden="true"></span>
+        <span class="cp-checkbox__text">Send a copy to accounting</span>
+      </label>
+      <label class="cp-radio">
+        <input type="radio" name="demo-billing" class="cp-radio__input" checked />
+        <span class="cp-radio__box" aria-hidden="true"></span>
+        <span class="cp-radio__text">Monthly</span>
+      </label>
+      <label class="cp-switch">
+        <input type="checkbox" role="switch" class="cp-switch__input" checked />
+        <span class="cp-switch__track" aria-hidden="true"><span class="cp-switch__thumb"></span></span>
+        <span>Email me weekly statements</span>
+      </label>
+    </div>
+  </section>
+
+  <section>
+    <h2>Display</h2>
+    <div class="demo-row">
+      <div class="cp-card" style="max-width: 280px;">
+        <div class="cp-card__header">
+          <div class="cp-card__heading">
+            <h3 class="cp-card__title">Renewal</h3>
+            <p class="cp-card__description">Card ending 4421 was declined.</p>
+          </div>
+        </div>
+        <div class="cp-card__body">We will retry the charge in 3 days.</div>
+        <div class="cp-card__footer"><button class="cp-btn cp-btn--primary cp-btn--sm">Update card</button></div>
+      </div>
+      <span class="cp-badge">Neutral</span>
+      <span class="cp-badge cp-badge--green"><span class="cp-badge__dot"></span>Paid</span>
+      <span class="cp-badge cp-badge--red"><span class="cp-badge__dot"></span>Overdue</span>
+      <div class="cp-stat">
+        <span class="cp-stat__label">Monthly recurring revenue</span>
+        <span class="cp-stat__row"><span class="cp-stat__value">£48,120</span><span class="cp-stat__delta cp-stat__delta--up">+4.2%</span></span>
+      </div>
+      <kbd class="cp-kbd">Esc</kbd>
+      <span class="cp-kbd-group"><kbd class="cp-kbd">Cmd</kbd><span class="cp-kbd-group__sep">+</span><kbd class="cp-kbd">K</kbd></span>
+    </div>
+    <div style="margin-top: 16px;">
+      <div class="cp-table">
+        <table class="cp-table__table">
+          <thead><tr><th>Invoice</th><th>Client</th><th data-numeric="true">Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>INV-2041</td><td>Acme Ltd</td><td data-numeric="true">£4,200.00</td><td><span class="cp-table__status cp-table__status--ok"></span>Paid</td></tr>
+            <tr><td>INV-2042</td><td>Northwind</td><td data-numeric="true">£1,180.00</td><td><span class="cp-table__status cp-table__status--warn"></span>Pending</td></tr>
+            <tr><td>INV-2043</td><td>Globex</td><td data-numeric="true">£860.00</td><td><span class="cp-table__status cp-table__status--err"></span>Overdue</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Feedback</h2>
+    <div class="demo-col">
+      <div class="cp-alert cp-alert--info">
+        <div class="cp-alert__content"><div class="cp-alert__title">Scheduled maintenance</div><div class="cp-alert__body">Statements will be delayed by up to an hour on 30 Aug.</div></div>
+      </div>
+      <div class="cp-alert cp-alert--error">
+        <div class="cp-alert__content"><div class="cp-alert__title">Payment declined</div><div class="cp-alert__body">Card ending 4421 was declined.</div></div>
+        <button class="cp-alert__dismiss" aria-label="Dismiss">×</button>
+      </div>
+      <div class="cp-progress">
+        <div class="cp-progress__header"><span class="cp-progress__label">Import progress</span><span>62%</span></div>
+        <div class="cp-progress__track"><div class="cp-progress__fill" style="width: 62%"></div></div>
+      </div>
+      <span class="cp-spinner"><span class="cp-spinner__ring"></span><span class="cp-spinner__label">Loading statement</span></span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Navigation</h2>
+    <div class="cp-tabs" role="tablist">
+      <button class="cp-tabs__tab" aria-selected="true">Open <span class="cp-tabs__count">12</span></button>
+      <button class="cp-tabs__tab">Paid <span class="cp-tabs__count">84</span></button>
+      <button class="cp-tabs__tab">Overdue <span class="cp-tabs__count">3</span></button>
+    </div>
+    <nav class="cp-breadcrumb" style="margin-top: 16px;" aria-label="Breadcrumb">
+      <ol class="cp-breadcrumb__list">
+        <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Invoices</a><span class="cp-breadcrumb__sep">/</span></li>
+        <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Acme Ltd</a><span class="cp-breadcrumb__sep">/</span></li>
+        <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current" aria-current="page">INV-2041</span></li>
+      </ol>
+    </nav>
+  </section>
+
+  <script>
+    const buttons = document.querySelectorAll('#theme-toggle button');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.scope) {
+          document.documentElement.classList.toggle('corpo-dark');
+          btn.setAttribute('aria-pressed', document.documentElement.classList.contains('corpo-dark'));
+          return;
+        }
+        buttons.forEach((b) => { if (!b.dataset.scope) b.setAttribute('aria-pressed', 'false'); });
+        document.documentElement.className = document.documentElement.classList.contains('corpo-dark') ? 'corpo-dark' : '';
+        if (btn.dataset.theme) document.documentElement.classList.add(btn.dataset.theme);
+        btn.setAttribute('aria-pressed', 'true');
+      });
+    });
+  </script>
+</body>
+</html>

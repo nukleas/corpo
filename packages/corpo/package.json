@@ -1,0 +1,68 @@
+{
+  "name": "corpo",
+  "version": "0.1.0",
+  "description": "Corpo design system — calm, light-first, WCAG-AA corporate UI tokens and CSS component primitives",
+  "license": "MIT",
+  "author": "Nader Heidari <nukleas2001@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nukleas/corpo.git",
+    "directory": "packages/corpo"
+  },
+  "bugs": {
+    "url": "https://github.com/nukleas/corpo/issues"
+  },
+  "homepage": "https://github.com/nukleas/corpo/tree/master/packages/corpo#readme",
+  "keywords": [
+    "design-system",
+    "css",
+    "corporate",
+    "accessible",
+    "tokens",
+    "tailwind"
+  ],
+  "type": "module",
+  "files": [
+    "src/",
+    "dist/",
+    "build.ts"
+  ],
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": "./dist/corpo.css",
+    "./css": "./dist/corpo.css",
+    "./vars": "./dist/corpo-vars-only.css",
+    "./tailwind": "./dist/tailwind-theme.css",
+    "./react": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./src/react/index.ts"
+    },
+    "./tokens": "./src/tokens/index.ts"
+  },
+  "scripts": {
+    "build": "tsx build.ts && tsc -p tsconfig.types.json",
+    "dev": "tsx --watch build.ts",
+    "demo": "npx --yes serve . -p 4980"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "tsx": "^4",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "tailwindcss": ">=4"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    }
+  }
+}

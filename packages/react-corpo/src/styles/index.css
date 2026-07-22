@@ -1,0 +1,3 @@
+/* Re-export the full corpo bundle for local/Storybook use.
+   Consumers of the published package should import `react-corpo/styles.css`. */
+@import "corpo/css";

@@ -1,0 +1,91 @@
+.cp-checkbox,
+.cp-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-base);
+  color: var(--corpo-text-secondary);
+  user-select: none;
+}
+.cp-checkbox--has-description { align-items: flex-start; }
+.cp-checkbox--disabled,
+.cp-radio--disabled { cursor: not-allowed; }
+.cp-checkbox--disabled .cp-checkbox__text,
+.cp-radio--disabled .cp-radio__text { opacity: 0.45; }
+
+.cp-checkbox__input,
+.cp-radio__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.cp-checkbox__box,
+.cp-radio__box {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border-strong);
+  transition: background var(--corpo-dur) var(--corpo-ease), border-color var(--corpo-dur) var(--corpo-ease);
+}
+.cp-checkbox__box { border-radius: var(--corpo-radius); }
+.cp-radio__box { border-radius: 50%; }
+
+.cp-checkbox__box::after {
+  content: '';
+  width: 10px;
+  height: 8px;
+  opacity: 0;
+  background: var(--corpo-on-accent);
+  clip-path: polygon(9% 43%, 0 55%, 33% 88%, 100% 15%, 87% 3%, 33% 62%);
+  transition: opacity var(--corpo-dur-fast) var(--corpo-ease);
+}
+.cp-radio__box::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0;
+  background: var(--corpo-on-accent);
+  transition: opacity var(--corpo-dur-fast) var(--corpo-ease);
+}
+
+.cp-checkbox__input:checked + .cp-checkbox__box {
+  background: var(--corpo-accent);
+  border-color: var(--corpo-accent);
+}
+.cp-checkbox__input:checked + .cp-checkbox__box::after { opacity: 1; }
+
+.cp-radio__input:checked + .cp-radio__box {
+  border-color: var(--corpo-accent);
+  background: var(--corpo-accent);
+}
+.cp-radio__input:checked + .cp-radio__box::after { opacity: 1; }
+
+.cp-checkbox__input:focus-visible + .cp-checkbox__box,
+.cp-radio__input:focus-visible + .cp-radio__box {
+  outline: 2px solid var(--corpo-accent);
+  outline-offset: 2px;
+}
+.cp-checkbox__input:disabled + .cp-checkbox__box,
+.cp-radio__input:disabled + .cp-radio__box { opacity: 0.45; }
+
+.cp-checkbox__text { display: flex; flex-direction: column; }
+.cp-checkbox__description {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  margin-top: 2px;
+}

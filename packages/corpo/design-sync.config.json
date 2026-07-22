@@ -1,0 +1,8 @@
+{
+  "pkg": "corpo",
+  "globalName": "corpo",
+  "projectId": "ad42dbca-166c-4bf1-8529-d07027154036",
+  "shape": "package",
+  "buildCmd": "npx tsx build.ts && npx tsc -p tsconfig.types.json",
+  "cssEntry": "./dist/corpo.css"
+}

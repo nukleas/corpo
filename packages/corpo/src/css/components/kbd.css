@@ -1,0 +1,33 @@
+.cp-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--corpo-text-secondary);
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border);
+  border-bottom-width: 2px;
+  border-radius: var(--corpo-radius);
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.cp-kbd-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  vertical-align: middle;
+}
+.cp-kbd-group__sep {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-dim);
+  font-family: var(--corpo-font-mono);
+}

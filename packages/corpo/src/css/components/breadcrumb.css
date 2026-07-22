@@ -1,0 +1,19 @@
+.cp-breadcrumb {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+}
+.cp-breadcrumb__list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cp-breadcrumb__item { display: flex; align-items: center; gap: 8px; }
+.cp-breadcrumb__link { color: var(--corpo-text-muted); text-decoration: none; }
+.cp-breadcrumb__link:hover { color: var(--corpo-accent); }
+.cp-breadcrumb__current { color: var(--corpo-text); font-weight: 600; }
+.cp-breadcrumb__sep { color: var(--corpo-text-dim); }

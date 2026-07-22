@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Corpo Console — example</title>
+<link rel="stylesheet" href="../dist/corpo.css" />
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { display: flex; }
+  .console { display: flex; min-height: 100vh; width: 100%; }
+
+  .console__sidebar { width: 216px; flex-shrink: 0; background: var(--corpo-bg-panel); border-right: 1px solid var(--corpo-border); display: flex; flex-direction: column; }
+  .console__brand { height: 56px; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1px solid var(--corpo-border-dim); }
+  .console__brand-name { font-family: var(--corpo-font-mono); font-weight: 700; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .console__nav { display: flex; flex-direction: column; gap: 2px; padding: 10px; }
+  .console__nav-item {
+    display: flex; align-items: center; height: 34px; padding: 0 12px; text-align: left;
+    background: none; border: none; border-left: 2px solid transparent; border-radius: var(--corpo-radius);
+    cursor: pointer; font-family: var(--corpo-font-mono); font-size: var(--corpo-text-xs); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--corpo-text-muted); transition: all 120ms var(--corpo-ease);
+  }
+  .console__nav-item[aria-current="page"] { background: var(--corpo-accent-subtle); border-left-color: var(--corpo-accent); color: var(--corpo-accent); }
+  .console__sidebar-footer { margin-top: auto; padding: 16px; border-top: 1px solid var(--corpo-border-dim); }
+
+  .console__main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .console__header { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px; background: var(--corpo-bg-panel); border-bottom: 1px solid var(--corpo-border); }
+  .console__header-actions { display: flex; align-items: center; gap: 12px; }
+  .console__search { width: 260px; }
+  .console__avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--corpo-accent); color: var(--corpo-on-accent); display: inline-flex; align-items: center; justify-content: center; font-family: var(--corpo-font-mono); font-size: 12px; font-weight: 700; }
+  .console__content { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+
+  .console__page { display: none; flex-direction: column; gap: 16px; }
+  .console__page[data-active="true"] { display: flex; }
+  .console__stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .console__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .console__form { display: flex; flex-direction: column; gap: 16px; max-width: 560px; }
+</style>
+</head>
+<body>
+  <div class="console">
+    <aside class="console__sidebar">
+      <div class="console__brand">
+        <span class="console__brand-name">Corpo</span>
+        <span class="cp-badge cp-badge--accent">Console</span>
+      </div>
+      <nav class="console__nav">
+        <button class="console__nav-item" data-page="overview" aria-current="page">Overview</button>
+        <button class="console__nav-item" data-page="requests">Requests</button>
+        <button class="console__nav-item" data-page="reports">Reports</button>
+        <button class="console__nav-item" data-page="members">Members</button>
+        <button class="console__nav-item" data-page="settings">Settings</button>
+      </nav>
+      <div class="console__sidebar-footer">
+        <div class="cp-progress">
+          <div class="cp-progress__header"><span class="cp-progress__label">Seats used</span><span>76%</span></div>
+          <div class="cp-progress__track"><div class="cp-progress__fill" style="width: 76%"></div></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="console__main">
+      <header class="console__header">
+        <nav class="cp-breadcrumb" aria-label="Breadcrumb">
+          <ol class="cp-breadcrumb__list">
+            <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Acme Corp</a><span class="cp-breadcrumb__sep">/</span></li>
+            <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current" data-page-label aria-current="page">Overview</span></li>
+          </ol>
+        </nav>
+        <div class="console__header-actions">
+          <span class="console__search"><input class="cp-input cp-input--accent cp-input--sm" placeholder="Search…" aria-label="Search" /></span>
+          <span class="cp-kbd-group"><kbd class="cp-kbd">Cmd</kbd><span class="cp-kbd-group__sep">+</span><kbd class="cp-kbd">K</kbd></span>
+          <span class="console__avatar">MI</span>
+        </div>
+      </header>
+
+      <main class="console__content">
+        <section class="console__page" data-page="overview" data-active="true">
+          <div class="cp-alert cp-alert--warning">
+            <div class="cp-alert__content">
+              <div class="cp-alert__title">Certificate expiring</div>
+              <div class="cp-alert__body">The SAML signing certificate expires in 12 days. <a href="#">Rotate it now</a>.</div>
+            </div>
+          </div>
+          <div class="console__stat-grid">
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">Active members</span><span class="cp-stat__row"><span class="cp-stat__value">38</span><span class="cp-stat__delta cp-stat__delta--up">+3</span></span><span class="cp-stat__hint">of 50 seats</span></div>
+            </div></div>
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">Open requests</span><span class="cp-stat__row"><span class="cp-stat__value">6</span><span class="cp-stat__delta cp-stat__delta--up">−2</span></span><span class="cp-stat__hint">vs. last week</span></div>
+            </div></div>
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">Policy violations</span><span class="cp-stat__row"><span class="cp-stat__value">1</span><span class="cp-stat__delta cp-stat__delta--down">+1</span></span><span class="cp-stat__hint">last 30 days</span></div>
+            </div></div>
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">Uptime</span><span class="cp-stat__row"><span class="cp-stat__value">99.98%</span></span><span class="cp-stat__hint">rolling 90 days</span></div>
+            </div></div>
+          </div>
+          <div class="cp-card">
+            <div class="cp-card__header">
+              <div class="cp-card__heading">
+                <h3 class="cp-card__title">Recent requests</h3>
+                <p class="cp-card__description">Latest access and policy requests.</p>
+              </div>
+              <button class="cp-btn cp-btn--sm" data-goto="requests">View all</button>
+            </div>
+            <div class="cp-card__body">
+              <div class="cp-table cp-table--compact">
+                <table class="cp-table__table">
+                  <thead><tr><th>ID</th><th>Subject</th><th>State</th><th>Owner</th><th data-numeric="true">Updated</th></tr></thead>
+                  <tbody>
+                    <tr><td data-mono="true">REQ-2041</td><td>SSO group mapping</td><td><span class="cp-table__status cp-table__status--warn"></span>Open</td><td>M. Ito</td><td data-numeric="true">14:32</td></tr>
+                    <tr><td data-mono="true">REQ-2040</td><td>Quarterly access review</td><td><span class="cp-table__status cp-table__status--warn"></span>Open</td><td>A. Novak</td><td data-numeric="true">13:10</td></tr>
+                    <tr><td data-mono="true">REQ-2039</td><td>Data retention exception</td><td><span class="cp-table__status cp-table__status--ok"></span>Approved</td><td>M. Ito</td><td data-numeric="true">11:56</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="console__page" data-page="requests">
+          <div class="console__row">
+            <div class="cp-tabs" role="tablist" style="flex: 1;">
+              <button class="cp-tabs__tab" data-filter="all" aria-selected="true">All <span class="cp-tabs__count">5</span></button>
+              <button class="cp-tabs__tab" data-filter="open">Open <span class="cp-tabs__count">2</span></button>
+              <button class="cp-tabs__tab" data-filter="closed">Closed <span class="cp-tabs__count">3</span></button>
+            </div>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">New request</button>
+          </div>
+          <div class="cp-card cp-card--flat">
+            <div class="cp-card__body">
+              <div class="cp-table">
+                <table class="cp-table__table">
+                  <thead><tr><th>ID</th><th>Subject</th><th>State</th><th>Owner</th><th data-numeric="true">Updated</th></tr></thead>
+                  <tbody id="requests-body">
+                    <tr data-bucket="open"><td data-mono="true">REQ-2041</td><td>SSO group mapping</td><td><span class="cp-table__status cp-table__status--warn"></span>Open</td><td>M. Ito</td><td data-numeric="true">14:32</td></tr>
+                    <tr data-bucket="open"><td data-mono="true">REQ-2040</td><td>Quarterly access review</td><td><span class="cp-table__status cp-table__status--warn"></span>Open</td><td>A. Novak</td><td data-numeric="true">13:10</td></tr>
+                    <tr data-bucket="closed"><td data-mono="true">REQ-2039</td><td>Data retention exception</td><td><span class="cp-table__status cp-table__status--ok"></span>Approved</td><td>M. Ito</td><td data-numeric="true">11:56</td></tr>
+                    <tr data-bucket="closed"><td data-mono="true">REQ-2038</td><td>Vendor security addendum</td><td><span class="cp-table__status cp-table__status--err"></span>Rejected</td><td>T. Ábrahám</td><td data-numeric="true">Mon</td></tr>
+                    <tr data-bucket="closed"><td data-mono="true">REQ-2037</td><td>API key rotation</td><td><span class="cp-table__status cp-table__status--ok"></span>Approved</td><td>A. Novak</td><td data-numeric="true">Mon</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="console__page" data-page="reports">
+          <div class="cp-card cp-card--flat">
+            <div class="cp-card__header"><div class="cp-card__heading"><h3 class="cp-card__title">Reports</h3><p class="cp-card__description">Intentionally blank — no source design exists for this view yet.</p></div></div>
+            <div class="cp-card__body" style="height: 120px;"></div>
+          </div>
+        </section>
+
+        <section class="console__page" data-page="members">
+          <div class="cp-card cp-card--flat">
+            <div class="cp-card__header"><div class="cp-card__heading"><h3 class="cp-card__title">Members</h3><p class="cp-card__description">Intentionally blank — no source design exists for this view yet.</p></div></div>
+            <div class="cp-card__body" style="height: 120px;"></div>
+          </div>
+        </section>
+
+        <section class="console__page" data-page="settings">
+          <form class="console__form">
+            <div class="cp-card">
+              <div class="cp-card__header"><div class="cp-card__heading"><h3 class="cp-card__title">Security</h3><p class="cp-card__description">Authentication rules for this workspace.</p></div></div>
+              <div class="cp-card__body" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="cp-field">
+                  <label class="cp-label" for="workspace-name">Workspace name</label>
+                  <input class="cp-input" id="workspace-name" value="Acme Corp" />
+                </div>
+                <div class="cp-field">
+                  <label class="cp-label" for="session-length">Session length</label>
+                  <span class="cp-select">
+                    <select class="cp-select__control" id="session-length">
+                      <option value="8h" selected>8 hours</option>
+                      <option value="24h">24 hours</option>
+                      <option value="7d">7 days</option>
+                    </select>
+                    <span class="cp-select__chevron" aria-hidden="true"></span>
+                  </span>
+                  <p class="cp-field__hint">How long sign-ins stay valid.</p>
+                </div>
+                <label class="cp-switch">
+                  <input type="checkbox" role="switch" class="cp-switch__input" checked />
+                  <span class="cp-switch__track" aria-hidden="true"><span class="cp-switch__thumb"></span></span>
+                  <span>Require two-factor authentication</span>
+                </label>
+                <label class="cp-checkbox cp-checkbox--has-description">
+                  <input type="checkbox" class="cp-checkbox__input" />
+                  <span class="cp-checkbox__box" aria-hidden="true"></span>
+                  <span class="cp-checkbox__text">Allow guest viewers<span class="cp-checkbox__description">Guests can view shared reports but not export them.</span></span>
+                </label>
+              </div>
+              <div class="cp-card__footer"><button type="submit" class="cp-btn cp-btn--primary cp-btn--sm">Save changes</button></div>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const navItems = document.querySelectorAll('.console__nav-item');
+    const pages = document.querySelectorAll('.console__page');
+    const pageLabel = document.querySelector('[data-page-label]');
+
+    function showPage(id) {
+      navItems.forEach((btn) => btn.toggleAttribute('aria-current', btn.dataset.page === id) && btn.setAttribute('aria-current', 'page'));
+      navItems.forEach((btn) => { if (btn.dataset.page !== id) btn.removeAttribute('aria-current'); });
+      pages.forEach((p) => p.setAttribute('data-active', String(p.dataset.page === id)));
+      const active = Array.from(navItems).find((b) => b.dataset.page === id);
+      if (active && pageLabel) pageLabel.textContent = active.textContent;
+    }
+
+    navItems.forEach((btn) => btn.addEventListener('click', () => showPage(btn.dataset.page)));
+    document.querySelectorAll('[data-goto]').forEach((btn) => btn.addEventListener('click', () => showPage(btn.dataset.goto)));
+
+    const filterTabs = document.querySelectorAll('[data-filter]');
+    const requestRows = document.querySelectorAll('#requests-body tr');
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+        const filter = tab.dataset.filter;
+        requestRows.forEach((row) => {
+          row.style.display = filter === 'all' || row.dataset.bucket === filter ? '' : 'none';
+        });
+      });
+    });
+
+    document.querySelector('.console__form')?.addEventListener('submit', (e) => e.preventDefault());
+  </script>
+</body>
+</html>

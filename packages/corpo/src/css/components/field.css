@@ -1,0 +1,32 @@
+.cp-label {
+  display: block;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-secondary);
+  user-select: none;
+}
+.cp-label__required { color: var(--corpo-red); }
+
+.cp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.cp-field__hint {
+  margin: 0;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  line-height: 1.5;
+}
+.cp-field__error {
+  margin: 0;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-red);
+  line-height: 1.5;
+}
