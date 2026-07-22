@@ -20,6 +20,6 @@
     "demo": "pnpm --filter corpo run demo"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }
