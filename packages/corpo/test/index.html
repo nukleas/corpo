@@ -77,6 +77,10 @@
         <span class="cp-switch__track" aria-hidden="true"><span class="cp-switch__thumb"></span></span>
         <span>Email me weekly statements</span>
       </label>
+      <span class="cp-slider-wrap">
+        <input type="range" class="cp-slider" value="40" min="0" max="100" />
+        <span class="cp-slider-wrap__value">40</span>
+      </span>
     </div>
   </section>
 
@@ -102,6 +106,11 @@
       </div>
       <kbd class="cp-kbd">Esc</kbd>
       <span class="cp-kbd-group"><kbd class="cp-kbd">Cmd</kbd><span class="cp-kbd-group__sep">+</span><kbd class="cp-kbd">K</kbd></span>
+      <span class="cp-avatar" style="background: var(--corpo-accent-subtle); color: var(--corpo-accent);">MI<span class="cp-avatar__status cp-avatar__status--online" aria-hidden="true"></span></span>
+      <span class="cp-tooltip">
+        <button class="cp-btn cp-btn--sm">Hover me</button>
+        <span class="cp-tooltip__content cp-tooltip__content--top" role="tooltip">Exports a CSV of the current view</span>
+      </span>
     </div>
     <div style="margin-top: 16px;">
       <div class="cp-table">
@@ -115,6 +124,29 @@
         </table>
       </div>
     </div>
+    <div class="demo-row" style="margin-top: 16px;">
+      <div class="cp-skeleton-row" style="width: 240px;">
+        <div class="cp-skeleton cp-skeleton--avatar"></div>
+        <div class="cp-skeleton-row__lines">
+          <div class="cp-skeleton cp-skeleton--text"></div>
+          <div class="cp-skeleton cp-skeleton--text" style="width: 60%;"></div>
+        </div>
+      </div>
+      <button class="cp-btn cp-btn--sm" id="modal-trigger">Delete account</button>
+    </div>
+    <div style="margin-top: 16px; max-width: 480px;">
+      <div class="cp-accordion" id="demo-accordion">
+        <div class="cp-accordion__item" data-open="true">
+          <button class="cp-accordion__trigger" aria-expanded="true">How does billing work?<span class="cp-accordion__chevron"></span></button>
+          <div class="cp-accordion__collapse"><div class="cp-accordion__content"><div class="cp-accordion__content-inner">You are billed monthly based on active seats.</div></div></div>
+        </div>
+        <div class="cp-accordion__item" data-open="false">
+          <button class="cp-accordion__trigger" aria-expanded="false">Can I cancel anytime?<span class="cp-accordion__chevron"></span></button>
+          <div class="cp-accordion__collapse"><div class="cp-accordion__content"><div class="cp-accordion__content-inner">Yes — cancel from Settings and access continues until the period ends.</div></div></div>
+        </div>
+      </div>
+    </div>
+    <hr class="cp-separator cp-separator--horizontal" style="margin-top: 16px;" />
   </section>
 
   <section>
@@ -132,6 +164,10 @@
         <div class="cp-progress__track"><div class="cp-progress__fill" style="width: 62%"></div></div>
       </div>
       <span class="cp-spinner"><span class="cp-spinner__ring"></span><span class="cp-spinner__label">Loading statement</span></span>
+      <div class="cp-toast cp-toast--success" style="max-width: 280px;">
+        <div class="cp-toast__content"><div class="cp-toast__title">Invoice sent</div><div class="cp-toast__body">INV-2041 was sent to billing@acme.com.</div></div>
+        <button class="cp-toast__dismiss" aria-label="Dismiss">×</button>
+      </div>
     </div>
   </section>
 
@@ -149,8 +185,73 @@
         <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current" aria-current="page">INV-2041</span></li>
       </ol>
     </nav>
+    <div class="demo-row" style="margin-top: 16px;">
+      <div class="cp-dropdown" id="demo-dropdown">
+        <span><button class="cp-btn cp-btn--sm">Actions ▾</button></span>
+        <div class="cp-dropdown__menu" style="display: none;" role="menu">
+          <button class="cp-dropdown__item" role="menuitem">Edit</button>
+          <button class="cp-dropdown__item" role="menuitem">Duplicate</button>
+          <div class="cp-dropdown__separator"></div>
+          <button class="cp-dropdown__item cp-dropdown__item--danger" role="menuitem">Delete</button>
+        </div>
+      </div>
+      <nav class="cp-pagination" aria-label="Pagination">
+        <button class="cp-pagination__btn" aria-label="Previous page">‹</button>
+        <button class="cp-pagination__btn">1</button>
+        <button class="cp-pagination__btn" aria-current="true">2</button>
+        <button class="cp-pagination__btn">3</button>
+        <span class="cp-pagination__ellipsis">…</span>
+        <button class="cp-pagination__btn">12</button>
+        <button class="cp-pagination__btn" aria-label="Next page">›</button>
+      </nav>
+    </div>
   </section>
 
+  <div class="cp-modal-backdrop" id="demo-modal" style="display: none;">
+    <div class="cp-modal" role="dialog" aria-modal="true">
+      <div class="cp-modal__header">
+        <h2 class="cp-modal__title">Delete account</h2>
+        <button class="cp-modal__close" id="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="cp-modal__body">This permanently deletes the workspace and all its data. This cannot be undone.</div>
+      <div class="cp-modal__footer">
+        <button class="cp-btn cp-btn--sm" id="modal-cancel">Cancel</button>
+        <button class="cp-btn cp-btn--sm cp-btn--danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.cp-slider').forEach((slider) => {
+      slider.addEventListener('input', () => {
+        const out = slider.parentElement.querySelector('.cp-slider-wrap__value');
+        if (out) out.textContent = slider.value;
+      });
+    });
+
+    document.querySelectorAll('#demo-accordion .cp-accordion__trigger').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.cp-accordion__item');
+        const isOpen = item.dataset.open === 'true';
+        item.dataset.open = String(!isOpen);
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+
+    const dropdown = document.getElementById('demo-dropdown');
+    const dropdownMenu = dropdown.querySelector('.cp-dropdown__menu');
+    dropdown.querySelector('span').addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', () => { dropdownMenu.style.display = 'none'; });
+
+    const modal = document.getElementById('demo-modal');
+    document.getElementById('modal-trigger').addEventListener('click', () => { modal.style.display = 'flex'; });
+    document.getElementById('modal-close').addEventListener('click', () => { modal.style.display = 'none'; });
+    document.getElementById('modal-cancel').addEventListener('click', () => { modal.style.display = 'none'; });
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+  </script>
   <script>
     const buttons = document.querySelectorAll('#theme-toggle button');
     buttons.forEach((btn) => {

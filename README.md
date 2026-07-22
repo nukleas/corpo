@@ -12,6 +12,17 @@ Public Sans body copy, quiet elevation instead of neon glow, sentence-case conte
 | CSS core | [`packages/corpo`](./packages/corpo) | `corpo` | Tokens, CSS (`cp-*`), thin React class bindings |
 | React + Storybook | [`packages/react-corpo`](./packages/react-corpo) | `react-corpo` | Full React API, semantic props, Storybook |
 
+## Components
+
+30 components across four groups — the general-purpose subset of cyberdesign's catalog. Cyber-only
+families (Terminal, HUD, Scanner, Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts)
+are intentionally not ported.
+
+- **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, Switch, Field, Label, Slider
+- **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, Separator, Tooltip
+- **Feedback**: Alert, Progress, Spinner, Toast
+- **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination
+
 ## Setup
 
 ```bash

@@ -22,8 +22,9 @@ build.ts             codegen script — reads tokens, reads src/css/, writes dis
 
 src/css/
   base.css           font load (Public Sans + JetBrains Mono), reset, :root defaults, focus ring
-  components/        one file per component (17 files, ~20 components — some pairs like
-                      Checkbox/Radio and Field/Label share a file)
+  components/        one file per component (27 files, 30 components — some pairs like
+                      Checkbox/Radio, Field/Label, Kbd/KbdGroup, and Skeleton/SkeletonRow
+                      share a file)
 
 src/react/           thin class wrappers, one per component (design-sync / lightweight export)
 

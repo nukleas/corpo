@@ -1,0 +1,29 @@
+.cp-separator {
+  border: none;
+  background: var(--corpo-border-dim);
+  margin: 0;
+}
+.cp-separator--horizontal { width: 100%; height: 1px; }
+.cp-separator--vertical { width: 1px; height: 100%; align-self: stretch; }
+
+.cp-separator--labeled {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  height: auto;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-dim);
+}
+.cp-separator--labeled::before,
+.cp-separator--labeled::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--corpo-border-dim);
+}

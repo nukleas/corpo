@@ -6,7 +6,7 @@ Visual styles come from corpo CSS (`cp-*` classes, `--corpo-*` tokens). This pac
 
 ## Features
 
-- **Forms, display, feedback, navigation** — Button, Input, Textarea, Select, Checkbox, Radio, Switch, Field, Label, Card, Badge, Table, Stat, Kbd, KbdGroup, Alert, Progress, Spinner, Tabs, Breadcrumb
+- **30 components across forms, display, feedback, navigation** — Button, Input, Textarea, Select, Checkbox, Radio, Switch, Field, Label, Slider, Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, Separator, Tooltip, Alert, Progress, Spinner, Toast, Tabs, Breadcrumb, Dropdown, Pagination
 - **Semantic props** — `variant`, `size`, `color`/`tone`, plus native HTML attributes
 - **Multi themes** — `teal` (default) · `amber` · `green` · `red` · `steel`, plus a `corpo-dark` heritage scope
 - **Storybook autodocs** — prop tables from JSDoc
