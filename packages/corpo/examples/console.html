@@ -35,6 +35,31 @@
   .console__stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .console__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .console__form { display: flex; flex-direction: column; gap: 16px; max-width: 560px; }
+
+  /* Reports — small CSS-only charts. No source design existed for this
+     page yet, so this borrows the plain div+height bar-chart pattern
+     cyberdesign uses for its histogram/hbar components, re-skinned with
+     corpo tokens (flat accent fill, no glow) instead of neon. */
+  .console__chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .console__chart-grid { grid-template-columns: 1fr; } }
+
+  .console__histogram { display: flex; align-items: stretch; gap: 10px; height: 140px; }
+  .console__histogram-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .console__histogram-value { font-family: var(--corpo-font-mono); font-size: var(--corpo-text-xs); color: var(--corpo-text-muted); }
+  .console__histogram-track { flex: 1; width: 100%; max-width: 32px; display: flex; align-items: flex-end; }
+  .console__histogram-bar { width: 100%; background: var(--corpo-accent); border-radius: var(--corpo-radius) var(--corpo-radius) 0 0; min-height: 3px; }
+  .console__histogram-label { font-family: var(--corpo-font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--corpo-text-dim); }
+
+  .console__hbar-list { display: flex; flex-direction: column; gap: 14px; }
+  .console__hbar { display: flex; align-items: center; gap: 10px; }
+  .console__hbar-label { width: 132px; flex-shrink: 0; font-size: var(--corpo-text-sm); color: var(--corpo-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .console__hbar-track { flex: 1; height: 8px; border-radius: var(--corpo-radius); background: var(--corpo-bg-inset); overflow: hidden; }
+  .console__hbar-fill { display: block; height: 100%; background: var(--corpo-accent); border-radius: inherit; }
+  .console__hbar-value { width: 28px; text-align: right; font-family: var(--corpo-font-mono); font-size: var(--corpo-text-xs); color: var(--corpo-text-muted); flex-shrink: 0; }
+
+  /* Members */
+  .console__member { display: flex; align-items: center; gap: 10px; }
+  .console__member-email { color: var(--corpo-text-dim); font-size: var(--corpo-text-xs); }
 </style>
 </head>
 <body>
@@ -147,16 +172,108 @@
         </section>
 
         <section class="console__page" data-page="reports">
-          <div class="cp-card cp-card--flat">
-            <div class="cp-card__header"><div class="cp-card__heading"><h3 class="cp-card__title">Reports</h3><p class="cp-card__description">Intentionally blank — no source design exists for this view yet.</p></div></div>
-            <div class="cp-card__body" style="height: 120px;"></div>
+          <div class="console__stat-grid">
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">Requests this month</span><span class="cp-stat__row"><span class="cp-stat__value">36</span><span class="cp-stat__delta cp-stat__delta--up">+9</span></span><span class="cp-stat__hint">vs. last month</span></div>
+            </div></div>
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">Approval rate</span><span class="cp-stat__row"><span class="cp-stat__value">82%</span><span class="cp-stat__delta cp-stat__delta--up">+4%</span></span><span class="cp-stat__hint">last 30 days</span></div>
+            </div></div>
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">Avg. response time</span><span class="cp-stat__row"><span class="cp-stat__value">4.1h</span><span class="cp-stat__delta cp-stat__delta--down">−0.6h</span></span><span class="cp-stat__hint">time to first response</span></div>
+            </div></div>
+            <div class="cp-card cp-card--flat"><div class="cp-card__body">
+              <div class="cp-stat"><span class="cp-stat__label">SLA breaches</span><span class="cp-stat__row"><span class="cp-stat__value">2</span></span><span class="cp-stat__hint">last 30 days</span></div>
+            </div></div>
+          </div>
+
+          <div class="console__chart-grid">
+            <div class="cp-card cp-card--flat">
+              <div class="cp-card__header"><div class="cp-card__heading"><h3 class="cp-card__title">Requests by day</h3><p class="cp-card__description">Last 7 days.</p></div></div>
+              <div class="cp-card__body">
+                <div class="console__histogram">
+                  <div class="console__histogram-col"><span class="console__histogram-value">4</span><div class="console__histogram-track"><div class="console__histogram-bar" style="height: 40%"></div></div><span class="console__histogram-label">Mon</span></div>
+                  <div class="console__histogram-col"><span class="console__histogram-value">6</span><div class="console__histogram-track"><div class="console__histogram-bar" style="height: 60%"></div></div><span class="console__histogram-label">Tue</span></div>
+                  <div class="console__histogram-col"><span class="console__histogram-value">3</span><div class="console__histogram-track"><div class="console__histogram-bar" style="height: 30%"></div></div><span class="console__histogram-label">Wed</span></div>
+                  <div class="console__histogram-col"><span class="console__histogram-value">8</span><div class="console__histogram-track"><div class="console__histogram-bar" style="height: 80%"></div></div><span class="console__histogram-label">Thu</span></div>
+                  <div class="console__histogram-col"><span class="console__histogram-value">5</span><div class="console__histogram-track"><div class="console__histogram-bar" style="height: 50%"></div></div><span class="console__histogram-label">Fri</span></div>
+                  <div class="console__histogram-col"><span class="console__histogram-value">2</span><div class="console__histogram-track"><div class="console__histogram-bar" style="height: 20%"></div></div><span class="console__histogram-label">Sat</span></div>
+                  <div class="console__histogram-col"><span class="console__histogram-value">1</span><div class="console__histogram-track"><div class="console__histogram-bar" style="height: 10%"></div></div><span class="console__histogram-label">Sun</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cp-card cp-card--flat">
+              <div class="cp-card__header"><div class="cp-card__heading"><h3 class="cp-card__title">Requests by type</h3><p class="cp-card__description">Share of total, last 30 days.</p></div></div>
+              <div class="cp-card__body">
+                <div class="console__hbar-list">
+                  <div class="console__hbar"><span class="console__hbar-label">Access review</span><span class="console__hbar-track"><span class="console__hbar-fill" style="width: 88%"></span></span><span class="console__hbar-value">14</span></div>
+                  <div class="console__hbar"><span class="console__hbar-label">SSO mapping</span><span class="console__hbar-track"><span class="console__hbar-fill" style="width: 50%"></span></span><span class="console__hbar-value">8</span></div>
+                  <div class="console__hbar"><span class="console__hbar-label">API key rotation</span><span class="console__hbar-track"><span class="console__hbar-fill" style="width: 38%"></span></span><span class="console__hbar-value">6</span></div>
+                  <div class="console__hbar"><span class="console__hbar-label">Data retention</span><span class="console__hbar-track"><span class="console__hbar-fill" style="width: 31%"></span></span><span class="console__hbar-value">5</span></div>
+                  <div class="console__hbar"><span class="console__hbar-label">Vendor security</span><span class="console__hbar-track"><span class="console__hbar-fill" style="width: 19%"></span></span><span class="console__hbar-value">3</span></div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
         <section class="console__page" data-page="members">
+          <div class="console__row">
+            <div class="cp-tabs" role="tablist" style="flex: 1;">
+              <button class="cp-tabs__tab" data-member-filter="all" aria-selected="true">All <span class="cp-tabs__count">6</span></button>
+              <button class="cp-tabs__tab" data-member-filter="admin">Admins <span class="cp-tabs__count">2</span></button>
+              <button class="cp-tabs__tab" data-member-filter="member">Members <span class="cp-tabs__count">3</span></button>
+              <button class="cp-tabs__tab" data-member-filter="guest">Guests <span class="cp-tabs__count">1</span></button>
+            </div>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">Invite member</button>
+          </div>
           <div class="cp-card cp-card--flat">
-            <div class="cp-card__header"><div class="cp-card__heading"><h3 class="cp-card__title">Members</h3><p class="cp-card__description">Intentionally blank — no source design exists for this view yet.</p></div></div>
-            <div class="cp-card__body" style="height: 120px;"></div>
+            <div class="cp-card__body">
+              <div class="cp-table">
+                <table class="cp-table__table">
+                  <thead><tr><th>Name</th><th>Role</th><th>Status</th><th data-numeric="true">Last active</th></tr></thead>
+                  <tbody id="members-body">
+                    <tr data-bucket="admin">
+                      <td><span class="console__member"><span class="cp-avatar cp-avatar--sm">MI</span><span><div>M. Ito</div><div class="console__member-email">m.ito@acme.co</div></span></span></td>
+                      <td><span class="cp-badge cp-badge--accent">Owner</span></td>
+                      <td><span class="cp-table__status cp-table__status--ok"></span>Active</td>
+                      <td data-numeric="true">2m ago</td>
+                    </tr>
+                    <tr data-bucket="admin">
+                      <td><span class="console__member"><span class="cp-avatar cp-avatar--sm">AN</span><span><div>A. Novak</div><div class="console__member-email">a.novak@acme.co</div></span></span></td>
+                      <td><span class="cp-badge">Admin</span></td>
+                      <td><span class="cp-table__status cp-table__status--ok"></span>Active</td>
+                      <td data-numeric="true">18m ago</td>
+                    </tr>
+                    <tr data-bucket="member">
+                      <td><span class="console__member"><span class="cp-avatar cp-avatar--sm">TA</span><span><div>T. Ábrahám</div><div class="console__member-email">t.abraham@acme.co</div></span></span></td>
+                      <td><span class="cp-badge">Member</span></td>
+                      <td><span class="cp-table__status cp-table__status--ok"></span>Active</td>
+                      <td data-numeric="true">1h ago</td>
+                    </tr>
+                    <tr data-bucket="member">
+                      <td><span class="console__member"><span class="cp-avatar cp-avatar--sm">RK</span><span><div>R. Kessler</div><div class="console__member-email">r.kessler@acme.co</div></span></span></td>
+                      <td><span class="cp-badge">Member</span></td>
+                      <td><span class="cp-table__status cp-table__status--warn"></span>Invited</td>
+                      <td data-numeric="true">Pending</td>
+                    </tr>
+                    <tr data-bucket="member">
+                      <td><span class="console__member"><span class="cp-avatar cp-avatar--sm">SD</span><span><div>S. Duarte</div><div class="console__member-email">s.duarte@acme.co</div></span></span></td>
+                      <td><span class="cp-badge">Member</span></td>
+                      <td><span class="cp-table__status cp-table__status--ok"></span>Active</td>
+                      <td data-numeric="true">Yesterday</td>
+                    </tr>
+                    <tr data-bucket="guest">
+                      <td><span class="console__member"><span class="cp-avatar cp-avatar--sm">JO</span><span><div>J. Okafor</div><div class="console__member-email">j.okafor@partner.co</div></span></span></td>
+                      <td><span class="cp-badge cp-badge--blue">Guest</span></td>
+                      <td><span class="cp-table__status cp-table__status--ok"></span>Active</td>
+                      <td data-numeric="true">3d ago</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -223,6 +340,18 @@
         filterTabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
         const filter = tab.dataset.filter;
         requestRows.forEach((row) => {
+          row.style.display = filter === 'all' || row.dataset.bucket === filter ? '' : 'none';
+        });
+      });
+    });
+
+    const memberFilterTabs = document.querySelectorAll('[data-member-filter]');
+    const memberRows = document.querySelectorAll('#members-body tr');
+    memberFilterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        memberFilterTabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+        const filter = tab.dataset.memberFilter;
+        memberRows.forEach((row) => {
           row.style.display = filter === 'all' || row.dataset.bucket === filter ? '' : 'none';
         });
       });
