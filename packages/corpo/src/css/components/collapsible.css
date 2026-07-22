@@ -1,6 +1,7 @@
 .cp-collapsible__trigger {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 8px;
   background: none;
   border: none;
