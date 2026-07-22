@@ -30,7 +30,15 @@ Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts) — it's a ca
 general-purpose component set. New components should fit that brief: WCAG-AA contrast, quiet
 elevation instead of glow, sentence-case content voice, verb-first button labels, no emoji.
 
+See [ROADMAP.md](./ROADMAP.md) before proposing a new component — it lists what's already under
+consideration versus intentionally out of scope, so you don't duplicate planning work.
+
 ## Reporting issues
 
 Open a GitHub issue with a clear description and, for visual bugs, a screenshot or the
 Storybook story that reproduces it.
+
+## Code of Conduct
+
+This project follows the [Code of Conduct](./CODE_OF_CONDUCT.md). By participating, you're
+expected to uphold it.

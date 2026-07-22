@@ -23,6 +23,8 @@ Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts) are intention
 - **Feedback**: Alert, Progress, Spinner, Toast
 - **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination, Command
 
+See [ROADMAP.md](./ROADMAP.md) for what's under consideration next and what's intentionally out of scope.
+
 ## Setup
 
 ```bash
@@ -108,3 +110,13 @@ packages/
 ```
 
 Visual styles always live in `corpo`. React only maps props → `cp-*` classes.
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup and conventions, and
+[ROADMAP.md](./ROADMAP.md) for what's planned. Please follow the
+[Code of Conduct](./CODE_OF_CONDUCT.md) in all interactions.
+
+## License
+
+[MIT](./LICENSE)
