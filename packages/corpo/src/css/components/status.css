@@ -1,0 +1,37 @@
+.cp-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cp-status-dot--ok { background: var(--corpo-green); }
+.cp-status-dot--warn { background: var(--corpo-amber); }
+.cp-status-dot--err { background: var(--corpo-red); }
+.cp-status-dot--idle { background: var(--corpo-text-dim); }
+.cp-status-dot--info { background: var(--corpo-blue); }
+
+.cp-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+}
+
+.cp-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 14px;
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius);
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+.cp-status-bar__item { display: flex; align-items: center; gap: 6px; }
+.cp-status-bar__label { text-transform: uppercase; letter-spacing: var(--corpo-label-tracking); }
+.cp-status-bar__value { color: var(--corpo-text); font-weight: 600; }

@@ -14,14 +14,14 @@ Public Sans body copy, quiet elevation instead of neon glow, sentence-case conte
 
 ## Components
 
-30 components across four groups — the general-purpose subset of cyberdesign's catalog. Cyber-only
-families (Terminal, HUD, Scanner, Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts)
-are intentionally not ported.
+52 components across four groups — the general-purpose subset of cyberdesign's catalog, plus the
+shadcn-parity extras that fit a calm business UI. Cyber-only families (Terminal, HUD, Scanner,
+Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts) are intentionally not ported.
 
-- **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, Switch, Field, Label, Slider
-- **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, Separator, Tooltip
+- **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label, Slider, Combobox, DatePicker, Toggle, ToggleGroup, ButtonGroup, InputGroup
+- **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip, StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, SectionHeader
 - **Feedback**: Alert, Progress, Spinner, Toast
-- **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination
+- **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination, Command
 
 ## Setup
 

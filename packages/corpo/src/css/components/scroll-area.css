@@ -1,0 +1,9 @@
+.cp-scroll-area {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--corpo-grey-400) transparent;
+}
+.cp-scroll-area::-webkit-scrollbar { width: 8px; height: 8px; }
+.cp-scroll-area::-webkit-scrollbar-track { background: transparent; }
+.cp-scroll-area::-webkit-scrollbar-thumb { background: var(--corpo-grey-400); border-radius: var(--corpo-radius); }
+.cp-scroll-area::-webkit-scrollbar-thumb:hover { background: var(--corpo-grey-500); }

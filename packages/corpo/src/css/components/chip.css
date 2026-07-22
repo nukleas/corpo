@@ -1,0 +1,29 @@
+.cp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 6px 0 10px;
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  color: var(--corpo-text-secondary);
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-sm);
+}
+.cp-chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--corpo-text-muted);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  padding: 0;
+}
+.cp-chip__remove:hover { background: var(--corpo-grey-200); color: var(--corpo-text); }

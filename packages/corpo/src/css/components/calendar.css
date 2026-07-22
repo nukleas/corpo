@@ -1,0 +1,68 @@
+.cp-calendar {
+  width: 280px;
+  font-family: var(--corpo-font-sans);
+}
+.cp-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.cp-calendar__label {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text);
+}
+.cp-calendar__nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  background: var(--corpo-bg-panel);
+  color: var(--corpo-text-muted);
+  cursor: pointer;
+  font-size: 12px;
+}
+.cp-calendar__nav:hover { border-color: var(--corpo-accent); color: var(--corpo-accent); }
+
+.cp-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.cp-calendar__weekday {
+  text-align: center;
+  padding: 4px 0;
+  font-family: var(--corpo-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-dim);
+}
+.cp-calendar__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border: 1px solid transparent;
+  border-radius: var(--corpo-radius);
+  background: none;
+  cursor: pointer;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text);
+  font-variant-numeric: tabular-nums;
+  transition: background var(--corpo-dur-fast) var(--corpo-ease), color var(--corpo-dur-fast) var(--corpo-ease);
+}
+.cp-calendar__day:hover { background: var(--corpo-bg-panel-hover); }
+.cp-calendar__day--outside { color: var(--corpo-text-dim); }
+.cp-calendar__day--today { border-color: var(--corpo-accent); }
+.cp-calendar__day--selected { background: var(--corpo-accent); color: var(--corpo-on-accent); }
+.cp-calendar__day--selected:hover { background: var(--corpo-accent-strong); }
+.cp-calendar__day:disabled { opacity: 0.35; cursor: not-allowed; }

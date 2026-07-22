@@ -1,0 +1,21 @@
+.cp-button-group {
+  display: inline-flex;
+}
+.cp-button-group .cp-btn {
+  border-radius: 0;
+  margin-left: -1px;
+}
+.cp-button-group .cp-btn:first-child { border-radius: var(--corpo-radius) 0 0 var(--corpo-radius); margin-left: 0; }
+.cp-button-group .cp-btn:last-child { border-radius: 0 var(--corpo-radius) var(--corpo-radius) 0; }
+.cp-button-group .cp-btn:hover { position: relative; z-index: 1; }
+
+.cp-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cp-radio-group--horizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
