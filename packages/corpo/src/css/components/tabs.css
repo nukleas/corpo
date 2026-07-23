@@ -1,6 +1,7 @@
 .cp-tabs {
   display: flex;
   gap: 0;
+  overflow-x: auto;
   border-bottom: 1px solid var(--corpo-border-dim);
 }
 .cp-tabs--pills { gap: 6px; border-bottom: none; }

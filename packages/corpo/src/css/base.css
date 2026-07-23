@@ -47,3 +47,9 @@ a:hover { color: var(--corpo-accent-strong); }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Breakpoints: 768px (structural) and 480px (content-density), desktop-first
+   (max-width). No PostCSS in this build, so --corpo-* vars can't be used in
+   @media conditions — use these literal values directly. Reference copy
+   lives in src/tokens/breakpoints.ts. See CLAUDE.md, "Adding responsive
+   behavior". */

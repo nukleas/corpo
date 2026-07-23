@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react';
+import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import '../src/styles/index.css';
 
 const preview: Preview = {
@@ -18,6 +19,27 @@ const preview: Preview = {
         { name: 'panel', value: '#ffffff' },
         { name: 'dark', value: '#0e1218' },
       ],
+    },
+    viewport: {
+      viewports: {
+        ...MINIMAL_VIEWPORTS,
+        corpoMobile: {
+          name: 'Corpo Mobile (≤480)',
+          styles: { width: '390px', height: '844px' },
+          type: 'mobile',
+        },
+        corpoTablet: {
+          name: 'Corpo Tablet (≤768)',
+          styles: { width: '768px', height: '1024px' },
+          type: 'tablet',
+        },
+        corpoDesktop: {
+          name: 'Corpo Desktop',
+          styles: { width: '1280px', height: '800px' },
+          type: 'desktop',
+        },
+      },
+      defaultViewport: 'corpoDesktop',
     },
     docs: {
       toc: true,

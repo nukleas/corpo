@@ -25,7 +25,8 @@
 
   .console__main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
   .console__header { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px; background: var(--corpo-bg-panel); border-bottom: 1px solid var(--corpo-border); }
-  .console__header-actions { display: flex; align-items: center; gap: 12px; }
+  .console__header-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .console__header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
   .console__search { width: 260px; }
   .console__avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--corpo-accent); color: var(--corpo-on-accent); display: inline-flex; align-items: center; justify-content: center; font-family: var(--corpo-font-mono); font-size: 12px; font-weight: 700; }
   .console__content { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
@@ -41,7 +42,6 @@
      cyberdesign uses for its histogram/hbar components, re-skinned with
      corpo tokens (flat accent fill, no glow) instead of neon. */
   .console__chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 720px) { .console__chart-grid { grid-template-columns: 1fr; } }
 
   .console__histogram { display: flex; align-items: stretch; gap: 10px; height: 140px; }
   .console__histogram-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
@@ -60,11 +60,59 @@
   /* Members */
   .console__member { display: flex; align-items: center; gap: 10px; }
   .console__member-email { color: var(--corpo-text-dim); font-size: var(--corpo-text-xs); }
+
+  /* Mobile nav — off-canvas drawer below 768px. See CLAUDE.md, "Adding
+     responsive behavior" for why these are literal px, not tokens. */
+  .console__menu-toggle { display: none; }
+  .console__menu-icon,
+  .console__menu-icon::before,
+  .console__menu-icon::after { display: block; width: 16px; height: 2px; background: currentColor; border-radius: 1px; }
+  .console__menu-icon { position: relative; }
+  .console__menu-icon::before, .console__menu-icon::after { content: ''; position: absolute; left: 0; }
+  .console__menu-icon::before { top: -5px; }
+  .console__menu-icon::after { top: 5px; }
+  .console__sidebar-backdrop { display: none; }
+  .console__row { flex-wrap: wrap; }
+
+  @media (max-width: 768px) {
+    .console__menu-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: none; border: 1px solid var(--corpo-border); border-radius: var(--corpo-radius);
+      cursor: pointer; color: var(--corpo-text-secondary);
+    }
+    .console__sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 101;
+      max-width: 80vw; overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 180ms var(--corpo-ease);
+      box-shadow: var(--corpo-shadow-lg);
+    }
+    .console[data-nav-open="true"] .console__sidebar { transform: translateX(0); }
+    .console__sidebar-backdrop {
+      display: block; position: fixed; inset: 0; z-index: 100;
+      background: rgba(16, 22, 35, 0.4);
+      opacity: 0; pointer-events: none; transition: opacity 180ms var(--corpo-ease);
+    }
+    .console[data-nav-open="true"] .console__sidebar-backdrop { opacity: 1; pointer-events: auto; }
+
+    .console__header { padding: 0 16px; }
+    .console__header-actions .cp-kbd-group { display: none; }
+    .console__search { width: auto; flex: 1 1 100px; min-width: 0; }
+
+    .console__stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .console__chart-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .console__stat-grid { grid-template-columns: 1fr; }
+    .console__header .cp-breadcrumb__item:not(:last-child) { display: none; }
+  }
 </style>
 </head>
 <body>
-  <div class="console">
-    <aside class="console__sidebar">
+  <div class="console" data-nav-open="false">
+    <aside class="console__sidebar" id="console-sidebar">
       <div class="console__brand">
         <span class="console__brand-name">Corpo</span>
         <span class="cp-badge cp-badge--accent">Console</span>
@@ -83,15 +131,22 @@
         </div>
       </div>
     </aside>
+    <div class="console__sidebar-backdrop" data-nav-backdrop></div>
 
     <div class="console__main">
       <header class="console__header">
-        <nav class="cp-breadcrumb" aria-label="Breadcrumb">
-          <ol class="cp-breadcrumb__list">
-            <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Acme Corp</a><span class="cp-breadcrumb__sep">/</span></li>
-            <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current" data-page-label aria-current="page">Overview</span></li>
-          </ol>
-        </nav>
+        <div class="console__header-left">
+          <button class="console__menu-toggle" type="button" id="console-menu-toggle"
+                  aria-label="Toggle navigation" aria-expanded="false" aria-controls="console-sidebar">
+            <span class="console__menu-icon" aria-hidden="true"></span>
+          </button>
+          <nav class="cp-breadcrumb" aria-label="Breadcrumb">
+            <ol class="cp-breadcrumb__list">
+              <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Acme Corp</a><span class="cp-breadcrumb__sep">/</span></li>
+              <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current" data-page-label aria-current="page">Overview</span></li>
+            </ol>
+          </nav>
+        </div>
         <div class="console__header-actions">
           <span class="console__search"><input class="cp-input cp-input--accent cp-input--sm" placeholder="Search…" aria-label="Search" /></span>
           <span class="cp-kbd-group"><kbd class="cp-kbd">Cmd</kbd><span class="cp-kbd-group__sep">+</span><kbd class="cp-kbd">K</kbd></span>
@@ -330,8 +385,39 @@
       if (active && pageLabel) pageLabel.textContent = active.textContent;
     }
 
-    navItems.forEach((btn) => btn.addEventListener('click', () => showPage(btn.dataset.page)));
+    navItems.forEach((btn) => btn.addEventListener('click', () => { showPage(btn.dataset.page); setNavOpen(false); }));
     document.querySelectorAll('[data-goto]').forEach((btn) => btn.addEventListener('click', () => showPage(btn.dataset.goto)));
+
+    const consoleEl = document.querySelector('.console');
+    const sidebar = document.querySelector('.console__sidebar');
+    const backdrop = document.querySelector('[data-nav-backdrop]');
+    const menuToggle = document.querySelector('.console__menu-toggle');
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+
+    function syncSidebarInert() {
+      const open = consoleEl.getAttribute('data-nav-open') === 'true';
+      if (mobileQuery.matches && !open) sidebar.setAttribute('inert', '');
+      else sidebar.removeAttribute('inert');
+    }
+    function onNavKeydown(e) {
+      if (e.key === 'Escape') { setNavOpen(false); menuToggle.focus(); }
+    }
+    function setNavOpen(open) {
+      consoleEl.setAttribute('data-nav-open', String(open));
+      menuToggle.setAttribute('aria-expanded', String(open));
+      syncSidebarInert();
+      if (open) {
+        document.addEventListener('keydown', onNavKeydown);
+        sidebar.querySelector('.console__nav-item')?.focus();
+      } else {
+        document.removeEventListener('keydown', onNavKeydown);
+      }
+    }
+
+    menuToggle.addEventListener('click', () => setNavOpen(consoleEl.getAttribute('data-nav-open') !== 'true'));
+    backdrop.addEventListener('click', () => setNavOpen(false));
+    mobileQuery.addEventListener('change', () => setNavOpen(false));
+    syncSidebarInert();
 
     const filterTabs = document.querySelectorAll('[data-filter]');
     const requestRows = document.querySelectorAll('#requests-body tr');

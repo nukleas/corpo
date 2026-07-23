@@ -16,6 +16,7 @@ src/tokens/          TypeScript token definitions
   themes/red.ts       accent-family overrides for .theme-red
   themes/steel.ts     accent-family overrides for .theme-steel
   themes/dark.ts      heritage dark-scope overrides for .corpo-dark
+  breakpoints.ts       reference-only px values for @media rules — NOT compiled into dist/
   index.ts            re-exports all
 
 build.ts             codegen script — reads tokens, reads src/css/, writes dist/
@@ -70,6 +71,17 @@ examples/console.html  composed admin-console example using every component fami
    (`accent`, `accent-strong`, `accent-subtle`, `accent-muted`, `accent-secondary`, `accent-secondary-subtle`)
 2. Import it in `build.ts` and add it to the `THEME_BLOCKS` list (wired into all three output files)
 3. Add `.theme-<name>` handling to `test/index.html`'s theme toggle
+
+## Adding responsive behavior
+
+1. There's no PostCSS in this build (`build.ts` is plain string concatenation) — `--corpo-*` vars
+   don't work inside `@media` conditions. Use literal px values.
+2. Use exactly `768px` (structural changes — column-count changes, off-canvas nav) and `480px`
+   (content-density changes — further column/text collapse). Don't invent a third breakpoint for
+   one component. Values documented for reference in `src/tokens/breakpoints.ts`.
+3. Prefer `@media (max-width: ...)` (desktop-first), matching existing rules.
+4. Prefer fluid CSS (`flex-wrap`, `minmax()`/`auto-fit` grids, `max-width` caps) over a literal
+   breakpoint wherever it's sufficient — only reach for a breakpoint for genuine structural changes.
 
 ## Dev workflow
 
