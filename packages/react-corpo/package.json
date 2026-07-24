@@ -13,6 +13,9 @@
     "url": "https://github.com/nukleas/corpo/issues"
   },
   "homepage": "https://github.com/nukleas/corpo/tree/master/packages/react-corpo#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "react",
     "component-library",

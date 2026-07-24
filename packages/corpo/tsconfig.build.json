@@ -2,11 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "emitDeclarationOnly": true,
     "noEmit": false,
-    "outDir": "./dist/types",
-    "rootDir": "./src/react"
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "include": ["src/react/**/*"],
+  "include": ["src/react/**/*", "src/tokens/**/*"],
   "exclude": ["node_modules", "dist"]
 }

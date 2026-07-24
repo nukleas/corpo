@@ -13,6 +13,9 @@
     "url": "https://github.com/nukleas/corpo/issues"
   },
   "homepage": "https://github.com/nukleas/corpo/tree/master/packages/corpo#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "design-system",
     "css",
@@ -27,20 +30,23 @@
     "dist/",
     "build.ts"
   ],
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/react/index.d.ts",
   "exports": {
     ".": "./dist/corpo.css",
     "./css": "./dist/corpo.css",
     "./vars": "./dist/corpo-vars-only.css",
     "./tailwind": "./dist/tailwind-theme.css",
     "./react": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./src/react/index.ts"
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
     },
-    "./tokens": "./src/tokens/index.ts"
+    "./tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "default": "./dist/tokens/index.js"
+    }
   },
   "scripts": {
-    "build": "tsx build.ts && tsc -p tsconfig.types.json",
+    "build": "tsx build.ts && tsc -p tsconfig.build.json",
     "dev": "tsx --watch build.ts",
     "demo": "npx --yes serve . -p 4980"
   },

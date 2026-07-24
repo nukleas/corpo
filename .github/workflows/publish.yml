@@ -1,0 +1,79 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Bump versions (lockstep)
+        id: version
+        run: |
+          set -e
+          cd packages/corpo && npm version ${{ inputs.bump }} --no-git-tag-version && cd ../..
+          cd packages/react-corpo && npm version ${{ inputs.bump }} --no-git-tag-version && cd ../..
+          VERSION=$(node -p "require('./packages/corpo/package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - run: pnpm install --no-frozen-lockfile
+
+      - run: pnpm build
+
+      - run: pnpm typecheck
+
+      - name: Publish corpo
+        run: pnpm --filter corpo publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish react-corpo
+        run: pnpm --filter react-corpo publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit version bump, tag, and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          VERSION="${{ steps.version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add packages/corpo/package.json packages/react-corpo/package.json pnpm-lock.yaml
+          git commit -m "Release v$VERSION"
+          git tag "v$VERSION"
+          git push origin HEAD:master
+          git push origin "v$VERSION"
+          gh release create "v$VERSION" --generate-notes
