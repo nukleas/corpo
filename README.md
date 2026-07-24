@@ -12,8 +12,8 @@ Public Sans body copy, quiet elevation instead of neon glow, sentence-case conte
 
 | Package | Path | Publish name | What it is |
 | --- | --- | --- | --- |
-| CSS core | [`packages/corpo`](./packages/corpo) | `corpo` | Tokens, CSS (`cp-*`), thin React class bindings |
-| React + Storybook | [`packages/react-corpo`](./packages/react-corpo) | `react-corpo` | Full React API, semantic props, Storybook |
+| CSS core | [`packages/corpo`](./packages/corpo) | [`@nukleas/corpo`](https://www.npmjs.com/package/@nukleas/corpo) | Tokens, CSS (`cp-*`), thin React class bindings |
+| React + Storybook | [`packages/react-corpo`](./packages/react-corpo) | [`@nukleas/react-corpo`](https://www.npmjs.com/package/@nukleas/react-corpo) | Full React API, semantic props, Storybook |
 
 ## Components
 
@@ -64,19 +64,25 @@ pnpm demo
 
 ### CI
 
-Every push/PR builds both packages, typechecks, and builds Storybook (`.github/workflows/ci.yml`). The repo is private, so there's no hosted preview — instead, download the `storybook-static` artifact from the workflow run in the Actions tab and open its `index.html` locally to preview without running the build yourself. A `package-dist` artifact with both packages' built output is attached the same way.
+Every push/PR builds both packages, typechecks, and builds Storybook (`.github/workflows/ci.yml`). A `.github/workflows/pages.yml` workflow deploys the [live site](https://nukleas.github.io/corpo/) to GitHub Pages on every push to `master`. If you'd rather preview a specific commit without waiting on a deploy, download the `storybook-static` artifact from that CI run in the Actions tab and open its `index.html` locally. A `package-dist` artifact with both packages' built output is attached the same way.
 
 ## Consuming
 
-### CSS only
-
 ```bash
-pnpm add corpo
-# or local: "corpo": "workspace:*" / "file:../corpo/packages/corpo"
+pnpm add @nukleas/corpo @nukleas/react-corpo
 ```
 
+Working on this monorepo itself, or want a live local link instead of the published version?
+
+```json
+"@nukleas/corpo": "file:../corpo/packages/corpo",
+"@nukleas/react-corpo": "file:../corpo/packages/react-corpo"
+```
+
+### CSS only
+
 ```css
-@import "corpo/css";
+@import "@nukleas/corpo/css";
 ```
 
 ```html
@@ -85,13 +91,9 @@ pnpm add corpo
 
 ### React components
 
-```bash
-pnpm add react-corpo
-```
-
 ```tsx
-import { ThemeProvider, Button, Card } from 'react-corpo';
-import 'react-corpo/styles.css';
+import { ThemeProvider, Button, Card } from '@nukleas/react-corpo';
+import '@nukleas/react-corpo/styles.css';
 
 export function App() {
   return (

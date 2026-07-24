@@ -14,20 +14,14 @@ Visual styles come from corpo CSS (`cp-*` classes, `--corpo-*` tokens). This pac
 
 ## Install
 
-This package lives in the corpo monorepo next to the CSS package.
-
 ```bash
-# monorepo workspace (preferred during development)
-pnpm add react-corpo --filter <your-app>
-
-# or from a local path
-pnpm add file:../corpo/packages/react-corpo
-
-# styles (required once in your app)
-import 'react-corpo/styles.css';
+pnpm add @nukleas/react-corpo
 ```
 
-Ensure corpo CSS is built first (`pnpm build:css` from monorepo root).
+```tsx
+// styles (required once in your app)
+import '@nukleas/react-corpo/styles.css';
+```
 
 ## Quick start
 
@@ -40,8 +34,8 @@ import {
   Label,
   Card,
   Badge,
-} from 'react-corpo';
-import 'react-corpo/styles.css';
+} from '@nukleas/react-corpo';
+import '@nukleas/react-corpo/styles.css';
 
 export function App() {
   return (
@@ -114,8 +108,8 @@ src/
 
 | Package | Responsibility |
 | --- | --- |
-| `corpo` | Tokens, CSS components, Tailwind theme export |
-| `react-corpo` | React API, docs, theme provider |
+| `@nukleas/corpo` | Tokens, CSS components, Tailwind theme export |
+| `@nukleas/react-corpo` | React API, docs, theme provider |
 
 When CSS gains a new modifier, update the matching React prop map here and add/adjust a story.
 

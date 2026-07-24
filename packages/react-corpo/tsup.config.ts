@@ -6,7 +6,7 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  external: ['react', 'react-dom', 'react/jsx-runtime', 'corpo'],
+  external: ['react', 'react-dom', 'react/jsx-runtime', '@nukleas/corpo'],
   treeshake: true,
   splitting: false,
   minify: false,

@@ -10,14 +10,14 @@
   },
   "packageManager": "pnpm@11.2.2",
   "scripts": {
-    "build": "pnpm -r --filter corpo --filter react-corpo run build",
-    "build:css": "pnpm --filter corpo run build",
-    "build:react": "pnpm --filter react-corpo run build",
-    "dev": "pnpm --filter corpo run dev",
-    "storybook": "pnpm --filter react-corpo run storybook",
-    "build-storybook": "pnpm --filter react-corpo run build-storybook",
-    "typecheck": "pnpm --filter react-corpo run typecheck",
-    "demo": "pnpm --filter corpo run demo"
+    "build": "pnpm -r --filter @nukleas/corpo --filter @nukleas/react-corpo run build",
+    "build:css": "pnpm --filter @nukleas/corpo run build",
+    "build:react": "pnpm --filter @nukleas/react-corpo run build",
+    "dev": "pnpm --filter @nukleas/corpo run dev",
+    "storybook": "pnpm --filter @nukleas/react-corpo run storybook",
+    "build-storybook": "pnpm --filter @nukleas/react-corpo run build-storybook",
+    "typecheck": "pnpm --filter @nukleas/react-corpo run typecheck",
+    "demo": "pnpm --filter @nukleas/corpo run demo"
   },
   "engines": {
     "node": ">=22"

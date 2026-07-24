@@ -8,15 +8,15 @@ const root = resolve(__dirname, '..');
 /** Resolve corpo package root from workspace, node_modules, or monorepo sibling. */
 function resolveCorpoRoot() {
   const candidates = [
-    resolve(root, 'node_modules/corpo'),
+    resolve(root, 'node_modules/@nukleas/corpo'),
     resolve(root, '../corpo'),
-    resolve(root, '../../node_modules/corpo'),
+    resolve(root, '../../node_modules/@nukleas/corpo'),
   ];
   for (const dir of candidates) {
     if (existsSync(resolve(dir, 'package.json'))) {
       try {
         const pkg = JSON.parse(readFileSync(resolve(dir, 'package.json'), 'utf8'));
-        if (pkg.name === 'corpo') return dir;
+        if (pkg.name === '@nukleas/corpo') return dir;
       } catch {
         /* continue */
       }
@@ -33,7 +33,7 @@ const cssDest = resolve(root, 'dist/styles.css');
 
 if (!existsSync(cssSrc)) {
   console.error(
-    `Missing ${cssSrc}. Build corpo first:\n  pnpm --filter corpo build`,
+    `Missing ${cssSrc}. Build corpo first:\n  pnpm --filter @nukleas/corpo build`,
   );
   process.exit(1);
 }

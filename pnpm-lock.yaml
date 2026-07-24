@@ -38,7 +38,7 @@ importers:
 
   packages/react-corpo:
     dependencies:
-      corpo:
+      '@nukleas/corpo':
         specifier: workspace:*
         version: link:../corpo
     devDependencies:

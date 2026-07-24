@@ -54,12 +54,12 @@ jobs:
       - run: pnpm typecheck
 
       - name: Publish corpo
-        run: pnpm --filter corpo publish --no-git-checks
+        run: pnpm --filter @nukleas/corpo publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish react-corpo
-        run: pnpm --filter react-corpo publish --no-git-checks
+        run: pnpm --filter @nukleas/react-corpo publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
