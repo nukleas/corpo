@@ -50,6 +50,7 @@ export const semanticTokens: Record<string, string> = {
   'accent-strong': '#0a5460',
   'accent-subtle': 'rgba(15, 111, 128, 0.09)',
   'accent-muted': 'rgba(15, 111, 128, 0.28)',
+  'accent-border': 'rgba(15, 111, 128, 0.35)',  // accent @ 35% — card border treatment
   'on-accent': '#ffffff',
   'accent-secondary': palette.magenta,
   'accent-secondary-subtle': 'rgba(173, 26, 125, 0.09)',
