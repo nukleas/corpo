@@ -12,7 +12,7 @@
   margin: 0;
   font-size: var(--corpo-text-lg);
   font-weight: 700;
-  color: var(--corpo-text);
+  color: var(--corpo-accent);
 }
 .cp-section-header__description {
   margin: 0;
