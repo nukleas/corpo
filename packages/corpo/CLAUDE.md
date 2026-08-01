@@ -103,7 +103,7 @@ pnpm storybook           # React Storybook (packages/react-corpo)
 | `--corpo-text` | primary text |
 | `--corpo-text-secondary` | dimmed text |
 | `--corpo-text-muted` | secondary labels/helpers |
-| `--corpo-text-dim` | decorative/metadata (large/decorative only, ~3.6:1) |
+| `--corpo-text-dim` | dimmest readable text tier — small captions/hints (WCAG AA, ~5.2:1); use the raw `grey-500` scale token for decorative/≥3:1 use |
 | `--corpo-accent` | theme accent (teal by default) |
 | `--corpo-accent-strong` | darker accent for hover/press |
 | `--corpo-border` / `--corpo-border-dim` / `--corpo-border-strong` | border weights |
