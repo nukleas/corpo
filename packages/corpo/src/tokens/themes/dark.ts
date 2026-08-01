@@ -10,7 +10,7 @@ export const darkTheme: Record<string, string> = {
   'text': '#e8ecf2',
   'text-secondary': '#b6c1d1',
   'text-muted': '#93a1b5',
-  'text-dim': '#6d7c92',
+  'text-dim': '#7c8ba1', // AA (≥4.5:1) on dark surfaces — was #6d7c92 (4.1:1, sub-AA)
   'accent': '#54c3d4',
   'accent-strong': '#7fd6e3',
   'accent-subtle': 'rgba(84, 195, 212, 0.12)',

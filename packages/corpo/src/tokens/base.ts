@@ -6,6 +6,7 @@ export const palette: Record<string, string> = {
   grey300: '#c9d2de',
   grey400: '#a3b1c4',
   grey500: '#75839a',
+  grey550: '#5f6d88', // AA (≥4.5:1) on all light surfaces; the dimmest readable text tier
   grey600: '#5b6980',
   grey700: '#3f4c63',
   grey800: '#242e42',
