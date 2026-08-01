@@ -25,11 +25,13 @@ export const semanticTokens: Record<string, string> = {
   'border-dim': palette.grey200,
   'border-strong': palette.grey400,
 
-  // text — all AA on white: text 16.7:1, secondary 8.6:1, muted 5.6:1, dim 3.6:1 (large/decorative only)
+  // text — all WCAG AA (≥4.5:1) on white: text 16.7:1, secondary 8.6:1, muted 5.6:1, dim 5.2:1.
+  // `text-dim` is the dimmest *readable* tier: our own small captions (e.g. cp-stat__hint) use it,
+  // so it must clear AA for normal text — the raw `grey-500` scale token stays for decorative/≥3:1 use.
   'text': palette.grey900,
   'text-secondary': palette.grey700,
   'text-muted': palette.grey600,
-  'text-dim': palette.grey500,
+  'text-dim': palette.grey550,
 
   // status palette
   'green': palette.green,
