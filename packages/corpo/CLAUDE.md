@@ -31,6 +31,10 @@ src/css/
 
 src/react/           thin class wrappers, one per component (design-sync / lightweight export)
 
+src/js/              zero-dep vanilla scene engines, shipped from src via package exports
+  depgraph.js        CpDepGraph — milestone dependency graph (exports `corpo/depgraph`)
+  depgraph.d.ts      hand-authored types for the export
+
 dist/                generated, gitignored — run `npm run build` to regenerate
   corpo.css
   corpo-vars-only.css

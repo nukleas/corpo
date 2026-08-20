@@ -43,6 +43,10 @@
     "./tokens": {
       "types": "./dist/tokens/index.d.ts",
       "default": "./dist/tokens/index.js"
+    },
+    "./depgraph": {
+      "types": "./src/js/depgraph.d.ts",
+      "default": "./src/js/depgraph.js"
     }
   },
   "scripts": {
