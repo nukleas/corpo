@@ -1,9 +1,13 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ElementType, HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 
 export interface BreadcrumbItem {
   label: ReactNode;
   href?: string;
+  /** Custom link element for routed apps (e.g. a router `Link`). */
+  as?: ElementType;
+  /** Extra props for the link element, e.g. `{ to: '/invoices' }` for router links. */
+  linkProps?: Record<string, unknown>;
 }
 
 export interface BreadcrumbProps extends HTMLAttributes<HTMLElement> {
@@ -17,16 +21,17 @@ export function Breadcrumb({ items, className, ...rest }: BreadcrumbProps) {
       <ol className="cp-breadcrumb__list">
         {items.map((it, i) => {
           const last = i === items.length - 1;
+          const LinkComponent: ElementType = it.as ?? 'a';
           return (
             <li key={i} className="cp-breadcrumb__item">
-              {last || !it.href ? (
+              {last || (!it.href && !it.as) ? (
                 <span aria-current={last ? 'page' : undefined} className={last ? 'cp-breadcrumb__current' : undefined}>
                   {it.label}
                 </span>
               ) : (
-                <a href={it.href} className="cp-breadcrumb__link">
+                <LinkComponent href={it.href} className="cp-breadcrumb__link" {...it.linkProps}>
                   {it.label}
-                </a>
+                </LinkComponent>
               )}
               {!last && (
                 <span aria-hidden="true" className="cp-breadcrumb__sep">
