@@ -137,24 +137,25 @@ export function IncidentConsoleFlow() {
   const filtered = incidents.filter((i) => i.status === activeTab);
 
   const tableRows = filtered.map((inc) => ({
-    id: (
-      <button
-        type="button"
-        onClick={() => setSelectedId(inc.id)}
-        style={{
-          all: 'unset',
-          cursor: 'pointer',
-          color: 'var(--corpo-accent)',
-          fontFamily: 'var(--corpo-font-mono)',
-          fontSize: 'var(--corpo-text-xs)',
-        }}
-      >
-        {inc.id}
-      </button>
-    ),
+    id: {
+      content: (
+        <button
+          type="button"
+          onClick={() => setSelectedId(inc.id)}
+          style={{
+            all: 'unset',
+            cursor: 'pointer',
+            color: 'var(--corpo-accent)',
+            fontFamily: 'var(--corpo-font-mono)',
+            fontSize: 'var(--corpo-text-xs)',
+          }}
+        >
+          {inc.id}
+        </button>
+      ),
+    },
     title: inc.title,
-    severity: inc.severity,
-    severityStatus: inc.severityStatus,
+    severity: { content: inc.severity, status: inc.severityStatus },
     assignee: inc.assignee,
     updated: inc.updated,
   }));

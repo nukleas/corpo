@@ -47,6 +47,29 @@ react-corpo/
 4. Add `src/components/<Name>.stories.tsx` with `tags: ['autodocs']`.
 5. `pnpm typecheck` and check Storybook (from monorepo root: `pnpm storybook`).
 
+## Shorthand slots (semantic-ui-react style)
+
+Data-driven components with a repeated item slot (Table cells, Spreadsheet cells)
+take **shorthand** instead of a fixed value type. A slot value may be:
+
+- a bare `string | number` — mapped to the item's natural prop (`content`/`value`)
+- a props object — `{ content: 'Paid', status: 'ok' }`
+- a `<Component.Item>` element — cloned with merged props (arbitrary foreign
+  elements go in `{ content: <Badge/> }`, not bare)
+- `null | undefined | boolean` — renders nothing (containers that must keep
+  alignment, like table rows, coalesce these to an empty item themselves)
+
+Implement with `createShorthandFactory` from `src/lib/createShorthand.ts`:
+attach it as `Item.create` and expose the item as `Parent.Item`. Merge order is
+`defaultProps ← value's props ← overrideProps` — container wiring (grid
+defaults, injected change handlers) goes in **defaultProps** so an item's own
+props always win; reserve `overrideProps` for values the item must never
+control. Don't reach for shorthand on simple one-off `ReactNode` slots
+(Card `title`, Alert `children`) — plain props are already right there.
+
+Reference implementations: `Spreadsheet.Cell`, `Table.Cell`. Source study copy
+of semantic-ui-react lives in gitignored `_references/semantic-ui-react`.
+
 ## Discovering the CSS contract
 
 1. Read `../corpo/src/css/components/<x>.css` for modifiers (`.cp-x--*`) and parts (`.cp-x__*`).

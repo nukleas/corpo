@@ -2,6 +2,8 @@
 // Import styles once: `import "react-corpo/styles.css"`
 
 export { cn } from './lib/cn';
+export { createShorthandFactory } from './lib/createShorthand';
+export type { Shorthand, ShorthandOptions } from './lib/createShorthand';
 export type { CpColor, CpTheme, CpSize } from './lib/types';
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';
 export type { ThemeProviderProps } from './theme/ThemeProvider';
