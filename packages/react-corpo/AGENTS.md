@@ -14,6 +14,8 @@ react-corpo/
   src/components/       one file per component (PascalCase = export name)
   src/lib/cn.ts          className join helper
   src/lib/types.ts       CpColor, CpTheme, CpSize
+  src/lib/createShorthand.ts  semantic-ui-react-style shorthand slots — `X.create(value)` normalizes
+                        `string | number | props object | element` (see Spreadsheet.Cell)
   src/theme/             ThemeProvider, useTheme
   src/styles/index.css   Storybook CSS entry → imports corpo/css
   src/index.ts           public barrel

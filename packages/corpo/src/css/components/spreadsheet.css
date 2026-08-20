@@ -49,3 +49,28 @@
   position: relative;
   z-index: 1;
 }
+
+/* Read-only value cell (computed/report cells) */
+.cp-spreadsheet__value {
+  min-height: 28px;
+  padding: 5px 8px;
+  background: var(--corpo-bg-panel);
+  color: var(--corpo-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  user-select: text;
+}
+
+/* Cell modifiers — set on the <td>, style both the editable and value renderings */
+.cp-spreadsheet__cell--num .cp-spreadsheet__input,
+.cp-spreadsheet__cell--num .cp-spreadsheet__value {
+  text-align: right;
+}
+.cp-spreadsheet__cell--muted .cp-spreadsheet__input,
+.cp-spreadsheet__cell--muted .cp-spreadsheet__value {
+  color: var(--corpo-text-muted);
+}
+.cp-spreadsheet__cell--danger .cp-spreadsheet__input,
+.cp-spreadsheet__cell--danger .cp-spreadsheet__value {
+  color: var(--corpo-red);
+}
