@@ -59,3 +59,8 @@ export * from './components/Empty';
 export * from './components/AspectRatio';
 export * from './components/ScrollArea';
 export * from './components/SectionHeader';
+export * from './components/DependencyGraph';
+export * from './components/ProfileCard';
+export * from './components/LicenseCatalog';
+export * from './components/AssignmentSlots';
+export * from './components/LicenseDetail';

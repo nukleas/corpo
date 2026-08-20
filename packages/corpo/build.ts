@@ -239,6 +239,15 @@ const bundle = [
   '/* Component: SectionHeader */\n',
   readCss('components/section-header.css'),
   '\n',
+  '/* Component: DependencyGraph (CpDepGraph) */\n',
+  readCss('components/depgraph.css'),
+  '\n',
+  '/* Component: ProfileCard */\n',
+  readCss('components/profile.css'),
+  '\n',
+  '/* Component: Assignment panel (AssignmentSlots + LicenseCatalog + LicenseDetail) */\n',
+  readCss('components/assignment.css'),
+  '\n',
 ].join('');
 
 writeFileSync(join(DIST, 'corpo.css'), bundle);

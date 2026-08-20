@@ -248,6 +248,118 @@
     </div>
   </section>
 
+  <section>
+    <h2>Dependency graph</h2>
+    <div class="cp-card cp-card--flat" style="height: 360px; padding: 0; overflow: hidden;">
+      <div id="depgraph-demo" style="height: 100%;"></div>
+    </div>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      Click to select · click a ready or in-progress node again to advance it · drag to pan · wheel to zoom
+    </p>
+  </section>
+
+  <section>
+    <h2>Profile card</h2>
+    <div class="cp-profile" style="max-width: 440px;">
+      <div class="cp-profile__portrait">
+        <span class="cp-avatar cp-avatar--lg">AS<span class="cp-avatar__status cp-avatar__status--online" aria-hidden="true"></span></span>
+        <span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--ok"></span>Available</span>
+      </div>
+      <div class="cp-profile__identity">
+        <div class="cp-profile__name">Ana Sørensen</div>
+        <div class="cp-profile__role">Staff engineer</div>
+        <div class="cp-profile__team">Payments platform</div>
+      </div>
+      <div class="cp-profile__capacity">
+        <div class="cp-profile__section-title">Capacity</div>
+        <div class="cp-progress">
+          <div class="cp-progress__header"><span class="cp-progress__label">Utilization</span><span>70%</span></div>
+          <div class="cp-progress__track"><div class="cp-progress__fill" style="width: 70%"></div></div>
+        </div>
+        <div class="cp-progress">
+          <div class="cp-progress__header"><span class="cp-progress__label">On-call load</span><span>25%</span></div>
+          <div class="cp-progress__track"><div class="cp-progress__fill cp-progress__fill--success" style="width: 25%"></div></div>
+        </div>
+      </div>
+      <div class="cp-profile__skills">
+        <span class="cp-chip">Kotlin</span>
+        <span class="cp-chip">Postgres</span>
+        <span class="cp-chip">Payments</span>
+        <span class="cp-chip">Incident response</span>
+      </div>
+      <div class="cp-profile__bio">
+        Leads the invoice pipeline rebuild. Previously scaled the ledger service through two
+        provider migrations; mentors two engineers on the team.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>License assignment</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
+      <div style="flex: 2 1 280px; display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+        <div class="cp-license-grid">
+          <button type="button" class="cp-license-card cp-tier--enterprise is-selected is-assigned">
+            <span class="cp-license-card__name">Datadog</span>
+            <span class="cp-license-card__tier">Enterprise</span>
+            <span class="cp-license-card__seats">12 seats</span>
+          </button>
+          <button type="button" class="cp-license-card cp-tier--professional">
+            <span class="cp-license-card__name">Figma</span>
+            <span class="cp-license-card__tier">Professional</span>
+            <span class="cp-license-card__seats">4 seats</span>
+          </button>
+          <button type="button" class="cp-license-card cp-tier--standard is-assigned">
+            <span class="cp-license-card__name">Linear</span>
+            <span class="cp-license-card__tier">Standard</span>
+            <span class="cp-license-card__seats">30 seats</span>
+          </button>
+          <button type="button" class="cp-license-card cp-tier--free">
+            <span class="cp-license-card__name">VS Code</span>
+            <span class="cp-license-card__tier">Free</span>
+          </button>
+          <div class="cp-license-card is-empty"></div>
+        </div>
+        <div class="cp-assign-slots" style="max-width: 360px;">
+          <button type="button" class="cp-assign-slot cp-tier--enterprise">
+            <span class="cp-assign-slot__label">Observability</span>
+            <span class="cp-assign-slot__name">Datadog</span>
+            <span class="cp-assign-slot__tier">Enterprise</span>
+          </button>
+          <button type="button" class="cp-assign-slot cp-tier--standard is-selected">
+            <span class="cp-assign-slot__label">Tracking</span>
+            <span class="cp-assign-slot__name">Linear</span>
+            <span class="cp-assign-slot__tier">Standard</span>
+          </button>
+          <button type="button" class="cp-assign-slot is-empty">
+            <span class="cp-assign-slot__label">Design</span>
+            <span class="cp-assign-slot__name">Unassigned</span>
+          </button>
+        </div>
+      </div>
+      <div class="cp-license-detail cp-tier--enterprise" style="flex: 1 1 240px; min-width: 0;">
+        <div class="cp-license-detail__header">
+          <span class="cp-license-detail__tier">Enterprise</span>
+          <span class="cp-license-detail__name">Datadog</span>
+          <span class="cp-license-detail__category">Observability · Annual contract</span>
+        </div>
+        <div class="cp-license-detail__rows">
+          <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Cost per seat</span><span class="cp-license-detail__row-value">£28/mo</span></div>
+          <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Renewal</span><span class="cp-license-detail__row-value">1 Mar 2027</span></div>
+          <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Seats in use</span><span class="cp-license-detail__row-value">9 of 12</span></div>
+        </div>
+        <div class="cp-license-detail__desc">
+          Metrics, traces, and log management for the platform group. Includes on-call
+          paging integration.
+        </div>
+        <div class="cp-license-detail__actions">
+          <button class="cp-btn cp-btn--primary cp-btn--sm">Assign seat</button>
+          <button class="cp-btn cp-btn--sm">View usage</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="cp-modal-backdrop" id="demo-modal" style="display: none;">
     <div class="cp-modal" role="dialog" aria-modal="true">
       <div class="cp-modal__header">
@@ -292,6 +404,37 @@
     document.getElementById('modal-close').addEventListener('click', () => { modal.style.display = 'none'; });
     document.getElementById('modal-cancel').addEventListener('click', () => { modal.style.display = 'none'; });
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+  </script>
+  <script type="module">
+    // ── Dependency graph: billing platform migration plan ──
+    import('../src/js/depgraph.js').then(({ CpDepGraph }) => {
+      const host = document.getElementById('depgraph-demo');
+      if (!host) return;
+      const nodes = [
+        { id: 'vendor-eval', label: 'Vendor evaluation', state: 'done', owner: 'Priya N.', estimate: '3 wk', desc: 'Shortlist and score replacement billing providers.' },
+        { id: 'data-audit', label: 'Data audit', state: 'done', owner: 'Marcus T.', estimate: '2 wk', desc: 'Inventory every table and export feed the current provider owns.' },
+        { id: 'contract', label: 'Contract signed', state: 'done', dependsOn: ['vendor-eval'], owner: 'Priya N.', estimate: '1 wk' },
+        { id: 'schema-mapping', label: 'Schema mapping', state: 'in-progress', dependsOn: ['data-audit'], owner: 'Ana S.', estimate: '4 wk', desc: 'Field-level mapping from the legacy ledger to the new provider model.' },
+        { id: 'invoice-cutover', label: 'Invoice cutover plan', state: 'ready', dependsOn: ['contract'], owner: 'Marcus T.', estimate: '2 wk' },
+        { id: 'pilot-migration', label: 'Pilot migration', state: 'blocked', dependsOn: ['schema-mapping', 'invoice-cutover'], owner: 'Ana S.', estimate: '3 wk', desc: 'Migrate ten low-volume accounts end to end.' },
+        { id: 'reporting-rebuild', label: 'Reporting rebuild', state: 'blocked', dependsOn: ['schema-mapping'], owner: 'Devon K.', estimate: '6 wk' },
+        { id: 'full-rollout', label: 'Full rollout', state: 'blocked', dependsOn: ['pilot-migration', 'reporting-rebuild'], owner: 'Priya N.', estimate: '4 wk', desc: 'Cut all remaining accounts over and decommission the legacy provider.' },
+      ];
+      const graph = CpDepGraph(host, {
+        nodes,
+        onAdvance(id) {
+          const n = nodes.find((x) => x.id === id);
+          n.state = n.state === 'ready' ? 'in-progress' : 'done';
+          // Unblock any node whose dependencies are now all done.
+          for (const m of nodes) {
+            if (m.state === 'blocked' && (m.dependsOn || []).every((d) => nodes.find((x) => x.id === d)?.state === 'done')) {
+              m.state = 'ready';
+            }
+          }
+          graph.replaceModel({ nodes });
+        },
+      });
+    }).catch(() => {});
   </script>
   <script>
     const buttons = document.querySelectorAll('#theme-toggle button');

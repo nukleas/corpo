@@ -1,0 +1,139 @@
+/* ── Profile card ────────────────────────────────────────────────────────── */
+/*
+  Person/directory profile card. Layout only — it hosts existing primitives
+  (cp-avatar, cp-status-pill, cp-progress, cp-chip, cp-badge) without
+  restyling them.
+
+  Structure:
+    .cp-profile (--compact / --wide)
+      .cp-profile__portrait
+      .cp-profile__identity
+        .cp-profile__name / __role / __team
+      .cp-profile__capacity
+      .cp-profile__skills
+      .cp-profile__bio
+      .cp-profile__section-title
+*/
+
+.cp-profile {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px 16px;
+  padding: 16px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-accent-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-sm);
+  font-family: var(--corpo-font-sans);
+  color: var(--corpo-text);
+}
+
+.cp-profile--compact {
+  gap: 10px 12px;
+  padding: 12px;
+}
+
+.cp-profile--wide {
+  grid-template-columns: auto 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .cp-profile--wide {
+    grid-template-columns: auto 1fr;
+  }
+
+  .cp-profile--wide .cp-profile__capacity {
+    grid-column: 1 / -1;
+  }
+}
+
+.cp-profile__portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius-lg);
+  align-self: start;
+}
+
+.cp-profile__identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cp-profile__name {
+  font-size: var(--corpo-text-md);
+  font-weight: 600;
+  color: var(--corpo-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-profile__role {
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-profile__team {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-profile__section-title {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+  border-bottom: 1px solid var(--corpo-border-dim);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.cp-profile__capacity {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cp-profile--wide .cp-profile__capacity {
+  grid-column: auto;
+}
+
+.cp-profile__skills {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cp-profile__bio {
+  grid-column: 1 / -1;
+  font-size: var(--corpo-text-sm);
+  line-height: var(--corpo-leading-relaxed);
+  color: var(--corpo-text-secondary);
+  min-width: 0;
+}
