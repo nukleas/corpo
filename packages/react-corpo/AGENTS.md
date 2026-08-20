@@ -77,8 +77,10 @@ with `PolymorphicProps<C, OwnProps>` from `src/lib/polymorphic.ts` — the
 rendered element's attributes typecheck against `as` (`<Button as="a" href>`,
 `<Button as={Link} to>`). Data-driven item slots use a lighter form: an
 `as?: ElementType` on the item plus a `linkProps` passthrough (see
-`BreadcrumbItem`). Adopt `as` only where the swap is a real need (buttons as
-links, nav items as router links) — not as a blanket prop on every component.
+`BreadcrumbItem`; for generated items like Pagination pages, `linkProps` is a
+function of the item — `(page) => ({ to })`). Adopt `as` only where the swap
+is a real need (buttons as links, nav items as router links) — not as a
+blanket prop on every component.
 
 ## Discovering the CSS contract
 

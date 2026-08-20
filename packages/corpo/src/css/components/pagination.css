@@ -17,11 +17,14 @@
   cursor: pointer;
   font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
+  text-decoration: none; /* link rendering (router links / anchors) */
   transition: color var(--corpo-dur-fast) var(--corpo-ease), border-color var(--corpo-dur-fast) var(--corpo-ease), background var(--corpo-dur-fast) var(--corpo-ease);
 }
-.cp-pagination__btn:hover:not(:disabled) { border-color: var(--corpo-accent); color: var(--corpo-accent); background: var(--corpo-accent-subtle); }
-.cp-pagination__btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.cp-pagination__btn[aria-current='true'] { background: var(--corpo-accent); border-color: transparent; color: var(--corpo-on-accent); }
+.cp-pagination__btn:hover:not(:disabled):not([aria-disabled='true']) { border-color: var(--corpo-accent); color: var(--corpo-accent); background: var(--corpo-accent-subtle); }
+.cp-pagination__btn:disabled,
+.cp-pagination__btn[aria-disabled='true'] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+/* buttons carry aria-current="true", links aria-current="page" */
+.cp-pagination__btn[aria-current] { background: var(--corpo-accent); border-color: transparent; color: var(--corpo-on-accent); }
 
 .cp-pagination__ellipsis {
   display: inline-flex;
