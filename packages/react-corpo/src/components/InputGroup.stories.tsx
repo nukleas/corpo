@@ -14,7 +14,7 @@ type Story = StoryObj<typeof InputGroup>;
 export const Currency: Story = {
   render: () => (
     <div style={{ width: 220 }}>
-      <InputGroup leading="£">
+      <InputGroup leading="$">
         <Input defaultValue="4,200.00" />
       </InputGroup>
     </div>

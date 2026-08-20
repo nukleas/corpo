@@ -14,8 +14,8 @@ export default meta;
 
 type Story = StoryObj<typeof Alert>;
 
-export const Info: Story = { args: { tone: 'info', title: 'Scheduled maintenance', children: 'Statements will be delayed by up to an hour on 30 Aug.' } };
+export const Info: Story = { args: { tone: 'info', title: 'Scheduled maintenance', children: 'Statements will be delayed by up to an hour on Aug 30.' } };
 export const Success: Story = { args: { tone: 'success', title: 'Invoice sent', children: 'INV-2041 was sent to billing@acme.com.' } };
-export const Warning: Story = { args: { tone: 'warning', title: 'Renew before 30 Aug', children: 'Renew before 30 Aug to avoid downtime.' } };
+export const Warning: Story = { args: { tone: 'warning', title: 'Renew before Aug 30', children: 'Renew before Aug 30 to avoid downtime.' } };
 export const ErrorTone: Story = { args: { tone: 'error' } };
 export const Dismissible: Story = { args: { tone: 'error', onDismiss: () => {} } };

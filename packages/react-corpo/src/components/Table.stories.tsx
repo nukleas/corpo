@@ -18,9 +18,9 @@ const columns = [
 ];
 
 const rows = [
-  { id: 'INV-2041', client: 'Acme Ltd', amount: '£4,200.00', status: 'Paid', statusStatus: 'ok' },
-  { id: 'INV-2042', client: 'Northwind', amount: '£1,180.00', status: 'Pending', statusStatus: 'warn' },
-  { id: 'INV-2043', client: 'Globex', amount: '£860.00', status: 'Overdue', statusStatus: 'err' },
+  { id: 'INV-2041', client: 'Acme Inc.', amount: '$4,200.00', status: 'Paid', statusStatus: 'ok' },
+  { id: 'INV-2042', client: 'Northwind', amount: '$1,180.00', status: 'Pending', statusStatus: 'warn' },
+  { id: 'INV-2043', client: 'Globex', amount: '$860.00', status: 'Overdue', statusStatus: 'err' },
 ];
 
 export const Default: Story = { args: { columns, rows } };
