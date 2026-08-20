@@ -1,0 +1,285 @@
+/* ── Assignment panel (licenses & resources) ─────────────────────────────── */
+/*
+  Three composable blocks plus a shared tier modifier family.
+
+  .cp-tier--{free,standard,professional,enterprise} sets --tier-color;
+  assignment slots, catalog cards, and the detail panel all consume it.
+  Tints follow the cp-badge color treatment: colored text/border, subtle fill.
+
+  .cp-assign-slots    stacked per-person slot list of .cp-assign-slot
+  .cp-license-grid    auto-fill catalog grid of .cp-license-card
+  .cp-license-detail  selected-license panel
+*/
+
+/* Assignment slots — per-person column list */
+.cp-assign-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--corpo-font-sans);
+}
+
+.cp-assign-slot {
+  --tier-color: var(--corpo-text-muted);
+  --tier-fill: var(--corpo-bg-inset);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  font-family: inherit;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--corpo-dur) var(--corpo-ease), background var(--corpo-dur) var(--corpo-ease), box-shadow var(--corpo-dur) var(--corpo-ease);
+}
+
+.cp-assign-slot:hover {
+  border-color: var(--tier-color);
+  background: var(--tier-fill);
+}
+
+.cp-assign-slot.is-selected {
+  border-color: var(--corpo-accent);
+  box-shadow: 0 0 0 1px var(--corpo-accent);
+}
+
+.cp-assign-slot.is-empty {
+  border-style: dashed;
+  border-color: var(--corpo-border-dim);
+  background: var(--corpo-bg-inset);
+}
+
+.cp-assign-slot__label {
+  flex-shrink: 0;
+  max-width: 40%;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-assign-slot__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-assign-slot.is-empty .cp-assign-slot__name {
+  color: var(--corpo-text-muted);
+}
+
+.cp-assign-slot__tier {
+  flex-shrink: 0;
+  font-family: var(--corpo-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--tier-color);
+}
+
+/* License catalog — auto-fill card grid */
+.cp-license-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  font-family: var(--corpo-font-sans);
+}
+
+.cp-license-card {
+  --tier-color: var(--corpo-text-muted);
+  --tier-fill: var(--corpo-bg-inset);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 68px;
+  padding: 10px 12px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--corpo-dur) var(--corpo-ease), background var(--corpo-dur) var(--corpo-ease), box-shadow var(--corpo-dur) var(--corpo-ease);
+}
+
+.cp-license-card:hover {
+  border-color: var(--tier-color);
+  background: var(--tier-fill);
+}
+
+.cp-license-card.is-selected {
+  border-color: var(--corpo-accent);
+  box-shadow: 0 0 0 1px var(--corpo-accent);
+}
+
+.cp-license-card.is-empty {
+  border-style: dashed;
+  border-color: var(--corpo-border-dim);
+  background: var(--corpo-bg-inset);
+  cursor: default;
+}
+
+.cp-license-card.is-assigned::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--corpo-accent);
+}
+
+.cp-license-card__name {
+  max-width: 100%;
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  color: var(--corpo-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-license-card__tier {
+  font-family: var(--corpo-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--tier-color);
+}
+
+.cp-license-card__seats {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+
+/* License detail panel */
+.cp-license-detail {
+  --tier-color: var(--corpo-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-sm);
+  font-family: var(--corpo-font-sans);
+  color: var(--corpo-text);
+}
+
+.cp-license-detail__header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px solid var(--corpo-border-dim);
+  padding-bottom: 8px;
+}
+
+.cp-license-detail__tier {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--tier-color);
+}
+
+.cp-license-detail__name {
+  font-size: var(--corpo-text-md);
+  font-weight: 600;
+  color: var(--corpo-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-license-detail__category {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-license-detail__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cp-license-detail__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--corpo-text-sm);
+}
+
+.cp-license-detail__row-label {
+  flex-shrink: 0;
+  color: var(--corpo-text-muted);
+}
+
+.cp-license-detail__row-value {
+  color: var(--corpo-text);
+  font-weight: 600;
+  text-align: right;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-license-detail__desc {
+  font-size: var(--corpo-text-sm);
+  line-height: var(--corpo-leading-normal);
+  color: var(--corpo-text-secondary);
+}
+
+.cp-license-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* Tier modifiers — last so they beat the blocks' --tier-color defaults.
+   Fills mirror cp-badge's subtle backgrounds (incl. its rgba purple). */
+.cp-tier--free {
+  --tier-color: var(--corpo-text-muted);
+  --tier-fill: var(--corpo-bg-inset);
+}
+
+.cp-tier--standard {
+  --tier-color: var(--corpo-blue);
+  --tier-fill: var(--corpo-blue-subtle);
+}
+
+.cp-tier--professional {
+  --tier-color: var(--corpo-purple);
+  --tier-fill: rgba(103, 66, 201, 0.08);
+}
+
+.cp-tier--enterprise {
+  --tier-color: var(--corpo-amber);
+  --tier-fill: var(--corpo-amber-subtle);
+}

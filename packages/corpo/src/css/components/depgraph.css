@@ -1,0 +1,259 @@
+/* ── Dependency graph scene ──────────────────────────────────────────────── */
+/*
+  Token-only milestone/initiative dependency graph. Geometry is SVG (laid out
+  in JS by depgraph.js); node frames, edges, states, and the tooltip are CSS.
+
+  Structure:
+    .cp-depgraph
+      svg.cp-depgraph__svg > g.cp-depgraph__viewport
+        text.cp-depgraph__tier-label
+        g.cp-depgraph__edges > path.cp-depgraph-edge
+        g.cp-depgraph__nodes > g.cp-depgraph-node > rect.cp-depgraph-node__frame + circle + texts
+      .cp-depgraph__tip
+
+  Node states: is-blocked / is-ready / is-in-progress / is-done
+  plus is-selected / is-related / is-hovered.
+  Per-node hooks: --node-color (stroke + dot), --node-fill (frame fill) —
+  both default from the state's semantic status tokens.
+*/
+
+.cp-depgraph {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(90deg, var(--corpo-border-dim) 1px, transparent 1px),
+    linear-gradient(0deg, var(--corpo-border-dim) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-color: var(--corpo-bg-panel);
+  color: var(--corpo-text);
+  font-family: var(--corpo-font-sans);
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.cp-depgraph:active { cursor: grabbing; }
+
+.cp-depgraph__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cp-depgraph__viewport {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.cp-depgraph__tier-label {
+  fill: var(--corpo-text-dim);
+  font-family: var(--corpo-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--corpo-label-tracking);
+  text-transform: uppercase;
+  text-anchor: middle;
+}
+
+/* Edges — neutral until the dependency resolves; the selection chain gets accent. */
+.cp-depgraph-edge {
+  fill: none;
+  stroke: var(--corpo-border-strong);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  transition: stroke var(--corpo-dur) var(--corpo-ease), opacity var(--corpo-dur) var(--corpo-ease);
+}
+
+/* Dependency satisfied, successor actionable */
+.cp-depgraph-edge.is-active {
+  stroke: var(--corpo-grey-500);
+  stroke-dasharray: none;
+}
+
+/* Both ends done */
+.cp-depgraph-edge.is-done {
+  stroke: var(--corpo-green);
+  stroke-dasharray: none;
+  stroke-width: 1.6;
+}
+
+.cp-depgraph-edge.is-related {
+  stroke: var(--corpo-accent);
+  stroke-width: 2;
+}
+
+/* Nodes */
+.cp-depgraph-node {
+  cursor: pointer;
+  outline: none;
+}
+
+.cp-depgraph-node__frame {
+  fill: var(--node-fill);
+  stroke: var(--node-color);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  transition: fill var(--corpo-dur) var(--corpo-ease), stroke var(--corpo-dur) var(--corpo-ease), opacity var(--corpo-dur) var(--corpo-ease);
+}
+
+.cp-depgraph-node__dot {
+  fill: var(--node-color);
+  pointer-events: none;
+}
+
+.cp-depgraph-node__label {
+  fill: var(--corpo-text);
+  font-size: 12.5px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.cp-depgraph-node__owner {
+  fill: var(--corpo-text-muted);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.cp-depgraph-node__estimate {
+  fill: var(--corpo-text-muted);
+  font-family: var(--corpo-font-mono);
+  font-size: 11px;
+  text-anchor: end;
+  pointer-events: none;
+}
+
+/* Node states — the modifiers come last so they beat the block defaults. */
+.cp-depgraph-node {
+  --node-color: var(--corpo-grey-500);
+  --node-fill: var(--corpo-bg-inset);
+}
+
+.cp-depgraph-node.is-blocked .cp-depgraph-node__frame {
+  stroke: var(--corpo-border);
+  stroke-dasharray: 4 3;
+}
+
+.cp-depgraph-node.is-blocked .cp-depgraph-node__label { fill: var(--corpo-text-muted); }
+
+.cp-depgraph-node.is-ready {
+  --node-color: var(--corpo-blue);
+  --node-fill: var(--corpo-blue-subtle);
+}
+
+.cp-depgraph-node.is-in-progress {
+  --node-color: var(--corpo-amber);
+  --node-fill: var(--corpo-amber-subtle);
+}
+
+.cp-depgraph-node.is-done {
+  --node-color: var(--corpo-green);
+  --node-fill: var(--corpo-green-subtle);
+}
+
+/* Interaction states */
+.cp-depgraph-node.is-hovered .cp-depgraph-node__frame {
+  stroke-width: 1.8;
+}
+
+.cp-depgraph-node:focus-visible .cp-depgraph-node__frame,
+.cp-depgraph-node.is-selected .cp-depgraph-node__frame {
+  stroke: var(--corpo-accent);
+  stroke-width: 2;
+}
+
+.cp-depgraph-node.is-selected {
+  filter: drop-shadow(0 2px 6px rgba(16, 22, 35, 0.18));
+}
+
+.cp-depgraph.is-focusing
+  .cp-depgraph-node:not(.is-selected):not(.is-related):not(.is-hovered) {
+  opacity: 0.35;
+}
+
+.cp-depgraph.is-focusing .cp-depgraph-edge:not(.is-related) {
+  opacity: 0.3;
+}
+
+/* Tooltip — display gated on [hidden] so the attribute wins over this rule */
+.cp-depgraph__tip {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 260px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-md);
+  padding: 10px 12px;
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-secondary);
+}
+
+.cp-depgraph__tip:not([hidden]) {
+  display: flex;
+}
+
+.cp-depgraph__tip-title {
+  color: var(--corpo-text);
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+.cp-depgraph__tip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cp-depgraph__tip-row-label {
+  color: var(--corpo-text-muted);
+  flex-shrink: 0;
+}
+
+.cp-depgraph__tip-row-value {
+  color: var(--corpo-text);
+  text-align: right;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.cp-depgraph__tip-desc {
+  color: var(--corpo-text-secondary);
+  line-height: var(--corpo-leading-normal);
+}
+
+.cp-depgraph__tip-deps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid var(--corpo-border-dim);
+  margin-top: 2px;
+  padding-top: 6px;
+}
+
+.cp-depgraph__tip-deps-title {
+  color: var(--corpo-text-muted);
+  font-weight: 600;
+}
+
+.cp-depgraph__tip-dep {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--corpo-text-secondary);
+}
+
+.cp-depgraph__tip-dep-mark { flex-shrink: 0; }
+.cp-depgraph__tip-dep--met .cp-depgraph__tip-dep-mark { color: var(--corpo-green); }
+.cp-depgraph__tip-dep--unmet .cp-depgraph__tip-dep-mark { color: var(--corpo-amber); }
