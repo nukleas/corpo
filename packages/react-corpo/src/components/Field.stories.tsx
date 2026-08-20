@@ -13,15 +13,15 @@ type Story = StoryObj<typeof Field>;
 
 export const Default: Story = {
   render: () => (
-    <Field label="Company registration number" hint="Found on your certificate of incorporation.">
-      <Input placeholder="e.g. 04123456" />
+    <Field label="Employer identification number" hint="Found on your IRS confirmation letter.">
+      <Input placeholder="e.g. 12-3456789" />
     </Field>
   ),
 };
 export const WithError: Story = {
   render: () => (
-    <Field label="VAT number" required error="Enter a valid VAT number to continue.">
-      <Input error defaultValue="GB000" />
+    <Field label="Tax ID" required error="Enter a valid EIN to continue.">
+      <Input error defaultValue="12-345" />
     </Field>
   ),
 };

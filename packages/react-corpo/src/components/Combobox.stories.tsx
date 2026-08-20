@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Combobox } from './Combobox';
 
 const options = [
-  { value: 'acme', label: 'Acme Ltd' },
+  { value: 'acme', label: 'Acme Inc.' },
   { value: 'northwind', label: 'Northwind Traders' },
   { value: 'globex', label: 'Globex Corporation' },
   { value: 'initech', label: 'Initech' },

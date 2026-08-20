@@ -54,9 +54,9 @@
   <section>
     <h2>Form controls</h2>
     <div class="demo-col">
-      <input class="cp-input" placeholder="Company registration number" />
+      <input class="cp-input" placeholder="Employer identification number" />
       <input class="cp-input cp-input--accent" placeholder="Search invoices…" />
-      <input class="cp-input cp-input--error" value="GB000" />
+      <input class="cp-input cp-input--error" value="12-345" />
       <textarea class="cp-textarea" placeholder="Add a note for the reviewer…"></textarea>
       <span class="cp-select">
         <select class="cp-select__control"><option>Net 30</option><option>Net 60</option></select>
@@ -102,7 +102,7 @@
       <span class="cp-badge cp-badge--red"><span class="cp-badge__dot"></span>Overdue</span>
       <div class="cp-stat">
         <span class="cp-stat__label">Monthly recurring revenue</span>
-        <span class="cp-stat__row"><span class="cp-stat__value">£48,120</span><span class="cp-stat__delta cp-stat__delta--up">+4.2%</span></span>
+        <span class="cp-stat__row"><span class="cp-stat__value">$48,120</span><span class="cp-stat__delta cp-stat__delta--up">+4.2%</span></span>
       </div>
       <kbd class="cp-kbd">Esc</kbd>
       <span class="cp-kbd-group"><kbd class="cp-kbd">Cmd</kbd><span class="cp-kbd-group__sep">+</span><kbd class="cp-kbd">K</kbd></span>
@@ -117,9 +117,9 @@
         <table class="cp-table__table">
           <thead><tr><th>Invoice</th><th>Client</th><th data-numeric="true">Amount</th><th>Status</th></tr></thead>
           <tbody>
-            <tr><td>INV-2041</td><td>Acme Ltd</td><td data-numeric="true">£4,200.00</td><td><span class="cp-table__status cp-table__status--ok"></span>Paid</td></tr>
-            <tr><td>INV-2042</td><td>Northwind</td><td data-numeric="true">£1,180.00</td><td><span class="cp-table__status cp-table__status--warn"></span>Pending</td></tr>
-            <tr><td>INV-2043</td><td>Globex</td><td data-numeric="true">£860.00</td><td><span class="cp-table__status cp-table__status--err"></span>Overdue</td></tr>
+            <tr><td>INV-2041</td><td>Acme Inc.</td><td data-numeric="true">$4,200.00</td><td><span class="cp-table__status cp-table__status--ok"></span>Paid</td></tr>
+            <tr><td>INV-2042</td><td>Northwind</td><td data-numeric="true">$1,180.00</td><td><span class="cp-table__status cp-table__status--warn"></span>Pending</td></tr>
+            <tr><td>INV-2043</td><td>Globex</td><td data-numeric="true">$860.00</td><td><span class="cp-table__status cp-table__status--err"></span>Overdue</td></tr>
           </tbody>
         </table>
       </div>
@@ -153,7 +153,7 @@
     <h2>Feedback</h2>
     <div class="demo-col">
       <div class="cp-alert cp-alert--info">
-        <div class="cp-alert__content"><div class="cp-alert__title">Scheduled maintenance</div><div class="cp-alert__body">Statements will be delayed by up to an hour on 30 Aug.</div></div>
+        <div class="cp-alert__content"><div class="cp-alert__title">Scheduled maintenance</div><div class="cp-alert__body">Statements will be delayed by up to an hour on Aug 30.</div></div>
       </div>
       <div class="cp-alert cp-alert--error">
         <div class="cp-alert__content"><div class="cp-alert__title">Payment declined</div><div class="cp-alert__body">Card ending 4421 was declined.</div></div>
@@ -181,7 +181,7 @@
     <nav class="cp-breadcrumb" style="margin-top: 16px;" aria-label="Breadcrumb">
       <ol class="cp-breadcrumb__list">
         <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Invoices</a><span class="cp-breadcrumb__sep">/</span></li>
-        <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Acme Ltd</a><span class="cp-breadcrumb__sep">/</span></li>
+        <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Acme Inc.</a><span class="cp-breadcrumb__sep">/</span></li>
         <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current" aria-current="page">INV-2041</span></li>
       </ol>
     </nav>
@@ -232,7 +232,7 @@
     </div>
     <div class="demo-row" style="margin-top: 16px;">
       <span class="cp-input-group" style="width: 160px;">
-        <span class="cp-input-group__addon cp-input-group__addon--leading">£</span>
+        <span class="cp-input-group__addon cp-input-group__addon--leading">$</span>
         <input class="cp-input" value="4,200.00" />
       </span>
       <div class="cp-status-bar">
@@ -377,8 +377,8 @@
           <span class="cp-license-detail__category">Observability · Annual contract</span>
         </div>
         <div class="cp-license-detail__rows">
-          <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Cost per seat</span><span class="cp-license-detail__row-value">£28/mo</span></div>
-          <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Renewal</span><span class="cp-license-detail__row-value">1 Mar 2027</span></div>
+          <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Cost per seat</span><span class="cp-license-detail__row-value">$28/mo</span></div>
+          <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Renewal</span><span class="cp-license-detail__row-value">Mar 1, 2027</span></div>
           <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Seats in use</span><span class="cp-license-detail__row-value">9 of 12</span></div>
         </div>
         <div class="cp-license-detail__desc">

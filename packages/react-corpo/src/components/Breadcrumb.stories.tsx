@@ -8,7 +8,7 @@ const meta: Meta<typeof Breadcrumb> = {
   args: {
     items: [
       { label: 'Invoices', href: '/invoices' },
-      { label: 'Acme Ltd', href: '/invoices/acme' },
+      { label: 'Acme Inc.', href: '/invoices/acme' },
       { label: 'INV-2041' },
     ],
   },

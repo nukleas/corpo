@@ -27,7 +27,7 @@ export const Right: Story = {
           footer={<Button variant="primary" size="sm" onClick={() => setOpen(false)}>Save changes</Button>}
         >
           <Field label="Company name">
-            <Input defaultValue="Acme Ltd" />
+            <Input defaultValue="Acme Inc." />
           </Field>
         </Sheet>
       </>

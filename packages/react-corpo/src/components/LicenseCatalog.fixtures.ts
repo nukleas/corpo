@@ -9,8 +9,8 @@ export const LICENSES: LicenseItem[] = [
     category: 'Observability · Annual contract',
     seats: 12,
     details: [
-      { label: 'Cost per seat', value: '£28/mo' },
-      { label: 'Renewal', value: '1 Mar 2027' },
+      { label: 'Cost per seat', value: '$28/mo' },
+      { label: 'Renewal', value: 'Mar 1, 2027' },
       { label: 'Seats in use', value: '9 of 12' },
     ],
     desc: 'Metrics, traces, and log management for the platform group. Includes on-call paging integration.',
@@ -22,7 +22,7 @@ export const LICENSES: LicenseItem[] = [
     category: 'Design · Monthly',
     seats: 4,
     details: [
-      { label: 'Cost per seat', value: '£12/mo' },
+      { label: 'Cost per seat', value: '$12/mo' },
       { label: 'Renewal', value: 'Monthly' },
       { label: 'Seats in use', value: '4 of 4' },
     ],
@@ -35,8 +35,8 @@ export const LICENSES: LicenseItem[] = [
     category: 'Tracking · Annual contract',
     seats: 30,
     details: [
-      { label: 'Cost per seat', value: '£7/mo' },
-      { label: 'Renewal', value: '12 Oct 2026' },
+      { label: 'Cost per seat', value: '$7/mo' },
+      { label: 'Renewal', value: 'Oct 12, 2026' },
       { label: 'Seats in use', value: '22 of 30' },
     ],
     desc: 'Issue tracking and cycle planning for all product teams.',
@@ -56,7 +56,7 @@ export const LICENSES: LicenseItem[] = [
     category: 'Developer tools · Monthly',
     seats: 20,
     details: [
-      { label: 'Cost per seat', value: '£15/mo' },
+      { label: 'Cost per seat', value: '$15/mo' },
       { label: 'Renewal', value: 'Monthly' },
       { label: 'Seats in use', value: '14 of 20' },
     ],
@@ -68,8 +68,8 @@ export const LICENSES: LicenseItem[] = [
     category: 'Error monitoring · Annual contract',
     seats: 15,
     details: [
-      { label: 'Cost per seat', value: '£9/mo' },
-      { label: 'Renewal', value: '3 Jun 2027' },
+      { label: 'Cost per seat', value: '$9/mo' },
+      { label: 'Renewal', value: 'Jun 3, 2027' },
       { label: 'Seats in use', value: '11 of 15' },
     ],
   },

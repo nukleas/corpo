@@ -18,7 +18,7 @@ export const FilterRow: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 8 }}>
       <Chip onRemove={() => {}}>Status: Overdue</Chip>
-      <Chip onRemove={() => {}}>Client: Acme Ltd</Chip>
+      <Chip onRemove={() => {}}>Client: Acme Inc.</Chip>
     </div>
   ),
 };
