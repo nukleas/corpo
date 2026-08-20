@@ -30,3 +30,17 @@ export const AllVariants: Story = {
     </div>
   ),
 };
+
+/** `as="a"` renders a real anchor styled as a button — `href`, `target`, etc. typecheck. Any component (e.g. a router `Link`) works the same way. */
+export const AsLink: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 8 }}>
+      <Button as="a" href="https://github.com/nukleas/corpo" target="_blank" rel="noreferrer">
+        View repository
+      </Button>
+      <Button as="a" href="/reports/latest" variant="primary">
+        Open latest report
+      </Button>
+    </div>
+  ),
+};

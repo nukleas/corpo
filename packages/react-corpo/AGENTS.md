@@ -70,6 +70,16 @@ control. Don't reach for shorthand on simple one-off `ReactNode` slots
 Reference implementations: `Spreadsheet.Cell`, `Table.Cell`. Source study copy
 of semantic-ui-react lives in gitignored `_references/semantic-ui-react`.
 
+## `as` element polymorphism
+
+Components whose element genuinely varies by context take an `as` prop typed
+with `PolymorphicProps<C, OwnProps>` from `src/lib/polymorphic.ts` — the
+rendered element's attributes typecheck against `as` (`<Button as="a" href>`,
+`<Button as={Link} to>`). Data-driven item slots use a lighter form: an
+`as?: ElementType` on the item plus a `linkProps` passthrough (see
+`BreadcrumbItem`). Adopt `as` only where the swap is a real need (buttons as
+links, nav items as router links) — not as a blanket prop on every component.
+
 ## Discovering the CSS contract
 
 1. Read `../corpo/src/css/components/<x>.css` for modifiers (`.cp-x--*`) and parts (`.cp-x__*`).
