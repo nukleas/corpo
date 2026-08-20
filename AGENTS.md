@@ -16,6 +16,12 @@ cyber/terminal design system — same token-and-component skeleton, reworked for
 no emoji). Cyberdesign's cyber-only families (Terminal, HUD, Scanner, Gauge, GlowCard, Ticker, etc.)
 are intentionally not ported.
 
+## Engineering principles
+
+- Do not preserve backward compatibility inside the monorepo: remove obsolete classes, props, and tokens instead of aliasing or shimming them, and update both packages + demo harness + stories in the same change. Because `corpo`/`react-corpo` are published to npm, breaking changes ship as a semver bump with a changelog note — never as runtime compat layers.
+- Choose the simplest implementation that meets the current requirement. No speculative props, variants, or theme knobs for hypothetical futures.
+- Grow in layers: CSS source of truth first, thin React mapping second. Never leave a component half-migrated across the two packages.
+
 ## Package roles
 
 | Package | Responsibility |
