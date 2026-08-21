@@ -86,6 +86,56 @@
   </section>
 
   <section>
+    <h2>Dropzone</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
+      <div class="cp-dropzone" style="max-width: 360px; flex: 1 1 280px;">
+        <div class="cp-dropzone__area">
+          <input type="file" class="cp-dropzone__input" accept=".pdf,.xlsx,.csv" multiple />
+          <p class="cp-dropzone__title">Drop files here or <button type="button" class="cp-dropzone__browse">browse</button></p>
+          <p class="cp-dropzone__hint">PDF, XLSX, or CSV · 10 MB max</p>
+        </div>
+      </div>
+      <div class="cp-dropzone" style="max-width: 360px; flex: 1 1 280px;">
+        <div class="cp-dropzone__area is-dragover">
+          <input type="file" class="cp-dropzone__input" accept=".pdf,.xlsx,.csv" multiple />
+          <p class="cp-dropzone__title">Drop files here or <button type="button" class="cp-dropzone__browse">browse</button></p>
+          <p class="cp-dropzone__hint">PDF, XLSX, or CSV · 10 MB max</p>
+        </div>
+      </div>
+    </div>
+    <div class="cp-dropzone" style="max-width: 440px; margin-top: 16px;">
+      <div class="cp-dropzone__area">
+        <input type="file" class="cp-dropzone__input" accept=".pdf,.xlsx,.csv" multiple />
+        <p class="cp-dropzone__title">Drop files here or <button type="button" class="cp-dropzone__browse">browse</button></p>
+        <p class="cp-dropzone__hint">PDF, XLSX, or CSV · 10 MB max</p>
+      </div>
+      <ul class="cp-dropzone__files">
+        <li class="cp-dropzone__file">
+          <span class="cp-dropzone__file-name">acme-w9-2026.pdf</span>
+          <span class="cp-dropzone__file-size">240.0 KB</span>
+          <button type="button" class="cp-dropzone__remove" aria-label="Remove acme-w9-2026.pdf">×</button>
+        </li>
+        <li class="cp-dropzone__file is-uploading">
+          <span class="cp-dropzone__file-name">q3-payroll-export.xlsx</span>
+          <span class="cp-dropzone__file-size">2.4 MB</span>
+          <button type="button" class="cp-dropzone__remove" aria-label="Remove q3-payroll-export.xlsx">×</button>
+          <div class="cp-progress">
+            <div role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" class="cp-progress__track">
+              <div class="cp-progress__fill" style="width: 62%"></div>
+            </div>
+          </div>
+        </li>
+        <li class="cp-dropzone__file is-error">
+          <span class="cp-dropzone__file-name">vendor-statement.csv</span>
+          <span class="cp-dropzone__file-size">14.8 MB</span>
+          <button type="button" class="cp-dropzone__remove" aria-label="Remove vendor-statement.csv">×</button>
+          <p class="cp-dropzone__file-error">File exceeds 10 MB</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
     <h2>Display</h2>
     <div class="demo-row">
       <div class="cp-card" style="max-width: 280px;">
@@ -525,6 +575,98 @@
         <span class="cp-stepper__label">Issue purchase order</span>
       </li>
     </ol>
+  </section>
+
+  <section>
+    <h2>Tree view</h2>
+    <ul class="cp-tree" role="tree" aria-label="Organization" style="max-width: 360px;">
+      <li class="cp-tree__node" role="none">
+        <div class="cp-tree__row" style="--cp-tree-depth: 0" data-depth="0">
+          <button type="button" class="cp-tree__toggle" aria-label="Collapse Acme Holdings">
+            <span class="cp-tree__chevron is-open" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="cp-tree__item" role="treeitem" aria-expanded="true" aria-selected="false">
+            <span class="cp-tree__label">Acme Holdings</span>
+          </button>
+        </div>
+        <ul class="cp-tree__group" role="group">
+          <li class="cp-tree__node" role="none">
+            <div class="cp-tree__row" style="--cp-tree-depth: 1" data-depth="1">
+              <button type="button" class="cp-tree__toggle" aria-label="Collapse Finance">
+                <span class="cp-tree__chevron is-open" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="cp-tree__item" role="treeitem" aria-expanded="true" aria-selected="false">
+                <span class="cp-tree__label">Finance</span>
+              </button>
+            </div>
+            <ul class="cp-tree__group" role="group">
+              <li class="cp-tree__node" role="none">
+                <div class="cp-tree__row is-selected" style="--cp-tree-depth: 2" data-depth="2">
+                  <span class="cp-tree__spacer" aria-hidden="true"></span>
+                  <button type="button" class="cp-tree__item" role="treeitem" aria-selected="true">
+                    <span class="cp-tree__label">Accounts payable</span>
+                  </button>
+                </div>
+              </li>
+              <li class="cp-tree__node" role="none">
+                <div class="cp-tree__row" style="--cp-tree-depth: 2" data-depth="2">
+                  <span class="cp-tree__spacer" aria-hidden="true"></span>
+                  <button type="button" class="cp-tree__item" role="treeitem" aria-selected="false">
+                    <span class="cp-tree__label">Payroll</span>
+                  </button>
+                </div>
+              </li>
+              <li class="cp-tree__node" role="none">
+                <div class="cp-tree__row" style="--cp-tree-depth: 2" data-depth="2">
+                  <span class="cp-tree__spacer" aria-hidden="true"></span>
+                  <button type="button" class="cp-tree__item" role="treeitem" aria-selected="false">
+                    <span class="cp-tree__label">Treasury operations</span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="cp-tree__node" role="none">
+            <div class="cp-tree__row" style="--cp-tree-depth: 1" data-depth="1">
+              <button type="button" class="cp-tree__toggle" aria-label="Collapse People and culture">
+                <span class="cp-tree__chevron is-open" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="cp-tree__item" role="treeitem" aria-expanded="true" aria-selected="false">
+                <span class="cp-tree__label">People and culture</span>
+              </button>
+            </div>
+            <ul class="cp-tree__group" role="group">
+              <li class="cp-tree__node" role="none">
+                <div class="cp-tree__row" style="--cp-tree-depth: 2" data-depth="2">
+                  <span class="cp-tree__spacer" aria-hidden="true"></span>
+                  <button type="button" class="cp-tree__item" role="treeitem" aria-selected="false">
+                    <span class="cp-tree__label">Recruiting</span>
+                  </button>
+                </div>
+              </li>
+              <li class="cp-tree__node" role="none">
+                <div class="cp-tree__row" style="--cp-tree-depth: 2" data-depth="2">
+                  <span class="cp-tree__spacer" aria-hidden="true"></span>
+                  <button type="button" class="cp-tree__item" role="treeitem" aria-selected="false">
+                    <span class="cp-tree__label">Benefits administration</span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="cp-tree__node" role="none">
+            <div class="cp-tree__row" style="--cp-tree-depth: 1" data-depth="1">
+              <button type="button" class="cp-tree__toggle" aria-label="Expand Legal">
+                <span class="cp-tree__chevron" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="cp-tree__item" role="treeitem" aria-expanded="false" aria-selected="false">
+                <span class="cp-tree__label">Legal</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </section>
 
   <section>
