@@ -73,3 +73,6 @@ export * from './components/LicenseDetail';
 export * from './components/DescriptionList';
 export * from './components/Timeline';
 export * from './components/Stepper';
+export * from './components/AppShell';
+export * from './components/SideNav';
+export * from './components/Topbar';
