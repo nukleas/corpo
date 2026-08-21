@@ -73,3 +73,5 @@ export * from './components/LicenseDetail';
 export * from './components/DescriptionList';
 export * from './components/Timeline';
 export * from './components/Stepper';
+export * from './components/Dropzone';
+export * from './components/TreeView';
