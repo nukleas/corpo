@@ -257,6 +257,9 @@ const bundle = [
   '/* Component: Stepper */\n',
   readCss('components/stepper.css'),
   '\n',
+  '/* Component: Charts (CpLineChart + CpBarChart + CpSparkline) */\n',
+  readCss('components/charts.css'),
+  '\n',
 ].join('');
 
 writeFileSync(join(DIST, 'corpo.css'), bundle);

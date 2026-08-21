@@ -47,6 +47,10 @@
     "./depgraph": {
       "types": "./src/js/depgraph.d.ts",
       "default": "./src/js/depgraph.js"
+    },
+    "./charts": {
+      "types": "./src/js/charts.d.ts",
+      "default": "./src/js/charts.js"
     }
   },
   "scripts": {

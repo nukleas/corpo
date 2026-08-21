@@ -20,6 +20,12 @@ export const darkTheme: Record<string, string> = {
   'red': '#f26d88',
   'amber': '#d9a03c',
   'blue': '#7ba4f0',
+  // chart series — muted dark-surface steps (validated on #151b24), same fixed order
+  'chart-1': '#0d9cb5',
+  'chart-2': '#c9762e',
+  'chart-3': '#5b83d6',
+  'chart-4': '#d44f92',
+  'chart-5': '#7a68e0',
   'shadow-sm': '0 1px 2px rgba(0, 0, 0, 0.4)',
   'shadow-md': '0 2px 8px rgba(0, 0, 0, 0.45)',
   'shadow-lg': '0 8px 28px rgba(0, 0, 0, 0.55)',

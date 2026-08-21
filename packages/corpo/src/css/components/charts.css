@@ -1,0 +1,209 @@
+/* ── Charts (CpLineChart / CpBarChart / CpSparkline) ─────────────────────── */
+/*
+  Token-only chart chrome. Geometry is SVG (laid out in JS by charts.js);
+  series colors, grid, axis text, legend, and the tooltip are CSS.
+
+  Structure:
+    .cp-chart (--line / --bar)
+      .cp-chart__legend > .cp-chart__legend-item > .cp-chart__legend-chip
+      .cp-chart__plot > svg.cp-chart__svg + .cp-chart__tip
+    .cp-sparkline > svg.cp-sparkline__svg
+
+  Series color hook: --series-color, set by the fixed categorical classes
+  .cp-chart-series--1…5 (never re-assigned when series are filtered).
+  Status colors are reserved for status and are never series colors.
+*/
+
+.cp-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  font-family: var(--corpo-font-sans);
+  color: var(--corpo-text);
+}
+
+.cp-chart__plot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.cp-chart__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Fixed categorical assignment — see tokens/semantic.ts for the validated set */
+.cp-chart-series--1 { --series-color: var(--corpo-chart-1); }
+.cp-chart-series--2 { --series-color: var(--corpo-chart-2); }
+.cp-chart-series--3 { --series-color: var(--corpo-chart-3); }
+.cp-chart-series--4 { --series-color: var(--corpo-chart-4); }
+.cp-chart-series--5 { --series-color: var(--corpo-chart-5); }
+/* 6th+ series render neutral — fold extras into an "Other" series instead */
+.cp-chart-series--overflow { --series-color: var(--corpo-grey-500); }
+
+/* Recessive grid and axes — hairlines, dim text */
+.cp-chart__grid {
+  stroke: var(--corpo-border-dim);
+  stroke-width: 1;
+}
+
+.cp-chart__baseline {
+  stroke: var(--corpo-border-strong);
+  stroke-width: 1;
+}
+
+.cp-chart__y-label {
+  fill: var(--corpo-text-dim);
+  font-size: 11px;
+  text-anchor: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.cp-chart__x-label {
+  fill: var(--corpo-text-dim);
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+/* Marks — thin lines, rounded-top bars, 8px hover markers */
+.cp-chart__line {
+  fill: none;
+  stroke: var(--series-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cp-chart__bar {
+  fill: var(--series-color);
+  transition: opacity var(--corpo-dur-fast) var(--corpo-ease);
+}
+
+.cp-chart__bar.is-hovered {
+  opacity: 0.8;
+}
+
+.cp-chart__marker {
+  fill: var(--series-color);
+  stroke: var(--corpo-bg-panel); /* 2px surface ring on overlapping marks */
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.cp-chart__crosshair {
+  stroke: var(--corpo-border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+
+.cp-chart__overlay {
+  fill: transparent;
+  cursor: crosshair;
+}
+
+/* Legend — HTML row above the plot; text wears text tokens, chips carry color */
+.cp-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-secondary);
+}
+
+.cp-chart__legend[hidden] { display: none; }
+
+.cp-chart__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cp-chart__legend-chip {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--corpo-radius);
+  background: var(--series-color);
+  flex-shrink: 0;
+}
+
+/* Tooltip — display gated on [hidden] so the attribute wins over this rule */
+.cp-chart__tip {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 240px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-md);
+  padding: 8px 10px;
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-secondary);
+}
+
+.cp-chart__tip:not([hidden]) {
+  display: flex;
+}
+
+.cp-chart__tip-title {
+  color: var(--corpo-text);
+  font-weight: 600;
+}
+
+.cp-chart__tip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cp-chart__tip-label {
+  color: var(--corpo-text-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-chart__tip-value {
+  margin-left: auto;
+  color: var(--corpo-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sparkline — inline trend for stat tiles */
+.cp-sparkline {
+  --series-color: var(--corpo-chart-1);
+  display: inline-block;
+  width: 120px;
+  height: 32px;
+  vertical-align: middle;
+}
+
+.cp-sparkline__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cp-sparkline__line {
+  fill: none;
+  stroke: var(--series-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cp-sparkline__dot {
+  fill: var(--series-color);
+}

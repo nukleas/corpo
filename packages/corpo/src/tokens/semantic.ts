@@ -47,6 +47,16 @@ export const semanticTokens: Record<string, string> = {
   'amber-subtle': palette.amberSubtle,
   'blue-subtle': palette.blueSubtle,
 
+  // categorical chart series — fixed assignment order, never cycled; >5 series
+  // fold into "Other". CVD-validated (six-check palette validator) on white;
+  // themes/dark.ts carries the dark-surface steps. Status colors stay reserved
+  // for status and are never chart series.
+  'chart-1': '#00819c',
+  'chart-2': '#b35100',
+  'chart-3': '#2758c0',
+  'chart-4': '#ad1a7d',
+  'chart-5': '#6742c9',
+
   // default accent theme (teal) — amber/green/red/steel override just this block via .theme-*
   'accent': palette.teal,
   'accent-strong': '#0a5460',

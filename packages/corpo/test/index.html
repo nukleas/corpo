@@ -527,6 +527,27 @@
     </ol>
   </section>
 
+  <section>
+    <h2>Charts</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch;">
+      <div class="cp-card cp-card--flat" style="flex: 3 1 320px; min-width: 0; height: 280px; padding: 12px 16px;">
+        <div id="linechart-demo" style="height: 100%;"></div>
+      </div>
+      <div class="cp-card cp-card--flat" style="flex: 2 1 260px; min-width: 0; height: 280px; padding: 12px 16px;">
+        <div id="barchart-demo" style="height: 100%;"></div>
+      </div>
+    </div>
+    <div class="demo-row" style="margin-top: 16px;">
+      <div class="cp-stat">
+        <span class="cp-stat__label">Weekly active seats</span>
+        <span class="cp-stat__row"><span class="cp-stat__value">1,284</span><span id="sparkline-demo" class="cp-sparkline"></span></span>
+      </div>
+    </div>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      Hover the line chart for the crosshair tooltip; hover a bar for its value.
+    </p>
+  </section>
+
   <div class="cp-modal-backdrop" id="demo-modal" style="display: none;">
     <div class="cp-modal" role="dialog" aria-modal="true">
       <div class="cp-modal__header">
@@ -601,6 +622,37 @@
           graph.replaceModel({ nodes });
         },
       });
+    }).catch(() => {});
+
+    // ── Charts: revenue trend, hiring by quarter, sparkline ──
+    import('../src/js/charts.js').then(({ CpLineChart, CpBarChart, CpSparkline }) => {
+      const money = (v) => '$' + Number(v).toLocaleString('en-US');
+      const line = document.getElementById('linechart-demo');
+      if (line) {
+        CpLineChart(line, {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+          series: [
+            { label: 'Revenue', data: [128000, 132500, 141200, 138900, 149800, 155200, 161700, 168400] },
+            { label: 'Operating cost', data: [94000, 96200, 99800, 103500, 104100, 108900, 110300, 114600] },
+          ],
+          yFormat: money,
+        });
+      }
+      const bar = document.getElementById('barchart-demo');
+      if (bar) {
+        CpBarChart(bar, {
+          labels: ['Q1', 'Q2', 'Q3'],
+          series: [
+            { label: 'Engineering', data: [14, 18, 22] },
+            { label: 'Sales', data: [8, 11, 15] },
+            { label: 'Support', data: [5, 6, 9] },
+          ],
+        });
+      }
+      const spark = document.getElementById('sparkline-demo');
+      if (spark) {
+        CpSparkline(spark, { data: [1180, 1195, 1170, 1224, 1231, 1219, 1256, 1284] });
+      }
     }).catch(() => {});
   </script>
   <script>
