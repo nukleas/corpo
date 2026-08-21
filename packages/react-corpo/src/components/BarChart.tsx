@@ -14,14 +14,17 @@ export interface BarChartProps extends HTMLAttributes<HTMLDivElement> {
   labels?: string[];
   /** Tooltip value formatter. Defaults to en-US number formatting. */
   yFormat?: (value: number) => string;
+  /** Stack the series instead of grouping them (composition over time). @default false */
+  stacked?: boolean;
 }
 
 /**
- * Grouped bar chart — non-negative values, rounded data-ends, per-bar
- * tooltip, legend for 2+ series. Wraps the vanilla `CpBarChart` engine;
- * size it via the host element (it fills its container).
+ * Bar chart — non-negative values, grouped by default or stacked with
+ * `stacked`, rounded data-ends, 2px surface gaps, per-segment tooltip,
+ * legend for 2+ series. Wraps the vanilla `CpBarChart` engine; size it via
+ * the host element (it fills its container).
  */
-export function BarChart({ series, labels, yFormat, className = '', ...rest }: BarChartProps) {
+export function BarChart({ series, labels, yFormat, stacked = false, className = '', ...rest }: BarChartProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<ChartApi | null>(null);
   const mounted = useRef(false);
@@ -29,7 +32,7 @@ export function BarChart({ series, labels, yFormat, className = '', ...rest }: B
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return undefined;
-    const api = CpBarChart(host, { series, labels, yFormat });
+    const api = CpBarChart(host, { series, labels, yFormat, stacked });
     apiRef.current = api;
     return () => {
       api.destroy();
@@ -44,8 +47,8 @@ export function BarChart({ series, labels, yFormat, className = '', ...rest }: B
       mounted.current = true;
       return;
     }
-    apiRef.current?.update({ series, labels, yFormat });
-  }, [series, labels, yFormat]);
+    apiRef.current?.update({ series, labels, yFormat, stacked });
+  }, [series, labels, yFormat, stacked]);
 
   return <div ref={hostRef} className={cn('cp-chart', className)} {...rest} />;
 }
