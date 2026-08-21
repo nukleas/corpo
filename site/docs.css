@@ -1,0 +1,163 @@
+/* Docs-site chrome — layout only; all component styling comes from corpo.css */
+
+html, body { height: 100%; }
+body { margin: 0; }
+
+.docs-shell { height: 100vh; }
+
+.docs-content { max-width: 760px; }
+
+.docs-prose h1 {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xl);
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+
+.docs-prose .lede {
+  font-size: var(--corpo-text-base);
+  color: var(--corpo-text-secondary);
+  line-height: var(--corpo-leading-relaxed);
+  max-width: 60ch;
+  margin: 0 0 32px;
+}
+
+.docs-prose h2 {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking-wide);
+  color: var(--corpo-text-muted);
+  margin: 40px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--corpo-border-dim);
+}
+
+.docs-prose h3 {
+  font-size: var(--corpo-text-base);
+  font-weight: 600;
+  margin: 24px 0 8px;
+}
+
+.docs-prose p,
+.docs-prose li {
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+  line-height: var(--corpo-leading-relaxed);
+}
+
+.docs-prose a { color: var(--corpo-accent); }
+
+.docs-prose code {
+  font-family: var(--corpo-font-mono);
+  font-size: 0.9em;
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius);
+  padding: 1px 5px;
+}
+
+.docs-prose pre {
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius-lg);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-sm);
+  line-height: 1.6;
+  color: var(--corpo-text);
+}
+
+.docs-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Live rendering of the snippet directly above/below a code block */
+.docs-example {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius-lg) var(--corpo-radius-lg) 0 0;
+  border-bottom: none;
+}
+
+.docs-example + pre {
+  margin-top: 0;
+  border-radius: 0 0 var(--corpo-radius-lg) var(--corpo-radius-lg);
+}
+
+.docs-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--corpo-text-sm);
+}
+
+.docs-prose table th {
+  text-align: left;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--corpo-border);
+}
+
+.docs-prose table td {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--corpo-border-dim);
+  color: var(--corpo-text-secondary);
+  vertical-align: top;
+}
+
+.docs-prose table td:first-child code { white-space: nowrap; }
+
+/* Theme swatch rows on the theming page */
+.docs-theme-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius-lg);
+  margin-bottom: 10px;
+  background: var(--corpo-bg-panel);
+}
+
+.docs-theme-row .docs-theme-name {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+  min-width: 96px;
+}
+
+ul.checks { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+ul.checks li { font-size: var(--corpo-text-sm); color: var(--corpo-text-secondary); line-height: var(--corpo-leading-relaxed); }
+
+.docs-footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--corpo-border-dim);
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.docs-footer a { color: var(--corpo-text-secondary); }
