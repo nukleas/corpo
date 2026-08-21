@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Getting started — Corpo</title>
+<meta name="description" content="Install Corpo and ship a first screen — plain CSS or the full React API." />
+<link rel="stylesheet" href="./dist/corpo.css" />
+<link rel="stylesheet" href="./docs.css" />
+</head>
+<body>
+  <div class="cp-shell docs-shell" id="docs-shell">
+    <aside class="cp-shell__sidebar">
+      <nav class="cp-sidenav">
+        <div class="cp-sidenav__brand">Corpo</div>
+        <div class="cp-sidenav__sections">
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Documentation</div>
+            <a class="cp-sidenav__item" href="./"><span class="cp-sidenav__item-label">Overview</span></a>
+            <a class="cp-sidenav__item is-active" aria-current="page" href="./getting-started.html"><span class="cp-sidenav__item-label">Getting started</span></a>
+            <a class="cp-sidenav__item" href="./theming.html"><span class="cp-sidenav__item-label">Theming</span></a>
+            <a class="cp-sidenav__item" href="./patterns.html"><span class="cp-sidenav__item-label">Patterns</span></a>
+          </div>
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Reference</div>
+            <a class="cp-sidenav__item" href="./storybook/"><span class="cp-sidenav__item-label">Storybook</span></a>
+            <a class="cp-sidenav__item" href="./demo/"><span class="cp-sidenav__item-label">Visual demo</span></a>
+            <a class="cp-sidenav__item" href="./console/"><span class="cp-sidenav__item-label">Console example</span></a>
+          </div>
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Project</div>
+            <a class="cp-sidenav__item" href="https://github.com/nukleas/corpo"><span class="cp-sidenav__item-label">GitHub</span></a>
+            <a class="cp-sidenav__item" href="https://www.npmjs.com/package/@nukleas/corpo"><span class="cp-sidenav__item-label">npm</span></a>
+          </div>
+        </div>
+        <div class="cp-sidenav__footer">
+          <span class="cp-badge cp-badge--accent">v0.2.0</span>
+        </div>
+      </nav>
+    </aside>
+    <button type="button" class="cp-shell__scrim" id="docs-scrim" aria-label="Close navigation"></button>
+    <div class="cp-shell__main">
+      <header class="cp-topbar">
+        <button type="button" class="cp-topbar__nav-toggle" id="docs-nav-toggle" aria-label="Open navigation"><span class="cp-topbar__nav-toggle-icon" aria-hidden="true"></span></button>
+        <div class="cp-topbar__title">Getting started</div>
+        <div class="cp-topbar__spacer"></div>
+        <div class="cp-topbar__actions">
+          <a class="cp-btn cp-btn--sm" href="https://github.com/nukleas/corpo">View on GitHub</a>
+        </div>
+      </header>
+      <main class="cp-shell__content">
+        <div class="docs-content docs-prose">
+          <h1>Getting started</h1>
+          <p class="lede">
+            Corpo ships as two packages: <code>@nukleas/corpo</code> is the source of visual truth —
+            tokens and plain CSS components — and <code>@nukleas/react-corpo</code> is the full React
+            API on top of it. Use the CSS alone in any stack, or the React package for semantic props.
+          </p>
+
+          <h2>Install</h2>
+<pre><code># CSS + tokens only
+npm install @nukleas/corpo
+
+# Full React API (includes the CSS)
+npm install @nukleas/react-corpo</code></pre>
+
+          <h2>Plain CSS</h2>
+          <p>Import the bundle once, then use <code>cp-</code> classes. Everything below is live:</p>
+          <div class="docs-example">
+            <button class="cp-btn cp-btn--primary">Save changes</button>
+            <button class="cp-btn">Cancel</button>
+            <span class="cp-badge cp-badge--green"><span class="cp-badge__dot"></span>Paid</span>
+            <span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--ok"></span>Operational</span>
+          </div>
+<pre><code>import '@nukleas/corpo';
+
+&lt;button class="cp-btn cp-btn--primary"&gt;Save changes&lt;/button&gt;
+&lt;button class="cp-btn"&gt;Cancel&lt;/button&gt;
+&lt;span class="cp-badge cp-badge--green"&gt;&lt;span class="cp-badge__dot"&gt;&lt;/span&gt;Paid&lt;/span&gt;
+&lt;span class="cp-status-pill"&gt;&lt;span class="cp-status-dot cp-status-dot--ok"&gt;&lt;/span&gt;Operational&lt;/span&gt;</code></pre>
+
+          <h2>React</h2>
+<pre><code>import { AppShell, SideNav, Topbar, Button, Table } from '@nukleas/react-corpo';
+import '@nukleas/react-corpo/styles.css';
+
+&lt;Table
+  columns={[
+    { key: 'id', label: 'Invoice', mono: true },
+    { key: 'amount', label: 'Amount', numeric: true },
+    { key: 'status', label: 'Status' },
+  ]}
+  rows={[
+    { id: 'INV-2041', amount: '$4,200.00', status: { content: 'Paid', status: 'ok' } },
+  ]}
+/&gt;</code></pre>
+          <p>
+            Every component is documented with props and variants in
+            <a href="./storybook/">Storybook</a> — including three full-app
+            <a href="./storybook/?path=/story/examples-billing-workspace--default">example screens</a>
+            built entirely from the system.
+          </p>
+
+          <h2>Package exports</h2>
+          <table>
+            <thead><tr><th>Import</th><th>What you get</th></tr></thead>
+            <tbody>
+              <tr><td><code>@nukleas/corpo</code></td><td>The full CSS bundle (also <code>/css</code>)</td></tr>
+              <tr><td><code>@nukleas/corpo/vars</code></td><td>CSS custom properties only — bring your own components</td></tr>
+              <tr><td><code>@nukleas/corpo/tailwind</code></td><td>Tokens exposed to Tailwind v4 via <code>@theme</code></td></tr>
+              <tr><td><code>@nukleas/corpo/tokens</code></td><td>TypeScript token objects</td></tr>
+              <tr><td><code>@nukleas/corpo/react</code></td><td>Thin class-mapping React wrappers</td></tr>
+              <tr><td><code>@nukleas/corpo/depgraph</code></td><td><code>CpDepGraph</code> — zero-dependency SVG dependency-graph engine</td></tr>
+              <tr><td><code>@nukleas/corpo/charts</code></td><td><code>CpLineChart</code>, <code>CpBarChart</code>, <code>CpDonutChart</code>, <code>CpSparkline</code></td></tr>
+              <tr><td><code>@nukleas/react-corpo</code></td><td>80+ React components with semantic props</td></tr>
+              <tr><td><code>@nukleas/react-corpo/styles.css</code></td><td>The corpo CSS bundle, copied for one-line setup</td></tr>
+            </tbody>
+          </table>
+
+          <h2>Vanilla scene engines</h2>
+          <p>
+            The dependency graph and charts are framework-free engines: JS owns geometry and
+            interaction, token-only CSS owns every color. Mount them on any element:
+          </p>
+<pre><code>import { CpLineChart } from '@nukleas/corpo/charts';
+
+const chart = CpLineChart(document.querySelector('#revenue'), {
+  labels: ['Jan', 'Feb', 'Mar'],
+  series: [{ label: 'Revenue', data: [128000, 132500, 141200] }],
+  yFormat: (v) =&gt; `$${v.toLocaleString('en-US')}`,
+});
+chart.update({ series: nextSeries });   // controlled — re-render with new data
+chart.destroy();</code></pre>
+
+          <footer class="docs-footer">
+            <span>MIT licensed</span>
+            <a href="https://github.com/nukleas/corpo">github.com/nukleas/corpo</a>
+          </footer>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    const shell = document.getElementById('docs-shell');
+    document.getElementById('docs-nav-toggle').addEventListener('click', () => shell.classList.add('cp-shell--nav-open'));
+    document.getElementById('docs-scrim').addEventListener('click', () => shell.classList.remove('cp-shell--nav-open'));
+  </script>
+</body>
+</html>

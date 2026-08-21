@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Theming — Corpo</title>
+<meta name="description" content="Corpo's accent themes, dark scope, and design tokens." />
+<link rel="stylesheet" href="./dist/corpo.css" />
+<link rel="stylesheet" href="./docs.css" />
+</head>
+<body>
+  <div class="cp-shell docs-shell" id="docs-shell">
+    <aside class="cp-shell__sidebar">
+      <nav class="cp-sidenav">
+        <div class="cp-sidenav__brand">Corpo</div>
+        <div class="cp-sidenav__sections">
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Documentation</div>
+            <a class="cp-sidenav__item" href="./"><span class="cp-sidenav__item-label">Overview</span></a>
+            <a class="cp-sidenav__item" href="./getting-started.html"><span class="cp-sidenav__item-label">Getting started</span></a>
+            <a class="cp-sidenav__item is-active" aria-current="page" href="./theming.html"><span class="cp-sidenav__item-label">Theming</span></a>
+            <a class="cp-sidenav__item" href="./patterns.html"><span class="cp-sidenav__item-label">Patterns</span></a>
+          </div>
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Reference</div>
+            <a class="cp-sidenav__item" href="./storybook/"><span class="cp-sidenav__item-label">Storybook</span></a>
+            <a class="cp-sidenav__item" href="./demo/"><span class="cp-sidenav__item-label">Visual demo</span></a>
+            <a class="cp-sidenav__item" href="./console/"><span class="cp-sidenav__item-label">Console example</span></a>
+          </div>
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Project</div>
+            <a class="cp-sidenav__item" href="https://github.com/nukleas/corpo"><span class="cp-sidenav__item-label">GitHub</span></a>
+            <a class="cp-sidenav__item" href="https://www.npmjs.com/package/@nukleas/corpo"><span class="cp-sidenav__item-label">npm</span></a>
+          </div>
+        </div>
+        <div class="cp-sidenav__footer">
+          <span class="cp-badge cp-badge--accent">v0.2.0</span>
+        </div>
+      </nav>
+    </aside>
+    <button type="button" class="cp-shell__scrim" id="docs-scrim" aria-label="Close navigation"></button>
+    <div class="cp-shell__main">
+      <header class="cp-topbar">
+        <button type="button" class="cp-topbar__nav-toggle" id="docs-nav-toggle" aria-label="Open navigation"><span class="cp-topbar__nav-toggle-icon" aria-hidden="true"></span></button>
+        <div class="cp-topbar__title">Theming</div>
+        <div class="cp-topbar__spacer"></div>
+        <div class="cp-topbar__actions">
+          <a class="cp-btn cp-btn--sm" href="https://github.com/nukleas/corpo">View on GitHub</a>
+        </div>
+      </header>
+      <main class="cp-shell__content">
+        <div class="docs-content docs-prose">
+          <h1>Theming</h1>
+          <p class="lede">
+            Teal is the default accent and needs no class. Four more accent families apply with a
+            single <code>theme-*</code> class on any ancestor, and a heritage dark scope is available
+            as <code>corpo-dark</code>. Every color in the system resolves through
+            <code>--corpo-*</code> tokens.
+          </p>
+
+          <h2>Accent themes</h2>
+          <p>Each row below is the same markup inside a different theme scope:</p>
+          <div class="docs-theme-row">
+            <span class="docs-theme-name">Teal</span>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">Save changes</button>
+            <span class="cp-badge cp-badge--accent">Accent</span>
+          </div>
+          <div class="docs-theme-row theme-amber">
+            <span class="docs-theme-name">Amber</span>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">Save changes</button>
+            <span class="cp-badge cp-badge--accent">Accent</span>
+          </div>
+          <div class="docs-theme-row theme-green">
+            <span class="docs-theme-name">Green</span>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">Save changes</button>
+            <span class="cp-badge cp-badge--accent">Accent</span>
+          </div>
+          <div class="docs-theme-row theme-red">
+            <span class="docs-theme-name">Red</span>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">Save changes</button>
+            <span class="cp-badge cp-badge--accent">Accent</span>
+          </div>
+          <div class="docs-theme-row theme-steel">
+            <span class="docs-theme-name">Steel</span>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">Save changes</button>
+            <span class="cp-badge cp-badge--accent">Accent</span>
+          </div>
+<pre><code>&lt;html class="theme-amber"&gt;          &lt;!-- plain CSS --&gt;
+
+&lt;ThemeProvider theme="amber"&gt;       // React
+  &lt;App /&gt;
+&lt;/ThemeProvider&gt;</code></pre>
+
+          <h2>Dark scope</h2>
+          <div class="docs-theme-row corpo-dark" style="background: var(--corpo-bg);">
+            <span class="docs-theme-name">Dark</span>
+            <button class="cp-btn cp-btn--primary cp-btn--sm">Save changes</button>
+            <span class="cp-badge cp-badge--accent">Accent</span>
+            <span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--ok"></span>Operational</span>
+          </div>
+          <p>
+            Apply <code>corpo-dark</code> on an ancestor. Surfaces, borders, text tiers, status
+            colors, and the chart palette all carry dedicated dark-surface values — chart series in
+            particular use separately validated muted steps rather than a brightness flip.
+          </p>
+
+          <h2>Key tokens</h2>
+          <table>
+            <thead><tr><th>Token</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>--corpo-bg</code> / <code>--corpo-bg-panel</code></td><td>Page background / card and panel surfaces</td></tr>
+              <tr><td><code>--corpo-text</code> … <code>--corpo-text-dim</code></td><td>Four text tiers, all WCAG AA on light surfaces</td></tr>
+              <tr><td><code>--corpo-accent</code> / <code>--corpo-accent-strong</code> / <code>--corpo-accent-subtle</code></td><td>The active theme's accent family</td></tr>
+              <tr><td><code>--corpo-green/red/amber/blue</code> + <code>-subtle</code></td><td>Status palette — reserved for status, never chart series</td></tr>
+              <tr><td><code>--corpo-chart-1</code> … <code>--corpo-chart-5</code></td><td>Categorical chart series, CVD-validated, fixed order</td></tr>
+              <tr><td><code>--corpo-border</code> / <code>-dim</code> / <code>-strong</code></td><td>Border weights</td></tr>
+              <tr><td><code>--corpo-radius</code> / <code>--corpo-radius-lg</code></td><td>2px controls, 4px surfaces</td></tr>
+              <tr><td><code>--corpo-shadow-sm/md/lg</code></td><td>Quiet elevation — no glow</td></tr>
+              <tr><td><code>--corpo-font-sans</code> / <code>--corpo-font-mono</code></td><td>Public Sans body, JetBrains Mono for labels and data</td></tr>
+            </tbody>
+          </table>
+
+          <h2>Tailwind v4</h2>
+<pre><code>/* globals.css */
+@import 'tailwindcss';
+@import '@nukleas/corpo/tailwind';
+
+/* then: bg-corpo-accent, text-corpo-text-muted, border-corpo-border-dim, … */</code></pre>
+
+          <footer class="docs-footer">
+            <span>MIT licensed</span>
+            <a href="https://github.com/nukleas/corpo">github.com/nukleas/corpo</a>
+          </footer>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    const shell = document.getElementById('docs-shell');
+    document.getElementById('docs-nav-toggle').addEventListener('click', () => shell.classList.add('cp-shell--nav-open'));
+    document.getElementById('docs-scrim').addEventListener('click', () => shell.classList.remove('cp-shell--nav-open'));
+  </script>
+</body>
+</html>

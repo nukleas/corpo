@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Patterns — Corpo</title>
+<meta name="description" content="The API conventions that hold Corpo together — shorthand slots, the as prop, and chart rules." />
+<link rel="stylesheet" href="./dist/corpo.css" />
+<link rel="stylesheet" href="./docs.css" />
+</head>
+<body>
+  <div class="cp-shell docs-shell" id="docs-shell">
+    <aside class="cp-shell__sidebar">
+      <nav class="cp-sidenav">
+        <div class="cp-sidenav__brand">Corpo</div>
+        <div class="cp-sidenav__sections">
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Documentation</div>
+            <a class="cp-sidenav__item" href="./"><span class="cp-sidenav__item-label">Overview</span></a>
+            <a class="cp-sidenav__item" href="./getting-started.html"><span class="cp-sidenav__item-label">Getting started</span></a>
+            <a class="cp-sidenav__item" href="./theming.html"><span class="cp-sidenav__item-label">Theming</span></a>
+            <a class="cp-sidenav__item is-active" aria-current="page" href="./patterns.html"><span class="cp-sidenav__item-label">Patterns</span></a>
+          </div>
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Reference</div>
+            <a class="cp-sidenav__item" href="./storybook/"><span class="cp-sidenav__item-label">Storybook</span></a>
+            <a class="cp-sidenav__item" href="./demo/"><span class="cp-sidenav__item-label">Visual demo</span></a>
+            <a class="cp-sidenav__item" href="./console/"><span class="cp-sidenav__item-label">Console example</span></a>
+          </div>
+          <div class="cp-sidenav__section">
+            <div class="cp-sidenav__section-title">Project</div>
+            <a class="cp-sidenav__item" href="https://github.com/nukleas/corpo"><span class="cp-sidenav__item-label">GitHub</span></a>
+            <a class="cp-sidenav__item" href="https://www.npmjs.com/package/@nukleas/corpo"><span class="cp-sidenav__item-label">npm</span></a>
+          </div>
+        </div>
+        <div class="cp-sidenav__footer">
+          <span class="cp-badge cp-badge--accent">v0.2.0</span>
+        </div>
+      </nav>
+    </aside>
+    <button type="button" class="cp-shell__scrim" id="docs-scrim" aria-label="Close navigation"></button>
+    <div class="cp-shell__main">
+      <header class="cp-topbar">
+        <button type="button" class="cp-topbar__nav-toggle" id="docs-nav-toggle" aria-label="Open navigation"><span class="cp-topbar__nav-toggle-icon" aria-hidden="true"></span></button>
+        <div class="cp-topbar__title">Patterns</div>
+        <div class="cp-topbar__spacer"></div>
+        <div class="cp-topbar__actions">
+          <a class="cp-btn cp-btn--sm" href="https://github.com/nukleas/corpo">View on GitHub</a>
+        </div>
+      </header>
+      <main class="cp-shell__content">
+        <div class="docs-content docs-prose">
+          <h1>Patterns</h1>
+          <p class="lede">
+            Three conventions, inspired by semantic-ui-react, hold the React API together:
+            shorthand slots for repeated items, the <code>as</code> prop for element polymorphism,
+            and fixed rules for chart color. Learn them once — they work the same everywhere.
+          </p>
+
+          <h2>Shorthand slots</h2>
+          <p>
+            Data-driven components with a repeated item slot accept <strong>shorthand</strong>: a bare
+            <code>string | number</code>, a props object, or a <code>&lt;Parent.Item&gt;</code>
+            element. <code>Table</code> rows and <code>Spreadsheet</code> rows both work this way:
+          </p>
+<pre><code>&lt;Table
+  columns={[{ key: 'amount', label: 'Amount', numeric: true }, { key: 'status', label: 'Status' }]}
+  rows={[
+    { amount: '$4,200.00', status: 'Paid' },                        // bare value
+    { amount: { content: 'Unlimited', numeric: false },             // props object
+      status: { content: 'Overdue', status: 'err' } },              // typed status dot
+  ]}
+/&gt;
+
+&lt;Spreadsheet
+  readOnly                                    // grid-level default…
+  rows={[[ 'Cash', 4200, { value: 5060, tone: 'muted' } ],
+         [ 'Growth %', &lt;Spreadsheet.Cell value="4.0" onValueChange={setGrowth} /&gt; ]]}
+/&gt;                                            // …that any cell overrides</code></pre>
+          <p>
+            Merge order is <code>defaultProps ← value's props ← overrideProps</code> — container
+            wiring goes in defaults, so an item's own props always win. Build your own with
+            <code>createShorthandFactory</code>, exported from the package.
+          </p>
+
+          <h2>The <code>as</code> prop</h2>
+          <p>
+            Components whose element genuinely varies take <code>as</code>, fully typed against the
+            rendered element — <code>href</code> without <code>as="a"</code> is a compile error:
+          </p>
+<pre><code>&lt;Button as="a" href="/reports/latest"&gt;Open latest report&lt;/Button&gt;
+&lt;Button as={Link} to="/invoices"&gt;Invoices&lt;/Button&gt;</code></pre>
+          <p>
+            Item slots use the lighter form — <code>as</code> plus a <code>linkProps</code>
+            passthrough — on <code>Breadcrumb</code>, <code>SideNav</code>, and
+            <code>Pagination</code> (where items are generated, <code>linkProps</code> is a function
+            of the page):
+          </p>
+<pre><code>&lt;SideNav sections={[{ title: 'Billing', items: [
+  { id: 'invoices', label: 'Invoices', as: Link, linkProps: { to: '/invoices' } },
+]}]} /&gt;
+
+&lt;Pagination page={page} totalPages={12}
+  as={Link} linkProps={(p) =&gt; ({ to: `/invoices?page=${p}` })} /&gt;</code></pre>
+
+          <h2>Chart color rules</h2>
+          <ul class="checks">
+            <li>Series take <code>--corpo-chart-1…5</code> in <strong>fixed order, never cycled</strong> — filtering series never repaints the survivors.</li>
+            <li>Five series max; a sixth renders neutral grey as a signal to fold the tail into an "Other" series.</li>
+            <li>The palette is CVD-validated on both light and dark surfaces (dark uses its own muted steps).</li>
+            <li>Status colors (<code>green/red/amber</code>) are reserved for status — never chart series.</li>
+            <li>Legends render only for two or more series; axis and legend text always wears text tokens, never series color.</li>
+          </ul>
+
+          <h2>Voice and layout</h2>
+          <ul class="checks">
+            <li>Sentence case everywhere; uppercase mono is a style applied by components, not typed content.</li>
+            <li>Verb-first button copy — "Save changes", never "Submit". No exclamation marks, no emoji.</li>
+            <li>Two breakpoints only: 768px for structural changes, 480px for content density. Prefer fluid CSS over either.</li>
+            <li>Every truncatable text carries the full ellipsis contract; wide content scrolls inside its own container.</li>
+          </ul>
+
+          <footer class="docs-footer">
+            <span>MIT licensed</span>
+            <a href="https://github.com/nukleas/corpo">github.com/nukleas/corpo</a>
+          </footer>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    const shell = document.getElementById('docs-shell');
+    document.getElementById('docs-nav-toggle').addEventListener('click', () => shell.classList.add('cp-shell--nav-open'));
+    document.getElementById('docs-scrim').addEventListener('click', () => shell.classList.remove('cp-shell--nav-open'));
+  </script>
+</body>
+</html>

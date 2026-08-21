@@ -37,9 +37,11 @@ jobs:
         run: |
           set -e
           mkdir -p pages_dist/dist pages_dist/demo pages_dist/console
-          cp site/index.html pages_dist/index.html
+          cp -r site/. pages_dist/
           cp -r packages/corpo/dist/. pages_dist/dist/
           cp packages/corpo/test/index.html pages_dist/demo/index.html
+          mkdir -p pages_dist/src/js
+          cp packages/corpo/src/js/*.js pages_dist/src/js/
           cp packages/corpo/examples/console.html pages_dist/console/index.html
           cp -r packages/react-corpo/storybook-static pages_dist/storybook
 
