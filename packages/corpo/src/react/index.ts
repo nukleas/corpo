@@ -54,3 +54,6 @@ export * from './SectionHeader';
 export * from './DescriptionList';
 export * from './Timeline';
 export * from './Stepper';
+export * from './AppShell';
+export * from './SideNav';
+export * from './Topbar';
