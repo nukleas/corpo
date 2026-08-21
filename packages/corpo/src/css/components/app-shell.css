@@ -1,0 +1,260 @@
+/* ── App shell (Shell + SideNav + Topbar) ────────────────────────────────── */
+/*
+  Application page scaffold — a fixed sidebar, a topbar, and a scrolling
+  content region. Below 768px the sidebar goes off-canvas; toggle it by
+  putting .cp-shell--nav-open on the root (the host owns that state) and
+  show the scrim.
+
+  Structure:
+    .cp-shell (--nav-open)
+      aside.cp-shell__sidebar > .cp-sidenav
+      .cp-shell__scrim
+      .cp-shell__main
+        .cp-topbar
+        main.cp-shell__content
+*/
+
+.cp-shell {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: var(--corpo-bg);
+  color: var(--corpo-text);
+  font-family: var(--corpo-font-sans);
+}
+
+.cp-shell__sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--corpo-bg-panel);
+  border-right: 1px solid var(--corpo-border-dim);
+}
+
+.cp-shell__scrim {
+  display: none;
+}
+
+.cp-shell__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.cp-shell__content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .cp-shell {
+    position: relative;
+  }
+
+  .cp-shell__sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    transform: translateX(-100%);
+    transition: transform var(--corpo-dur) var(--corpo-ease);
+  }
+
+  .cp-shell--nav-open .cp-shell__sidebar {
+    transform: none;
+    box-shadow: var(--corpo-shadow-lg);
+  }
+
+  .cp-shell--nav-open .cp-shell__scrim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 29;
+    background: rgba(16, 22, 35, 0.4); /* matches cp-modal-backdrop */
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+}
+
+/* ── SideNav ─────────────────────────────────────────────────────────────── */
+
+.cp-sidenav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.cp-sidenav__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  flex-shrink: 0;
+  padding: 0 16px;
+  font-weight: 600;
+  font-size: var(--corpo-text-base);
+  color: var(--corpo-text);
+  border-bottom: 1px solid var(--corpo-border-dim);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-sidenav__sections {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px 10px;
+}
+
+.cp-sidenav__section + .cp-sidenav__section {
+  margin-top: 16px;
+}
+
+.cp-sidenav__section-title {
+  padding: 0 10px 6px;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-dim);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-sidenav__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: none;
+  color: var(--corpo-text-secondary);
+  font-family: inherit;
+  font-size: var(--corpo-text-sm);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--corpo-dur-fast) var(--corpo-ease), color var(--corpo-dur-fast) var(--corpo-ease);
+}
+
+.cp-sidenav__item:hover {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+
+.cp-sidenav__item.is-active {
+  background: var(--corpo-accent-subtle);
+  color: var(--corpo-accent);
+  font-weight: 600;
+}
+
+.cp-sidenav__item-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-sidenav__footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--corpo-border-dim);
+  padding: 12px 16px;
+}
+
+/* ── Topbar ──────────────────────────────────────────────────────────────── */
+
+.cp-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  flex-shrink: 0;
+  padding: 0 16px;
+  background: var(--corpo-bg-panel);
+  border-bottom: 1px solid var(--corpo-border-dim);
+}
+
+.cp-topbar__title {
+  font-size: var(--corpo-text-base);
+  font-weight: 600;
+  color: var(--corpo-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-topbar__spacer {
+  flex: 1;
+}
+
+.cp-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Nav toggle — only rendered/useful below 768px */
+.cp-topbar__nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--corpo-control-h-sm);
+  height: var(--corpo-control-h-sm);
+  flex-shrink: 0;
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  background: var(--corpo-bg-panel);
+  color: var(--corpo-text-secondary);
+  cursor: pointer;
+}
+
+.cp-topbar__nav-toggle:hover {
+  border-color: var(--corpo-accent);
+  color: var(--corpo-accent);
+}
+
+/* CSS-drawn three-bar icon */
+.cp-topbar__nav-toggle-icon {
+  position: relative;
+  width: 14px;
+  height: 10px;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+.cp-topbar__nav-toggle-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2px;
+  height: 2px;
+  background: currentColor;
+}
+
+@media (max-width: 768px) {
+  .cp-topbar__nav-toggle {
+    display: inline-flex;
+  }
+}

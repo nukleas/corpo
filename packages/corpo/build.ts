@@ -266,6 +266,9 @@ const bundle = [
   '/* Component: Charts (CpLineChart + CpBarChart + CpSparkline) */\n',
   readCss('components/charts.css'),
   '\n',
+  '/* Component: App shell (Shell + SideNav + Topbar) */\n',
+  readCss('components/app-shell.css'),
+  '\n',
 ].join('');
 
 writeFileSync(join(DIST, 'corpo.css'), bundle);

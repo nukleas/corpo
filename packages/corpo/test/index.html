@@ -690,6 +690,57 @@
     </p>
   </section>
 
+  <section>
+    <h2>App shell</h2>
+    <div class="cp-shell" id="demo-shell" style="height: 420px; border: 1px solid var(--corpo-border-dim); border-radius: var(--corpo-radius-lg); overflow: hidden;">
+      <aside class="cp-shell__sidebar">
+        <nav class="cp-sidenav">
+          <div class="cp-sidenav__brand">Halcyon Group</div>
+          <div class="cp-sidenav__sections">
+            <div class="cp-sidenav__section">
+              <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Overview</span></button>
+            </div>
+            <div class="cp-sidenav__section">
+              <div class="cp-sidenav__section-title">Billing</div>
+              <button type="button" class="cp-sidenav__item is-active" aria-current="page"><span class="cp-sidenav__item-label">Invoices</span><span class="cp-badge cp-badge--amber">3</span></button>
+              <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Payments</span></button>
+              <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Reports</span></button>
+            </div>
+            <div class="cp-sidenav__section">
+              <div class="cp-sidenav__section-title">Workspace</div>
+              <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">People</span></button>
+              <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Settings</span></button>
+            </div>
+          </div>
+          <div class="cp-sidenav__footer">
+            <span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--ok"></span>Ana Sørensen</span>
+          </div>
+        </nav>
+      </aside>
+      <button type="button" class="cp-shell__scrim" id="demo-shell-scrim" aria-label="Close navigation"></button>
+      <div class="cp-shell__main">
+        <header class="cp-topbar">
+          <button type="button" class="cp-topbar__nav-toggle" id="demo-shell-toggle" aria-label="Open navigation"><span class="cp-topbar__nav-toggle-icon" aria-hidden="true"></span></button>
+          <div class="cp-topbar__title">Invoices</div>
+          <div class="cp-topbar__spacer"></div>
+          <div class="cp-topbar__actions">
+            <button class="cp-btn cp-btn--primary cp-btn--sm">New invoice</button>
+            <span class="cp-avatar cp-avatar--sm">AS</span>
+          </div>
+        </header>
+        <main class="cp-shell__content">
+          <div class="cp-stat">
+            <span class="cp-stat__label">Outstanding</span>
+            <span class="cp-stat__row"><span class="cp-stat__value">$12,480</span><span class="cp-stat__delta cp-stat__delta--down">3 overdue</span></span>
+          </div>
+        </main>
+      </div>
+    </div>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      Below 768px the sidebar goes off-canvas — the topbar toggle opens it, the scrim closes it.
+    </p>
+  </section>
+
   <div class="cp-modal-backdrop" id="demo-modal" style="display: none;">
     <div class="cp-modal" role="dialog" aria-modal="true">
       <div class="cp-modal__header">
@@ -728,6 +779,10 @@
       dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
     });
     document.addEventListener('click', () => { dropdownMenu.style.display = 'none'; });
+
+    const demoShell = document.getElementById('demo-shell');
+    document.getElementById('demo-shell-toggle').addEventListener('click', () => demoShell.classList.add('cp-shell--nav-open'));
+    document.getElementById('demo-shell-scrim').addEventListener('click', () => demoShell.classList.remove('cp-shell--nav-open'));
 
     const modal = document.getElementById('demo-modal');
     document.getElementById('modal-trigger').addEventListener('click', () => { modal.style.display = 'flex'; });
