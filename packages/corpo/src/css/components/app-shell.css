@@ -212,6 +212,25 @@
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  margin-left: auto; /* stays right-aligned when the bar wraps at 480px */
+}
+
+/* Content-density collapse: let a crowded topbar wrap onto a second row */
+@media (max-width: 480px) {
+  .cp-topbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 52px;
+    padding: 8px 16px;
+    row-gap: 8px;
+  }
+
+  .cp-topbar__actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex-shrink: 1;
+    min-width: 0;
+  }
 }
 
 /* Nav toggle — only rendered/useful below 768px */

@@ -142,8 +142,14 @@ function axesMarkup(ticks, yScale, xLabels, xAt, innerRight) {
       `;
     })
     .join('');
+  // Thin x labels when they can't fit side by side (~6.5px/char at 11px)
+  const pitch = xLabels.length > 1 ? Math.abs(xAt(1) - xAt(0)) : Infinity;
+  const maxChars = Math.max(1, ...xLabels.map((l) => String(l).length));
+  const step = Math.max(1, Math.ceil((maxChars * 6.5 + 8) / pitch));
   const xs = xLabels
-    .map((l, i) => `<text class="cp-chart__x-label" x="${xAt(i)}" y="0" data-i="${i}">${esc(l)}</text>`)
+    .map((l, i) => (i % step
+      ? ''
+      : `<text class="cp-chart__x-label" x="${xAt(i)}" y="0" data-i="${i}">${esc(l)}</text>`))
     .join('');
   return { grid, xs };
 }
