@@ -18,3 +18,4 @@ ds-bundle/
 .env.*
 !.env.example
 .claude/
+.playwright-mcp/
