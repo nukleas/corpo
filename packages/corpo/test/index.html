@@ -402,6 +402,132 @@
   </section>
 
   <section>
+    <h2>Description list</h2>
+    <dl class="cp-desc-list" style="max-width: 420px;">
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Invoice number</dt>
+        <dd class="cp-desc-list__value">INV-2041</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Bill to</dt>
+        <dd class="cp-desc-list__value">Acme Inc.</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Amount due</dt>
+        <dd class="cp-desc-list__value">$4,200.00</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Due date</dt>
+        <dd class="cp-desc-list__value">Aug 30, 2026</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Payment terms</dt>
+        <dd class="cp-desc-list__value">Net 30</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Purchase order</dt>
+        <dd class="cp-desc-list__value">PO-8841</dd>
+      </div>
+    </dl>
+    <dl class="cp-desc-list cp-desc-list--compact" style="max-width: 320px; margin-top: 16px;">
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Cardholder</dt>
+        <dd class="cp-desc-list__value">Maya Chen</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Card</dt>
+        <dd class="cp-desc-list__value">Visa ending 4421</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Expires</dt>
+        <dd class="cp-desc-list__value">08/28</dd>
+      </div>
+      <div class="cp-desc-list__row">
+        <dt class="cp-desc-list__label">Billing ZIP</dt>
+        <dd class="cp-desc-list__value">10013</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Timeline</h2>
+    <ol class="cp-timeline" style="max-width: 440px;">
+      <li class="cp-timeline__item cp-timeline__item--idle">
+        <span class="cp-timeline__rail" aria-hidden="true"><span class="cp-timeline__dot"></span></span>
+        <div class="cp-timeline__body">
+          <div class="cp-timeline__header">
+            <span class="cp-timeline__title">Invoice created</span>
+            <span class="cp-timeline__time">Aug 4, 9:14 AM</span>
+          </div>
+          <div class="cp-timeline__desc">INV-2041 was drafted for Acme Inc.</div>
+        </div>
+      </li>
+      <li class="cp-timeline__item cp-timeline__item--ok">
+        <span class="cp-timeline__rail" aria-hidden="true"><span class="cp-timeline__dot"></span></span>
+        <div class="cp-timeline__body">
+          <div class="cp-timeline__header">
+            <span class="cp-timeline__title">Invoice sent</span>
+            <span class="cp-timeline__time">Aug 4, 9:16 AM</span>
+          </div>
+          <div class="cp-timeline__desc">Sent to billing@acme.com</div>
+        </div>
+      </li>
+      <li class="cp-timeline__item cp-timeline__item--warn">
+        <span class="cp-timeline__rail" aria-hidden="true"><span class="cp-timeline__dot"></span></span>
+        <div class="cp-timeline__body">
+          <div class="cp-timeline__header">
+            <span class="cp-timeline__title">Reminder sent</span>
+            <span class="cp-timeline__time">Aug 12, 8:00 AM</span>
+          </div>
+          <div class="cp-timeline__desc">Net 30 terms end in two days</div>
+        </div>
+      </li>
+      <li class="cp-timeline__item cp-timeline__item--err">
+        <span class="cp-timeline__rail" aria-hidden="true"><span class="cp-timeline__dot"></span></span>
+        <div class="cp-timeline__body">
+          <div class="cp-timeline__header">
+            <span class="cp-timeline__title">Payment declined</span>
+            <span class="cp-timeline__time">Aug 14, 4:02 PM</span>
+          </div>
+          <div class="cp-timeline__desc">Card ending 4421 was declined.</div>
+        </div>
+      </li>
+      <li class="cp-timeline__item cp-timeline__item--ok">
+        <span class="cp-timeline__rail" aria-hidden="true"><span class="cp-timeline__dot"></span></span>
+        <div class="cp-timeline__body">
+          <div class="cp-timeline__header">
+            <span class="cp-timeline__title">Payment received</span>
+            <span class="cp-timeline__time">Aug 15, 10:41 AM</span>
+          </div>
+          <div class="cp-timeline__desc">$4,200.00 posted to the ledger</div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Stepper</h2>
+    <ol class="cp-stepper">
+      <li class="cp-stepper__step cp-stepper__step--complete">
+        <span class="cp-stepper__marker">1</span>
+        <span class="cp-stepper__label">Submit request</span>
+      </li>
+      <li class="cp-stepper__step cp-stepper__step--complete">
+        <span class="cp-stepper__marker">2</span>
+        <span class="cp-stepper__label">Manager review</span>
+      </li>
+      <li class="cp-stepper__step cp-stepper__step--current" aria-current="step">
+        <span class="cp-stepper__marker">3</span>
+        <span class="cp-stepper__label">Finance approval</span>
+      </li>
+      <li class="cp-stepper__step cp-stepper__step--upcoming">
+        <span class="cp-stepper__marker">4</span>
+        <span class="cp-stepper__label">Issue purchase order</span>
+      </li>
+    </ol>
+  </section>
+
+  <section>
     <h2>Charts</h2>
     <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch;">
       <div class="cp-card cp-card--flat" style="flex: 3 1 320px; min-width: 0; height: 280px; padding: 12px 16px;">

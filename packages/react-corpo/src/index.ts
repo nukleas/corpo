@@ -70,3 +70,6 @@ export * from './components/ProfileCard';
 export * from './components/LicenseCatalog';
 export * from './components/AssignmentSlots';
 export * from './components/LicenseDetail';
+export * from './components/DescriptionList';
+export * from './components/Timeline';
+export * from './components/Stepper';

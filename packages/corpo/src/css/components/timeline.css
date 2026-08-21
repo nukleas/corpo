@@ -1,0 +1,113 @@
+/* ── Timeline ────────────────────────────────────────────────────────────── */
+/*
+  Vertical activity feed with a dot-and-line rail.
+
+  Structure:
+    .cp-timeline
+      .cp-timeline__item (--ok / --warn / --err / --idle)
+        .cp-timeline__rail
+          .cp-timeline__dot
+        .cp-timeline__body
+          .cp-timeline__header
+            .cp-timeline__title / __time
+          .cp-timeline__desc
+*/
+
+.cp-timeline {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--corpo-font-sans);
+  color: var(--corpo-text);
+}
+
+.cp-timeline__item {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cp-timeline__rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cp-timeline__dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--corpo-text-dim);
+  box-shadow: var(--corpo-shadow-sm);
+  z-index: 1;
+}
+
+.cp-timeline__item--ok .cp-timeline__dot { background: var(--corpo-green); }
+.cp-timeline__item--warn .cp-timeline__dot { background: var(--corpo-amber); }
+.cp-timeline__item--err .cp-timeline__dot { background: var(--corpo-red); }
+.cp-timeline__item--idle .cp-timeline__dot { background: var(--corpo-text-dim); }
+
+.cp-timeline__item:not(:last-child) .cp-timeline__rail::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--corpo-border);
+}
+
+.cp-timeline__body {
+  min-width: 0;
+  padding-bottom: 16px;
+}
+
+.cp-timeline__item:last-child .cp-timeline__body {
+  padding-bottom: 0;
+}
+
+.cp-timeline__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cp-timeline__title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  color: var(--corpo-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-timeline__time {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-timeline__desc {
+  margin-top: 4px;
+  font-size: var(--corpo-text-sm);
+  line-height: var(--corpo-leading-normal);
+  color: var(--corpo-text-secondary);
+  min-width: 0;
+}

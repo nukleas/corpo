@@ -1,0 +1,81 @@
+/* ── Description list ────────────────────────────────────────────────────── */
+/*
+  Key/value detail rows, e.g. an invoice details panel.
+
+  Structure:
+    .cp-desc-list (--compact)
+      .cp-desc-list__row
+        .cp-desc-list__label  (dt)
+        .cp-desc-list__value  (dd)
+*/
+
+.cp-desc-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 4px 0;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-sm);
+  font-family: var(--corpo-font-sans);
+  color: var(--corpo-text);
+}
+
+.cp-desc-list--compact {
+  padding: 0;
+  box-shadow: none;
+}
+
+.cp-desc-list__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--corpo-border-dim);
+  min-width: 0;
+}
+
+.cp-desc-list__row:last-child {
+  border-bottom: none;
+}
+
+.cp-desc-list--compact .cp-desc-list__row {
+  padding: 6px 12px;
+  gap: 12px;
+}
+
+.cp-desc-list__label {
+  flex: 0 1 40%;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-desc-list__value {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  color: var(--corpo-text);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-desc-list--compact .cp-desc-list__value {
+  font-size: var(--corpo-text-xs);
+}
