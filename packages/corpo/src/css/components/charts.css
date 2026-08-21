@@ -181,6 +181,36 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Donut — composition segments + center hero number */
+.cp-chart__slice {
+  fill: var(--series-color);
+  transition: opacity var(--corpo-dur-fast) var(--corpo-ease);
+}
+
+.cp-chart__slice.is-hovered {
+  opacity: 0.8;
+}
+
+.cp-chart__donut-value {
+  fill: var(--corpo-text);
+  font-size: var(--corpo-text-lg);
+  font-weight: 600;
+  text-anchor: middle;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.cp-chart__donut-label {
+  pointer-events: none;
+  fill: var(--corpo-text-dim);
+  font-family: var(--corpo-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--corpo-label-tracking);
+  text-transform: uppercase;
+  text-anchor: middle;
+}
+
 /* Sparkline — inline trend for stat tiles */
 .cp-sparkline {
   --series-color: var(--corpo-chart-1);

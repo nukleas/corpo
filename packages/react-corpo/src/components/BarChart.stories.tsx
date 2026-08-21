@@ -28,3 +28,18 @@ export const SingleSeries: Story = {
     style: { height: 220 },
   },
 };
+
+/** `stacked` shows composition over time — 2px surface gaps between fills, rounded top on the stack, tooltip includes the column total. */
+export const Stacked: Story = {
+  args: {
+    stacked: true,
+    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    series: [
+      { label: 'Subscriptions', data: [82_000, 91_500, 98_200, 104_000] },
+      { label: 'Services', data: [24_000, 21_800, 26_500, 31_200] },
+      { label: 'Licenses', data: [11_500, 12_200, 10_900, 13_400] },
+    ],
+    yFormat: (v: number) => `$${v.toLocaleString('en-US')}`,
+    style: { height: 300 },
+  },
+};

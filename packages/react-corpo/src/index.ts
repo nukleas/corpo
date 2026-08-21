@@ -65,6 +65,7 @@ export * from './components/SectionHeader';
 export * from './components/DependencyGraph';
 export * from './components/LineChart';
 export * from './components/BarChart';
+export * from './components/DonutChart';
 export * from './components/Sparkline';
 export * from './components/ProfileCard';
 export * from './components/LicenseCatalog';

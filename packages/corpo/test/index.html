@@ -678,6 +678,9 @@
       <div class="cp-card cp-card--flat" style="flex: 2 1 260px; min-width: 0; height: 280px; padding: 12px 16px;">
         <div id="barchart-demo" style="height: 100%;"></div>
       </div>
+      <div class="cp-card cp-card--flat" style="flex: 2 1 260px; min-width: 0; height: 280px; padding: 12px 16px;">
+        <div id="donut-demo" style="height: 100%;"></div>
+      </div>
     </div>
     <div class="demo-row" style="margin-top: 16px;">
       <div class="cp-stat">
@@ -822,7 +825,7 @@
     }).catch(() => {});
 
     // ── Charts: revenue trend, hiring by quarter, sparkline ──
-    import('../src/js/charts.js').then(({ CpLineChart, CpBarChart, CpSparkline }) => {
+    import('../src/js/charts.js').then(({ CpLineChart, CpBarChart, CpDonutChart, CpSparkline }) => {
       const money = (v) => '$' + Number(v).toLocaleString('en-US');
       const line = document.getElementById('linechart-demo');
       if (line) {
@@ -844,6 +847,20 @@
             { label: 'Sales', data: [8, 11, 15] },
             { label: 'Support', data: [5, 6, 9] },
           ],
+        });
+      }
+      const donut = document.getElementById('donut-demo');
+      if (donut) {
+        CpDonutChart(donut, {
+          data: [
+            { label: 'Payroll', value: 182000 },
+            { label: 'Cloud', value: 64500 },
+            { label: 'Licenses', value: 28900 },
+            { label: 'Facilities', value: 21300 },
+            { label: 'Other', value: 9800 },
+          ],
+          format: money,
+          centerLabel: 'Monthly spend',
         });
       }
       const spark = document.getElementById('sparkline-demo');
