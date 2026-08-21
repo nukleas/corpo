@@ -248,6 +248,9 @@ const bundle = [
   '/* Component: Assignment panel (AssignmentSlots + LicenseCatalog + LicenseDetail) */\n',
   readCss('components/assignment.css'),
   '\n',
+  '/* Component: Charts (CpLineChart + CpBarChart + CpSparkline) */\n',
+  readCss('components/charts.css'),
+  '\n',
 ].join('');
 
 writeFileSync(join(DIST, 'corpo.css'), bundle);
