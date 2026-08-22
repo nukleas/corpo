@@ -39,15 +39,27 @@ export function createShorthandFactory<P extends { className?: string }, V = str
   mapValueToProps: (value: V) => Partial<P>,
 ) {
   return function create(value: Shorthand<P, V>, options: ShorthandOptions<P> = {}): ReactElement | null {
-    if (value == null || typeof value === 'boolean') return null;
+    // This factory IS the shorthand boundary parser — its whole job is to
+    // classify the runtime shape of `value` (nil/boolean, element, props
+    // object, or primitive) before any typed code consumes it.
+    if (value == null || value === true || value === false) return null;
     const { defaultProps, overrideProps, key } = options;
 
+    // SAFETY: the branches exhaust the shorthand contract — an element is a
+    // `<Parent.Item>` whose props are the item's props; nil/boolean and
+    // elements excluded, a remaining object is a partial props object; and
+    // the only shorthand left after that is the primitive form V.
+    // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)
     const usersProps: Partial<P> = isValidElement(value)
       ? (value.props as Partial<P>)
-      : typeof value === 'object'
+      : // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)
+        typeof value === 'object'
         ? (value as Partial<P>)
         : mapValueToProps(value as V);
 
+    // SAFETY: the three merge layers are all Partial<P>; required members are
+    // the caller's responsibility exactly as with JSX spread. `key` is
+    // extracted by React, not forwarded to the component.
     const props = { ...defaultProps, ...usersProps, ...overrideProps } as P & { key?: string | number };
     const className = cn(defaultProps?.className, usersProps.className, overrideProps?.className);
     if (className) props.className = className;

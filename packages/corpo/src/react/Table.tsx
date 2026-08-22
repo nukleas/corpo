@@ -37,10 +37,13 @@ function cx(...parts: Array<string | false | undefined>): string {
 
 export function Table({ columns, rows, compact = false, className = '', ...rest }: TableProps) {
   function renderCell(raw: TableCellShorthand, col: TableColumn) {
+    // SAFETY: cell-shorthand boundary parser — nil/boolean and element cases
+    // are excluded first, so a remaining object is by contract a props object.
     const props: TableCellProps =
-      raw == null || typeof raw === 'boolean' ? {}
+      raw == null ? {}
         : isValidElement(raw) ? { content: raw }
-          : typeof raw === 'object' ? (raw as TableCellProps)
+          : // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)
+            typeof raw === 'object' ? (raw as TableCellProps)
             : { content: raw };
     const numeric = props.numeric ?? col.numeric;
     const mono = props.mono ?? col.mono;

@@ -17,9 +17,14 @@
     "storybook": "pnpm --filter @nukleas/react-corpo run storybook",
     "build-storybook": "pnpm --filter @nukleas/react-corpo run build-storybook",
     "typecheck": "pnpm --filter @nukleas/react-corpo run typecheck",
+    "lint": "oxlint",
     "demo": "pnpm --filter @nukleas/corpo run demo"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.79.0",
+    "oxlint": "1.79.0"
   }
 }

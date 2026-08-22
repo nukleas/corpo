@@ -18,6 +18,8 @@ export interface TreeViewProps extends Omit<HTMLAttributes<HTMLUListElement>, 'o
 }
 
 function depthStyle(depth: number): CSSProperties {
+  // SAFETY: custom CSS properties are valid style keys at runtime; React's
+  // CSSProperties type simply has no entry for them.
   return { '--cp-tree-depth': depth } as CSSProperties;
 }
 

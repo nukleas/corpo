@@ -42,7 +42,7 @@ export function SpreadsheetCell({
   className,
   ...rest
 }: SpreadsheetCellProps) {
-  const alignRight = align ? align === 'right' : typeof value === 'number';
+  const alignRight = align ? align === 'right' : Number.isFinite(value);
   return (
     <td
       className={cn(

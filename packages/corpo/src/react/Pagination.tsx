@@ -10,6 +10,7 @@ export interface PaginationProps {
   /** Custom link element for routed apps (e.g. a router `Link`); switches items from buttons to links. */
   as?: ElementType;
   /** Per-page props for the link element, e.g. ``(p) => ({ to: `?page=${p}` })``; switches items from buttons to links. */
+  // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- deliberate verbatim passthrough to the caller-chosen link element (router props are untyped here by design)
   linkProps?: (page: number) => Record<string, unknown>;
   className?: string;
 }

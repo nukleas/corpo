@@ -61,12 +61,16 @@ const SLOT_DEFS: { id: string; label: string; initial?: string }[] = [
   { id: 'design', label: 'Design' },
 ];
 
-const NAV_LABELS: Record<string, string> = {
+const NAV_LABELS = {
   people: 'People',
   teams: 'Teams',
   licenses: 'Licenses',
   imports: 'Imports',
-};
+} satisfies Record<string, string>;
+
+const navLabel = (id: string): string =>
+  // SAFETY: guarded by the `in` check against the literal-keyed map.
+  id in NAV_LABELS ? NAV_LABELS[id as keyof typeof NAV_LABELS] : 'Licenses';
 
 interface Person {
   id: string;
@@ -97,7 +101,7 @@ const PEOPLE: Person[] = [
   { id: 'nk', name: 'Noah Kim', initials: 'NK', role: 'Contracts attorney', teamId: 'contracts' },
 ];
 
-const TEAM_COPY: Record<string, string> = {
+const TEAM_COPY = {
   acme: 'Parent company for the US operating units. License pools are owned here and assigned down to each function.',
   finance: 'Controller organization covering payables, payroll, and treasury. Most seats are annual-contract SaaS.',
   ap: 'Vendor invoices and payment runs for the US entities.',
@@ -108,7 +112,11 @@ const TEAM_COPY: Record<string, string> = {
   benefits: 'Medical, 401(k), and leave administration for US employees.',
   legal: 'In-house counsel for commercial, employment, and privacy work.',
   contracts: 'Vendor and customer paper. DocuSign seats are assigned from the legal pool.',
-};
+} satisfies Record<string, string>;
+
+const teamCopy = (id: string): string =>
+  // SAFETY: guarded by the `in` check against the literal-keyed map.
+  id in TEAM_COPY ? TEAM_COPY[id as keyof typeof TEAM_COPY] : 'Reporting line for this unit.';
 
 const INITIAL_FILES: DropzoneFile[] = [
   {
@@ -154,7 +162,7 @@ function AdminConsoleExample() {
 
   const selectedOrg = findNode(ORG, selectedOrgId);
   const contextLabel = selectedOrg?.label ?? 'Acme Holdings';
-  const pageLabel = NAV_LABELS[activeId] ?? 'Licenses';
+  const pageLabel = navLabel(activeId);
   const uploadingCount = importFiles.filter((file) => file.status === 'uploading').length;
 
   const byId = (id?: string | null): LicenseItem | null =>
@@ -385,7 +393,7 @@ function AdminConsoleExample() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <SectionHeader
                 title={selectedOrg.label}
-                description={TEAM_COPY[selectedOrg.id] ?? 'Reporting line for this unit.'}
+                description={teamCopy(selectedOrg.id)}
               />
               {childTeams.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

@@ -10,6 +10,7 @@ export interface SideNavItem {
   /** Custom link element for routed apps (e.g. a router `Link`). */
   as?: ElementType;
   /** Extra props for the link element, e.g. `{ to: '/invoices' }` for router links. */
+  // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- deliberate verbatim passthrough to the caller-chosen link element (router props are untyped here by design)
   linkProps?: Record<string, unknown>;
 }
 

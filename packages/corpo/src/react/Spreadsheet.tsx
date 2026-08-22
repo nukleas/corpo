@@ -49,9 +49,10 @@ export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false
       );
     }
     const props: SpreadsheetCellProps =
+      // oxlint-disable-next-line anti-slop/no-runtime-typeof -- cell-shorthand boundary: element case is excluded above, so object means props
       typeof cell === 'object' ? cell : { value: cell };
     const cellReadOnly = props.readOnly ?? readOnly;
-    const alignRight = props.align ? props.align === 'right' : typeof props.value === 'number';
+    const alignRight = props.align ? props.align === 'right' : Number.isFinite(props.value);
     const tdClass = [
       'cp-spreadsheet__cell',
       alignRight && 'cp-spreadsheet__cell--num',

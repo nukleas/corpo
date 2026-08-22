@@ -37,9 +37,12 @@ export function AlertDialog({
 
   if (!open) return null;
 
+  // oxlint-disable-next-line anti-slop/no-runtime-typeof -- title is a ReactNode slot; a plain-string title doubles as the accessible name
+  const ariaLabel = typeof title === 'string' ? title : undefined;
+
   return createPortal(
     <div className="cp-modal-backdrop">
-      <div className="cp-modal" role="alertdialog" aria-modal="true" aria-label={typeof title === 'string' ? title : undefined}>
+      <div className="cp-modal" role="alertdialog" aria-modal="true" aria-label={ariaLabel}>
         {title && (
           <div className="cp-modal__header">
             <h2 className="cp-modal__title">{title}</h2>

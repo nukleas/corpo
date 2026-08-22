@@ -174,7 +174,9 @@ export function IncidentConsoleFlow() {
             { id: 'archived', label: 'Archived', count: counts.archived },
           ]}
           active={activeTab}
-          onChange={(id) => setActiveTab(id as IncidentStatus)}
+          onChange={(id) => {
+            if (id === 'active' || id === 'resolved' || id === 'archived') setActiveTab(id);
+          }}
           pills
         />
         <Button onClick={() => setCommandOpen(true)}>⌘K Quick actions</Button>

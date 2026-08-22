@@ -33,12 +33,16 @@ const INITIAL_NODES: DepGraphNode[] = [
   { id: 'full-rollout', label: 'Full rollout', state: 'blocked', dependsOn: ['pilot-migration', 'reporting-rebuild'], owner: 'Priya N.', estimate: '4 wk' },
 ];
 
-const OWNERS: Record<string, { initials: string; role: string; team: string; skills: string[] }> = {
+const OWNERS = {
   'Priya N.': { initials: 'PN', role: 'Program manager', team: 'Platform PMO', skills: ['Vendor management', 'Rollout planning'] },
   'Marcus T.': { initials: 'MT', role: 'Data engineer', team: 'Billing platform', skills: ['ETL', 'Reconciliation'] },
   'Ana S.': { initials: 'AS', role: 'Staff engineer', team: 'Payments platform', skills: ['Kotlin', 'Postgres', 'Payments'] },
   'Devon K.': { initials: 'DK', role: 'Analytics engineer', team: 'Business intelligence', skills: ['dbt', 'Reporting'] },
-};
+} satisfies Record<string, { initials: string; role: string; team: string; skills: string[] }>;
+
+const ownerFor = (name: string) =>
+  // SAFETY: guarded by the `in` check against the literal-keyed map.
+  name in OWNERS ? OWNERS[name as keyof typeof OWNERS] : null;
 
 const ACTIVITY = [
   { title: 'Schema mapping at 60%', timestamp: 'Aug 20, 4:12 PM', description: 'Ledger accounts mapped; export feeds remain.', tone: 'warn' as const },
@@ -64,7 +68,7 @@ function ProgramDeliveryExample() {
   const [nodes, setNodes] = useState(INITIAL_NODES);
   const [selectedId, setSelectedId] = useState<string | null>('schema-mapping');
   const selected = useMemo(() => nodes.find((n) => n.id === selectedId) ?? null, [nodes, selectedId]);
-  const owner = selected?.owner ? OWNERS[selected.owner] : null;
+  const owner = selected?.owner ? ownerFor(selected.owner) : null;
 
   return (
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
@@ -112,9 +116,9 @@ function ProgramDeliveryExample() {
                   onSelect={(id) => setSelectedId(id)}
                   onAdvance={(id) => {
                     setNodes((prev) => {
-                      const next = prev.map((n) =>
+                      const next = prev.map((n): DepGraphNode =>
                         n.id === id
-                          ? { ...n, state: (n.state === 'ready' ? 'in-progress' : 'done') as DepGraphNode['state'] }
+                          ? { ...n, state: n.state === 'ready' ? 'in-progress' : 'done' }
                           : n,
                       );
                       return next.map((n) =>

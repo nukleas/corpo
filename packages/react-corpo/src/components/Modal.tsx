@@ -24,13 +24,16 @@ export function Modal({ open, onClose, title, footer, children }: ModalProps) {
 
   if (!open) return null;
 
+  // oxlint-disable-next-line anti-slop/no-runtime-typeof -- title is a ReactNode slot; a plain-string title doubles as the accessible name
+  const ariaLabel = typeof title === 'string' ? title : undefined;
+
   return createPortal(
     <div className="cp-modal-backdrop" onClick={onClose}>
       <div
         className="cp-modal"
         role="dialog"
         aria-modal="true"
-        aria-label={typeof title === 'string' ? title : undefined}
+        aria-label={ariaLabel}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (

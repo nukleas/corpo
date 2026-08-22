@@ -20,6 +20,7 @@ type Story = StoryObj<typeof Breadcrumb>;
 export const Default: Story = {};
 
 // Stand-in for a router link (react-router's Link, Next's Link, …).
+// oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- stand-in router link mirrors the untyped passthrough contract
 function FakeRouterLink({ to, ...rest }: { to: string } & Record<string, unknown>) {
   return <a data-router-to={to} {...rest} />;
 }
