@@ -458,7 +458,8 @@ export function CpDepGraph(root, opts = {}) {
     const my = ev.clientY - r.top - r.height / 2;
     const prev = cam.z;
     // Never trap the user above fit scale — small hosts may need to zoom below 0.25.
-    const minZ = Math.min(0.25, fitScale(r.width, r.height).z);
+    // Epsilon floor: a zero-size host yields fit scale 0, which would NaN the camera.
+    const minZ = Math.max(0.001, Math.min(0.25, fitScale(r.width, r.height).z));
     const next = Math.min(2.4, Math.max(minZ, cam.z * (ev.deltaY > 0 ? 0.92 : 1.08)));
     const k = next / prev;
     cam.x = mx - (mx - cam.x) * k;
