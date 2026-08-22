@@ -14,6 +14,7 @@ const DIST = join(ROOT, 'dist');
 const SRC_CSS = join(ROOT, 'src/css');
 
 const require = createRequire(import.meta.url);
+// SAFETY: this reads the package's own manifest, which always carries a string version.
 const { version: PKG_VERSION } = require(join(ROOT, 'package.json')) as { version: string };
 
 mkdirSync(DIST, { recursive: true });

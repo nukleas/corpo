@@ -1,5 +1,5 @@
 // Heritage dark scope (.corpo-dark) — desaturated Cyberdesign surfaces for dark-context consumers.
-export const darkTheme: Record<string, string> = {
+export const darkTheme = {
   'bg': '#0e1218',
   'bg-panel': '#151b24',
   'bg-panel-hover': '#1c2431',
@@ -29,4 +29,4 @@ export const darkTheme: Record<string, string> = {
   'shadow-sm': '0 1px 2px rgba(0, 0, 0, 0.4)',
   'shadow-md': '0 2px 8px rgba(0, 0, 0, 0.45)',
   'shadow-lg': '0 8px 28px rgba(0, 0, 0, 0.55)',
-};
+} satisfies Record<string, string>;

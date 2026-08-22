@@ -27,6 +27,7 @@ export function Command({ groups, placeholder = 'Type a command or search…', e
     if (!query) return groups;
     const q = query.toLowerCase();
     return groups
+      // oxlint-disable-next-line anti-slop/no-runtime-typeof -- labels are ReactNode; only plain-string labels are text-searchable
       .map((g) => ({ ...g, items: g.items.filter((i) => typeof i.label === 'string' && i.label.toLowerCase().includes(q)) }))
       .filter((g) => g.items.length > 0);
   }, [groups, query]);

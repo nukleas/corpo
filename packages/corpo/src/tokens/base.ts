@@ -1,4 +1,4 @@
-export const palette: Record<string, string> = {
+export const palette = {
   white: '#ffffff',
   grey50: '#f6f8fa',
   grey100: '#eef1f5',
@@ -25,4 +25,4 @@ export const palette: Record<string, string> = {
   redSubtle: 'rgba(191, 36, 67, 0.08)',
   amberSubtle: 'rgba(143, 95, 0, 0.08)',
   blueSubtle: 'rgba(39, 88, 192, 0.08)',
-};
+} satisfies Record<string, string>;

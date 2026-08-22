@@ -96,7 +96,7 @@ export function Table({ columns, rows, compact = false, className, ...rest }: Ta
                 // Nil/boolean shorthand renders nothing — coalesce to an empty
                 // cell so columns stay aligned.
                 const raw = row[c.key];
-                const cell = raw == null || typeof raw === 'boolean' ? { content: null } : raw;
+                const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
                 return TableCell.create(cell, {
                   key: c.key,
                   defaultProps: { numeric: c.numeric, mono: c.mono },

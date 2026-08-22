@@ -1,6 +1,6 @@
 import { palette } from './base.js';
 
-export const semanticTokens: Record<string, string> = {
+export const semanticTokens = {
   // raw neutral scale — exposed so component CSS can reach a step the semantic aliases don't cover
   'white': palette.white,
   'grey-50': palette.grey50,
@@ -113,4 +113,4 @@ export const semanticTokens: Record<string, string> = {
   'dur-fast': '120ms',
   'dur': '150ms',
   'dur-slow': '300ms',
-};
+} satisfies Record<string, string>;

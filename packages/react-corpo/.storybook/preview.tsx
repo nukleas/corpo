@@ -78,7 +78,7 @@ const preview: Preview = {
   },
   decorators: [
     (Story, context) => {
-      const theme = (context.globals.theme as string) || 'teal';
+      const theme = String(context.globals.theme || 'teal');
       const dark = context.globals.dark === true || context.globals.dark === 'true';
       return (
         // @ts-expect-error decorator returns JSX; Storybook runtime handles this

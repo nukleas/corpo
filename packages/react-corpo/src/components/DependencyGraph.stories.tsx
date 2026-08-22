@@ -43,9 +43,9 @@ export const Interactive: Story = {
         style={{ height: 420 }}
         onAdvance={(id) => {
           setNodes((prev) => {
-            const next = prev.map((n) =>
+            const next = prev.map((n): DepGraphNode =>
               n.id === id
-                ? { ...n, state: (n.state === 'ready' ? 'in-progress' : 'done') as DepGraphNode['state'] }
+                ? { ...n, state: n.state === 'ready' ? 'in-progress' : 'done' }
                 : n,
             );
             return next.map((n) =>

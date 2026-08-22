@@ -12,12 +12,16 @@ import { StatusPill } from '../components/StatusPill';
 import { AlertDialog } from '../components/AlertDialog';
 import { Toast, Toaster } from '../components/Toast';
 
-const TIER_LABEL: Record<string, string> = {
+const TIER_LABEL = {
   'tier-1': 'Tier 1 — Everyone',
   'tier-2': 'Tier 2 — Team',
   'tier-3': 'Tier 3 — Extra trust',
   'tier-4': 'Tier 4 — Leadership only',
-};
+} satisfies Record<string, string>;
+
+const tierLabel = (tier: string): string =>
+  // SAFETY: guarded by the `in` check against the literal-keyed map.
+  tier in TIER_LABEL ? TIER_LABEL[tier as keyof typeof TIER_LABEL] : tier;
 
 const STEP_LABEL = ['Tell us what you need', 'Manager check-in', 'Quick identity check', "You're all set"];
 
@@ -78,7 +82,7 @@ export function AccessClearanceFlow() {
       )}
 
       {step === 2 && (
-        <Card title="Manager check-in" description={`Just waiting on a quick thumbs-up for ${TIER_LABEL[tier]}.`}>
+        <Card title="Manager check-in" description={`Just waiting on a quick thumbs-up for ${tierLabel(tier)}.`}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Avatar initials="RK" status={managerApproved ? 'online' : 'busy'} />
             <div>
@@ -122,7 +126,7 @@ export function AccessClearanceFlow() {
       )}
 
       {step === 4 && (
-        <Card title="You're all set" description={`${TIER_LABEL[tier]} is now live on your badge.`}>
+        <Card title="You're all set" description={`${tierLabel(tier)} is now live on your badge.`}>
           <StatusPill tone="ok">Active</StatusPill>
           <p
             style={{
@@ -155,7 +159,7 @@ export function AccessClearanceFlow() {
       {toastOpen && (
         <Toaster>
           <Toast tone="success" title="You're good to go" onDismiss={() => setToastOpen(false)}>
-            {TIER_LABEL[tier]} is now active. Badge sync is in progress.
+            {tierLabel(tier)} is now active. Badge sync is in progress.
           </Toast>
         </Toaster>
       )}
