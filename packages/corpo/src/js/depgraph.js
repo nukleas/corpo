@@ -398,14 +398,21 @@ export function CpDepGraph(root, opts = {}) {
     if (selected) showTip(selected);
   }
 
+  /** Scale at which the whole scene fits the viewport. Padding shrinks on small hosts. */
+  function fitScale(width, height, padding = 60) {
+    const b = paintBounds();
+    const w = Math.max(1, b.maxX - b.minX);
+    const h = Math.max(1, b.maxY - b.minY);
+    const pad = Math.min(padding, width / 8, height / 8);
+    return { bounds: b, z: Math.min((width - pad * 2) / w, (height - pad * 2) / h, 1.4) };
+  }
+
   function fit(padding = 60) {
     if (!nodes.length) return;
     const { width, height } = root.getBoundingClientRect();
     if (width < 40 || height < 40) return;
-    const b = paintBounds();
-    const w = Math.max(1, b.maxX - b.minX);
-    const h = Math.max(1, b.maxY - b.minY);
-    cam.z = Math.max(0.25, Math.min((width - padding * 2) / w, (height - padding * 2) / h, 1.4));
+    const { bounds: b, z } = fitScale(width, height, padding);
+    cam.z = z;
     cam.x = -((b.minX + b.maxX) / 2) * cam.z;
     cam.y = -((b.minY + b.maxY) / 2) * cam.z;
     userCam = false;
@@ -450,7 +457,9 @@ export function CpDepGraph(root, opts = {}) {
     const mx = ev.clientX - r.left - r.width / 2;
     const my = ev.clientY - r.top - r.height / 2;
     const prev = cam.z;
-    const next = Math.min(2.4, Math.max(0.25, cam.z * (ev.deltaY > 0 ? 0.92 : 1.08)));
+    // Never trap the user above fit scale — small hosts may need to zoom below 0.25.
+    const minZ = Math.min(0.25, fitScale(r.width, r.height).z);
+    const next = Math.min(2.4, Math.max(minZ, cam.z * (ev.deltaY > 0 ? 0.92 : 1.08)));
     const k = next / prev;
     cam.x = mx - (mx - cam.x) * k;
     cam.y = my - (my - cam.y) * k;

@@ -7,6 +7,7 @@ const meta = {
   title: 'Operations/DependencyGraph',
   component: DependencyGraph,
   tags: ['autodocs'],
+  parameters: { layout: 'padded' },
 } satisfies Meta<typeof DependencyGraph>;
 export default meta;
 type Story = StoryObj<typeof meta>;

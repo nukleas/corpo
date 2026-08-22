@@ -23,6 +23,8 @@
   overflow: hidden;
   width: 100%;
   height: 100%;
+  /* Canvas fallback: hosts size the graph, but an auto-height parent must not collapse it to 0. */
+  min-height: 280px;
   background-image:
     linear-gradient(90deg, var(--corpo-border-dim) 1px, transparent 1px),
     linear-gradient(0deg, var(--corpo-border-dim) 1px, transparent 1px);
