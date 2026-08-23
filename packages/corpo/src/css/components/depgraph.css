@@ -75,7 +75,7 @@
 
 /* Dependency satisfied, successor actionable */
 .cp-depgraph-edge.is-active {
-  stroke: var(--corpo-grey-500);
+  stroke: var(--corpo-gray-500);
   stroke-dasharray: none;
 }
 
@@ -133,7 +133,7 @@
 
 /* Node states — the modifiers come last so they beat the block defaults. */
 .cp-depgraph-node {
-  --node-color: var(--corpo-grey-500);
+  --node-color: var(--corpo-gray-500);
   --node-fill: var(--corpo-bg-inset);
 }
 

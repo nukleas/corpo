@@ -1,10 +1,7 @@
 import type { HTMLAttributes } from 'react';
+import { cx } from './cx';
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
-}
 
 export function ButtonGroup({ className = '', children, ...rest }: ButtonGroupProps) {
   return (

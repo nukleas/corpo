@@ -9,7 +9,7 @@ Storybook live in `../react-corpo`.
 
 ```
 src/tokens/          TypeScript token definitions
-  base.ts            raw hex palette (greys, status colors, accent families)
+  base.ts            raw hex palette (grays, status colors, accent families)
   semantic.ts         purpose-mapped --corpo-* token names + values (teal accent is the default)
   themes/amber.ts     accent-family overrides for .theme-amber
   themes/green.ts     accent-family overrides for .theme-green
@@ -72,7 +72,7 @@ examples/console.html  composed admin-console example using every component fami
 ## Adding a theme
 
 1. Create `src/tokens/themes/<name>.ts` — export a `Record<string, string>` of accent overrides
-   (`accent`, `accent-strong`, `accent-subtle`, `accent-muted`, `accent-secondary`, `accent-secondary-subtle`)
+   (`accent`, `accent-strong`, `accent-subtle`, `accent-muted`)
 2. Import it in `build.ts` and add it to the `THEME_BLOCKS` list (wired into all three output files)
 3. Add `.theme-<name>` handling to `test/index.html`'s theme toggle
 
@@ -102,12 +102,12 @@ pnpm storybook           # React Storybook (packages/react-corpo)
 
 | Token | Purpose |
 |---|---|
-| `--corpo-bg` | page background (grey-50) |
+| `--corpo-bg` | page background (gray-50) |
 | `--corpo-bg-panel` | card / panel background (white) |
 | `--corpo-text` | primary text |
 | `--corpo-text-secondary` | dimmed text |
 | `--corpo-text-muted` | secondary labels/helpers |
-| `--corpo-text-dim` | dimmest readable text tier — small captions/hints (WCAG AA, ~5.2:1); use the raw `grey-500` scale token for decorative/≥3:1 use |
+| `--corpo-text-dim` | dimmest readable text tier — small captions/hints (WCAG AA, ~5.2:1); use the raw `gray-500` scale token for decorative/≥3:1 use |
 | `--corpo-accent` | theme accent (teal by default) |
 | `--corpo-accent-strong` | darker accent for hover/press |
 | `--corpo-border` / `--corpo-border-dim` / `--corpo-border-strong` | border weights |

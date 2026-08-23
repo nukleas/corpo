@@ -23,12 +23,6 @@ body { margin: 0; }
 }
 
 .docs-prose h2 {
-  font-family: var(--corpo-font-mono);
-  font-size: var(--corpo-text-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking-wide);
-  color: var(--corpo-text-muted);
   margin: 40px 0 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--corpo-border-dim);
@@ -103,12 +97,6 @@ body { margin: 0; }
 
 .docs-prose table th {
   text-align: left;
-  font-family: var(--corpo-font-mono);
-  font-size: var(--corpo-text-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
-  color: var(--corpo-text-muted);
   padding: 8px 12px 8px 0;
   border-bottom: 1px solid var(--corpo-border);
 }
@@ -136,12 +124,6 @@ body { margin: 0; }
 }
 
 .docs-theme-row .docs-theme-name {
-  font-family: var(--corpo-font-mono);
-  font-size: var(--corpo-text-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
-  color: var(--corpo-text-muted);
   min-width: 96px;
 }
 

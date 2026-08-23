@@ -78,15 +78,8 @@ export function DecommissioningFlow() {
                 <Collapsible
                   trigger={
                     <span
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        fontFamily: 'var(--corpo-font-mono)',
-                        fontSize: 'var(--corpo-text-xs)',
-                        textTransform: 'uppercase',
-                        letterSpacing: 'var(--corpo-label-tracking)',
-                      }}
+                      className="corpo-label"
+                      style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
                     >
                       <span>{dept.label}</span>
                       <span style={{ color: 'var(--corpo-text-muted)' }}>

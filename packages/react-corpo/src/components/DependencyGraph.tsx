@@ -58,7 +58,6 @@ export function DependencyGraph({
       apiRef.current = null;
     };
     // The engine is created once; model updates flow through replaceModel below.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

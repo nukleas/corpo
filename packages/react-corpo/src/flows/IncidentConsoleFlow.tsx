@@ -226,16 +226,7 @@ export function IncidentConsoleFlow() {
               {selected.title}
             </p>
             <div>
-              <div
-                style={{
-                  fontFamily: 'var(--corpo-font-mono)',
-                  fontSize: 'var(--corpo-text-xs)',
-                  textTransform: 'uppercase',
-                  letterSpacing: 'var(--corpo-label-tracking)',
-                  color: 'var(--corpo-text-muted)',
-                  marginBottom: 8,
-                }}
-              >
+              <div className="corpo-label" style={{ marginBottom: 8 }}>
                 Timeline
               </div>
               <ul

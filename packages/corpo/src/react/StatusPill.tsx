@@ -1,13 +1,10 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { StatusDot } from './StatusDot';
+import { cx } from './cx';
 
 export interface StatusPillProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: 'ok' | 'warn' | 'err' | 'idle' | 'info';
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function StatusPill({ tone = 'ok', className = '', children, ...rest }: StatusPillProps) {

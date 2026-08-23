@@ -44,7 +44,7 @@
 .cp-chart-series--4 { --series-color: var(--corpo-chart-4); }
 .cp-chart-series--5 { --series-color: var(--corpo-chart-5); }
 /* 6th+ series render neutral — fold extras into an "Other" series instead */
-.cp-chart-series--overflow { --series-color: var(--corpo-grey-500); }
+.cp-chart-series--overflow { --series-color: var(--corpo-gray-500); }
 
 /* Recessive grid and axes — hairlines, dim text */
 .cp-chart__grid {

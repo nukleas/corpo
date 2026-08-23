@@ -1,12 +1,9 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: ReactNode;
   size?: 'sm' | 'md';
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Switch({ label, size = 'md', className = '', disabled, ...rest }: SwitchProps) {

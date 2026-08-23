@@ -1,13 +1,10 @@
 import type { HTMLAttributes } from 'react';
 import { Skeleton } from './Skeleton';
+import { cx } from './cx';
 
 export interface SkeletonRowProps extends HTMLAttributes<HTMLDivElement> {
   avatar?: boolean;
   lines?: number;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function SkeletonRow({ avatar = true, lines = 2, className = '', ...rest }: SkeletonRowProps) {

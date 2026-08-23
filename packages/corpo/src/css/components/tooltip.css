@@ -6,7 +6,7 @@
   position: absolute;
   z-index: 40;
   padding: 5px 8px;
-  background: var(--corpo-grey-900);
+  background: var(--corpo-gray-900);
   color: var(--corpo-white);
   border-radius: var(--corpo-radius);
   font-family: var(--corpo-font-sans);

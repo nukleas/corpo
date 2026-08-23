@@ -1,13 +1,10 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface InputGroupProps extends HTMLAttributes<HTMLDivElement> {
   leading?: ReactNode;
   trailing?: ReactNode;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function InputGroup({ leading, trailing, className = '', children, ...rest }: InputGroupProps) {

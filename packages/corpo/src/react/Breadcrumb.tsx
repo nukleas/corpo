@@ -1,4 +1,5 @@
 import type { ElementType, HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface BreadcrumbItem {
   label: ReactNode;
@@ -12,10 +13,6 @@ export interface BreadcrumbItem {
 
 export interface BreadcrumbProps extends HTMLAttributes<HTMLElement> {
   items: BreadcrumbItem[];
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Breadcrumb({ items, className = '', ...rest }: BreadcrumbProps) {

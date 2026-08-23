@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
   value?: number;
@@ -6,10 +7,6 @@ export interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
   tone?: 'accent' | 'success' | 'warning' | 'danger';
   thick?: boolean;
   label?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Progress({ value = 0, max = 100, tone = 'accent', thick = false, label, className = '', ...rest }: ProgressProps) {

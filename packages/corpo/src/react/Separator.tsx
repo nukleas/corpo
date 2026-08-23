@@ -1,12 +1,9 @@
 import type { HTMLAttributes } from 'react';
+import { cx } from './cx';
 
 export interface SeparatorProps extends HTMLAttributes<HTMLHRElement> {
   orientation?: 'horizontal' | 'vertical';
   label?: string;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Separator({ orientation = 'horizontal', label, className = '', ...rest }: SeparatorProps) {

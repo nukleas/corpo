@@ -30,7 +30,6 @@ export function Popover({ trigger, children, align = 'left', side = 'bottom', op
     };
     document.addEventListener('mousedown', onDocClick);
     return () => document.removeEventListener('mousedown', onDocClick);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   return (

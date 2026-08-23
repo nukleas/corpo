@@ -1,11 +1,8 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Radio({ label, className = '', disabled, ...rest }: RadioProps) {

@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ElementType, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'primary' | 'ghost' | 'danger';
@@ -9,10 +10,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Link target when rendering as an anchor. */
   href?: string;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Button({

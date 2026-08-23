@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface StatusBarItem {
   id: string;
@@ -8,10 +9,6 @@ export interface StatusBarItem {
 
 export interface StatusBarProps extends HTMLAttributes<HTMLDivElement> {
   items: StatusBarItem[];
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function StatusBar({ items, className = '', ...rest }: StatusBarProps) {

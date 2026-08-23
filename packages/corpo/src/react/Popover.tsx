@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface PopoverProps {
   trigger: ReactNode;
@@ -9,10 +10,6 @@ export interface PopoverProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   className?: string;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Popover({ trigger, children, align = 'left', side = 'bottom', open, onOpenChange, className = '' }: PopoverProps) {
@@ -31,7 +28,6 @@ export function Popover({ trigger, children, align = 'left', side = 'bottom', op
     };
     document.addEventListener('mousedown', onDocClick);
     return () => document.removeEventListener('mousedown', onDocClick);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   return (

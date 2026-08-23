@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title?: ReactNode;
@@ -7,10 +8,6 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
   headerActions?: ReactNode;
   flat?: boolean;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Card({ title, description, footer, headerActions, flat = false, className = '', children, ...rest }: CardProps) {

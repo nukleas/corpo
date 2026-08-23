@@ -83,12 +83,8 @@ export function ExecutiveBriefingFlow() {
 
       <div>
         <div
+          className="corpo-label corpo-label--wide"
           style={{
-            fontFamily: 'var(--corpo-font-mono)',
-            fontSize: 'var(--corpo-text-xs)',
-            textTransform: 'uppercase',
-            letterSpacing: 'var(--corpo-label-tracking-wide)',
-            color: 'var(--corpo-text-muted)',
             margin: '0 0 12px',
             paddingBottom: 8,
             borderBottom: '1px solid var(--corpo-border-dim)',

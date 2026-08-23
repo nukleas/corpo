@@ -119,8 +119,8 @@ pnpm typecheck
 Consumers:
 
 ```ts
-import { Button, ThemeProvider } from 'react-corpo';
-import 'react-corpo/styles.css';
+import { Button, ThemeProvider } from '@nukleas/react-corpo';
+import '@nukleas/react-corpo/styles.css';
 ```
 
 ## Do not

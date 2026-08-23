@@ -1,12 +1,9 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: ReactNode;
   description?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Checkbox({ label, description, className = '', disabled, ...rest }: CheckboxProps) {

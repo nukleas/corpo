@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface DropdownItem {
   id: string;
@@ -13,10 +14,6 @@ export interface DropdownProps {
   items: DropdownItem[];
   align?: 'left' | 'right';
   className?: string;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Dropdown({ trigger, items, align = 'left', className = '' }: DropdownProps) {

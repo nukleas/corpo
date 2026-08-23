@@ -1,4 +1,5 @@
 import type { CSSProperties, HTMLAttributes } from 'react';
+import { cx } from './cx';
 
 export interface TreeItem {
   id: string;
@@ -12,10 +13,6 @@ export interface TreeViewProps extends Omit<HTMLAttributes<HTMLUListElement>, 'o
   onExpandedChange?: (ids: string[]) => void;
   selectedId?: string;
   onSelect?: (id: string, item: TreeItem) => void;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 function depthStyle(depth: number): CSSProperties {

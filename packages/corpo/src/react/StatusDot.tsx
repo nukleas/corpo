@@ -1,11 +1,8 @@
 import type { HTMLAttributes } from 'react';
+import { cx } from './cx';
 
 export interface StatusDotProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: 'ok' | 'warn' | 'err' | 'idle' | 'info';
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function StatusDot({ tone = 'ok', className = '', ...rest }: StatusDotProps) {

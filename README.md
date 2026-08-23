@@ -17,7 +17,7 @@ Public Sans body copy, quiet elevation instead of neon glow, sentence-case conte
 
 ## Components
 
-52 components across four groups — the general-purpose subset of cyberdesign's catalog, plus the
+80+ components across four groups — the general-purpose subset of cyberdesign's catalog, plus the
 shadcn-parity extras that fit a calm business UI. Cyber-only families (Terminal, HUD, Scanner,
 Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts) are intentionally not ported.
 

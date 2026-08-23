@@ -1,4 +1,5 @@
 import { useRef, useState, type DragEvent, type HTMLAttributes, type ReactNode } from 'react';
+import { cx } from './cx';
 
 export type DropzoneFileStatus = 'uploading' | 'error';
 
@@ -21,10 +22,6 @@ export interface DropzoneProps extends HTMLAttributes<HTMLDivElement> {
   multiple?: boolean;
   disabled?: boolean;
   hint?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 function formatFileSize(bytes: number): string {

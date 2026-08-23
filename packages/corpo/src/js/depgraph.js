@@ -313,7 +313,6 @@ export function CpDepGraph(root, opts = {}) {
     const { width, height } = root.getBoundingClientRect();
     const nodeLeft = toScreen(p.x, p.y);
     const nodeRight = toScreen(p.x + NODE_W, p.y + NODE_H);
-    // Measure the rendered tip, prefer the node's right side, then clamp.
     const tipW = tip.offsetWidth;
     const tipH = tip.offsetHeight;
     let left = nodeRight.x + 10;

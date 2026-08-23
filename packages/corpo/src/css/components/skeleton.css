@@ -1,7 +1,7 @@
 .cp-skeleton {
   position: relative;
   display: block;
-  background: var(--corpo-grey-100);
+  background: var(--corpo-gray-100);
   border-radius: var(--corpo-radius);
   overflow: hidden;
 }
@@ -9,7 +9,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, var(--corpo-grey-200), transparent);
+  background: linear-gradient(90deg, transparent, var(--corpo-gray-200), transparent);
   animation: cp-shimmer 1.6s linear infinite;
 }
 

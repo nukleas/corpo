@@ -59,8 +59,7 @@
   font-size: var(--corpo-text-sm);
   color: var(--corpo-text-secondary);
 }
-.cp-command__item:hover,
-.cp-command__item--active { background: var(--corpo-bg-panel-hover); color: var(--corpo-text); }
+.cp-command__item:hover { background: var(--corpo-bg-panel-hover); color: var(--corpo-text); }
 .cp-command__empty {
   padding: 20px;
   text-align: center;

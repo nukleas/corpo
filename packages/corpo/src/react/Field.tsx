@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Label } from './Label';
+import { cx } from './cx';
 
 export interface FieldProps {
   label?: ReactNode;
@@ -9,10 +10,6 @@ export interface FieldProps {
   htmlFor?: string;
   className?: string;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Field({ label, hint, error, required = false, htmlFor, className = '', children }: FieldProps) {

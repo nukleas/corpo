@@ -1,12 +1,9 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
   onRemove?: () => void;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Chip({ onRemove, className = '', children, ...rest }: ChipProps) {

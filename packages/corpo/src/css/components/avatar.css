@@ -33,7 +33,7 @@
 .cp-avatar__status--online { background: var(--corpo-green); }
 .cp-avatar__status--away { background: var(--corpo-amber); }
 .cp-avatar__status--busy { background: var(--corpo-red); }
-.cp-avatar__status--offline { background: var(--corpo-grey-400); }
+.cp-avatar__status--offline { background: var(--corpo-gray-400); }
 
 .cp-avatar-group {
   display: inline-flex;

@@ -1,11 +1,8 @@
 import type { InputHTMLAttributes } from 'react';
+import { cx } from './cx';
 
 export interface SliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   showValue?: boolean;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Slider({ showValue = false, className = '', value, ...rest }: SliderProps) {

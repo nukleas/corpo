@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { cx } from './cx';
 
 export interface ComboboxOption {
   value: string;
@@ -11,10 +12,6 @@ export interface ComboboxProps {
   onChange?: (value: string) => void;
   placeholder?: string;
   emptyText?: string;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Combobox({ options, value, onChange, placeholder = 'Search…', emptyText = 'No results' }: ComboboxProps) {

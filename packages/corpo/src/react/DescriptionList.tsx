@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface DescriptionListItem {
   label: ReactNode;
@@ -8,10 +9,6 @@ export interface DescriptionListItem {
 export interface DescriptionListProps extends HTMLAttributes<HTMLDListElement> {
   items: DescriptionListItem[];
   compact?: boolean;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function DescriptionList({ items, compact = false, className = '', ...rest }: DescriptionListProps) {
