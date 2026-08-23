@@ -31,8 +31,7 @@
   font-size: var(--corpo-text-sm);
   color: var(--corpo-text-secondary);
 }
-.cp-combobox__option:hover,
-.cp-combobox__option--active { background: var(--corpo-bg-panel-hover); color: var(--corpo-text); }
+.cp-combobox__option:hover { background: var(--corpo-bg-panel-hover); color: var(--corpo-text); }
 .cp-combobox__option--selected { color: var(--corpo-accent); font-weight: 600; }
 .cp-combobox__empty {
   padding: 10px;

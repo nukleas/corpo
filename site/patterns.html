@@ -57,7 +57,7 @@
             and fixed rules for chart color. Learn them once — they work the same everywhere.
           </p>
 
-          <h2>Shorthand slots</h2>
+          <h2 class="corpo-label corpo-label--wide">Shorthand slots</h2>
           <p>
             Data-driven components with a repeated item slot accept <strong>shorthand</strong>: a bare
             <code>string | number</code>, a props object, or a <code>&lt;Parent.Item&gt;</code>
@@ -83,7 +83,7 @@
             <code>createShorthandFactory</code>, exported from the package.
           </p>
 
-          <h2>The <code>as</code> prop</h2>
+          <h2 class="corpo-label corpo-label--wide">The <code>as</code> prop</h2>
           <p>
             Components whose element genuinely varies take <code>as</code>, fully typed against the
             rendered element — <code>href</code> without <code>as="a"</code> is a compile error:
@@ -103,16 +103,16 @@
 &lt;Pagination page={page} totalPages={12}
   as={Link} linkProps={(p) =&gt; ({ to: `/invoices?page=${p}` })} /&gt;</code></pre>
 
-          <h2>Chart color rules</h2>
+          <h2 class="corpo-label corpo-label--wide">Chart color rules</h2>
           <ul class="checks">
             <li>Series take <code>--corpo-chart-1…5</code> in <strong>fixed order, never cycled</strong> — filtering series never repaints the survivors.</li>
-            <li>Five series max; a sixth renders neutral grey as a signal to fold the tail into an "Other" series.</li>
+            <li>Five series max; a sixth renders neutral gray as a signal to fold the tail into an "Other" series.</li>
             <li>The palette is CVD-validated on both light and dark surfaces (dark uses its own muted steps).</li>
             <li>Status colors (<code>green/red/amber</code>) are reserved for status — never chart series.</li>
             <li>Legends render only for two or more series; axis and legend text always wears text tokens, never series color.</li>
           </ul>
 
-          <h2>Voice and layout</h2>
+          <h2 class="corpo-label corpo-label--wide">Voice and layout</h2>
           <ul class="checks">
             <li>Sentence case everywhere; uppercase mono is a style applied by components, not typed content.</li>
             <li>Verb-first button copy — "Save changes", never "Submit". No exclamation marks, no emoji.</li>

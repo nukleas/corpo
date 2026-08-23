@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export type StepperStatus = 'complete' | 'current' | 'upcoming';
 
@@ -10,10 +11,6 @@ export interface StepperProps extends HTMLAttributes<HTMLOListElement> {
   items: StepperItem[];
   /** 0-based index of the current step. Steps before it are complete; after it, upcoming. */
   current?: number;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 function statusFor(index: number, current: number): StepperStatus {

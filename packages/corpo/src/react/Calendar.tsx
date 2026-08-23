@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { cx } from './cx';
 
 export interface CalendarProps {
   value?: Date;
@@ -22,10 +23,6 @@ function buildGrid(month: Date): Date[] {
     d.setDate(start.getDate() + i);
     return d;
   });
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Calendar({ value, defaultMonth, onChange, isDisabled }: CalendarProps) {

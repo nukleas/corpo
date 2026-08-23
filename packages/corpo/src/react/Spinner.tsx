@@ -1,12 +1,9 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface SpinnerProps extends HTMLAttributes<HTMLSpanElement> {
   size?: number;
   label?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Spinner({ size = 16, label, className = '', ...rest }: SpinnerProps) {

@@ -1,14 +1,11 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   tone?: 'info' | 'success' | 'warning' | 'error';
   title?: ReactNode;
   onDismiss?: () => void;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Toast({ tone = 'info', title, onDismiss, className = '', children, ...rest }: ToastProps) {

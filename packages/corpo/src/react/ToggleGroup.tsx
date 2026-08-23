@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Toggle } from './Toggle';
+import { cx } from './cx';
 
 export interface ToggleGroupOption {
   value: string;
@@ -12,10 +13,6 @@ export interface ToggleGroupProps {
   onChange: (value: string | string[]) => void;
   multiple?: boolean;
   className?: string;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function ToggleGroup({ options, value, onChange, multiple = false, className = '' }: ToggleGroupProps) {

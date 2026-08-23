@@ -1,8 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from './cx';
 
 export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   /** Off-canvas sidebar visibility below 768px. */

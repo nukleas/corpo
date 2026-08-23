@@ -6,7 +6,7 @@
 .cp-spinner__ring {
   width: 16px;
   height: 16px;
-  border: 2px solid var(--corpo-grey-200);
+  border: 2px solid var(--corpo-gray-200);
   border-top-color: var(--corpo-accent);
   border-radius: 50%;
   animation: cp-spin 0.8s linear infinite;

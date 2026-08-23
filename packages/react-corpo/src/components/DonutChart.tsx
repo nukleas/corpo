@@ -35,7 +35,6 @@ export function DonutChart({ data, format, centerLabel, className = '', ...rest 
       apiRef.current = null;
     };
     // The engine is created once; model updates flow through update below.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

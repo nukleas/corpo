@@ -1,4 +1,5 @@
 import type { ElementType, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface PaginationProps {
   page: number;
@@ -13,10 +14,6 @@ export interface PaginationProps {
   // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- deliberate verbatim passthrough to the caller-chosen link element (router props are untyped here by design)
   linkProps?: (page: number) => Record<string, unknown>;
   className?: string;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 function getPageList(page: number, totalPages: number, siblingCount: number): (number | 'ellipsis')[] {

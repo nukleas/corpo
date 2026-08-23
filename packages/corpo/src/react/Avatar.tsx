@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from 'react';
+import { cx } from './cx';
 
 export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
   src?: string;
@@ -6,10 +7,6 @@ export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
   initials?: string;
   size?: 'sm' | 'md' | 'lg';
   status?: 'online' | 'away' | 'busy' | 'offline';
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Avatar({ src, alt = '', initials, size = 'md', status, className = '', ...rest }: AvatarProps) {

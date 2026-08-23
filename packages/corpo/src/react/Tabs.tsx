@@ -1,4 +1,5 @@
 import { useState, type HTMLAttributes, type ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface TabItem {
   id: string;
@@ -12,10 +13,6 @@ export interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChang
   defaultActive?: string;
   onChange?: (id: string) => void;
   pills?: boolean;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Tabs({ tabs, active, defaultActive, onChange, pills = false, className = '', ...rest }: TabsProps) {

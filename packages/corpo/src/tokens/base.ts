@@ -1,16 +1,15 @@
 export const palette = {
   white: '#ffffff',
-  grey50: '#f6f8fa',
-  grey100: '#eef1f5',
-  grey200: '#dde3ec',
-  grey300: '#c9d2de',
-  grey400: '#a3b1c4',
-  grey500: '#75839a',
-  grey550: '#5f6d88', // AA (≥4.5:1) on all light surfaces; the dimmest readable text tier
-  grey600: '#5b6980',
-  grey700: '#3f4c63',
-  grey800: '#242e42',
-  grey900: '#101623',
+  gray50: '#f6f8fa',
+  gray100: '#eef1f5',
+  gray200: '#dde3ec',
+  gray300: '#c9d2de',
+  gray400: '#a3b1c4',
+  gray500: '#75839a',
+  gray550: '#5f6d88', // AA (≥4.5:1) on all light surfaces; the dimmest readable text tier
+  gray600: '#5b6980',
+  gray700: '#3f4c63',
+  gray900: '#101623',
 
   green: '#157244',
   red: '#bf2443',
@@ -19,7 +18,6 @@ export const palette = {
   purple: '#6742c9',
   magenta: '#ad1a7d',
   teal: '#0f6f80',
-  orange: '#b35100',
 
   greenSubtle: 'rgba(21, 114, 68, 0.08)',
   redSubtle: 'rgba(191, 36, 67, 0.08)',

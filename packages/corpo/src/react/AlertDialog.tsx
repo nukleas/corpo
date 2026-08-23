@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { cx } from './cx';
 
 export interface AlertDialogProps {
   open: boolean;
@@ -10,10 +11,6 @@ export interface AlertDialogProps {
   cancelLabel?: string;
   danger?: boolean;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function AlertDialog({

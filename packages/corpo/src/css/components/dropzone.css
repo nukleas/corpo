@@ -145,7 +145,7 @@
   font-size: 12px;
   line-height: 1;
 }
-.cp-dropzone__remove:hover { background: var(--corpo-grey-200); color: var(--corpo-text); }
+.cp-dropzone__remove:hover { background: var(--corpo-gray-200); color: var(--corpo-text); }
 .cp-dropzone__remove:disabled { cursor: not-allowed; }
 
 .cp-dropzone__file .cp-progress,

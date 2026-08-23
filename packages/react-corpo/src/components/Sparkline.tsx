@@ -30,7 +30,6 @@ export function Sparkline({ data, color, className = '', ...rest }: SparklinePro
       apiRef.current = null;
     };
     // The engine is created once; model updates flow through update below.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

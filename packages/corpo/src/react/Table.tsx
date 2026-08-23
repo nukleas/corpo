@@ -1,5 +1,6 @@
 import { isValidElement } from 'react';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import { cx } from './cx';
 
 export type TableCellStatus = 'ok' | 'warn' | 'err' | 'idle';
 
@@ -29,10 +30,6 @@ export interface TableProps extends HTMLAttributes<HTMLDivElement> {
   /** Row objects keyed by column `key`; each value is cell shorthand. */
   rows: Record<string, TableCellShorthand>[];
   compact?: boolean;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Table({ columns, rows, compact = false, className = '', ...rest }: TableProps) {

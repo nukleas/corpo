@@ -1,8 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from './cx';
 
 export interface TopbarProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
   title?: ReactNode;

@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   label: ReactNode;
@@ -6,10 +7,6 @@ export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   delta?: ReactNode;
   deltaTone?: 'up' | 'down' | 'neutral';
   hint?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Stat({ label, value, delta, deltaTone = 'neutral', hint, className = '', ...rest }: StatProps) {

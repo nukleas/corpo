@@ -1,13 +1,10 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface TooltipProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content'> {
   content: ReactNode;
   side?: 'top' | 'bottom' | 'left' | 'right';
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Tooltip({ content, side = 'top', className = '', children, ...rest }: TooltipProps) {

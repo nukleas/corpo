@@ -39,7 +39,6 @@ export function BarChart({ series, labels, yFormat, stacked = false, className =
       apiRef.current = null;
     };
     // The engine is created once; model updates flow through update below.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { cx } from './cx';
 
 export interface SheetProps {
   open: boolean;
@@ -8,10 +9,6 @@ export interface SheetProps {
   title?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Sheet({ open, onClose, side = 'right', title, footer, children }: SheetProps) {

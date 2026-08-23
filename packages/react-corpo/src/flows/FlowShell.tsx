@@ -24,14 +24,8 @@ export function FlowShell({
     <ThemeProvider theme="teal" style={{ background: 'var(--corpo-bg)', color: 'var(--corpo-text)' }}>
       <div style={{ maxWidth: 920, margin: '0 auto', padding: '4px 4px 40px' }}>
         <div
-          style={{
-            fontFamily: 'var(--corpo-font-mono)',
-            fontSize: 'var(--corpo-text-xs)',
-            textTransform: 'uppercase',
-            letterSpacing: 'var(--corpo-label-tracking-wide)',
-            color: 'var(--corpo-accent)',
-            marginBottom: 8,
-          }}
+          className="corpo-label corpo-label--wide"
+          style={{ color: 'var(--corpo-accent)', marginBottom: 8 }}
         >
           {eyebrow}
         </div>

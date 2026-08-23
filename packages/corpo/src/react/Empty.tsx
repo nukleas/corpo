@@ -1,14 +1,11 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface EmptyProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   icon?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   action?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Empty({ icon, title, description, action, className = '', ...rest }: EmptyProps) {

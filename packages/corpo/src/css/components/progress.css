@@ -11,7 +11,7 @@
 .cp-progress__track {
   width: 100%;
   height: 4px;
-  background: var(--corpo-grey-200);
+  background: var(--corpo-gray-200);
   border-radius: var(--corpo-radius);
   overflow: hidden;
 }

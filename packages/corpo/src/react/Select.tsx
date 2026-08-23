@@ -1,13 +1,10 @@
 import type { SelectHTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   size?: 'sm' | 'md' | 'lg';
   error?: boolean;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Select({ size = 'md', error = false, className = '', children, ...rest }: SelectProps) {

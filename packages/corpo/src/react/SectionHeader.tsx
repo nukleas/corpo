@@ -1,13 +1,10 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface SectionHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function SectionHeader({ title, description, actions, className = '', ...rest }: SectionHeaderProps) {

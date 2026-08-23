@@ -1,12 +1,9 @@
 import type { HTMLAttributes } from 'react';
 import { Kbd } from './Kbd';
+import { cx } from './cx';
 
 export interface KbdGroupProps extends HTMLAttributes<HTMLSpanElement> {
   keys: string[];
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function KbdGroup({ keys, className = '', ...rest }: KbdGroupProps) {

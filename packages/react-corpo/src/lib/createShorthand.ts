@@ -39,9 +39,6 @@ export function createShorthandFactory<P extends { className?: string }, V = str
   mapValueToProps: (value: V) => Partial<P>,
 ) {
   return function create(value: Shorthand<P, V>, options: ShorthandOptions<P> = {}): ReactElement | null {
-    // This factory IS the shorthand boundary parser — its whole job is to
-    // classify the runtime shape of `value` (nil/boolean, element, props
-    // object, or primitive) before any typed code consumes it.
     if (value == null || value === true || value === false) return null;
     const { defaultProps, overrideProps, key } = options;
 

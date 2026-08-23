@@ -1,11 +1,8 @@
 import type { HTMLAttributes } from 'react';
+import { cx } from './cx';
 
 export interface RadioGroupProps extends HTMLAttributes<HTMLDivElement> {
   orientation?: 'vertical' | 'horizontal';
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function RadioGroup({ orientation = 'vertical', className = '', children, ...rest }: RadioGroupProps) {

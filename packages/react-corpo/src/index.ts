@@ -1,5 +1,5 @@
 // react-corpo — React bindings over corpo CSS.
-// Import styles once: `import "react-corpo/styles.css"`
+// Import styles once: `import "@nukleas/react-corpo/styles.css"`
 
 export { cn } from './lib/cn';
 export { createShorthandFactory } from './lib/createShorthand';

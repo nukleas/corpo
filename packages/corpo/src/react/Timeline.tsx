@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export type TimelineTone = 'ok' | 'warn' | 'err' | 'idle';
 
@@ -11,10 +12,6 @@ export interface TimelineItem {
 
 export interface TimelineProps extends HTMLAttributes<HTMLOListElement> {
   items: TimelineItem[];
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Timeline({ items, className = '', ...rest }: TimelineProps) {

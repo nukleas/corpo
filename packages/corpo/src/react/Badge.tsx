@@ -1,13 +1,10 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   color?: 'neutral' | 'accent' | 'green' | 'red' | 'amber' | 'blue' | 'magenta' | 'purple';
   dot?: boolean;
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Badge({ color = 'neutral', dot = false, className = '', children, ...rest }: BadgeProps) {

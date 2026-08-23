@@ -6,7 +6,7 @@ Visual styles come from corpo CSS (`cp-*` classes, `--corpo-*` tokens). This pac
 
 ## Features
 
-- **52 components across forms, display, feedback, navigation** — including Button, Input, Select, Checkbox, Switch, Slider, Combobox, DatePicker, Toggle(Group), Card, Table, Avatar, Skeleton, Accordion, Modal, AlertDialog, Sheet, Popover, Calendar, Spreadsheet, Chip, Status(Dot/Pill/Bar), Empty, Alert, Progress, Toast, Tabs, Breadcrumb, Dropdown, Pagination, Command — see [`packages/corpo`](../corpo) for the full list
+- **80+ components across forms, display, feedback, navigation** — including Button, Input, Select, Checkbox, Switch, Slider, Combobox, DatePicker, Toggle(Group), Card, Table, Avatar, Skeleton, Accordion, Modal, AlertDialog, Sheet, Popover, Calendar, Spreadsheet, Chip, Status(Dot/Pill/Bar), Empty, Alert, Progress, Toast, Tabs, Breadcrumb, Dropdown, Pagination, Command — see [`packages/corpo`](../corpo) for the full list
 - **Semantic props** — `variant`, `size`, `color`/`tone`, plus native HTML attributes
 - **Multi themes** — `teal` (default) · `amber` · `green` · `red` · `steel`, plus a `corpo-dark` heritage scope
 - **Storybook autodocs** — prop tables from JSDoc
@@ -84,13 +84,12 @@ Example (Button):
 ## Develop
 
 ```bash
-# one-time: build design tokens/CSS
-(cd ../corpo && npm install && npm run build)
+pnpm install                              # from the repo root
+pnpm --filter @nukleas/corpo run build    # one-time: build design tokens/CSS
 
-npm install
-npm run storybook    # http://localhost:6006
-npm run build        # dist/ ESM + CJS + types + styles.css
-npm run typecheck
+pnpm run storybook    # http://localhost:6006
+pnpm run build        # dist/ ESM + CJS + types + styles.css
+pnpm run typecheck
 ```
 
 ## Package layout
@@ -101,6 +100,8 @@ src/
   lib/            cn(), shared types (CpColor, CpTheme, CpSize)
   theme/          ThemeProvider + useTheme
   styles/         CSS entry for Storybook (imports corpo)
+  flows/          multi-component Storybook flow fixtures (not in the bundle)
+  examples/       Storybook example fixtures (not in the bundle)
   index.ts        public API
 ```
 

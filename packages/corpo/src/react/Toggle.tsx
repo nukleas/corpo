@@ -1,14 +1,11 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface ToggleProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
   pressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
   size?: 'sm' | 'md';
   children?: ReactNode;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Toggle({ pressed = false, onPressedChange, size = 'md', className = '', children, ...rest }: ToggleProps) {

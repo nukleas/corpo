@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { cx } from './cx';
 
 export interface AccordionItem {
   id: string;
@@ -11,10 +12,6 @@ export interface AccordionProps {
   defaultOpen?: string[];
   multiple?: boolean;
   className?: string;
-}
-
-function cx(...parts: Array<string | false | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function Accordion({ items, defaultOpen = [], multiple = false, className = '' }: AccordionProps) {
