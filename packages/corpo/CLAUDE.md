@@ -34,6 +34,8 @@ src/react/           thin class wrappers, one per component (design-sync / light
 src/js/              zero-dep vanilla scene engines, shipped from src via package exports
   depgraph.js        CpDepGraph — milestone dependency graph (exports `corpo/depgraph`)
   depgraph.d.ts      hand-authored types for the export
+  relgraph.js        CpRelGraph — canvas relationship graph, ~10k-node target (exports `corpo/relgraph`)
+  relgraph.d.ts      hand-authored types for the export
 
 dist/                generated, gitignored — run `npm run build` to regenerate
   corpo.css

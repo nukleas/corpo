@@ -48,6 +48,10 @@
       "types": "./src/js/depgraph.d.ts",
       "default": "./src/js/depgraph.js"
     },
+    "./relgraph": {
+      "types": "./src/js/relgraph.d.ts",
+      "default": "./src/js/relgraph.js"
+    },
     "./charts": {
       "types": "./src/js/charts.d.ts",
       "default": "./src/js/charts.js"

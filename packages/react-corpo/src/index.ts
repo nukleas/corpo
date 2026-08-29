@@ -63,6 +63,7 @@ export * from './components/AspectRatio';
 export * from './components/ScrollArea';
 export * from './components/SectionHeader';
 export * from './components/DependencyGraph';
+export * from './components/RelationGraph';
 export * from './components/LineChart';
 export * from './components/BarChart';
 export * from './components/DonutChart';
