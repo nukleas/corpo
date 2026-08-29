@@ -1,0 +1,63 @@
+/* RelGraph (CpRelGraph) — canvas relationship graph. The engine paints nodes,
+   edges, and labels from resolved tokens; CSS owns the host, tooltip, and
+   focus treatment. */
+.cp-relgraph {
+  position: relative;
+  overflow: hidden;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  min-height: 240px;
+}
+
+.cp-relgraph__canvas {
+  display: block;
+  touch-action: none;
+}
+.cp-relgraph__canvas:focus-visible {
+  outline: 2px solid var(--corpo-accent);
+  outline-offset: -2px;
+}
+
+.cp-relgraph__tip {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 260px;
+  padding: 8px 10px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-md);
+  pointer-events: none;
+}
+.cp-relgraph__tip-title {
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-relgraph__tip-kind {
+  align-self: flex-start;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--tip-kind-color, var(--corpo-text-muted));
+}
+.cp-relgraph__tip-meta {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+
+/* visually hidden aria-live region */
+.cp-relgraph__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

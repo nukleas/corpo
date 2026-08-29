@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CpRelGraph — perf harness</title>
+<link rel="stylesheet" href="../dist/corpo.css">
+<style>
+  body { margin: 0; padding: 16px; background: var(--corpo-bg); font-family: var(--corpo-font-sans); color: var(--corpo-text); }
+  .bar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .stats { font-family: var(--corpo-font-mono); font-size: var(--corpo-text-sm); color: var(--corpo-text-secondary); }
+  #graph { height: calc(100vh - 90px); }
+</style>
+</head>
+<body>
+<div class="bar">
+  <span class="corpo-label corpo-label--wide">CpRelGraph perf harness</span>
+  <select id="size" class="cp-select" style="width:auto">
+    <option value="1000">1k nodes</option>
+    <option value="5000">5k nodes</option>
+    <option value="10000" selected>10k nodes</option>
+    <option value="20000">20k nodes</option>
+  </select>
+  <select id="theme" class="cp-select" style="width:auto">
+    <option value="">teal</option>
+    <option value="theme-amber">amber</option>
+    <option value="theme-green">green</option>
+    <option value="theme-red">red</option>
+    <option value="theme-steel">steel</option>
+  </select>
+  <button id="fit" class="cp-btn">Fit (0)</button>
+  <span id="stats" class="stats"></span>
+</div>
+<div id="graph"></div>
+
+<script type="module">
+import { CpRelGraph } from '../src/js/relgraph.js';
+
+function mulberry32(seed) {
+  let a = seed;
+  return () => {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const KINDS = ['service', 'database', 'queue', 'external', 'job', 'ui'];
+const GA = Math.PI * (3 - Math.sqrt(5));
+
+function makeGraph(total) {
+  const rand = mulberry32(42);
+  const clusterCount = Math.max(6, Math.round(Math.sqrt(total) / 2));
+  const size = Math.floor(total / clusterCount);
+  const nodes = [];
+  const edges = [];
+  const clusterR = 14 * Math.sqrt(size);
+  for (let c = 0; c < clusterCount; c++) {
+    const cd = clusterR * 2.4 * Math.sqrt(c + 0.5);
+    const cx = Math.cos(c * GA) * cd;
+    const cy = Math.sin(c * GA) * cd;
+    const hub = `c${c}-hub`;
+    nodes.push({ id: hub, label: `gateway-${c}`, kind: 'service', x: cx, y: cy, r: 7 });
+    for (let i = 1; i < size; i++) {
+      const id = `c${c}-n${i}`;
+      const d = 14 * Math.sqrt(i + 0.5);
+      nodes.push({
+        id,
+        label: `${KINDS[i % KINDS.length]}-${c}-${i}`,
+        kind: KINDS[i % KINDS.length],
+        x: cx + Math.cos(i * GA) * d,
+        y: cy + Math.sin(i * GA) * d,
+      });
+      edges.push({ source: hub, target: id });
+      if (i > 1 && rand() < 0.6) edges.push({ source: `c${c}-n${1 + Math.floor(rand() * (i - 1))}`, target: id });
+    }
+    if (c > 0) {
+      edges.push({ source: `c${Math.floor(rand() * c)}-hub`, target: hub });
+      edges.push({ source: `c${Math.floor(rand() * c)}-hub`, target: hub });
+    }
+  }
+  return { nodes, edges };
+}
+
+const host = document.getElementById('graph');
+const stats = document.getElementById('stats');
+let model = makeGraph(10000);
+let buildMs = 0;
+
+let t0 = performance.now();
+const api = CpRelGraph(host, {
+  ...model,
+  onSelect: (id) => { selectedId = id; },
+});
+buildMs = performance.now() - t0;
+let selectedId = null;
+window.relgraph = api;
+
+document.getElementById('size').addEventListener('change', (e) => {
+  model = makeGraph(Number(e.target.value));
+  t0 = performance.now();
+  api.replaceModel(model);
+  buildMs = performance.now() - t0;
+});
+
+document.getElementById('theme').addEventListener('change', (e) => {
+  document.documentElement.className = e.target.value;
+  api.refreshTheme();
+});
+
+document.getElementById('fit').addEventListener('click', () => api.fit());
+
+// FPS: count frames only while the graph is actually repainting (rAF-driven),
+// measured against a continuously running sampler.
+let frames = 0;
+let last = performance.now();
+function sample(now) {
+  frames++;
+  if (now - last >= 1000) {
+    const fps = Math.round((frames * 1000) / (now - last));
+    stats.textContent = `${model.nodes.length.toLocaleString()} nodes · ${model.edges.length.toLocaleString()} edges · build ${buildMs.toFixed(1)}ms · ${fps}fps${selectedId ? ` · selected ${selectedId}` : ''}`;
+    frames = 0;
+    last = now;
+  }
+  requestAnimationFrame(sample);
+}
+requestAnimationFrame(sample);
+</script>
+</body>
+</html>
