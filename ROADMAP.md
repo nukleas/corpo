@@ -28,11 +28,11 @@ reduced-motion, focus management). Target: 10k nodes / 20k edges at interactive 
 
 Built in layers, each shippable on its own:
 
-1. **Core renderer** — canvas 2D with devicePixelRatio-crisp text, quadtree hit-testing, viewport
+1. **Core renderer** *(shipped)* — canvas 2D with devicePixelRatio-crisp text, quadtree hit-testing, viewport
    culling, pan/zoom/fit, hover/select, neighborhood highlighting, level-of-detail labels (labels
    surface as you zoom — the calm answer to hairballs). Accepts precomputed positions; reuses the
    depgraph tier layout for DAG input.
-2. **Layouts** — Barnes-Hut force-directed in a Web Worker with progressive settle (the graph is
+2. **Layouts** *(shipped)* — Barnes-Hut force-directed in a Web Worker with progressive settle (the graph is
    usable while it converges); radial/concentric; the depgraph layered layout promoted to a shared
    module.
 3. **Navigating big graphs** — ported from cyberdesign's iso engine: gutter label packing with

@@ -63,6 +63,23 @@ export const ServiceMap: Story = {
   args: { ...makeGraph(6, 20), style: { height: 480 } },
 };
 
+/** No positions provided — the Barnes-Hut worker simulation organizes the graph while it stays interactive. */
+export const ForceLayout: Story = {
+  args: {
+    ...(() => {
+      const g = makeGraph(6, 20);
+      return { nodes: g.nodes.map(({ x: _x, y: _y, ...n }) => n), edges: g.edges };
+    })(),
+    layout: 'force',
+    style: { height: 480 },
+  },
+};
+
+/** Concentric BFS rings from the highest-degree node. */
+export const RadialLayout: Story = {
+  args: { ...makeGraph(4, 30), layout: 'radial', style: { height: 480 } },
+};
+
 /** 5,000 nodes / ~7,600 edges — pan, zoom, and hover stay interactive; labels surface as you zoom in. */
 export const LargeGraph: Story = {
   args: { ...makeGraph(40, 125), style: { height: 560 } },
