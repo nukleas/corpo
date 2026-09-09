@@ -29,7 +29,7 @@ export const GreenBar: Story = {
   render: () => <Ledger opening={24_180.4} entries={[...ENTRIES, ...ENTRIES]} bar />,
 };
 
-/** A multi-posting transaction carries `splits` — indented, always-visible posting sub-rows. */
+/** A multi-posting transaction carries `splits` — collapsed behind the row's disclosure toggle; click ▸ to expand the postings. */
 export const SplitRows: Story = {
   render: () => (
     <Ledger

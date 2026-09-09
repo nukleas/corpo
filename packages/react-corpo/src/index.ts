@@ -21,6 +21,7 @@ export * from './components/Field';
 export * from './components/Card';
 export * from './components/Badge';
 export * from './components/Table';
+export * from './components/DataTable';
 export * from './components/Stat';
 export * from './components/Kbd';
 export * from './components/KbdGroup';

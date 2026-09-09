@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from './cx';
 import { Amount } from './Amount';
@@ -17,7 +17,7 @@ export interface LedgerEntry {
   credit?: number;
   /** Explicit balance; omitted → computed as running opening + Dr − Cr (debit-normal). */
   balance?: number;
-  /** Static indented posting sub-rows. */
+  /** Split postings — collapsed behind a disclosure toggle. */
   splits?: LedgerSplit[];
 }
 
@@ -33,6 +33,15 @@ export interface LedgerProps extends HTMLAttributes<HTMLDivElement> {
 
 /** Accounting register — Date · Memo · Ref · Dr · Cr · Balance on the cp-table chassis. */
 export function Ledger({ entries, opening, bar = false, totals = true, className = '', ...rest }: LedgerProps) {
+  const [openSplits, setOpenSplits] = useState<ReadonlySet<number>>(new Set());
+  const toggleSplits = (i: number) =>
+    setOpenSplits((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+
   let running = opening ?? 0;
   let totalDr = 0;
   let totalCr = 0;
@@ -74,26 +83,42 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
             totalDr += entry.debit ?? 0;
             totalCr += entry.credit ?? 0;
             running = entry.balance ?? running + (entry.debit ?? 0) - (entry.credit ?? 0);
+            const hasSplits = (entry.splits?.length ?? 0) > 0;
+            const open = hasSplits && openSplits.has(i);
             return (
               <Fragment key={i}>
                 <tr>
                   <td data-mono="true">{entry.date}</td>
-                  <td>{entry.memo}</td>
+                  <td>
+                    {hasSplits && (
+                      <button
+                        type="button"
+                        className="cp-ledger__toggle"
+                        aria-expanded={open}
+                        aria-label={`${open ? 'Collapse' : 'Expand'} split postings`}
+                        onClick={() => toggleSplits(i)}
+                      >
+                        {open ? '▾' : '▸'}
+                      </button>
+                    )}
+                    {entry.memo}
+                  </td>
                   <td data-mono="true">{entry.ref}</td>
                   {amountCell(entry.debit)}
                   {amountCell(entry.credit)}
                   {balanceCell(running)}
                 </tr>
-                {entry.splits?.map((split, si) => (
-                  <tr key={si} className="cp-ledger__row--split">
-                    <td />
-                    <td>{split.memo}</td>
-                    <td />
-                    {amountCell(split.debit)}
-                    {amountCell(split.credit)}
-                    <td />
-                  </tr>
-                ))}
+                {open &&
+                  entry.splits?.map((split, si) => (
+                    <tr key={si} className="cp-ledger__row--split">
+                      <td />
+                      <td>{split.memo}</td>
+                      <td />
+                      {amountCell(split.debit)}
+                      {amountCell(split.credit)}
+                      <td />
+                    </tr>
+                  ))}
               </Fragment>
             );
           })}

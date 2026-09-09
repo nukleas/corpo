@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import { Amount, amountValue } from './Amount';
@@ -20,7 +20,7 @@ export interface LedgerEntry {
   credit?: AmountShorthand;
   /** Explicit balance; omitted → computed as running opening + Dr − Cr (debit-normal). */
   balance?: AmountShorthand;
-  /** Static indented posting sub-rows for a multi-posting transaction. */
+  /** Split postings for a multi-posting transaction — collapsed behind a disclosure toggle. */
   splits?: LedgerSplit[];
 }
 
@@ -40,9 +40,19 @@ export interface LedgerProps extends HTMLAttributes<HTMLDivElement> {
  * `opening` unless an entry carries its own `balance`; the computation only
  * sees numeric shorthands (a bare number or `{ value }`), so element
  * shorthands should bring explicit balances. Dr/Cr negatives render in
- * parentheses; balance negatives in red.
+ * parentheses; balance negatives in red. Split postings start collapsed
+ * behind a per-row disclosure toggle.
  */
 export function Ledger({ entries, opening, bar = false, totals = true, className, ...rest }: LedgerProps) {
+  const [openSplits, setOpenSplits] = useState<ReadonlySet<number>>(new Set());
+  const toggleSplits = (i: number) =>
+    setOpenSplits((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+
   let running = opening ?? 0;
   let totalDr = 0;
   let totalCr = 0;
@@ -53,12 +63,27 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
     totalDr += dr;
     totalCr += cr;
     running = amountValue(entry.balance) ?? running + dr - cr;
+    const hasSplits = (entry.splits?.length ?? 0) > 0;
+    const open = hasSplits && openSplits.has(i);
     return (
       // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
       <Fragment key={i}>
         <tr>
           <td data-mono="true">{entry.date}</td>
-          <td>{entry.memo}</td>
+          <td>
+            {hasSplits && (
+              <button
+                type="button"
+                className="cp-ledger__toggle"
+                aria-expanded={open}
+                aria-label={`${open ? 'Collapse' : 'Expand'} split postings`}
+                onClick={() => toggleSplits(i)}
+              >
+                {open ? '▾' : '▸'}
+              </button>
+            )}
+            {entry.memo}
+          </td>
           <td data-mono="true">{entry.ref}</td>
           <td data-numeric="true">{Amount.create(entry.debit)}</td>
           <td data-numeric="true">{Amount.create(entry.credit)}</td>
@@ -66,17 +91,18 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
             {Amount.create(entry.balance ?? running, { defaultProps: { negative: 'red' } })}
           </td>
         </tr>
-        {entry.splits?.map((split, si) => (
-          // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
-          <tr key={`${i}:${si}`} className="cp-ledger__row--split">
-            <td />
-            <td>{split.memo}</td>
-            <td />
-            <td data-numeric="true">{Amount.create(split.debit)}</td>
-            <td data-numeric="true">{Amount.create(split.credit)}</td>
-            <td />
-          </tr>
-        ))}
+        {open &&
+          entry.splits?.map((split, si) => (
+            // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
+            <tr key={`${i}:${si}`} className="cp-ledger__row--split">
+              <td />
+              <td>{split.memo}</td>
+              <td />
+              <td data-numeric="true">{Amount.create(split.debit)}</td>
+              <td data-numeric="true">{Amount.create(split.credit)}</td>
+              <td />
+            </tr>
+          ))}
       </Fragment>
     );
   });

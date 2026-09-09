@@ -12,10 +12,13 @@ Timeline, Stepper, TreeView, ProfileCard, AssignmentSlots, LicenseCatalog, Licen
 
 **Data**: LineChart, BarChart, DonutChart, Sparkline, DependencyGraph (CpDepGraph scene engine)
 
-**Accounting**: Amount, footing rules (`cp-foot`), Ledger, TAccount, TrialBalance, JournalEntry,
-Statement, plus Spreadsheet balance cells. Deferred from this family: sortable columns (see
-DataTable below), cell flash-on-change, expandable split toggles, a formula bar, and a
-TrialBalance account tree.
+**Accounting**: Amount, footing rules (`cp-foot`), Ledger (collapsible split postings), TAccount,
+TrialBalance, JournalEntry (optional Combobox account pickers), Statement, plus Spreadsheet
+balance cells. Deferred from this family: cell flash-on-change, a formula bar, and a TrialBalance
+account tree (best built on DataTable grouping).
+
+**DataTable**: sorting/filtering/selection over the Table chassis — sortable headers on raw
+values, toolbar quick filter, controlled checkbox selection.
 
 **Feedback**: Alert, Progress, Spinner, Toast
 
@@ -54,7 +57,6 @@ innerHTML-rebuild render loop — corpo's engine does automatic layout and incre
 Cyberdesign / shadcn-parity components that fit Corpo's brief (calm, light-first, business UI) but
 haven't been ported yet, roughly in value order:
 
-- **DataTable** — sorting/filtering/selection over the existing Table
 - **Resizable** split panes
 - **Overlays**: ContextMenu, HoverCard, a richer DropdownMenu (nested submenus, checkable items)
 - **App shell / navigation**: Menubar, NavigationMenu, Drawer, BottomNav (corpo has no mobile nav)

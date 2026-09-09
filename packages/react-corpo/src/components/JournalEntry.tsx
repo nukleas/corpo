@@ -3,6 +3,7 @@ import { cn } from '../lib/cn';
 import { Amount } from './Amount';
 import { Badge } from './Badge';
 import { Button } from './Button';
+import { Combobox } from './Combobox';
 
 export interface JournalPosting {
   account: string;
@@ -22,6 +23,8 @@ export interface JournalEntryValue {
 export interface JournalEntryProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value: JournalEntryValue;
   onChange: (next: JournalEntryValue) => void;
+  /** Chart of accounts — when given, account cells become Combobox pickers instead of free text. */
+  accounts?: string[];
 }
 
 const EMPTY_POSTING: JournalPosting = { account: '', memo: '', debit: '', credit: '' };
@@ -39,7 +42,7 @@ function parseAmount(raw: string): number {
  * `value` (controlled numeric inputs are lossy while typing); there is no
  * Dr/Cr auto-clearing — the caller owns data hygiene.
  */
-export function JournalEntry({ value, onChange, className, ...rest }: JournalEntryProps) {
+export function JournalEntry({ value, onChange, accounts, className, ...rest }: JournalEntryProps) {
   const totalDr = Math.round(value.postings.reduce((s, p) => s + parseAmount(p.debit), 0) * 100) / 100;
   const totalCr = Math.round(value.postings.reduce((s, p) => s + parseAmount(p.credit), 0) * 100) / 100;
   const diff = Math.round((totalDr - totalCr) * 100) / 100;
@@ -109,7 +112,18 @@ export function JournalEntry({ value, onChange, className, ...rest }: JournalEnt
             {value.postings.map((posting, i) => (
               // oxlint-disable-next-line react/no-array-index-key -- inputs are controlled by value, rows only append/remove
               <tr key={i}>
-                {input(posting, i, 'account', 'Account')}
+                {accounts ? (
+                  <td className="cp-journal__cell">
+                    <Combobox
+                      options={accounts.map((a) => ({ value: a, label: a }))}
+                      value={posting.account}
+                      placeholder="Account…"
+                      onChange={(account) => patchPosting(i, { account })}
+                    />
+                  </td>
+                ) : (
+                  input(posting, i, 'account', 'Account')
+                )}
                 {input(posting, i, 'memo', 'Posting memo')}
                 {input(posting, i, 'debit', 'Debit', true)}
                 {input(posting, i, 'credit', 'Credit', true)}

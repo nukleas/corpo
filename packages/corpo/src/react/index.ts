@@ -10,6 +10,7 @@ export * from './Field';
 export * from './Card';
 export * from './Badge';
 export * from './Table';
+export * from './DataTable';
 export * from './Stat';
 export * from './Kbd';
 export * from './KbdGroup';

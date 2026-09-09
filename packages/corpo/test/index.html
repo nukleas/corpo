@@ -383,7 +383,7 @@
             <td data-numeric="true" class="cp-ledger__balance">32,780.40</td>
           </tr>
           <tr>
-            <td data-mono="true">2026-01-31</td><td>Payroll run — January</td><td data-mono="true">JE-88</td>
+            <td data-mono="true">2026-01-31</td><td><button type="button" class="cp-ledger__toggle" aria-expanded="true">▾</button>Payroll run — January</td><td data-mono="true">JE-88</td>
             <td data-numeric="true"></td><td data-numeric="true">9,640.00</td>
             <td data-numeric="true" class="cp-ledger__balance">23,140.40</td>
           </tr>
@@ -539,6 +539,47 @@
       <div class="cp-statement__remit">Remit to: Meridian Consulting LLC · Routing 122000247 · Account 4410098833 · Ref INV-1044</div>
       <div class="cp-statement__note">Net 30. A 1.5% monthly finance charge applies to past-due balances.</div>
     </section>
+  </section>
+
+  <section>
+    <h2>DataTable</h2>
+    <div class="cp-datatable" style="max-width: 640px;">
+      <div class="cp-datatable__toolbar">
+        <input class="cp-input cp-input--sm" type="search" placeholder="Filter…" aria-label="Filter rows" value="inv" />
+        <span class="cp-datatable__count">3/4</span>
+      </div>
+      <div class="cp-table cp-table--compact">
+        <table class="cp-table__table">
+          <thead>
+            <tr>
+              <th class="cp-table__check">
+                <label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select all rows" /><span class="cp-checkbox__box" aria-hidden="true"></span></label>
+              </th>
+              <th><button type="button" class="cp-table__sort">Invoice <span class="cp-table__sort-icon" aria-hidden="true">↕</span></button></th>
+              <th><button type="button" class="cp-table__sort">Client <span class="cp-table__sort-icon" aria-hidden="true">↕</span></button></th>
+              <th data-numeric="true" aria-sort="descending"><button type="button" class="cp-table__sort">Amount <span class="cp-table__sort-icon" aria-hidden="true">▼</span></button></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cp-table__check"><label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select row" /><span class="cp-checkbox__box" aria-hidden="true"></span></label></td>
+              <td data-mono="true">INV-1042</td><td>Acme Inc.</td><td data-numeric="true">12,400.00</td>
+            </tr>
+            <tr class="cp-table__row--selected">
+              <td class="cp-table__check"><label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select row" checked /><span class="cp-checkbox__box" aria-hidden="true"></span></label></td>
+              <td data-mono="true">INV-1043</td><td>Northwind</td><td data-numeric="true">8,150.00</td>
+            </tr>
+            <tr>
+              <td class="cp-table__check"><label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select row" /><span class="cp-checkbox__box" aria-hidden="true"></span></label></td>
+              <td data-mono="true">INV-1039</td><td>Globex</td><td data-numeric="true">(1,200.00)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      Sorting/filtering/selection over the cp-table chassis — sortable headers with aria-sort, quick-filter toolbar with a match count, accent-tinted selected rows. Behavior lives in the React layer; this specimen is static.
+    </p>
   </section>
 
   <section>

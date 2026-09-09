@@ -27,6 +27,27 @@ export const Basic: Story = {
   },
 };
 
+/** `accounts` swaps the free-text account cells for Combobox pickers over the chart of accounts. */
+export const WithAccountPicker: Story = {
+  render: () => {
+    const [value, setValue] = useState<JournalEntryValue>({
+      date: '2026-02-01',
+      memo: 'Record February rent',
+      postings: [
+        { account: 'Rent Expense', memo: '', debit: '3,800', credit: '' },
+        { account: '', memo: '', debit: '', credit: '3,800' },
+      ],
+    });
+    return (
+      <JournalEntry
+        value={value}
+        onChange={setValue}
+        accounts={['Cash', 'Accounts Receivable', 'Accounts Payable', 'Rent Expense', 'Service Revenue', 'Payroll Expense']}
+      />
+    );
+  },
+};
+
 /** N postings, remove buttons past two lines, lenient amount parsing (`$`, commas, spaces). */
 export const MultiPosting: Story = {
   render: () => {
