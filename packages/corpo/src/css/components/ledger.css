@@ -46,7 +46,8 @@
 }
 .cp-taccount__panes {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0, …) lets the panes shrink below content width so labels can ellipsize */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 .cp-taccount__side {
   padding: 8px 12px;
@@ -70,6 +71,8 @@
   font-variant-numeric: tabular-nums;
 }
 .cp-taccount__entry-label {
+  flex: 1;
+  min-width: 0;
   color: var(--corpo-text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -86,6 +89,15 @@
 }
 .cp-taccount__foot--proved {
   border-bottom: 3px double var(--corpo-text);
+}
+
+@media (max-width: 480px) {
+  .cp-taccount__side {
+    padding: 6px 8px;
+  }
+  .cp-taccount__entry {
+    gap: 8px;
+  }
 }
 
 /* TrialBalance — document header + proof strip around a cp-ledger table */
@@ -131,10 +143,16 @@
 }
 .cp-journal__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 8px 12px;
   padding: 10px 12px;
   border-bottom: 1px solid var(--corpo-border-dim);
+}
+/* Memo (and any other free-width head input) flexes; the date override below stays fixed */
+.cp-journal__head > .cp-journal__input {
+  flex: 1 1 160px;
+  min-width: 0;
 }
 .cp-journal__cell {
   padding: 0;
@@ -160,7 +178,8 @@
 .cp-journal__input--num {
   text-align: right;
 }
-.cp-journal__input--date {
+.cp-journal__input--date,
+.cp-journal__head > .cp-journal__input--date {
   width: calc(12ch + 20px); /* 10-char ISO date + input padding, with a whisker of slack */
   flex: none;
 }

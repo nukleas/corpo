@@ -86,4 +86,13 @@
   .cp-statement {
     padding: 16px;
   }
+  .cp-statement__head {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .cp-statement__doc-title,
+  .cp-statement__meta {
+    text-align: left;
+  }
 }
