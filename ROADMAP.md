@@ -12,6 +12,11 @@ Timeline, Stepper, TreeView, ProfileCard, AssignmentSlots, LicenseCatalog, Licen
 
 **Data**: LineChart, BarChart, DonutChart, Sparkline, DependencyGraph (CpDepGraph scene engine)
 
+**Accounting**: Amount, footing rules (`cp-foot`), Ledger, TAccount, TrialBalance, JournalEntry,
+Statement, plus Spreadsheet balance cells. Deferred from this family: sortable columns (see
+DataTable below), cell flash-on-change, expandable split toggles, a formula bar, and a
+TrialBalance account tree.
+
 **Feedback**: Alert, Progress, Spinner, Toast
 
 **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination, Command, AppShell, SideNav, Topbar

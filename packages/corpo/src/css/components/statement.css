@@ -1,0 +1,89 @@
+/* Statement — invoice / statement-of-account document chrome.
+   Line items are plain cp-table markup; the totals stack is a small table so the
+   cp-foot footing rules (amount.css) apply verbatim. */
+.cp-statement {
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  padding: 32px;
+  max-width: 720px;
+  color: var(--corpo-text);
+}
+.cp-statement__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.cp-statement__entity {
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+}
+.cp-statement__entity > :first-child {
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-statement__doc-title {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-lg);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking-wide);
+  text-align: right;
+}
+.cp-statement__meta {
+  margin-top: 4px;
+  text-align: right;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.cp-statement__billto {
+  margin-bottom: 20px;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+}
+.cp-statement__billto-label {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--corpo-label-tracking);
+  color: var(--corpo-text-muted);
+  margin-bottom: 4px;
+}
+.cp-statement__totals {
+  margin-inline-start: auto;
+  width: min(320px, 100%);
+  border-collapse: collapse;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.cp-statement__totals td {
+  padding: 5px 0 5px 12px;
+}
+.cp-statement__totals td[data-numeric='true'] {
+  text-align: right;
+}
+.cp-statement__remit {
+  margin-top: 24px;
+  padding: 12px 16px;
+  background: var(--corpo-bg-inset);
+  border-radius: var(--corpo-radius-lg);
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-secondary);
+}
+.cp-statement__note {
+  margin-top: 12px;
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-dim);
+}
+
+@media (max-width: 480px) {
+  .cp-statement {
+    padding: 16px;
+  }
+}

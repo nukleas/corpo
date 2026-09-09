@@ -1,0 +1,52 @@
+/* Amount — accounting-formatted money figure.
+   Two parts: hanging currency symbol left, value right (Excel accounting style).
+   Money is always mono, so `)` is exactly 1ch — `--pad` keeps non-negative values
+   decimal-aligned with parenthesized negatives in the same column. */
+.cp-amount {
+  display: inline-flex;
+  gap: 0.75ch;
+  font-family: var(--corpo-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.cp-amount__currency {
+  color: var(--corpo-text-muted);
+}
+.cp-amount__value {
+  margin-left: auto;
+}
+/* In-cell hanging $: fill the cell, symbol flush left, value flush right */
+.cp-amount--split {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.cp-amount--pad .cp-amount__value {
+  padding-inline-end: 1ch;
+}
+.cp-amount--red {
+  color: var(--corpo-red);
+}
+.cp-amount--zero .cp-amount__value {
+  color: var(--corpo-text-dim);
+}
+
+/* Footing rules — subtotal/total/grand rows for any cp-table-based layout.
+   Rules land on amount columns only (the data-numeric convention): single rule
+   under the last addend, double rule under a proved/grand total. */
+tr.cp-foot > td {
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-table__table tbody tr.cp-foot:hover {
+  background: transparent;
+}
+tr.cp-foot--subtotal > [data-numeric='true'] {
+  border-top: 1px solid var(--corpo-border-strong);
+}
+tr.cp-foot--total > [data-numeric='true'] {
+  border-top: 1px solid var(--corpo-text);
+}
+tr.cp-foot--grand > [data-numeric='true'] {
+  border-top: 1px solid var(--corpo-text);
+  border-bottom: 3px double var(--corpo-text);
+}
