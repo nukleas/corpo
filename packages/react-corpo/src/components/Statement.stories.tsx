@@ -48,12 +48,13 @@ export const Invoice: Story = {
   ),
 };
 
-/** Same chassis, different document: `docTitle` swaps the label; credits show in parentheses. */
+/** Same chassis, different document: `docTitle` and `totalLabel` swap the labels; credits show in parentheses. */
 export const StatementOfAccount: Story = {
   render: () => (
     <Statement
       entity={ENTITY}
       docTitle="Statement"
+      totalLabel="Balance due"
       number="SOA-2026-01"
       period="January 1 – 31, 2026"
       billTo={<div>Hollis & Marsh LLP</div>}

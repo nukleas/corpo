@@ -37,9 +37,9 @@ export interface LedgerProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Accounting register — Date · Memo · Ref · Dr · Cr · Balance on the
  * `cp-table` chassis. Computes the running balance debit-normal from
- * `opening` unless an entry carries its own `balance`; the computation only
- * sees numeric shorthands (a bare number or `{ value }`), so element
- * shorthands should bring explicit balances. Dr/Cr negatives render in
+ * `opening` unless an entry carries its own `balance`; every shorthand form
+ * (bare number, `{ value }`, `<Amount>` element) feeds the computation via
+ * its numeric value. Dr/Cr negatives render in
  * parentheses; balance negatives in red. Split postings start collapsed
  * behind a per-row disclosure toggle.
  */
