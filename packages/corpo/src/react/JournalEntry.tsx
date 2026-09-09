@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import { cx } from './cx';
-import { Amount } from './Amount';
+import { Amount, roundCents } from './Amount';
 import { Combobox } from './Combobox';
 
 export interface JournalPosting {
@@ -28,16 +28,22 @@ export interface JournalEntryProps extends Omit<HTMLAttributes<HTMLDivElement>, 
 const EMPTY_POSTING: JournalPosting = { account: '', memo: '', debit: '', credit: '' };
 
 function parseAmount(raw: string): number {
-  const n = Number(raw.replace(/[,$\s]/g, ''));
-  return Number.isNaN(n) ? 0 : n;
+  // Accept accounting output too: (1,234.00) and −1,234.00 parse as negatives.
+  const stripped = raw.replace(/[,$\s]/g, '').replace('−', '-');
+  const parenthesized = /^\(.*\)$/.test(stripped);
+  const n = Number(parenthesized ? stripped.slice(1, -1) : stripped);
+  if (Number.isNaN(n)) return 0;
+  return parenthesized ? -n : n;
 }
 
 /** Editable double-entry transaction — posting rows with a live out-of-balance proof bar. */
 export function JournalEntry({ value, onChange, accounts, className = '', ...rest }: JournalEntryProps) {
-  const totalDr = Math.round(value.postings.reduce((s, p) => s + parseAmount(p.debit), 0) * 100) / 100;
-  const totalCr = Math.round(value.postings.reduce((s, p) => s + parseAmount(p.credit), 0) * 100) / 100;
-  const diff = Math.round((totalDr - totalCr) * 100) / 100;
-  const balanced = diff === 0 && totalDr > 0;
+  const totalDr = roundCents(value.postings.reduce((s, p) => s + parseAmount(p.debit), 0));
+  const totalCr = roundCents(value.postings.reduce((s, p) => s + parseAmount(p.credit), 0));
+  const diff = roundCents(totalDr - totalCr);
+  // A posting carries one side only — a line with both Dr and Cr can never prove.
+  const oneSided = value.postings.every((p) => parseAmount(p.debit) === 0 || parseAmount(p.credit) === 0);
+  const balanced = diff === 0 && totalDr > 0 && oneSided;
 
   const patchPosting = (index: number, patch: Partial<JournalPosting>) =>
     onChange({
@@ -80,12 +86,14 @@ export function JournalEntry({ value, onChange, accounts, className = '', ...res
           onChange={(e) => onChange({ ...value, memo: e.target.value })}
         />
         <span className={cx('cp-badge', balanced ? 'cp-badge--green' : 'cp-badge--red')}>
-          {balanced ? 'Balanced' : (
-            <>
-              Out of balance (<Amount value={Math.abs(diff)} negative="minus" zeroDash={false} />
-              {diff !== 0 && ` ${diff > 0 ? 'Dr' : 'Cr'} over`})
-            </>
-          )}
+          {balanced ? 'Balanced'
+            : diff === 0 && !oneSided ? 'Two-sided posting'
+              : (
+                <>
+                  Out of balance (<Amount value={Math.abs(diff)} negative="minus" zeroDash={false} />
+                  {diff !== 0 && ` ${diff > 0 ? 'Dr' : 'Cr'} over`})
+                </>
+              )}
         </span>
       </div>
       <div className="cp-table cp-table--compact cp-ledger">
@@ -108,6 +116,7 @@ export function JournalEntry({ value, onChange, accounts, className = '', ...res
                       options={accounts.map((a) => ({ value: a, label: a }))}
                       value={posting.account}
                       placeholder="Account…"
+                      ariaLabel={`Account, line ${i + 1}`}
                       onChange={(account) => patchPosting(i, { account })}
                     />
                   </td>

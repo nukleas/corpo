@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
-import { Amount, amountValue } from './Amount';
+import { Amount, amountValue, roundCents } from './Amount';
 import type { AmountShorthand } from './Amount';
 
 export interface TAccountEntry {
@@ -28,10 +28,10 @@ export interface TAccountProps extends Omit<HTMLAttributes<HTMLDivElement>, 'tit
  */
 export function TAccount({ title, debits, credits, className, ...rest }: TAccountProps) {
   const foot = (entries: TAccountEntry[]) =>
-    entries.reduce((sum, e) => sum + (amountValue(e.amount) ?? 0), 0);
+    roundCents(entries.reduce((sum, e) => sum + (amountValue(e.amount) ?? 0), 0));
   const drFoot = foot(debits);
   const crFoot = foot(credits);
-  const proved = Math.abs(drFoot - crFoot) < 0.005;
+  const proved = drFoot === crFoot;
 
   const side = (entries: TAccountEntry[], footing: number, headLabel: string, cr: boolean) => (
     <div className={cn('cp-taccount__side', cr && 'cp-taccount__side--cr')}>

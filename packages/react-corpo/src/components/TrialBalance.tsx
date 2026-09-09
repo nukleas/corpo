@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
-import { Amount } from './Amount';
+import { Amount, roundCents } from './Amount';
 
 export interface TrialBalanceRow {
   account: ReactNode;
@@ -24,14 +24,18 @@ export interface TrialBalanceProps extends HTMLAttributes<HTMLDivElement> {
  * Trial balance — Account · Ref · Dr · Cr with the classic centered document
  * header and proved double-rule totals (`$` on both). Amounts are plain
  * numbers (a trial balance is a computed document, not an input). When
- * Σ Dr ≠ Σ Cr the imbalance renders as a first-class error strip, not just a
- * red number.
+ * Σ Dr ≠ Σ Cr the imbalance renders as a first-class error strip and the
+ * totals keep the single rule — only a proved balance earns the double rule.
+ * `$` marks the first figure in each column and the totals (statement
+ * convention).
  */
 export function TrialBalance({ entity, asOf, rows, className, ...rest }: TrialBalanceProps) {
-  const totalDr = rows.reduce((sum, r) => sum + (r.debit ?? 0), 0);
-  const totalCr = rows.reduce((sum, r) => sum + (r.credit ?? 0), 0);
-  const diff = Math.round((totalDr - totalCr) * 100) / 100;
+  const totalDr = roundCents(rows.reduce((sum, r) => sum + (r.debit ?? 0), 0));
+  const totalCr = roundCents(rows.reduce((sum, r) => sum + (r.credit ?? 0), 0));
+  const diff = roundCents(totalDr - totalCr);
   const balanced = diff === 0;
+  const firstDr = rows.findIndex((r) => r.debit != null);
+  const firstCr = rows.findIndex((r) => r.credit != null);
 
   return (
     <div className={cn('cp-trial', className)} {...rest}>
@@ -58,11 +62,15 @@ export function TrialBalance({ entity, asOf, rows, className, ...rest }: TrialBa
               <tr key={i}>
                 <td>{row.account}</td>
                 <td data-mono="true">{row.ref}</td>
-                <td data-numeric="true">{row.debit != null && <Amount value={row.debit} />}</td>
-                <td data-numeric="true">{row.credit != null && <Amount value={row.credit} />}</td>
+                <td data-numeric="true">
+                  {row.debit != null && <Amount value={row.debit} currency={i === firstDr ? '$' : undefined} />}
+                </td>
+                <td data-numeric="true">
+                  {row.credit != null && <Amount value={row.credit} currency={i === firstCr ? '$' : undefined} />}
+                </td>
               </tr>
             ))}
-            <tr className="cp-foot cp-foot--grand">
+            <tr className={cn('cp-foot', balanced ? 'cp-foot--grand' : 'cp-foot--total')}>
               <td>Totals</td>
               <td />
               <td data-numeric="true">

@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from './cx';
-import { Amount } from './Amount';
+import { Amount, roundCents } from './Amount';
 
 export interface TrialBalanceRow {
   account: ReactNode;
@@ -20,9 +20,11 @@ export interface TrialBalanceProps extends HTMLAttributes<HTMLDivElement> {
 
 /** Trial balance — Account · Ref · Dr · Cr, proved double-rule totals, error strip when unbalanced. */
 export function TrialBalance({ entity, asOf, rows, className = '', ...rest }: TrialBalanceProps) {
-  const totalDr = rows.reduce((sum, r) => sum + (r.debit ?? 0), 0);
-  const totalCr = rows.reduce((sum, r) => sum + (r.credit ?? 0), 0);
-  const diff = Math.round((totalDr - totalCr) * 100) / 100;
+  const totalDr = roundCents(rows.reduce((sum, r) => sum + (r.debit ?? 0), 0));
+  const totalCr = roundCents(rows.reduce((sum, r) => sum + (r.credit ?? 0), 0));
+  const diff = roundCents(totalDr - totalCr);
+  const firstDr = rows.findIndex((r) => r.debit != null);
+  const firstCr = rows.findIndex((r) => r.credit != null);
 
   return (
     <div className={cx('cp-trial', className)} {...rest}>
@@ -48,11 +50,15 @@ export function TrialBalance({ entity, asOf, rows, className = '', ...rest }: Tr
               <tr key={i}>
                 <td>{row.account}</td>
                 <td data-mono="true">{row.ref}</td>
-                <td data-numeric="true">{row.debit != null && <Amount value={row.debit} />}</td>
-                <td data-numeric="true">{row.credit != null && <Amount value={row.credit} />}</td>
+                <td data-numeric="true">
+                  {row.debit != null && <Amount value={row.debit} currency={i === firstDr ? '$' : undefined} />}
+                </td>
+                <td data-numeric="true">
+                  {row.credit != null && <Amount value={row.credit} currency={i === firstCr ? '$' : undefined} />}
+                </td>
               </tr>
             ))}
-            <tr className="cp-foot cp-foot--grand">
+            <tr className={cx('cp-foot', diff === 0 ? 'cp-foot--grand' : 'cp-foot--total')}>
               <td>Totals</td>
               <td />
               <td data-numeric="true">

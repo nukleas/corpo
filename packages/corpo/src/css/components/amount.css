@@ -29,6 +29,11 @@
 .cp-amount--zero .cp-amount__value {
   color: var(--corpo-text-dim);
 }
+/* Invisible spacer after the zero dash (".00" and the paren slot) so the dash
+   lands on the units digit, aligned with the figures above and below it */
+.cp-amount__ghost {
+  visibility: hidden;
+}
 
 /* Footing rules — subtotal/total/grand rows for any cp-table-based layout.
    Rules land on amount columns only (the data-numeric convention): single rule

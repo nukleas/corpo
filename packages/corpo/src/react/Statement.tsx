@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from './cx';
-import { Amount } from './Amount';
+import { Amount, roundCents } from './Amount';
 
 export interface StatementLine {
   description: ReactNode;
@@ -22,6 +22,8 @@ export interface StatementProps extends HTMLAttributes<HTMLElement> {
   lines: StatementLine[];
   /** Tax row in the totals stack; label defaults to "Tax". */
   tax?: { label?: ReactNode; amount: number };
+  /** Grand-total row label. @default 'Total due' */
+  totalLabel?: ReactNode;
   /** Remittance / payment instructions block. */
   remit?: ReactNode;
   note?: ReactNode;
@@ -37,13 +39,14 @@ export function Statement({
   billTo,
   lines,
   tax,
+  totalLabel = 'Total due',
   remit,
   note,
   className = '',
   ...rest
 }: StatementProps) {
-  const subtotal = lines.reduce((sum, l) => sum + l.amount, 0);
-  const grand = subtotal + (tax?.amount ?? 0);
+  const subtotal = roundCents(lines.reduce((sum, l) => sum + l.amount, 0));
+  const grand = roundCents(subtotal + (tax?.amount ?? 0));
   const hasQty = lines.some((l) => l.qty != null || l.rate != null);
 
   return (
@@ -108,7 +111,7 @@ export function Statement({
             </tr>
           )}
           <tr className="cp-foot cp-foot--grand">
-            <td>Total due</td>
+            <td>{totalLabel}</td>
             <td data-numeric="true">
               <Amount value={grand} currency="$" />
             </td>

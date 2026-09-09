@@ -52,12 +52,12 @@ export const SplitRows: Story = {
   ),
 };
 
-/** `totals={false}` drops the footer for embedded/continued registers. */
+/** A continued register: the second period seeds `opening` with the first period's close (rendering the brought-forward row); `totals={false}` drops its footer. */
 export const PeriodTotals: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 24 }}>
       <Ledger opening={0} entries={ENTRIES.slice(0, 3)} />
-      <Ledger entries={ENTRIES.slice(3)} totals={false} />
+      <Ledger opening={3_349.25} entries={ENTRIES.slice(3)} totals={false} />
     </div>
   ),
 };

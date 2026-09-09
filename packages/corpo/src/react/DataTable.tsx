@@ -49,8 +49,11 @@ function rawValue(row: DataTableRow, key: string): string | number | undefined {
 }
 
 function compareValues(a: string | number | undefined, b: string | number | undefined): number {
-  if (a === undefined) return b === undefined ? 0 : 1;
-  if (b === undefined) return -1;
+  // Missing values (and NaN, which would poison the comparator) sort last.
+  const aMissing = a === undefined || Number.isNaN(a);
+  const bMissing = b === undefined || Number.isNaN(b);
+  if (aMissing) return bMissing ? 0 : 1;
+  if (bMissing) return -1;
   // oxlint-disable-next-line anti-slop/no-runtime-typeof -- numeric vs lexicographic comparison branch
   if (typeof a === 'number' && typeof b === 'number') return a - b;
   return String(a).localeCompare(String(b), 'en', { numeric: true, sensitivity: 'base' });
@@ -95,6 +98,7 @@ export function DataTable({
 
   const selectedSet = new Set(selected);
   const allVisibleSelected = visible.length > 0 && visible.every((r) => selectedSet.has(r.id));
+  const someVisibleSelected = visible.some((r) => selectedSet.has(r.id));
   const toggleAll = () =>
     onSelectedChange?.(
       allVisibleSelected
@@ -156,6 +160,9 @@ export function DataTable({
                       className="cp-checkbox__input"
                       aria-label="Select all rows"
                       checked={allVisibleSelected}
+                      ref={(el) => {
+                        if (el) el.indeterminate = !allVisibleSelected && someVisibleSelected;
+                      }}
                       onChange={toggleAll}
                     />
                     <span className="cp-checkbox__box" aria-hidden="true" />

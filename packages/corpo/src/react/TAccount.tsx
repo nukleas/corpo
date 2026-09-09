@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from './cx';
-import { Amount } from './Amount';
+import { Amount, roundCents } from './Amount';
 
 export interface TAccountEntry {
   label: ReactNode;
@@ -18,9 +18,9 @@ export interface TAccountProps extends Omit<HTMLAttributes<HTMLDivElement>, 'tit
 
 /** T-account — Dr left, Cr right, auto footings, proved double rule when the sides agree. */
 export function TAccount({ title, debits, credits, className = '', ...rest }: TAccountProps) {
-  const drFoot = debits.reduce((sum, e) => sum + e.amount, 0);
-  const crFoot = credits.reduce((sum, e) => sum + e.amount, 0);
-  const proved = Math.abs(drFoot - crFoot) < 0.005;
+  const drFoot = roundCents(debits.reduce((sum, e) => sum + e.amount, 0));
+  const crFoot = roundCents(credits.reduce((sum, e) => sum + e.amount, 0));
+  const proved = drFoot === crFoot;
 
   const side = (entries: TAccountEntry[], footing: number, headLabel: string, cr: boolean) => (
     <div className={cx('cp-taccount__side', cr && 'cp-taccount__side--cr')}>

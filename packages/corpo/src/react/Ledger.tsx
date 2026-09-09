@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from './cx';
-import { Amount } from './Amount';
+import { Amount, roundCents } from './Amount';
 
 export interface LedgerSplit {
   memo: ReactNode;
@@ -80,9 +80,9 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
             </tr>
           )}
           {entries.map((entry, i) => {
-            totalDr += entry.debit ?? 0;
-            totalCr += entry.credit ?? 0;
-            running = entry.balance ?? running + (entry.debit ?? 0) - (entry.credit ?? 0);
+            totalDr = roundCents(totalDr + (entry.debit ?? 0));
+            totalCr = roundCents(totalCr + (entry.credit ?? 0));
+            running = entry.balance ?? roundCents(running + (entry.debit ?? 0) - (entry.credit ?? 0));
             const hasSplits = (entry.splits?.length ?? 0) > 0;
             const open = hasSplits && openSplits.has(i);
             return (

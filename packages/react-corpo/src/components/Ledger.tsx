@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
-import { Amount, amountValue } from './Amount';
+import { Amount, amountValue, roundCents } from './Amount';
 import type { AmountShorthand } from './Amount';
 
 export interface LedgerSplit {
@@ -26,7 +26,7 @@ export interface LedgerEntry {
 
 export interface LedgerProps extends HTMLAttributes<HTMLDivElement> {
   entries: LedgerEntry[];
-  /** Opening balance — renders the opening row and seeds the running balance. */
+  /** Opening balance — seeds the running balance and renders the brought-forward row (also how a continued register carries a prior close). */
   opening?: number;
   /** Green-bar zebra (3-row bands) for row tracking. @default false */
   bar?: boolean;
@@ -60,9 +60,9 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
   const rows = entries.map((entry, i) => {
     const dr = amountValue(entry.debit) ?? 0;
     const cr = amountValue(entry.credit) ?? 0;
-    totalDr += dr;
-    totalCr += cr;
-    running = amountValue(entry.balance) ?? running + dr - cr;
+    totalDr = roundCents(totalDr + dr);
+    totalCr = roundCents(totalCr + cr);
+    running = amountValue(entry.balance) ?? roundCents(running + dr - cr);
     const hasSplits = (entry.splits?.length ?? 0) > 0;
     const open = hasSplits && openSplits.has(i);
     return (

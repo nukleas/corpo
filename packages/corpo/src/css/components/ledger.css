@@ -25,9 +25,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
-  margin-right: 6px;
+  width: 24px; /* WCAG 2.5.8 minimum target */
+  height: 24px;
+  margin: -4px 4px -4px -2px; /* keep the compact row height */
   padding: 0;
   border: none;
   border-radius: var(--corpo-radius);
@@ -41,10 +41,12 @@
   background: var(--corpo-bg-panel-hover);
   color: var(--corpo-text);
 }
-/* Green-bar banding — 3-row bands, a row-tracking aid in wide registers */
-.cp-ledger--bar tbody tr:nth-child(6n + 4),
-.cp-ledger--bar tbody tr:nth-child(6n + 5),
-.cp-ledger--bar tbody tr:nth-child(6n + 6) {
+/* Green-bar banding — 3-row bands, a row-tracking aid in wide registers.
+   :where() keeps specificity flat so the hover rule below still wins; the
+   excluded classes stop bands from painting footing/opening/split rows. */
+.cp-ledger--bar tbody tr:nth-child(6n + 4):where(:not(.cp-foot, .cp-ledger__row--opening, .cp-ledger__row--split)),
+.cp-ledger--bar tbody tr:nth-child(6n + 5):where(:not(.cp-foot, .cp-ledger__row--opening, .cp-ledger__row--split)),
+.cp-ledger--bar tbody tr:nth-child(6n + 6):where(:not(.cp-foot, .cp-ledger__row--opening, .cp-ledger__row--split)) {
   background: var(--corpo-ledger-bar);
 }
 /* Declared after the banding rules: equal specificity, cascade restores hover on banded rows */
@@ -228,8 +230,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 24px; /* WCAG 2.5.8 minimum target */
+  height: 24px;
   padding: 0;
   border: none;
   border-radius: var(--corpo-radius);

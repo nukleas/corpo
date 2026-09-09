@@ -442,13 +442,13 @@
                 <tr><th>Account</th><th>Ref</th><th data-numeric="true">Dr</th><th data-numeric="true">Cr</th></tr>
               </thead>
               <tbody>
-                <tr><td>Cash</td><td data-mono="true">101</td><td data-numeric="true">32,780.40</td><td data-numeric="true"></td></tr>
-                <tr><td>Accounts Payable</td><td data-mono="true">201</td><td data-numeric="true"></td><td data-numeric="true">4,320.00</td></tr>
-                <tr><td>Owner's Equity</td><td data-mono="true">301</td><td data-numeric="true"></td><td data-numeric="true">28,460.40</td></tr>
-                <tr class="cp-foot cp-foot--grand">
+                <tr><td>Cash</td><td data-mono="true">101</td><td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">32,780.40</span></span></td><td data-numeric="true"></td></tr>
+                <tr><td>Accounts Payable</td><td data-mono="true">201</td><td data-numeric="true"></td><td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">4,320.00</span></span></td></tr>
+                <tr><td>Owner's Equity</td><td data-mono="true">301</td><td data-numeric="true"></td><td data-numeric="true">28,210.40</td></tr>
+                <tr class="cp-foot cp-foot--total">
                   <td>Totals</td><td></td>
                   <td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">32,780.40</span></span></td>
-                  <td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">32,780.40</span></span></td>
+                  <td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">32,530.40</span></span></td>
                 </tr>
               </tbody>
             </table>
@@ -456,7 +456,7 @@
           <div class="cp-trial__proof cp-trial__proof--error">Out of balance by 250.00 — Dr over</div>
         </div>
         <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
-          Proved totals take the double rule; an imbalance renders the error strip (shown here for the specimen).
+          An unproved balance keeps the single rule and renders the error strip; only Σ Dr = Σ Cr earns the double rule.
         </p>
       </div>
     </div>
