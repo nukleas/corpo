@@ -73,3 +73,10 @@
 .cp-spreadsheet__cell--danger .cp-spreadsheet__value {
   color: var(--corpo-red);
 }
+/* Computed running-balance cell (ledger sheets) */
+.cp-spreadsheet__cell--balance .cp-spreadsheet__input,
+.cp-spreadsheet__cell--balance .cp-spreadsheet__value {
+  text-align: right;
+  font-weight: 600;
+  background: var(--corpo-bg-inset);
+}

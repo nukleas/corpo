@@ -68,6 +68,29 @@ export const MixedProjection: Story = {
   },
 };
 
+/** Ledger sheet: Dr/Cr `columnLabels` plus computed `balance` cells — right-aligned, bold, inset, read-only by default. */
+export const LedgerMode: Story = {
+  render: () => {
+    const [drCr, setDrCr] = useState([
+      ['12,400', ''],
+      ['', '3,800'],
+      ['', '5,250.75'],
+    ]);
+    let running = 24_180.4;
+    const parse = (s: string) => Number(s.replace(/[,$\s]/g, '')) || 0;
+    const rows = drCr.map(([dr, cr], r) => {
+      running += parse(dr) - parse(cr);
+      return [
+        { value: ['Client invoice #1042', 'Office lease — January', 'Contractor payout'][r] ?? '', readOnly: true },
+        <Spreadsheet.Cell key="dr" value={dr} align="right" onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [v, row[1]] : row)))} />,
+        <Spreadsheet.Cell key="cr" value={cr} align="right" onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [row[0], v] : row)))} />,
+        { value: running.toLocaleString('en-US', { minimumFractionDigits: 2 }), balance: true },
+      ];
+    });
+    return <Spreadsheet columnLabels={['Memo', 'Dr', 'Cr', 'Balance']} rows={rows} />;
+  },
+};
+
 /** Grid-level `readOnly` flips the default for every cell — a report/projection sheet (negatives in `danger`). */
 export const TrialBalance: Story = {
   render: () => (

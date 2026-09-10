@@ -12,9 +12,11 @@ export interface ComboboxProps {
   onChange?: (value: string) => void;
   placeholder?: string;
   emptyText?: string;
+  /** Accessible name for the search input — required when no visible label is associated. */
+  ariaLabel?: string;
 }
 
-export function Combobox({ options, value, onChange, placeholder = 'Search…', emptyText = 'No results' }: ComboboxProps) {
+export function Combobox({ options, value, onChange, placeholder = 'Search…', emptyText = 'No results', ariaLabel }: ComboboxProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const ref = useRef<HTMLDivElement>(null);
@@ -35,6 +37,7 @@ export function Combobox({ options, value, onChange, placeholder = 'Search…', 
     <div ref={ref} className="cp-combobox">
       <input
         className="cp-input"
+        aria-label={ariaLabel}
         placeholder={placeholder}
         value={open ? query : selected?.label ?? ''}
         onFocus={() => {

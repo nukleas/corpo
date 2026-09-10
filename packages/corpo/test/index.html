@@ -316,6 +316,7 @@
             <th class="cp-spreadsheet__col-head">Metric</th>
             <th class="cp-spreadsheet__col-head">Q1</th>
             <th class="cp-spreadsheet__col-head">Q2</th>
+            <th class="cp-spreadsheet__col-head">Balance</th>
           </tr>
         </thead>
         <tbody>
@@ -324,18 +325,260 @@
             <td class="cp-spreadsheet__cell"><div class="cp-spreadsheet__value">Revenue</div></td>
             <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num"><input class="cp-spreadsheet__input" value="12,400" /></td>
             <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num cp-spreadsheet__cell--muted"><div class="cp-spreadsheet__value">12,896</div></td>
+            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--balance"><div class="cp-spreadsheet__value">25,296.00</div></td>
           </tr>
           <tr>
             <th class="cp-spreadsheet__row-head">2</th>
             <td class="cp-spreadsheet__cell"><div class="cp-spreadsheet__value">Net position</div></td>
             <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num"><input class="cp-spreadsheet__input" value="3,300" /></td>
             <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num cp-spreadsheet__cell--danger"><div class="cp-spreadsheet__value">-860</div></td>
+            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--balance"><div class="cp-spreadsheet__value">27,736.00</div></td>
           </tr>
         </tbody>
       </table>
     </div>
     <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
-      Editable inputs and read-only value cells mix per cell — numeric cells right-align, tones mark derived and negative values.
+      Editable inputs and read-only value cells mix per cell — numeric cells right-align, tones mark derived and negative values, balance cells are bold read-only inset.
+    </p>
+  </section>
+
+  <section>
+    <h2>Accounting</h2>
+
+    <h3 style="font-size: var(--corpo-text-sm); margin: 0 0 8px;">Amount</h3>
+    <div style="display: grid; justify-items: end; width: 160px; margin-bottom: 8px;">
+      <span class="cp-amount cp-amount--pad"><span class="cp-amount__value">12,400.00</span></span>
+      <span class="cp-amount"><span class="cp-amount__value">(1,234.56)</span></span>
+      <span class="cp-amount cp-amount--red"><span class="cp-amount__value">−1,234.56</span></span>
+      <span class="cp-amount cp-amount--zero"><span class="cp-amount__value">–<span class="cp-amount__ghost" aria-hidden="true">.00)</span></span></span>
+      <span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">27,736.00</span></span>
+    </div>
+    <p style="margin: 0 0 20px; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      Accounting figures: paren negatives with 1ch padding on positives for decimal alignment, red negatives, zero dash, hanging currency.
+    </p>
+
+    <h3 style="font-size: var(--corpo-text-sm); margin: 0 0 8px;">Ledger register</h3>
+    <div class="cp-table cp-table--compact cp-ledger cp-ledger--bar" style="max-width: 720px;">
+      <table class="cp-table__table">
+        <thead>
+          <tr>
+            <th>Date</th><th>Memo</th><th>Ref</th>
+            <th data-numeric="true">Dr</th><th data-numeric="true">Cr</th><th data-numeric="true">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cp-ledger__row--opening">
+            <td></td><td>Opening balance</td><td></td>
+            <td data-numeric="true"></td><td data-numeric="true"></td>
+            <td data-numeric="true" class="cp-ledger__balance">24,180.40</td>
+          </tr>
+          <tr>
+            <td data-mono="true">2026-01-03</td><td>Client invoice #1042</td><td data-mono="true">AR</td>
+            <td data-numeric="true">12,400.00</td><td data-numeric="true"></td>
+            <td data-numeric="true" class="cp-ledger__balance">36,580.40</td>
+          </tr>
+          <tr>
+            <td data-mono="true">2026-01-05</td><td>Office lease — January</td><td data-mono="true">CHK 2201</td>
+            <td data-numeric="true"></td><td data-numeric="true">3,800.00</td>
+            <td data-numeric="true" class="cp-ledger__balance">32,780.40</td>
+          </tr>
+          <tr>
+            <td data-mono="true">2026-01-31</td><td><button type="button" class="cp-ledger__toggle" aria-expanded="true">▾</button>Payroll run — January</td><td data-mono="true">JE-88</td>
+            <td data-numeric="true"></td><td data-numeric="true">9,640.00</td>
+            <td data-numeric="true" class="cp-ledger__balance">23,140.40</td>
+          </tr>
+          <tr class="cp-ledger__row--split">
+            <td></td><td>Salaries expense</td><td></td>
+            <td data-numeric="true">8,000.00</td><td data-numeric="true"></td><td></td>
+          </tr>
+          <tr class="cp-ledger__row--split">
+            <td></td><td>Payroll taxes</td><td></td>
+            <td data-numeric="true">1,640.00</td><td data-numeric="true"></td><td></td>
+          </tr>
+          <tr class="cp-foot cp-foot--total">
+            <td></td><td>Totals</td><td></td>
+            <td data-numeric="true">12,400.00</td><td data-numeric="true">13,440.00</td>
+            <td data-numeric="true" class="cp-ledger__balance">23,140.40</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin: 8px 0 20px; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      Register with opening row, indented split postings, green-bar banding, running balance, and a footed period total.
+    </p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: start;">
+      <div>
+        <h3 style="font-size: var(--corpo-text-sm); margin: 0 0 8px;">T-account</h3>
+        <div class="cp-taccount" style="width: min(420px, 100%);">
+          <div class="cp-taccount__title">Cash</div>
+          <div class="cp-taccount__panes">
+            <div class="cp-taccount__side">
+              <div class="cp-taccount__head">Dr</div>
+              <div class="cp-taccount__entry cp-taccount__entry--carry"><span class="cp-taccount__entry-label">Balance b/d</span><span class="cp-amount"><span class="cp-amount__value">24,180.40</span></span></div>
+              <div class="cp-taccount__entry"><span class="cp-taccount__entry-label">Invoice #1042</span><span class="cp-amount"><span class="cp-amount__value">12,400.00</span></span></div>
+              <div class="cp-taccount__entry cp-taccount__foot cp-taccount__foot--proved"><span class="cp-taccount__entry-label"></span><span class="cp-amount"><span class="cp-amount__value">36,580.40</span></span></div>
+            </div>
+            <div class="cp-taccount__side cp-taccount__side--cr">
+              <div class="cp-taccount__head">Cr</div>
+              <div class="cp-taccount__entry"><span class="cp-taccount__entry-label">Office lease</span><span class="cp-amount"><span class="cp-amount__value">3,800.00</span></span></div>
+              <div class="cp-taccount__entry cp-taccount__entry--carry"><span class="cp-taccount__entry-label">Balance c/d</span><span class="cp-amount"><span class="cp-amount__value">32,780.40</span></span></div>
+              <div class="cp-taccount__entry cp-taccount__foot cp-taccount__foot--proved"><span class="cp-taccount__entry-label"></span><span class="cp-amount"><span class="cp-amount__value">36,580.40</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size: var(--corpo-text-sm); margin: 0 0 8px;">Trial balance</h3>
+        <div class="cp-trial" style="width: min(420px, 100%);">
+          <div class="cp-trial__header">
+            <div class="cp-trial__entity">Meridian Consulting LLC</div>
+            <div class="cp-trial__title">Trial Balance</div>
+            <div class="cp-trial__asof">As of January 31, 2026</div>
+          </div>
+          <div class="cp-table cp-table--compact cp-ledger">
+            <table class="cp-table__table">
+              <thead>
+                <tr><th>Account</th><th>Ref</th><th data-numeric="true">Dr</th><th data-numeric="true">Cr</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Cash</td><td data-mono="true">101</td><td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">32,780.40</span></span></td><td data-numeric="true"></td></tr>
+                <tr><td>Accounts Payable</td><td data-mono="true">201</td><td data-numeric="true"></td><td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">4,320.00</span></span></td></tr>
+                <tr><td>Owner's Equity</td><td data-mono="true">301</td><td data-numeric="true"></td><td data-numeric="true">28,210.40</td></tr>
+                <tr class="cp-foot cp-foot--total">
+                  <td>Totals</td><td></td>
+                  <td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">32,780.40</span></span></td>
+                  <td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">32,530.40</span></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cp-trial__proof cp-trial__proof--error">Out of balance by 250.00 — Dr over</div>
+        </div>
+        <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+          An unproved balance keeps the single rule and renders the error strip; only Σ Dr = Σ Cr earns the double rule.
+        </p>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--corpo-text-sm); margin: 20px 0 8px;">Journal entry</h3>
+    <div class="cp-journal" style="max-width: 640px;">
+      <div class="cp-journal__head">
+        <input class="cp-journal__input cp-journal__input--date" value="2026-01-31" aria-label="Date" />
+        <input class="cp-journal__input" value="Record January rent" aria-label="Memo" />
+        <span class="cp-badge cp-badge--green">Balanced</span>
+      </div>
+      <div class="cp-table cp-table--compact cp-ledger">
+        <table class="cp-table__table">
+          <thead>
+            <tr><th>Account</th><th>Memo</th><th data-numeric="true">Dr</th><th data-numeric="true">Cr</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cp-journal__cell"><input class="cp-journal__input" value="Rent Expense" /></td>
+              <td class="cp-journal__cell"><input class="cp-journal__input" value="" /></td>
+              <td class="cp-journal__cell" data-numeric="true"><input class="cp-journal__input cp-journal__input--num" value="3,800.00" /></td>
+              <td class="cp-journal__cell" data-numeric="true"><input class="cp-journal__input cp-journal__input--num" value="" /></td>
+            </tr>
+            <tr>
+              <td class="cp-journal__cell"><input class="cp-journal__input" value="Cash" /></td>
+              <td class="cp-journal__cell"><input class="cp-journal__input" value="" /></td>
+              <td class="cp-journal__cell" data-numeric="true"><input class="cp-journal__input cp-journal__input--num" value="" /></td>
+              <td class="cp-journal__cell" data-numeric="true"><input class="cp-journal__input cp-journal__input--num" value="3,800.00" /></td>
+            </tr>
+            <tr class="cp-foot cp-foot--grand">
+              <td>Totals</td><td></td>
+              <td data-numeric="true">3,800.00</td><td data-numeric="true">3,800.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cp-journal__bar">
+        <button type="button" class="cp-btn cp-btn--ghost cp-btn--sm">Add line</button>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--corpo-text-sm); margin: 20px 0 8px;">Statement</h3>
+    <section class="cp-statement">
+      <div class="cp-statement__head">
+        <div class="cp-statement__entity">
+          <div>Meridian Consulting LLC</div>
+          <div>410 Harbor Blvd, Suite 300</div>
+          <div>Costa Mesa, CA 92626</div>
+        </div>
+        <div>
+          <div class="cp-statement__doc-title">Invoice</div>
+          <div class="cp-statement__meta">
+            <div>№ INV-1044</div>
+            <div>February 2, 2026</div>
+          </div>
+        </div>
+      </div>
+      <div class="cp-statement__billto">
+        <div class="cp-statement__billto-label">Bill to</div>
+        <div>Hollis &amp; Marsh LLP</div>
+      </div>
+      <div class="cp-table cp-table--compact">
+        <table class="cp-table__table">
+          <thead>
+            <tr><th>Description</th><th data-numeric="true">Qty</th><th data-numeric="true">Rate</th><th data-numeric="true">Amount</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Advisory retainer — January</td><td data-numeric="true">1</td><td data-numeric="true">6,500.00</td><td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">6,500.00</span></span></td></tr>
+            <tr><td>Implementation support</td><td data-numeric="true">22</td><td data-numeric="true">185.00</td><td data-numeric="true">4,070.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <table class="cp-statement__totals">
+        <tbody>
+          <tr class="cp-foot cp-foot--subtotal"><td>Subtotal</td><td data-numeric="true">10,570.00</td></tr>
+          <tr><td>Sales tax (7.75%)</td><td data-numeric="true">819.18</td></tr>
+          <tr class="cp-foot cp-foot--grand"><td>Total due</td><td data-numeric="true"><span class="cp-amount cp-amount--split"><span class="cp-amount__currency">$</span><span class="cp-amount__value">11,389.18</span></span></td></tr>
+        </tbody>
+      </table>
+      <div class="cp-statement__remit">Remit to: Meridian Consulting LLC · Routing 122000247 · Account 4410098833 · Ref INV-1044</div>
+      <div class="cp-statement__note">Net 30. A 1.5% monthly finance charge applies to past-due balances.</div>
+    </section>
+  </section>
+
+  <section>
+    <h2>DataTable</h2>
+    <div class="cp-datatable" style="max-width: 640px;">
+      <div class="cp-datatable__toolbar">
+        <input class="cp-input cp-input--sm" type="search" placeholder="Filter…" aria-label="Filter rows" value="inv" />
+        <span class="cp-datatable__count">3/4</span>
+      </div>
+      <div class="cp-table cp-table--compact">
+        <table class="cp-table__table">
+          <thead>
+            <tr>
+              <th class="cp-table__check">
+                <label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select all rows" /><span class="cp-checkbox__box" aria-hidden="true"></span></label>
+              </th>
+              <th><button type="button" class="cp-table__sort">Invoice <span class="cp-table__sort-icon" aria-hidden="true">↕</span></button></th>
+              <th><button type="button" class="cp-table__sort">Client <span class="cp-table__sort-icon" aria-hidden="true">↕</span></button></th>
+              <th data-numeric="true" aria-sort="descending"><button type="button" class="cp-table__sort">Amount <span class="cp-table__sort-icon" aria-hidden="true">▼</span></button></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cp-table__check"><label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select row" /><span class="cp-checkbox__box" aria-hidden="true"></span></label></td>
+              <td data-mono="true">INV-1042</td><td>Acme Inc.</td><td data-numeric="true">12,400.00</td>
+            </tr>
+            <tr class="cp-table__row--selected">
+              <td class="cp-table__check"><label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select row" checked /><span class="cp-checkbox__box" aria-hidden="true"></span></label></td>
+              <td data-mono="true">INV-1043</td><td>Northwind</td><td data-numeric="true">8,150.00</td>
+            </tr>
+            <tr>
+              <td class="cp-table__check"><label class="cp-checkbox"><input type="checkbox" class="cp-checkbox__input" aria-label="Select row" /><span class="cp-checkbox__box" aria-hidden="true"></span></label></td>
+              <td data-mono="true">INV-1039</td><td>Globex</td><td data-numeric="true">(1,200.00)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      Sorting/filtering/selection over the cp-table chassis — sortable headers with aria-sort, quick-filter toolbar with a match count, accent-tinted selected rows. Behavior lives in the React layer; this specimen is static.
     </p>
   </section>
 

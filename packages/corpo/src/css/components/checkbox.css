@@ -69,6 +69,16 @@
 }
 .cp-checkbox__input:checked + .cp-checkbox__box::after { opacity: 1; }
 
+/* Partial selection (set via the DOM `indeterminate` property) — accent box with a dash */
+.cp-checkbox__input:indeterminate + .cp-checkbox__box {
+  background: var(--corpo-accent);
+  border-color: var(--corpo-accent);
+}
+.cp-checkbox__input:indeterminate + .cp-checkbox__box::after {
+  opacity: 1;
+  clip-path: polygon(0 38%, 100% 38%, 100% 62%, 0 62%);
+}
+
 .cp-radio__input:checked + .cp-radio__box {
   border-color: var(--corpo-accent);
   background: var(--corpo-accent);

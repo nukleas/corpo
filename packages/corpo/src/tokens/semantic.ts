@@ -38,6 +38,8 @@ export const semanticTokens = {
   'magenta': palette.magenta,
   'teal': palette.teal,
   'green-subtle': palette.greenSubtle,
+  // green-bar ledger banding — a row-tracking aid, not a status: quieter than green-subtle
+  'ledger-bar': 'rgba(21, 114, 68, 0.05)',
   'red-subtle': palette.redSubtle,
   'amber-subtle': palette.amberSubtle,
   'blue-subtle': palette.blueSubtle,
