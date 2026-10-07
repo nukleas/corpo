@@ -36,6 +36,7 @@ src/js/              zero-dep vanilla scene engines, shipped from src via packag
   depgraph.d.ts      hand-authored types for the export
   relgraph.js        CpRelGraph — canvas relationship graph, ~10k-node target (exports `corpo/relgraph`)
   relgraph.d.ts      hand-authored types for the export
+  graph-layout.js    shared layouts: computeTiers, tierLayout, radialLayout, Barnes-Hut force worker
 
 dist/                generated, gitignored — run `npm run build` to regenerate
   corpo.css

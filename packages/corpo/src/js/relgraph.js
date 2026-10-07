@@ -11,6 +11,8 @@
  * reported via onSelect; the host may sync it back through select().
  */
 
+import { createForceWorker, radialLayout, tierLayout } from './graph-layout.js';
+
 const MIN_SCALE = 0.02;
 const MAX_SCALE = 12;
 const CLICK_SLOP = 4; // px of pointer travel before a press becomes a pan
@@ -156,9 +158,32 @@ export function CpRelGraph(root, opts = {}) {
     return kindColor.get(n.kind ?? '') ?? theme.series[0];
   }
 
+  function assignKindColors() {
+    // Explicit overrides win, then chart series in first-seen order, then the
+    // neutral overflow tone past five (chart palette rule).
+    kindColor = new Map();
+    let next = 0;
+    for (const n of nodes) {
+      const kind = n.kind ?? '';
+      if (kindColor.has(kind)) continue;
+      const override = currentKinds[kind]?.color;
+      kindColor.set(kind, override ?? (next < 5 ? theme.series[next++] : theme.overflow));
+    }
+  }
+
+  function rebuildGrid() {
+    const maxR = nodes.reduce((m, n) => Math.max(m, n.r), DEFAULT_NODE_R);
+    grid = buildGrid(nodes, Math.max(maxR * 4, 48));
+  }
+
   function load(model) {
     nodes = (model.nodes ?? []).map((n) => ({ ...n, r: n.r ?? DEFAULT_NODE_R }));
     placeMissing(nodes);
+    for (const n of nodes) {
+      // preset baseline — runLayout('preset') restores these
+      n.px = n.x;
+      n.py = n.y;
+    }
 
     byId = new Map(nodes.map((n) => [n.id, { node: n, nbrs: new Set(), degree: 0 }]));
     edges = [];
@@ -174,24 +199,85 @@ export function CpRelGraph(root, opts = {}) {
     }
     byDegree = [...byId.values()].sort((a, b) => b.degree - a.degree).map((r) => r.node);
 
-    // Kind → color: explicit overrides win, then chart series in first-seen
-    // order, then the neutral overflow tone past five (chart palette rule).
-    kindColor = new Map();
     currentKinds = model.kinds ?? {};
-    const explicit = currentKinds;
-    let next = 0;
-    for (const n of nodes) {
-      const kind = n.kind ?? '';
-      if (kindColor.has(kind)) continue;
-      const override = explicit[kind]?.color;
-      kindColor.set(kind, override ?? (next < 5 ? theme.series[next++] : theme.overflow));
-    }
-
-    const maxR = nodes.reduce((m, n) => Math.max(m, n.r), DEFAULT_NODE_R);
-    grid = buildGrid(nodes, Math.max(maxR * 4, 48));
+    assignKindColors();
+    rebuildGrid();
 
     if (selection && !byId.has(selection)) selection = null;
     if (hoverId && !byId.has(hoverId)) setHover(null);
+  }
+
+  // ── layouts ──
+
+  let layoutName = opts.layout ?? 'preset';
+  let worker = null;
+
+  function afterPositions() {
+    rebuildGrid();
+    if (!userCam) fit();
+    else schedule();
+  }
+
+  function stopLayout() {
+    if (worker) {
+      worker.terminate();
+      worker = null;
+    }
+  }
+
+  function runLayout(name = layoutName) {
+    layoutName = name;
+    stopLayout();
+    if (name === 'preset') {
+      for (const n of nodes) {
+        n.x = n.px;
+        n.y = n.py;
+      }
+      afterPositions();
+      opts.onLayoutEnd?.(name);
+      return;
+    }
+    if (name === 'radial' || name === 'tiers') {
+      const edgeList = edges.map((e) => ({ source: e.s.id, target: e.t.id }));
+      const pos = name === 'radial' ? radialLayout(nodes, edgeList) : tierLayout(nodes, edgeList);
+      for (const n of nodes) {
+        const p = pos.get(n.id);
+        if (p) {
+          n.x = p.x;
+          n.y = p.y;
+        }
+      }
+      afterPositions();
+      opts.onLayoutEnd?.(name);
+      return;
+    }
+
+    // force — Barnes-Hut in a worker; batches stream back until it cools
+    const index = new Map(nodes.map((n, i) => [n.id, i]));
+    const pos = new Float32Array(nodes.length * 2);
+    nodes.forEach((n, i) => {
+      pos[2 * i] = n.x;
+      pos[2 * i + 1] = n.y;
+    });
+    const flat = new Int32Array(edges.length * 2);
+    edges.forEach((e, i) => {
+      flat[2 * i] = index.get(e.s.id);
+      flat[2 * i + 1] = index.get(e.t.id);
+    });
+    worker = createForceWorker();
+    worker.onmessage = (ev) => {
+      const { pos: p, done } = ev.data;
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].x = p[2 * i];
+        nodes[i].y = p[2 * i + 1];
+      }
+      afterPositions();
+      if (done) {
+        stopLayout();
+        opts.onLayoutEnd?.('force');
+      }
+    };
+    worker.postMessage({ pos, edges: flat, n: nodes.length, m: edges.length }, [pos.buffer, flat.buffer]);
   }
 
   // ── viewport ──
@@ -535,26 +621,33 @@ export function CpRelGraph(root, opts = {}) {
   load(opts);
   resize();
   fit();
+  if (layoutName !== 'preset') runLayout(layoutName);
 
   return {
     select,
     getSelection: () => selection,
     replaceModel(model) {
       load(model);
-      if (!userCam) fit();
-      else schedule();
+      if (layoutName !== 'preset') runLayout(layoutName);
+      else afterPositions();
     },
     fit(padding) {
       userCam = false;
       fit(padding);
     },
     zoomTo,
+    runLayout(name) {
+      userCam = false;
+      runLayout(name);
+    },
+    stopLayout,
     refreshTheme() {
       theme = readTheme(root);
-      load({ nodes, edges: edges.map((e) => ({ source: e.s.id, target: e.t.id })), kinds: currentKinds });
+      assignKindColors();
       schedule();
     },
     destroy() {
+      stopLayout();
       if (frame) cancelAnimationFrame(frame);
       ro.disconnect();
       canvas.remove();

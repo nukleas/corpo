@@ -7,6 +7,8 @@
  * is reported via onAdvance(id, node); the host applies it with setState/replaceModel.
  */
 
+import { computeTiers } from './graph-layout.js';
+
 const NODE_W = 200;
 const NODE_H = 56;
 const NODE_R = 4;
@@ -36,33 +38,12 @@ function isDone(n) {
   return stateOf(n) === 'done';
 }
 
-/** Longest path from roots, honoring explicit `tier` overrides. */
-function computeTiers(nodes) {
-  const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
-  const memo = {};
-  const visiting = new Set();
-  function tierOf(n) {
-    if (Number.isFinite(n.tier)) return n.tier;
-    if (memo[n.id] != null) return memo[n.id];
-    if (visiting.has(n.id)) return 0; // cycle guard
-    visiting.add(n.id);
-    const deps = (n.dependsOn || []).map((id) => byId[id]).filter(Boolean);
-    const t = deps.length ? Math.max(...deps.map(tierOf)) + 1 : 0;
-    visiting.delete(n.id);
-    memo[n.id] = t;
-    return t;
-  }
-  const out = {};
-  for (const n of nodes) out[n.id] = tierOf(n);
-  return out;
-}
-
 /**
  * Layered layout: tiers become columns (ltr) or rows (ttb). Lane within a tier
  * is a single-pass barycenter of dependency lanes, ties broken by input order.
  */
 function layout(nodes, direction) {
-  const tierOf = computeTiers(nodes);
+  const tierOf = computeTiers(nodes, (n) => n.dependsOn || []);
   const tierCount = nodes.length ? Math.max(...Object.values(tierOf)) + 1 : 0;
   const groups = Array.from({ length: tierCount }, () => []);
   nodes.forEach((n, idx) => groups[tierOf[n.id]].push({ n, idx }));
