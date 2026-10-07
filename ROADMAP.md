@@ -43,9 +43,9 @@ Built in layers, each shippable on its own:
 2. **Layouts** *(shipped)* — Barnes-Hut force-directed in a Web Worker with progressive settle (the graph is
    usable while it converges); radial/concentric; the depgraph layered layout promoted to a shared
    module.
-3. **Navigating big graphs** — ported from cyberdesign's iso engine: gutter label packing with
-   leader lines, multi-axis filters with edge auto-hiding, scope drill-down; plus search-and-jump,
-   node dragging with position persistence, box-select, minimap.
+3. **Navigating big graphs** *(shipped)* — gutter label packing with leader lines, kind/group
+   filters with edge auto-hiding, scope drill-down, search-and-jump, node dragging with position
+   persistence, box-select, minimap.
 4. **Power features** — cluster collapse/expand, path tracing (animate a route through the graph),
    PNG/SVG export. A WebGL renderer only if a real use case outgrows canvas.
 

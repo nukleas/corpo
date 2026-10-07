@@ -37,6 +37,7 @@ src/js/              zero-dep vanilla scene engines, shipped from src via packag
   relgraph.js        CpRelGraph — canvas relationship graph, ~10k-node target (exports `corpo/relgraph`)
   relgraph.d.ts      hand-authored types for the export
   graph-layout.js    shared layouts: computeTiers, tierLayout, radialLayout, Barnes-Hut force worker
+                     Layer 3 nav lives in relgraph.js (gutter labels, filters, scope, search, drag, box-select, minimap)
 
 dist/                generated, gitignored — run `npm run build` to regenerate
   corpo.css

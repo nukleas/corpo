@@ -9,7 +9,8 @@
   body { margin: 0; padding: 16px; background: var(--corpo-bg); font-family: var(--corpo-font-sans); color: var(--corpo-text); }
   .bar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
   .stats { font-family: var(--corpo-font-mono); font-size: var(--corpo-text-sm); color: var(--corpo-text-secondary); }
-  #graph { height: calc(100vh - 90px); }
+  #graph { height: calc(100vh - 110px); }
+  .hint { font-size: var(--corpo-text-xs); color: var(--corpo-text-muted); }
 </style>
 </head>
 <body>
@@ -27,6 +28,20 @@
     <option value="radial">radial</option>
     <option value="tiers">tiers</option>
   </select>
+  <select id="labels" class="cp-select" style="width:auto">
+    <option value="lod" selected>lod labels</option>
+    <option value="gutter">gutter labels</option>
+    <option value="focus">focus labels</option>
+  </select>
+  <select id="kind" class="cp-select" style="width:auto">
+    <option value="" selected>all kinds</option>
+    <option value="service">service</option>
+    <option value="database">database</option>
+    <option value="queue">queue</option>
+    <option value="external">external</option>
+    <option value="job">job</option>
+    <option value="ui">ui</option>
+  </select>
   <select id="theme" class="cp-select" style="width:auto">
     <option value="">teal</option>
     <option value="theme-amber">amber</option>
@@ -34,9 +49,13 @@
     <option value="theme-red">red</option>
     <option value="theme-steel">steel</option>
   </select>
+  <input id="search" class="cp-input cp-input--sm cp-input--accent" placeholder="Search" aria-label="Search nodes" style="width:140px">
+  <button id="scope" class="cp-btn cp-btn--sm">Scope</button>
+  <button id="unscope" class="cp-btn cp-btn--sm">Clear scope</button>
   <button id="fit" class="cp-btn">Fit (0)</button>
   <span id="stats" class="stats"></span>
 </div>
+<p class="hint">Drag a node to move it. Shift-drag to box-select. Double-click a node to drill in. ] [ cycle search hits.</p>
 <div id="graph"></div>
 
 <script type="module">
@@ -67,7 +86,8 @@ function makeGraph(total) {
     const cx = Math.cos(c * GA) * cd;
     const cy = Math.sin(c * GA) * cd;
     const hub = `c${c}-hub`;
-    nodes.push({ id: hub, label: `gateway-${c}`, kind: 'service', x: cx, y: cy, r: 7 });
+    const group = `cluster-${c}`;
+    nodes.push({ id: hub, label: `gateway-${c}`, kind: 'service', group, x: cx, y: cy, r: 7 });
     for (let i = 1; i < size; i++) {
       const id = `c${c}-n${i}`;
       const d = 14 * Math.sqrt(i + 0.5);
@@ -75,6 +95,8 @@ function makeGraph(total) {
         id,
         label: `${KINDS[i % KINDS.length]}-${c}-${i}`,
         kind: KINDS[i % KINDS.length],
+        group,
+        parent: hub,
         x: cx + Math.cos(i * GA) * d,
         y: cy + Math.sin(i * GA) * d,
       });
@@ -100,10 +122,12 @@ let layoutMs = null;
 const api = CpRelGraph(host, {
   ...model,
   onSelect: (id) => { selectedId = id; },
+  onScope: (id) => { scopeId = id; },
   onLayoutEnd: (name) => { if (name === 'force') layoutMs = performance.now() - layoutStart; },
 });
 buildMs = performance.now() - t0;
 let selectedId = null;
+let scopeId = null;
 window.relgraph = api;
 
 document.getElementById('layout').addEventListener('change', (e) => {
@@ -111,6 +135,25 @@ document.getElementById('layout').addEventListener('change', (e) => {
   layoutStart = performance.now();
   api.runLayout(e.target.value);
 });
+
+document.getElementById('labels').addEventListener('change', (e) => {
+  api.setLabels(e.target.value);
+});
+
+document.getElementById('kind').addEventListener('change', (e) => {
+  api.setFilters({ kinds: e.target.value ? [e.target.value] : [] });
+});
+
+document.getElementById('search').addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  api.search(e.target.value);
+});
+
+document.getElementById('scope').addEventListener('click', () => {
+  if (selectedId) api.setScope(selectedId);
+});
+
+document.getElementById('unscope').addEventListener('click', () => api.setScope(null));
 
 document.getElementById('size').addEventListener('change', (e) => {
   model = makeGraph(Number(e.target.value));
@@ -134,7 +177,12 @@ function sample(now) {
   frames++;
   if (now - last >= 1000) {
     const fps = Math.round((frames * 1000) / (now - last));
-    stats.textContent = `${model.nodes.length.toLocaleString()} nodes · ${model.edges.length.toLocaleString()} edges · build ${buildMs.toFixed(1)}ms · ${fps}fps${layoutMs !== null ? ` · settle ${(layoutMs / 1000).toFixed(1)}s` : ''}${selectedId ? ` · selected ${selectedId}` : ''}`;
+    const extra = [
+      layoutMs !== null ? `settle ${(layoutMs / 1000).toFixed(1)}s` : null,
+      selectedId ? `selected ${selectedId}` : null,
+      scopeId ? `scope ${scopeId}` : null,
+    ].filter(Boolean).join(' · ');
+    stats.textContent = `${model.nodes.length.toLocaleString()} nodes · ${model.edges.length.toLocaleString()} edges · build ${buildMs.toFixed(1)}ms · ${fps}fps${extra ? ` · ${extra}` : ''}`;
     frames = 0;
     last = now;
   }

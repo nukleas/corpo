@@ -2,6 +2,9 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { RelationGraph } from './RelationGraph';
 import type { RelGraphEdge, RelGraphNode } from './RelationGraph';
+import { Input } from './Input';
+import { ToggleGroup } from './ToggleGroup';
+import { Button } from './Button';
 
 const meta = {
   title: 'Operations/RelationGraph',
@@ -39,7 +42,8 @@ function makeGraph(clusterCount: number, size: number, seed = 7) {
     const cx = Math.cos(c * GA) * cd;
     const cy = Math.sin(c * GA) * cd;
     const hub = `c${c}-hub`;
-    nodes.push({ id: hub, label: `gateway-${c}`, kind: 'service', x: cx, y: cy, r: 7 });
+    const group = `cluster-${c}`;
+    nodes.push({ id: hub, label: `gateway-${c}`, kind: 'service', group, x: cx, y: cy, r: 7 });
     for (let i = 1; i < size; i++) {
       const id = `c${c}-n${i}`;
       const d = 14 * Math.sqrt(i + 0.5);
@@ -47,6 +51,8 @@ function makeGraph(clusterCount: number, size: number, seed = 7) {
         id,
         label: `${KINDS[i % KINDS.length]}-${c}-${i}`,
         kind: KINDS[i % KINDS.length],
+        group,
+        parent: hub,
         x: cx + Math.cos(i * GA) * d,
         y: cy + Math.sin(i * GA) * d,
       });
@@ -80,16 +86,23 @@ export const RadialLayout: Story = {
   args: { ...makeGraph(4, 30), layout: 'radial', style: { height: 480 } },
 };
 
+/** Labels packed into the left/right gutters with leader lines — the calm zoomed-out reading. */
+export const GutterLabels: Story = {
+  args: { ...makeGraph(6, 16), labels: 'gutter', style: { height: 480 } },
+};
+
 /** 5,000 nodes / ~7,600 edges — pan, zoom, and hover stay interactive; labels surface as you zoom in. */
 export const LargeGraph: Story = {
   args: { ...makeGraph(40, 125), style: { height: 560 } },
 };
 
+const DEMO = makeGraph(6, 20);
+
 /** Selection is reported via `onSelect` and can be synced back through `selectedId`. */
 export const ControlledSelection: Story = {
   args: { nodes: [], edges: [] },
   render: () => {
-    const graph = makeGraph(6, 20);
+    const graph = DEMO;
     const [selected, setSelected] = useState<string | null>('c0-hub');
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -100,6 +113,86 @@ export const ControlledSelection: Story = {
           onSelect={(id) => setSelected(id)}
           style={{ height: 440 }}
         />
+      </div>
+    );
+  },
+};
+
+/** Kind inclusion filter; edges hide when either end is filtered out. */
+export const Filters: Story = {
+  args: { nodes: [], edges: [] },
+  render: () => {
+    const graph = DEMO;
+    const [kinds, setKinds] = useState<string[]>([]);
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <ToggleGroup
+          multiple
+          options={KINDS.map((k) => ({ value: k, label: k }))}
+          value={kinds}
+          onChange={(v) => setKinds(Array.isArray(v) ? v : [v])}
+        />
+        <RelationGraph
+          {...graph}
+          filters={{ kinds }}
+          labels="gutter"
+          style={{ height: 440 }}
+        />
+      </div>
+    );
+  },
+};
+
+/** Double-click a gateway to drill into its cluster; Escape or double-click empty to leave. */
+export const ScopeDrilldown: Story = {
+  args: { nodes: [], edges: [] },
+  render: () => {
+    const graph = DEMO;
+    const [scope, setScope] = useState<string | null>(null);
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span className="corpo-label">Scope: {scope ?? 'all'}</span>
+          {scope && (
+            <Button size="sm" onClick={() => setScope(null)}>
+              Clear scope
+            </Button>
+          )}
+        </div>
+        <RelationGraph
+          {...graph}
+          scopeId={scope}
+          onScope={(id) => setScope(id)}
+          labels="gutter"
+          style={{ height: 440 }}
+        />
+      </div>
+    );
+  },
+};
+
+/** Type a label fragment and press Enter to jump; ] and [ cycle matches. */
+export const SearchJump: Story = {
+  args: { nodes: [], edges: [] },
+  render: () => {
+    const graph = DEMO;
+    const [draft, setDraft] = useState('queue');
+    const [query, setQuery] = useState('queue');
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <Input
+          size="sm"
+          accent
+          value={draft}
+          placeholder="Search nodes"
+          aria-label="Search nodes"
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') setQuery(draft);
+          }}
+          style={{ maxWidth: 240 }}
+        />
+        <RelationGraph {...graph} query={query} style={{ height: 440 }} />
       </div>
     );
   },
