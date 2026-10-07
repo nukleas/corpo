@@ -18,7 +18,8 @@ balance cells. Deferred from this family: cell flash-on-change, a formula bar, a
 account tree (best built on DataTable grouping).
 
 **DataTable**: sorting/filtering/selection over the Table chassis — sortable headers on raw
-values, toolbar quick filter, controlled checkbox selection.
+values, toolbar quick filter, controlled checkbox selection, and a dense `grid` mode (gridlines,
+sticky header, zebra rows, pinned first column) shared with Table.
 
 **Feedback**: Alert, Progress, Spinner, Toast
 
@@ -51,6 +52,34 @@ Built in layers, each shippable on its own:
 
 Explicitly not borrowed from cyberdesign: the isometric projection, hand-authored coordinates, and
 innerHTML-rebuild render loop — corpo's engine does automatic layout and incremental drawing.
+
+## Next: dense data grid — DataTable that feels like a spreadsheet
+
+Agents building with corpo default to stacks of Cards for record-shaped data. The fix is a DataTable
+dense and keyboardable enough to be the obvious choice. This grows `DataTable` (column-keyed
+records) rather than adding a third table component; keyboard behavior lives in `react-corpo` (the
+Combobox/Command precedent), and `corpo` owns only the visual states.
+
+Built in layers, each shippable on its own:
+
+1. **Dense grid chassis** *(shipped)* — `cp-table--grid`: full gridlines, ~28px rows, tabular
+   numerals, sticky header inside a bounded height, `cp-table--striped` zebra rows, and
+   `cp-table--pin-first` to pin the first data column (plus the selection column). Table and
+   DataTable take `grid` / `striped` / `pinFirstColumn`. The README quick-starts now lead with a
+   DataTable grid instead of a Card — the docs were why agents reached for Cards.
+2. **Keyboard cell navigation** — ARIA grid pattern on the existing `<table>`: roving tabindex,
+   arrows / Home / End / PageUp / PageDown, a visible cell focus ring, Enter/Space act on the row.
+   Read-only.
+3. **Range selection + clipboard** — Shift+arrow, Shift+click, and drag ranges with a range CSS
+   state; Cmd/Ctrl+C copies as TSV so it pastes cleanly into Excel/Sheets.
+4. **Columns** — resize handles (widths reported to the caller, not persisted internally) and row
+   grouping, which unlocks the deferred TrialBalance account tree.
+5. **Spreadsheet on the grid** — rebuild `Spreadsheet` as a preset over the same grid (A1 headers,
+   row numbers, editable cells) so corpo has one keyboard/selection model, not two. Inline editing
+   lands here, not in the DataTable layers.
+6. **Row virtualization** — only once a real use case outgrows plain rendering. Open decision:
+   add a dependency (e.g. TanStack Virtual) to the published `react-corpo` vs a small in-house
+   windowing hook.
 
 ## Under consideration
 

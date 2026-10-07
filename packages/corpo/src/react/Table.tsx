@@ -30,9 +30,28 @@ export interface TableProps extends HTMLAttributes<HTMLDivElement> {
   /** Row objects keyed by column `key`; each value is cell shorthand. */
   rows: Record<string, TableCellShorthand>[];
   compact?: boolean;
+  /**
+   * Dense spreadsheet-like grid: full gridlines, ~28px rows, sticky header.
+   * The table scrolls inside itself — bound its height for the header to stick.
+   * @default false
+   */
+  grid?: boolean;
+  /** Zebra rows. Requires `grid`. @default false */
+  striped?: boolean;
+  /** Keep the first column visible while scrolling sideways. Requires `grid`. @default false */
+  pinFirstColumn?: boolean;
 }
 
-export function Table({ columns, rows, compact = false, className = '', ...rest }: TableProps) {
+export function Table({
+  columns,
+  rows,
+  compact = false,
+  grid = false,
+  striped = false,
+  pinFirstColumn = false,
+  className = '',
+  ...rest
+}: TableProps) {
   function renderCell(raw: TableCellShorthand, col: TableColumn) {
     // SAFETY: cell-shorthand boundary parser — nil/boolean and element cases
     // are excluded first, so a remaining object is by contract a props object.
@@ -55,7 +74,17 @@ export function Table({ columns, rows, compact = false, className = '', ...rest 
   }
 
   return (
-    <div className={cx('cp-table', compact && 'cp-table--compact', className)} {...rest}>
+    <div
+      className={cx(
+        'cp-table',
+        compact && 'cp-table--compact',
+        grid && 'cp-table--grid',
+        grid && striped && 'cp-table--striped',
+        grid && pinFirstColumn && 'cp-table--pin-first',
+        className,
+      )}
+      {...rest}
+    >
       <table className="cp-table__table">
         <thead>
           <tr>

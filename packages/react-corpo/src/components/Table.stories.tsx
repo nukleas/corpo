@@ -28,6 +28,8 @@ const rows = [
 
 export const Default: Story = { args: { columns, rows } };
 export const Compact: Story = { args: { columns, rows, compact: true } };
+/** Dense spreadsheet-like grid — gridlines, ~28px rows, sticky header. For sorting, filtering, and selection use DataTable's `grid`. */
+export const Grid: Story = { args: { columns, rows, grid: true, striped: true } };
 
 /** Per-cell shorthand overrides: element content via `{ content }`, a column default overridden with `numeric: false`, and a missing value rendering an empty aligned cell. */
 export const CellShorthand: Story = {
