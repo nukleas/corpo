@@ -78,3 +78,78 @@ export const Selectable: Story = {
     );
   },
 };
+
+const CLIENTS = ['Acme Inc.', 'Northwind', 'Globex', 'Initech', 'Umbrella', 'Hooli', 'Stark Industries', 'Wayne Enterprises'];
+const REGIONS = ['North America', 'EMEA', 'APAC', 'LATAM'];
+const OWNERS = ['A. Shah', 'M. Okafor', 'J. Lindqvist', 'R. Tanaka', 'L. Moreau'];
+const STATES = [
+  { content: 'Paid', status: 'ok' },
+  { content: 'Pending', status: 'warn' },
+  { content: 'Overdue', status: 'err' },
+  { content: 'Draft', status: 'idle' },
+] as const;
+
+const GRID_COLUMNS = [
+  { key: 'id', label: 'Invoice', mono: true, sortable: true },
+  { key: 'client', label: 'Client', sortable: true },
+  { key: 'region', label: 'Region', sortable: true },
+  { key: 'owner', label: 'Owner', sortable: true },
+  { key: 'issued', label: 'Issued', mono: true, sortable: true },
+  { key: 'due', label: 'Due', mono: true, sortable: true },
+  { key: 'subtotal', label: 'Subtotal', numeric: true, sortable: true },
+  { key: 'tax', label: 'Tax', numeric: true, sortable: true },
+  { key: 'total', label: 'Total', numeric: true, sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+];
+
+const money = (n: number) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const GRID_ROWS: DataTableRow[] = Array.from({ length: 200 }, (_, i) => {
+  const id = `INV-${2000 + i}`;
+  const subtotal = ((i * 7919) % 48_000) + 350;
+  const tax = Math.round(subtotal * 0.0775 * 100) / 100;
+  const state = STATES[i % STATES.length];
+  const day = (i % 28) + 1;
+  return {
+    id,
+    cells: {
+      id,
+      client: CLIENTS[i % CLIENTS.length],
+      region: REGIONS[(i * 3) % REGIONS.length],
+      owner: OWNERS[(i * 2) % OWNERS.length],
+      issued: `2026-09-${String(day).padStart(2, '0')}`,
+      due: `2026-10-${String(day).padStart(2, '0')}`,
+      subtotal: money(subtotal),
+      tax: money(tax),
+      total: money(subtotal + tax),
+      status: state,
+    },
+    values: { subtotal, tax, total: subtotal + tax, status: state.content },
+  };
+});
+
+/**
+ * `grid` is the dense, spreadsheet-like treatment for record-heavy screens — reach for it instead
+ * of a stack of Cards. Full gridlines, ~28px rows, a sticky header (bound the DataTable's height so
+ * the grid scrolls inside itself), optional `striped` rows, and `pinFirstColumn` to keep the record
+ * id in view while scrolling sideways.
+ */
+export const Grid: Story = {
+  render: () => {
+    const [selected, setSelected] = useState<string[]>([]);
+    return (
+      <DataTable
+        columns={GRID_COLUMNS}
+        rows={GRID_ROWS}
+        grid
+        striped
+        pinFirstColumn
+        searchable
+        selectable
+        selected={selected}
+        onSelectedChange={setSelected}
+        style={{ height: 420, maxWidth: 900 }}
+      />
+    );
+  },
+};

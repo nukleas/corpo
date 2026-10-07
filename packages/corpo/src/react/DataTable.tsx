@@ -21,6 +21,16 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
   columns: DataTableColumn[];
   rows: DataTableRow[];
   compact?: boolean;
+  /**
+   * Dense spreadsheet-like grid: full gridlines, ~28px rows, sticky header.
+   * The table scrolls inside itself — bound its height for the header to stick.
+   * @default false
+   */
+  grid?: boolean;
+  /** Zebra rows. Requires `grid`. @default false */
+  striped?: boolean;
+  /** Keep the first data column (and the selection column) visible while scrolling sideways. Requires `grid`. @default false */
+  pinFirstColumn?: boolean;
   /** Toolbar quick-filter across all columns' raw values. @default false */
   searchable?: boolean;
   /** Render a selection checkbox column; requires `onSelectedChange`. @default false */
@@ -64,6 +74,9 @@ export function DataTable({
   columns,
   rows,
   compact = false,
+  grid = false,
+  striped = false,
+  pinFirstColumn = false,
   searchable = false,
   selectable = false,
   selected = [],
@@ -130,7 +143,7 @@ export function DataTable({
   }
 
   return (
-    <div className={cx('cp-datatable', className)} {...rest}>
+    <div className={cx('cp-datatable', grid && 'cp-datatable--grid', className)} {...rest}>
       {searchable && (
         <div className="cp-datatable__toolbar">
           <input
@@ -148,7 +161,15 @@ export function DataTable({
           )}
         </div>
       )}
-      <div className={cx('cp-table', compact && 'cp-table--compact')}>
+      <div
+        className={cx(
+          'cp-table',
+          compact && 'cp-table--compact',
+          grid && 'cp-table--grid',
+          grid && striped && 'cp-table--striped',
+          grid && pinFirstColumn && 'cp-table--pin-first',
+        )}
+      >
         <table className="cp-table__table">
           <thead>
             <tr>

@@ -22,7 +22,7 @@ shadcn-parity extras that fit a calm business UI. Cyber-only families (Terminal,
 Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts) are intentionally not ported.
 
 - **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label, Slider, Combobox, DatePicker, Toggle, ToggleGroup, ButtonGroup, InputGroup
-- **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip, StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, SectionHeader
+- **Display**: Card, Badge, Table, DataTable, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip, StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, SectionHeader
 - **Feedback**: Alert, Progress, Spinner, Toast
 - **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination, Command
 
@@ -92,19 +92,27 @@ Working on this monorepo itself, or want a live local link instead of the publis
 ### React components
 
 ```tsx
-import { ThemeProvider, Button, Card } from '@nukleas/react-corpo';
+import { ThemeProvider, DataTable } from '@nukleas/react-corpo';
 import '@nukleas/react-corpo/styles.css';
 
-export function App() {
+const columns = [
+  { key: 'id', label: 'Invoice', mono: true, sortable: true },
+  { key: 'client', label: 'Client', sortable: true },
+  { key: 'total', label: 'Total', numeric: true, sortable: true },
+];
+
+export function App({ invoices }: { invoices: { id: string; client: string; total: number }[] }) {
+  const rows = invoices.map((inv) => ({ id: inv.id, cells: inv }));
   return (
     <ThemeProvider theme="amber">
-      <Card title="Renewal">
-        <Button variant="primary">Save changes</Button>
-      </Card>
+      <DataTable columns={columns} rows={rows} grid pinFirstColumn searchable style={{ height: 480 }} />
     </ThemeProvider>
   );
 }
 ```
+
+Lists of records belong in a `DataTable` with `grid`: dense rows, gridlines, a sticky header.
+Keep Cards for a handful of summary items, not one per record.
 
 ## Workspace layout
 

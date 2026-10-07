@@ -68,6 +68,16 @@ export interface TableProps extends HTMLAttributes<HTMLDivElement> {
   rows: Record<string, TableCellShorthand>[];
   /** Denser paddings. @default false */
   compact?: boolean;
+  /**
+   * Dense spreadsheet-like grid: full gridlines, ~28px rows, sticky header.
+   * The table scrolls inside itself — bound its height for the header to stick.
+   * @default false
+   */
+  grid?: boolean;
+  /** Zebra rows. Requires `grid`. @default false */
+  striped?: boolean;
+  /** Keep the first column visible while scrolling sideways. Requires `grid`. @default false */
+  pinFirstColumn?: boolean;
 }
 
 /**
@@ -76,9 +86,28 @@ export interface TableProps extends HTMLAttributes<HTMLDivElement> {
  * to add a status dot or override the column defaults, or a `<Table.Cell>`
  * element for full control.
  */
-export function Table({ columns, rows, compact = false, className, ...rest }: TableProps) {
+export function Table({
+  columns,
+  rows,
+  compact = false,
+  grid = false,
+  striped = false,
+  pinFirstColumn = false,
+  className,
+  ...rest
+}: TableProps) {
   return (
-    <div className={cn('cp-table', compact && 'cp-table--compact', className)} {...rest}>
+    <div
+      className={cn(
+        'cp-table',
+        compact && 'cp-table--compact',
+        grid && 'cp-table--grid',
+        grid && striped && 'cp-table--striped',
+        grid && pinFirstColumn && 'cp-table--pin-first',
+        className,
+      )}
+      {...rest}
+    >
       <table className="cp-table__table">
         <thead>
           <tr>

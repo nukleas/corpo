@@ -6,7 +6,7 @@ Visual styles come from corpo CSS (`cp-*` classes, `--corpo-*` tokens). This pac
 
 ## Features
 
-- **80+ components across forms, display, feedback, navigation** — including Button, Input, Select, Checkbox, Switch, Slider, Combobox, DatePicker, Toggle(Group), Card, Table, Avatar, Skeleton, Accordion, Modal, AlertDialog, Sheet, Popover, Calendar, Spreadsheet, Chip, Status(Dot/Pill/Bar), Empty, Alert, Progress, Toast, Tabs, Breadcrumb, Dropdown, Pagination, Command — see [`packages/corpo`](../corpo) for the full list
+- **80+ components across forms, display, feedback, navigation** — including Button, Input, Select, Checkbox, Switch, Slider, Combobox, DatePicker, Toggle(Group), Card, Table, DataTable, Avatar, Skeleton, Accordion, Modal, AlertDialog, Sheet, Popover, Calendar, Spreadsheet, Chip, Status(Dot/Pill/Bar), Empty, Alert, Progress, Toast, Tabs, Breadcrumb, Dropdown, Pagination, Command — see [`packages/corpo`](../corpo) for the full list
 - **Semantic props** — `variant`, `size`, `color`/`tone`, plus native HTML attributes
 - **Multi themes** — `teal` (default) · `amber` · `green` · `red` · `steel`, plus a `corpo-dark` heritage scope
 - **Storybook autodocs** — prop tables from JSDoc
@@ -26,34 +26,46 @@ import '@nukleas/react-corpo/styles.css';
 ## Quick start
 
 ```tsx
-import {
-  ThemeProvider,
-  Button,
-  Input,
-  Field,
-  Label,
-  Card,
-  Badge,
-} from '@nukleas/react-corpo';
+import { ThemeProvider, Button, DataTable } from '@nukleas/react-corpo';
+import type { DataTableRow } from '@nukleas/react-corpo';
 import '@nukleas/react-corpo/styles.css';
+import { useState } from 'react';
+
+const columns = [
+  { key: 'id', label: 'Invoice', mono: true, sortable: true },
+  { key: 'client', label: 'Client', sortable: true },
+  { key: 'total', label: 'Total', numeric: true, sortable: true },
+  { key: 'status', label: 'Status' },
+];
+
+const rows: DataTableRow[] = [
+  { id: 'INV-1042', cells: { id: 'INV-1042', client: 'Acme Inc.', total: 12_400, status: { content: 'Paid', status: 'ok' } } },
+  { id: 'INV-1043', cells: { id: 'INV-1043', client: 'Northwind', total: 8_150, status: { content: 'Pending', status: 'warn' } } },
+];
 
 export function App() {
+  const [selected, setSelected] = useState<string[]>([]);
   return (
     <ThemeProvider theme="amber">
-      <Card title="Renewal">
-        <Field>
-          <Label htmlFor="q">Search</Label>
-          <Input id="q" placeholder="Search invoices…" accent />
-        </Field>
-        <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-          <Button variant="primary">Save changes</Button>
-          <Badge color="green" dot>Paid</Badge>
-        </div>
-      </Card>
+      <Button variant="primary" disabled={!selected.length}>Send reminders</Button>
+      <DataTable
+        columns={columns}
+        rows={rows}
+        grid
+        pinFirstColumn
+        searchable
+        selectable
+        selected={selected}
+        onSelectedChange={setSelected}
+        style={{ height: 480 }}
+      />
     </ThemeProvider>
   );
 }
 ```
+
+Lists of records belong in a `DataTable` with `grid` — dense rows, gridlines, a sticky header,
+sorting, filtering, and selection. Keep `Card` for a handful of summary items, not one per record.
 
 ## Semantic props
 
