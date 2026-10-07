@@ -57,3 +57,15 @@ th[aria-sort] .cp-table__sort-icon {
 .cp-table__table tbody tr.cp-table__row--selected:hover {
   background: var(--corpo-accent-subtle);
 }
+
+/* Grid mode: the root becomes a flex column so a height set on the DataTable
+   bounds the grid's own scroll area (and its sticky header). */
+.cp-datatable--grid {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.cp-datatable--grid > .cp-table--grid {
+  flex: 1 1 auto;
+  min-height: 0;
+}

@@ -51,3 +51,66 @@
 .cp-table__status--warn { background: var(--corpo-amber); }
 .cp-table__status--err { background: var(--corpo-red); }
 .cp-table__status--idle { background: var(--corpo-text-dim); }
+
+/* Grid — dense, spreadsheet-like treatment for record-heavy screens: full
+   gridlines, ~28px rows, sticky header. The wrapper is the scroll container,
+   so bound its height (or the DataTable root's) for the header to stick.
+   Borders are drawn per cell with `separate` collapse — collapsed borders
+   don't travel with sticky cells. */
+.cp-table--grid {
+  overflow: auto;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+}
+.cp-table--grid .cp-table__table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.cp-table--grid .cp-table__table thead tr,
+.cp-table--grid .cp-table__table tbody tr { border-bottom: none; }
+.cp-table--grid .cp-table__table th,
+.cp-table--grid .cp-table__table td {
+  padding: 4px 8px;
+  line-height: 20px;
+  white-space: nowrap;
+  border-right: 1px solid var(--corpo-border-dim);
+  border-bottom: 1px solid var(--corpo-border-dim);
+}
+.cp-table--grid .cp-table__table :is(th, td):last-child { border-right: none; }
+.cp-table--grid .cp-table__table tbody tr:last-child td { border-bottom: none; }
+.cp-table--grid .cp-table__table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom-color: var(--corpo-border);
+}
+/* Row states paint cells, not rows, so pinned cells can stay opaque. */
+.cp-table--grid .cp-table__table tbody td { background: var(--corpo-bg-panel); }
+/* :where keeps zebra at hover/selected specificity so those win by source order. */
+.cp-table--grid.cp-table--striped .cp-table__table tbody tr:where(:nth-child(even)) td { background: var(--corpo-bg); }
+.cp-table--grid .cp-table__table tbody tr:hover td { background: var(--corpo-bg-panel-hover); }
+.cp-table--grid .cp-table__table tbody tr.cp-table__row--selected td {
+  background: linear-gradient(var(--corpo-accent-subtle), var(--corpo-accent-subtle)), var(--corpo-bg-panel);
+}
+
+/* Pin the first data column (and the selection column ahead of it) while
+   scrolling sideways. Grid-only — pinned cells rely on the grid's opaque cell
+   backgrounds. The selection column gets a fixed width so the first data
+   column knows its offset. */
+.cp-table--grid.cp-table--pin-first .cp-table__table tr > :first-child,
+.cp-table--grid.cp-table--pin-first .cp-table__table tr > .cp-table__check + * {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  border-right-color: var(--corpo-border);
+}
+.cp-table--grid.cp-table--pin-first .cp-table__table th:first-child,
+.cp-table--grid.cp-table--pin-first .cp-table__table .cp-table__check + th { z-index: 3; }
+.cp-table--grid.cp-table--pin-first .cp-table__table tr > .cp-table__check {
+  width: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  border-right-color: var(--corpo-border-dim);
+}
+.cp-table--grid.cp-table--pin-first .cp-table__table tr > .cp-table__check + * { left: 36px; }
