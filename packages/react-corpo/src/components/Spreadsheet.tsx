@@ -24,6 +24,8 @@ export interface SpreadsheetCellProps
   align?: 'left' | 'right';
   /** Value emphasis — `muted` for derived/quiet cells, `danger` for negatives/alerts. */
   tone?: 'muted' | 'danger';
+  /** Computed running-balance cell — right-aligned, bold, inset. Implies `readOnly` unless overridden. */
+  balance?: boolean;
   /** Change handler; injected per-cell by the grid. */
   onValueChange?: (value: string) => void;
 }
@@ -35,9 +37,10 @@ export interface SpreadsheetCellProps
  */
 export function SpreadsheetCell({
   value,
-  readOnly = false,
+  readOnly,
   align,
   tone,
+  balance = false,
   onValueChange,
   className,
   ...rest
@@ -49,11 +52,12 @@ export function SpreadsheetCell({
         'cp-spreadsheet__cell',
         alignRight && 'cp-spreadsheet__cell--num',
         tone && `cp-spreadsheet__cell--${tone}`,
+        balance && 'cp-spreadsheet__cell--balance',
         className,
       )}
       {...rest}
     >
-      {readOnly ? (
+      {(readOnly ?? balance) ? (
         <div className="cp-spreadsheet__value">{value}</div>
       ) : (
         <input
@@ -111,7 +115,8 @@ export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false
                 SpreadsheetCell.create(cell, {
                   key: c,
                   // Grid wiring is a default — a cell's own readOnly/onValueChange wins.
-                  defaultProps: { readOnly, onValueChange: (v) => onCellChange?.(r, c, v) },
+                  // `false` stays uninjected so a `balance` cell can imply its own readOnly.
+                  defaultProps: { readOnly: readOnly || undefined, onValueChange: (v) => onCellChange?.(r, c, v) },
                 }),
               )}
             </tr>

@@ -1,0 +1,59 @@
+/* DataTable — sorting/filtering/selection over the cp-table chassis.
+   The table itself is plain cp-table markup; these classes add the toolbar,
+   sortable-header buttons, the selection column, and the selected-row state. */
+.cp-datatable__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 10px;
+}
+.cp-datatable__count {
+  margin-left: auto;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sort button fills the header cell and inherits its mono micro-label styling */
+.cp-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.cp-table__sort:hover {
+  color: var(--corpo-text);
+}
+.cp-table__sort-icon {
+  font-size: 9px;
+  line-height: 1;
+  color: var(--corpo-text-dim);
+}
+th[aria-sort] .cp-table__sort {
+  color: var(--corpo-text);
+}
+th[aria-sort] .cp-table__sort-icon {
+  color: var(--corpo-accent);
+}
+
+/* Selection column stays as narrow as its checkbox */
+.cp-table__check {
+  width: 1%;
+  padding-right: 0;
+}
+.cp-table__check .cp-checkbox {
+  vertical-align: middle;
+}
+.cp-table__table tbody tr.cp-table__row--selected,
+.cp-table__table tbody tr.cp-table__row--selected:hover {
+  background: var(--corpo-accent-subtle);
+}

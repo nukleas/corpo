@@ -19,6 +19,7 @@ export const darkTheme = {
   'green': '#4cc088',
   'red': '#f26d88',
   'amber': '#d9a03c',
+  'ledger-bar': 'rgba(76, 192, 136, 0.07)',
   'blue': '#7ba4f0',
   // chart series — muted dark-surface steps (validated on #151b24), same fixed order
   'chart-1': '#0d9cb5',

@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 
 import { semanticTokens } from './src/tokens/semantic.js';
 import { amberTheme } from './src/tokens/themes/amber.js';
@@ -9,7 +10,7 @@ import { redTheme } from './src/tokens/themes/red.js';
 import { steelTheme } from './src/tokens/themes/steel.js';
 import { darkTheme } from './src/tokens/themes/dark.js';
 
-const ROOT = new URL('.', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('.', import.meta.url));
 const DIST = join(ROOT, 'dist');
 const SRC_CSS = join(ROOT, 'src/css');
 
@@ -182,6 +183,12 @@ const bundle = [
   '/* Component: Table */\n',
   readCss('components/table.css'),
   '\n',
+  '/* Component: Amount + footing rules */\n',
+  readCss('components/amount.css'),
+  '\n',
+  '/* Component: DataTable */\n',
+  readCss('components/datatable.css'),
+  '\n',
   '/* Component: Stat */\n',
   readCss('components/stat.css'),
   '\n',
@@ -247,6 +254,12 @@ const bundle = [
   '\n',
   '/* Component: Spreadsheet */\n',
   readCss('components/spreadsheet.css'),
+  '\n',
+  '/* Component: Ledger + TAccount + TrialBalance + JournalEntry */\n',
+  readCss('components/ledger.css'),
+  '\n',
+  '/* Component: Statement */\n',
+  readCss('components/statement.css'),
   '\n',
   '/* Component: Sheet */\n',
   readCss('components/sheet.css'),

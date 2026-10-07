@@ -21,6 +21,8 @@ export interface SpreadsheetCellProps {
   align?: 'left' | 'right';
   /** Value emphasis — `muted` for derived/quiet cells, `danger` for negatives/alerts. */
   tone?: 'muted' | 'danger';
+  /** Computed running-balance cell — right-aligned, bold, inset. Implies `readOnly` unless overridden. */
+  balance?: boolean;
 }
 
 /** Cell shorthand: bare value, props object, or a ready element (rendered as the cell body). */
@@ -51,12 +53,13 @@ export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false
     const props: SpreadsheetCellProps =
       // oxlint-disable-next-line anti-slop/no-runtime-typeof -- cell-shorthand boundary: element case is excluded above, so object means props
       typeof cell === 'object' ? cell : { value: cell };
-    const cellReadOnly = props.readOnly ?? readOnly;
+    const cellReadOnly = props.readOnly ?? (props.balance || readOnly);
     const alignRight = props.align ? props.align === 'right' : Number.isFinite(props.value);
     const tdClass = [
       'cp-spreadsheet__cell',
       alignRight && 'cp-spreadsheet__cell--num',
       props.tone && `cp-spreadsheet__cell--${props.tone}`,
+      props.balance && 'cp-spreadsheet__cell--balance',
     ].filter(Boolean).join(' ');
     return (
       <td key={c} className={tdClass}>
