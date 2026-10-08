@@ -43,6 +43,21 @@ pnpm demo               # CSS harness on :4980 → /test/
 pnpm typecheck
 ```
 
+## Quality gates (all run in CI)
+
+```bash
+pnpm format             # Prettier (format:check in CI)
+pnpm lint               # oxlint: anti-slop, react, react-hooks, jsx-a11y; warnings fail
+pnpm lint:css           # stylelint: cp-* classes, kebab custom props, no raw colors
+pnpm check:contract     # emitted cp-* classes exist, --corpo-* tokens resolve,
+                        # corpo/react ⊂ react-corpo exports, every component has a story
+pnpm build-storybook && pnpm test
+                        # every story renders, play functions pass, axe finds no WCAG 2.1 AA issues
+```
+
+A lint disable needs a `-- reason`. New tokens go in `src/tokens/`, never as raw colors in CSS. Interactive
+behavior gets a `play` function in its story.
+
 Build order matters: **CSS before React** (React copies `corpo/dist/corpo.css` → `dist/styles.css`).
 
 ## Adding CSS components

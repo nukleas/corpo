@@ -44,8 +44,10 @@ react-corpo/
 1. Confirm CSS exists in corpo (`src/css/components/<name>.css` + demo in `test/index.html`).
 2. Add `src/components/<Name>.tsx` following Button / Alert / Tabs patterns.
 3. Export from `src/index.ts`.
-4. Add `src/components/<Name>.stories.tsx` with `tags: ['autodocs']`.
-5. `pnpm typecheck` and check Storybook (from monorepo root: `pnpm storybook`).
+4. Add `src/components/<Name>.stories.tsx` with `tags: ['autodocs']`, and a `play` function for any
+   interactive behavior. Stories are tests: each must pass axe WCAG 2.1 AA, so label every control.
+5. From the monorepo root: `pnpm typecheck`, `pnpm lint`, `pnpm check:contract`, then
+   `pnpm build-storybook && pnpm test`.
 
 ## Shorthand slots (semantic-ui-react style)
 

@@ -20,13 +20,33 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: pnpm format:check
+
+      - run: pnpm lint
+
+      - run: pnpm lint:css
+
+      - run: pnpm check:contract
+
       - run: pnpm build
 
       - run: pnpm typecheck
 
-      - run: pnpm lint
-
       - run: pnpm build-storybook
+
+      - name: Resolve Playwright version
+        id: playwright
+        run: echo "version=$(pnpm --filter @nukleas/react-corpo exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - run: pnpm --filter @nukleas/react-corpo exec playwright install --with-deps chromium
+
+      - name: Story tests (render, play functions, axe WCAG 2.1 AA)
+        run: pnpm test
 
       - uses: actions/upload-artifact@v4
         with:

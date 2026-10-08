@@ -18,10 +18,13 @@ package follows (class naming, token usage, how to add a component).
 ## Before opening a PR
 
 ```bash
-pnpm build
-pnpm typecheck
-pnpm build-storybook   # catches story/config errors
+pnpm format
+pnpm lint && pnpm lint:css && pnpm check:contract
+pnpm build && pnpm typecheck
+pnpm build-storybook && pnpm test   # every story renders, play functions pass, axe WCAG 2.1 AA
 ```
+
+CI runs the same gates; see [AGENTS.md](./AGENTS.md#quality-gates-all-run-in-ci).
 
 ## Scope
 

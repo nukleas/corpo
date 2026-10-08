@@ -25,6 +25,10 @@ sticky header, zebra rows, pinned first column) shared with Table.
 
 **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination, Command, AppShell, SideNav, Topbar
 
+**Quality gates** (CI): Prettier, oxlint (anti-slop, React, hooks, jsx-a11y), stylelint, a design-system
+contract check (classes, tokens, package parity, story coverage), and the Storybook test runner — every
+story renders and passes axe WCAG 2.1 AA, with play functions for interactive components.
+
 Each ships as CSS (`cp-*` classes) + a thin React wrapper (`corpo/react`) + a full documented React
 component with a Storybook story (`react-corpo`).
 
