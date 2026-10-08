@@ -44,6 +44,8 @@ export * from './components/Slider';
 export * from './components/Popover';
 export * from './components/Calendar';
 export * from './components/DatePicker';
+export * from './components/DateRangePicker';
+export * from './components/NumberInput';
 export * from './components/Combobox';
 export * from './components/Command';
 export * from './components/Spreadsheet';

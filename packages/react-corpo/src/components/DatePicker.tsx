@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { cn } from '../lib/cn';
+import { useFieldControlProps } from '../lib/field-context';
 import { Popover } from './Popover';
 import { Calendar } from './Calendar';
 
@@ -8,6 +10,8 @@ export interface DatePickerProps {
   placeholder?: string;
   /** Custom date formatter. @default toLocaleDateString short */
   format?: (date: Date) => string;
+  /** Trigger height. @default 'md' */
+  size?: 'sm' | 'md' | 'lg';
 }
 
 function defaultFormat(date: Date): string {
@@ -20,15 +24,21 @@ export function DatePicker({
   onChange,
   placeholder = 'Select a date',
   format = defaultFormat,
+  size = 'md',
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
+  const fieldProps = useFieldControlProps(false);
   return (
     <Popover
       open={open}
       onOpenChange={setOpen}
       trigger={
-        <button type="button" className="cp-input" style={{ textAlign: 'left', cursor: 'pointer' }}>
-          {value ? format(value) : <span style={{ color: 'var(--corpo-text-dim)' }}>{placeholder}</span>}
+        <button
+          type="button"
+          {...fieldProps}
+          className={cn('cp-input', 'cp-input--trigger', size !== 'md' && `cp-input--${size}`)}
+        >
+          {value ? format(value) : <span className="cp-input__placeholder">{placeholder}</span>}
         </button>
       }
     >

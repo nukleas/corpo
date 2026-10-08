@@ -81,7 +81,64 @@
 .cp-calendar__day--selected:hover {
   background: var(--corpo-accent-strong);
 }
+/* Range selection — endpoints use --selected; days between get a quiet band. */
+.cp-calendar__day--in-range {
+  background: var(--corpo-accent-subtle);
+  color: var(--corpo-text);
+}
 .cp-calendar__day:disabled {
   opacity: 0.35;
   cursor: not-allowed;
+}
+
+/* DateRangePicker panel — preset list beside the calendar. */
+.cp-daterange {
+  display: flex;
+  gap: 12px;
+}
+.cp-daterange__presets {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 128px;
+  padding-right: 12px;
+  border-right: 1px solid var(--corpo-border-dim);
+}
+.cp-daterange__preset {
+  padding: 5px 8px;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: none;
+  color: var(--corpo-text-secondary);
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-sm);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cp-daterange__preset:hover {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+.cp-daterange__preset[aria-pressed='true'] {
+  background: var(--corpo-accent-subtle);
+  color: var(--corpo-accent-strong);
+  font-weight: 600;
+}
+.cp-daterange__hint {
+  margin-top: 8px;
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+
+@media (max-width: 480px) {
+  .cp-daterange {
+    flex-direction: column;
+  }
+  .cp-daterange__presets {
+    flex-flow: row wrap;
+    padding: 0 0 8px;
+    border-right: none;
+    border-bottom: 1px solid var(--corpo-border-dim);
+  }
 }

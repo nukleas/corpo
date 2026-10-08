@@ -33,6 +33,8 @@ export * from './Slider';
 export * from './Popover';
 export * from './Calendar';
 export * from './DatePicker';
+export * from './DateRangePicker';
+export * from './NumberInput';
 export * from './Combobox';
 export * from './Command';
 export * from './Spreadsheet';
