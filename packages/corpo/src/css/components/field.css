@@ -8,7 +8,9 @@
   color: var(--corpo-text-secondary);
   user-select: none;
 }
-.cp-label__required { color: var(--corpo-red); }
+.cp-label__required {
+  color: var(--corpo-red);
+}
 
 .cp-field {
   display: flex;

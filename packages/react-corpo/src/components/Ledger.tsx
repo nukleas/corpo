@@ -113,10 +113,7 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
   });
 
   return (
-    <div
-      className={cn('cp-table', 'cp-table--compact', 'cp-ledger', bar && 'cp-ledger--bar', className)}
-      {...rest}
-    >
+    <div className={cn('cp-table', 'cp-table--compact', 'cp-ledger', bar && 'cp-ledger--bar', className)} {...rest}>
       <table className="cp-table__table">
         <thead>
           <tr>

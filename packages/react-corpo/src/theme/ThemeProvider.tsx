@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useMemo,
-  type HTMLAttributes,
-  type ReactNode,
-} from 'react';
+import { createContext, useContext, useMemo, type HTMLAttributes, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import type { CpTheme } from '../lib/types';
 
@@ -40,22 +34,12 @@ export function useTheme(): CpTheme {
  * </ThemeProvider>
  * ```
  */
-export function ThemeProvider({
-  theme = 'teal',
-  dark = false,
-  className,
-  children,
-  ...rest
-}: ThemeProviderProps) {
+export function ThemeProvider({ theme = 'teal', dark = false, className, children, ...rest }: ThemeProviderProps) {
   const value = useMemo(() => theme, [theme]);
 
   return (
     <ThemeContext.Provider value={value}>
-      <div
-        className={cn(`theme-${theme}`, dark && 'corpo-dark', className)}
-        data-corpo-theme={theme}
-        {...rest}
-      >
+      <div className={cn(`theme-${theme}`, dark && 'corpo-dark', className)} data-corpo-theme={theme} {...rest}>
         {children}
       </div>
     </ThemeContext.Provider>

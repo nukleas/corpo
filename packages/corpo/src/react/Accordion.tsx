@@ -31,7 +31,12 @@ export function Accordion({ items, defaultOpen = [], multiple = false, className
         const isOpen = open.includes(item.id);
         return (
           <div key={item.id} className="cp-accordion__item" data-open={isOpen}>
-            <button type="button" className="cp-accordion__trigger" aria-expanded={isOpen} onClick={() => toggle(item.id)}>
+            <button
+              type="button"
+              className="cp-accordion__trigger"
+              aria-expanded={isOpen}
+              onClick={() => toggle(item.id)}
+            >
               {item.title}
               <span className="cp-accordion__chevron" aria-hidden="true" />
             </button>

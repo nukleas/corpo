@@ -9,7 +9,11 @@ const meta: Meta<typeof Empty> = {
   args: {
     title: 'No invoices yet',
     description: 'Invoices you create will show up here.',
-    action: <Button variant="primary" size="sm">New invoice</Button>,
+    action: (
+      <Button variant="primary" size="sm">
+        New invoice
+      </Button>
+    ),
   },
 };
 export default meta;

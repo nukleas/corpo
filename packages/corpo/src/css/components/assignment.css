@@ -34,7 +34,10 @@
   color: var(--corpo-text);
   text-align: left;
   cursor: pointer;
-  transition: border-color var(--corpo-dur) var(--corpo-ease), background var(--corpo-dur) var(--corpo-ease), box-shadow var(--corpo-dur) var(--corpo-ease);
+  transition:
+    border-color var(--corpo-dur) var(--corpo-ease),
+    background var(--corpo-dur) var(--corpo-ease),
+    box-shadow var(--corpo-dur) var(--corpo-ease);
 }
 
 .cp-assign-slot:hover {
@@ -114,7 +117,10 @@
   font-family: inherit;
   text-align: left;
   cursor: pointer;
-  transition: border-color var(--corpo-dur) var(--corpo-ease), background var(--corpo-dur) var(--corpo-ease), box-shadow var(--corpo-dur) var(--corpo-ease);
+  transition:
+    border-color var(--corpo-dur) var(--corpo-ease),
+    background var(--corpo-dur) var(--corpo-ease),
+    box-shadow var(--corpo-dur) var(--corpo-ease);
 }
 
 .cp-license-card:hover {

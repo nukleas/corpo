@@ -93,9 +93,7 @@ export function Statement({
               <tr key={i}>
                 <td>{line.description}</td>
                 {hasQty && <td data-numeric="true">{line.qty}</td>}
-                {hasQty && (
-                  <td data-numeric="true">{line.rate != null && <Amount value={line.rate} />}</td>
-                )}
+                {hasQty && <td data-numeric="true">{line.rate != null && <Amount value={line.rate} />}</td>}
                 <td data-numeric="true">
                   {Amount.create(line.amount, i === 0 ? { defaultProps: { currency: '$' } } : undefined)}
                 </td>

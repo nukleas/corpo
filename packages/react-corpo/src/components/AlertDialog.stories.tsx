@@ -17,8 +17,17 @@ export const Default: Story = {
     const [open, setOpen] = useState(false);
     return (
       <>
-        <Button variant="danger" onClick={() => setOpen(true)}>Revoke access</Button>
-        <AlertDialog open={open} onClose={() => setOpen(false)} onConfirm={() => {}} title="Revoke access" confirmLabel="Revoke" danger>
+        <Button variant="danger" onClick={() => setOpen(true)}>
+          Revoke access
+        </Button>
+        <AlertDialog
+          open={open}
+          onClose={() => setOpen(false)}
+          onConfirm={() => {}}
+          title="Revoke access"
+          confirmLabel="Revoke"
+          danger
+        >
           This immediately signs the member out and removes their permissions. This cannot be undone.
         </AlertDialog>
       </>

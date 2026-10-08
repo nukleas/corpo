@@ -8,7 +8,9 @@ const meta: Meta<typeof Popover> = {
   tags: ['autodocs'],
   args: {
     trigger: <Button size="sm">Filters</Button>,
-    children: <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>Filter by status, owner, or date range.</div>,
+    children: (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>Filter by status, owner, or date range.</div>
+    ),
   },
 };
 export default meta;

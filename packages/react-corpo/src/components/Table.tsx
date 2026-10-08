@@ -5,8 +5,7 @@ import type { Shorthand } from '../lib/createShorthand';
 
 export type TableCellStatus = 'ok' | 'warn' | 'err' | 'idle';
 
-export interface TableCellProps
-  extends Omit<TdHTMLAttributes<HTMLTableCellElement>, 'content'> {
+export interface TableCellProps extends Omit<TdHTMLAttributes<HTMLTableCellElement>, 'content'> {
   /** Cell content. */
   content?: ReactNode;
   /** Status dot rendered before the content. */

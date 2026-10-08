@@ -13,9 +13,17 @@ const MARGIN = { top: 12, right: 16, bottom: 26, left: 48 };
 const MAX_SERIES = 5;
 
 function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g, (ch) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-  }[ch]));
+  return String(s ?? '').replace(
+    /[&<>"']/g,
+    (ch) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[ch],
+  );
 }
 
 function defaultFormat(v) {
@@ -84,11 +92,13 @@ function renderLegend(legend, series) {
   }
   legend.hidden = false;
   legend.innerHTML = series
-    .map((s, i) => `
+    .map(
+      (s, i) => `
       <span class="cp-chart__legend-item ${seriesClass(i)}"${seriesStyle(s)}>
         <span class="cp-chart__legend-chip" aria-hidden="true"></span>${esc(s.label)}
       </span>
-    `)
+    `,
+    )
     .join('');
 }
 
@@ -128,8 +138,14 @@ function yDomain(series) {
   for (const s of series) {
     for (const v of s.data) {
       if (v == null) continue;
-      if (!any) { min = Math.min(0, v); max = v; any = true; }
-      else { min = Math.min(min, v); max = Math.max(max, v); }
+      if (!any) {
+        min = Math.min(0, v);
+        max = v;
+        any = true;
+      } else {
+        min = Math.min(min, v);
+        max = Math.max(max, v);
+      }
     }
   }
   if (!any) return { min: 0, max: 1 };
@@ -152,9 +168,9 @@ function axesMarkup(ticks, yScale, xLabels, xAt, innerRight) {
   const maxChars = Math.max(1, ...xLabels.map((l) => String(l).length));
   const step = Math.max(1, Math.ceil((maxChars * 6.5 + 8) / pitch));
   const xs = xLabels
-    .map((l, i) => (i % step
-      ? ''
-      : `<text class="cp-chart__x-label" x="${xAt(i)}" y="0" data-i="${i}">${esc(l)}</text>`))
+    .map((l, i) =>
+      i % step ? '' : `<text class="cp-chart__x-label" x="${xAt(i)}" y="0" data-i="${i}">${esc(l)}</text>`,
+    )
     .join('');
   return { grid, xs };
 }
@@ -231,8 +247,10 @@ export function CpLineChart(root, opts = {}) {
       if (!geom) return;
       const rect = plot.getBoundingClientRect();
       const px = ev.clientX - rect.left;
-      const i = Math.max(0, Math.min(geom.n - 1,
-        Math.round(((px - MARGIN.left) / (geom.innerRight - MARGIN.left)) * (geom.n - 1))));
+      const i = Math.max(
+        0,
+        Math.min(geom.n - 1, Math.round(((px - MARGIN.left) / (geom.innerRight - MARGIN.left)) * (geom.n - 1))),
+      );
       const x = geom.xAt(i);
       layer.innerHTML = `
         <line class="cp-chart__crosshair" x1="${x}" y1="${MARGIN.top}" x2="${x}" y2="${geom.innerBottom}" />
@@ -294,8 +312,7 @@ export function CpBarChart(root, opts = {}) {
   }
 
   function stackTotals(n) {
-    return Array.from({ length: n }, (_, i) =>
-      state.series.reduce((sum, s) => sum + (s.data[i] ?? 0), 0));
+    return Array.from({ length: n }, (_, i) => state.series.reduce((sum, s) => sum + (s.data[i] ?? 0), 0));
   }
 
   // Named at creation and on every paint, so the svg is never briefly unnamed.
@@ -344,9 +361,7 @@ export function CpBarChart(root, opts = {}) {
               const yBottom = yScale(below) - (below > 0 ? gap : 0);
               const h = yBottom - yTop;
               const isTop = topSeries[i] === si;
-              const d = isTop
-                ? barPath(x, yTop, barW, h, 4)
-                : `M${x},${yTop} H${x + barW} V${yBottom} H${x} Z`;
+              const d = isTop ? barPath(x, yTop, barW, h, 4) : `M${x},${yTop} H${x + barW} V${yBottom} H${x} Z`;
               return `<path class="cp-chart__bar" data-series="${si}" data-i="${i}" d="${d}" />`;
             })
             .join('');
@@ -386,9 +401,7 @@ export function CpBarChart(root, opts = {}) {
         const i = Number(bar.dataset.i);
         const s = state.series[si];
         bar.classList.add('is-hovered');
-        const total = state.stacked
-          ? state.series.reduce((sum, ss) => sum + (ss.data[i] ?? 0), 0)
-          : null;
+        const total = state.stacked ? state.series.reduce((sum, ss) => sum + (ss.data[i] ?? 0), 0) : null;
         tip.innerHTML = `
           <strong class="cp-chart__tip-title">${esc(state.labels[i] ?? i + 1)}</strong>
           <span class="cp-chart__tip-row ${seriesClass(si)}"${seriesStyle(s)}>
@@ -396,11 +409,15 @@ export function CpBarChart(root, opts = {}) {
             <span class="cp-chart__tip-label">${esc(s.label)}</span>
             <span class="cp-chart__tip-value">${esc(state.yFormat(s.data[i]))}</span>
           </span>
-          ${total != null ? `
+          ${
+            total != null
+              ? `
           <span class="cp-chart__tip-row">
             <span class="cp-chart__tip-label">Total</span>
             <span class="cp-chart__tip-value">${esc(state.yFormat(total))}</span>
-          </span>` : ''}
+          </span>`
+              : ''
+          }
         `;
         tip.hidden = false;
         const b = bar.getBoundingClientRect();

@@ -10,12 +10,7 @@ export interface LicenseDetailProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** Selected-license detail panel — tier-tinted header, cost/renewal rows, description. */
-export function LicenseDetail({
-  item,
-  actions,
-  className = '',
-  ...rest
-}: LicenseDetailProps) {
+export function LicenseDetail({ item, actions, className = '', ...rest }: LicenseDetailProps) {
   if (!item) {
     return (
       <div className={cn('cp-license-detail', className)} {...rest}>
@@ -26,16 +21,11 @@ export function LicenseDetail({
     );
   }
   return (
-    <div
-      className={cn('cp-license-detail', `cp-tier--${item.tier}`, className)}
-      {...rest}
-    >
+    <div className={cn('cp-license-detail', `cp-tier--${item.tier}`, className)} {...rest}>
       <div className="cp-license-detail__header">
         <span className="cp-license-detail__tier">{item.tier}</span>
         <span className="cp-license-detail__name">{item.name}</span>
-        {item.category != null && (
-          <span className="cp-license-detail__category">{item.category}</span>
-        )}
+        {item.category != null && <span className="cp-license-detail__category">{item.category}</span>}
       </div>
       {item.details != null && item.details.length > 0 && (
         <div className="cp-license-detail__rows">

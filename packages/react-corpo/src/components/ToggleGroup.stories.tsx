@@ -21,6 +21,14 @@ type Story = StoryObj<typeof ToggleGroup>;
 export const SingleSelect: Story = {
   render: (args) => {
     const [value, setValue] = useState('week');
-    return <ToggleGroup {...args} value={value} onChange={(v) => { if (!Array.isArray(v)) setValue(v); }} />;
+    return (
+      <ToggleGroup
+        {...args}
+        value={value}
+        onChange={(v) => {
+          if (!Array.isArray(v)) setValue(v);
+        }}
+      />
+    );
   },
 };

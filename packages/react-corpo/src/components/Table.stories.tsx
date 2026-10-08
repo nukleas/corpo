@@ -41,7 +41,11 @@ export const CellShorthand: Story = {
     ],
     rows: [
       { plan: 'Enterprise', seats: 12, state: { content: <Badge color="green">Active</Badge> } },
-      { plan: 'Standard', seats: { content: 'Unlimited', numeric: false }, state: { content: 'Renewal due', status: 'warn' } },
+      {
+        plan: 'Standard',
+        seats: { content: 'Unlimited', numeric: false },
+        state: { content: 'Renewal due', status: 'warn' },
+      },
       { plan: 'Trial', seats: 3 },
     ],
   },

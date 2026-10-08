@@ -16,18 +16,26 @@ const GAP_TIER = 90;
 const GAP_LANE = 24;
 const STATES = ['blocked', 'ready', 'in-progress', 'done'];
 const STATE_LABELS = {
-  'blocked': 'Blocked',
-  'ready': 'Ready',
+  blocked: 'Blocked',
+  ready: 'Ready',
   'in-progress': 'In progress',
-  'done': 'Done',
+  done: 'Done',
 };
 
 let instanceCounter = 0;
 
 function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g, (ch) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-  }[ch]));
+  return String(s ?? '').replace(
+    /[&<>"']/g,
+    (ch) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[ch],
+  );
 }
 
 function stateOf(n) {
@@ -51,23 +59,19 @@ function layout(nodes, direction) {
   const lane = {};
   for (const group of groups) {
     const scored = group.map(({ n, idx }) => {
-      const depLanes = (n.dependsOn || [])
-        .map((id) => lane[id])
-        .filter((v) => v != null);
-      const bary = depLanes.length
-        ? depLanes.reduce((a, b) => a + b, 0) / depLanes.length
-        : idx;
+      const depLanes = (n.dependsOn || []).map((id) => lane[id]).filter((v) => v != null);
+      const bary = depLanes.length ? depLanes.reduce((a, b) => a + b, 0) / depLanes.length : idx;
       return { n, idx, bary };
     });
     scored.sort((a, b) => a.bary - b.bary || a.idx - b.idx);
     const offset = (scored.length - 1) / 2;
-    scored.forEach((s, slot) => { lane[s.n.id] = slot - offset; });
+    scored.forEach((s, slot) => {
+      lane[s.n.id] = slot - offset;
+    });
   }
 
   const tierPitch = (direction === 'ttb' ? NODE_H : NODE_W) + GAP_TIER;
-  const lanePitch = direction === 'ttb'
-    ? NODE_W + GAP_LANE
-    : NODE_H + GAP_LANE;
+  const lanePitch = direction === 'ttb' ? NODE_W + GAP_LANE : NODE_H + GAP_LANE;
 
   const pos = {};
   for (const n of nodes) {
@@ -189,13 +193,15 @@ export function CpDepGraph(root, opts = {}) {
     const clipId = `cp-dg-${uid}-${idx}`; // contract-ignore: element id, not a class
     const ownerClipId = `${clipId}-o`;
     const ownerMaxW = n.estimate != null ? NODE_W - 64 : NODE_W;
-    const owner = n.owner != null
-      ? `<clipPath id="${ownerClipId}"><rect x="${x}" y="${y}" width="${ownerMaxW}" height="${NODE_H}" /></clipPath>
+    const owner =
+      n.owner != null
+        ? `<clipPath id="${ownerClipId}"><rect x="${x}" y="${y}" width="${ownerMaxW}" height="${NODE_H}" /></clipPath>
          <text class="cp-depgraph-node__owner" clip-path="url(#${ownerClipId})" x="${x + 28}" y="${y + NODE_H - 12}">${esc(n.owner)}</text>`
-      : '';
-    const estimate = n.estimate != null
-      ? `<text class="cp-depgraph-node__estimate" x="${x + NODE_W - 12}" y="${y + NODE_H - 12}">${esc(n.estimate)}</text>`
-      : '';
+        : '';
+    const estimate =
+      n.estimate != null
+        ? `<text class="cp-depgraph-node__estimate" x="${x + NODE_W - 12}" y="${y + NODE_H - 12}">${esc(n.estimate)}</text>`
+        : '';
     return `
       <g class="cp-depgraph-node is-${stateOf(n)}" data-id="${esc(n.id)}" tabindex="0" role="button" aria-label="${esc(`${n.label}, ${stateOf(n)}`)}"${color}>
         <clipPath id="${clipId}"><rect ${nodeFrame(x, y)} /></clipPath>
@@ -219,16 +225,20 @@ export function CpDepGraph(root, opts = {}) {
     }
 
     const bounds = paintBounds();
-    const tierLabels = tiers.map(({ tier, at }) => {
-      const x = direction === 'ttb' ? bounds.minX - 26 : at + NODE_W / 2;
-      const y = direction === 'ttb' ? at + NODE_H / 2 : bounds.minY - 22;
-      return `<text class="cp-depgraph__tier-label" x="${x}" y="${y}">Phase ${tier + 1}</text>`;
-    }).join('');
+    const tierLabels = tiers
+      .map(({ tier, at }) => {
+        const x = direction === 'ttb' ? bounds.minX - 26 : at + NODE_W / 2;
+        const y = direction === 'ttb' ? at + NODE_H / 2 : bounds.minY - 22;
+        return `<text class="cp-depgraph__tier-label" x="${x}" y="${y}">Phase ${tier + 1}</text>`;
+      })
+      .join('');
 
-    const edgeMarkup = edgeList().map((e) => {
-      const d = edgePath(placed[e.from], placed[e.to], direction);
-      return `<path class="cp-depgraph-edge ${edgeState(e)}" data-from="${esc(e.from)}" data-to="${esc(e.to)}" d="${d}" />`;
-    }).join('');
+    const edgeMarkup = edgeList()
+      .map((e) => {
+        const d = edgePath(placed[e.from], placed[e.to], direction);
+        return `<path class="cp-depgraph-edge ${edgeState(e)}" data-from="${esc(e.from)}" data-to="${esc(e.to)}" d="${d}" />`;
+      })
+      .join('');
 
     world.innerHTML = `
       ${tierLabels}
@@ -254,10 +264,7 @@ export function CpDepGraph(root, opts = {}) {
 
   function applyCam() {
     const { width, height } = root.getBoundingClientRect();
-    world.setAttribute(
-      'transform',
-      `translate(${width / 2 + cam.x},${height / 2 + cam.y}) scale(${cam.z})`,
-    );
+    world.setAttribute('transform', `translate(${width / 2 + cam.x},${height / 2 + cam.y}) scale(${cam.z})`);
   }
 
   function toScreen(x, y) {
@@ -275,12 +282,15 @@ export function CpDepGraph(root, opts = {}) {
       return;
     }
     const map = byId();
-    const deps = (n.dependsOn || []).map((did) => {
-      const d = map[did];
-      const met = d && isDone(d);
-      return `<span class="cp-depgraph__tip-dep cp-depgraph__tip-dep--${met ? 'met' : 'unmet'}"><span class="cp-depgraph__tip-dep-mark" aria-hidden="true">${met ? '✓' : '○'}</span>${esc(d ? d.label : did)}</span>`;
-    }).join('');
-    const row = (label, value) => `<span class="cp-depgraph__tip-row"><span class="cp-depgraph__tip-row-label">${label}</span><span class="cp-depgraph__tip-row-value">${value}</span></span>`;
+    const deps = (n.dependsOn || [])
+      .map((did) => {
+        const d = map[did];
+        const met = d && isDone(d);
+        return `<span class="cp-depgraph__tip-dep cp-depgraph__tip-dep--${met ? 'met' : 'unmet'}"><span class="cp-depgraph__tip-dep-mark" aria-hidden="true">${met ? '✓' : '○'}</span>${esc(d ? d.label : did)}</span>`;
+      })
+      .join('');
+    const row = (label, value) =>
+      `<span class="cp-depgraph__tip-row"><span class="cp-depgraph__tip-row-label">${label}</span><span class="cp-depgraph__tip-row-value">${value}</span></span>`;
     tip.innerHTML = `
       <strong class="cp-depgraph__tip-title">${esc(n.label)}</strong>
       ${row('Status', STATE_LABELS[stateOf(n)])}
@@ -356,8 +366,9 @@ export function CpDepGraph(root, opts = {}) {
       else if (rel.has(el.dataset.id)) el.classList.add('is-related');
     });
     root.querySelectorAll('.cp-depgraph-edge').forEach((el) => {
-      const onChain = (rel.has(el.dataset.from) || el.dataset.from === selected)
-        && (rel.has(el.dataset.to) || el.dataset.to === selected);
+      const onChain =
+        (rel.has(el.dataset.from) || el.dataset.from === selected) &&
+        (rel.has(el.dataset.to) || el.dataset.to === selected);
       if (onChain) el.classList.add('is-related');
     });
   }

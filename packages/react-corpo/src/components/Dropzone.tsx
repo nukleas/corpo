@@ -107,7 +107,11 @@ export function Dropzone({
   };
 
   return (
-    <div className={cn('cp-dropzone', disabled && 'is-disabled', className)} aria-disabled={disabled || undefined} {...rest}>
+    <div
+      className={cn('cp-dropzone', disabled && 'is-disabled', className)}
+      aria-disabled={disabled || undefined}
+      {...rest}
+    >
       <div
         className={cn('cp-dropzone__area', dragover && 'is-dragover')}
         onDragEnter={onDragEnter}

@@ -66,7 +66,9 @@ export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false
       alignRight && 'cp-spreadsheet__cell--num',
       props.tone && `cp-spreadsheet__cell--${props.tone}`,
       props.balance && 'cp-spreadsheet__cell--balance',
-    ].filter(Boolean).join(' ');
+    ]
+      .filter(Boolean)
+      .join(' ');
     return (
       <td key={c} className={tdClass}>
         {cellReadOnly ? (

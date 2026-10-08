@@ -13,7 +13,13 @@ export function Input({ size = 'md', accent = false, error = false, className = 
   return (
     <input
       {...fieldProps}
-      className={cx('cp-input', size !== 'md' && `cp-input--${size}`, accent && 'cp-input--accent', error && 'cp-input--error', className)}
+      className={cx(
+        'cp-input',
+        size !== 'md' && `cp-input--${size}`,
+        accent && 'cp-input--accent',
+        error && 'cp-input--error',
+        className,
+      )}
       {...rest}
     />
   );

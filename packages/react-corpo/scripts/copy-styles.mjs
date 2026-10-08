@@ -22,9 +22,7 @@ function resolveCorpoRoot() {
       }
     }
   }
-  throw new Error(
-    'Could not find corpo package. From monorepo root run: pnpm install && pnpm build:css',
-  );
+  throw new Error('Could not find corpo package. From monorepo root run: pnpm install && pnpm build:css');
 }
 
 const corpoRoot = resolveCorpoRoot();
@@ -32,9 +30,7 @@ const cssSrc = resolve(corpoRoot, 'dist/corpo.css');
 const cssDest = resolve(root, 'dist/styles.css');
 
 if (!existsSync(cssSrc)) {
-  console.error(
-    `Missing ${cssSrc}. Build corpo first:\n  pnpm --filter @nukleas/corpo build`,
-  );
+  console.error(`Missing ${cssSrc}. Build corpo first:\n  pnpm --filter @nukleas/corpo build`);
   process.exit(1);
 }
 

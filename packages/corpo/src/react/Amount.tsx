@@ -31,16 +31,10 @@ export function Amount({
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   });
-  const text =
-    dashed ? '–'
-      : !isNegative ? figure
-        : negative === 'paren' ? `(${figure})`
-          : `−${figure}`;
+  const text = dashed ? '–' : !isNegative ? figure : negative === 'paren' ? `(${figure})` : `−${figure}`;
   // The dash sits on the units digit: an invisible spacer stands in for the
   // fraction part and the paren-alignment slot.
-  const ghost = dashed
-    ? (decimals > 0 ? `.${'0'.repeat(decimals)}` : '') + (negative === 'paren' ? ')' : '')
-    : '';
+  const ghost = dashed ? (decimals > 0 ? `.${'0'.repeat(decimals)}` : '') + (negative === 'paren' ? ')' : '') : '';
   return (
     <span
       className={cx(
@@ -56,7 +50,11 @@ export function Amount({
       {currency != null && <span className="cp-amount__currency">{currency}</span>}
       <span className="cp-amount__value">
         {text}
-        {ghost && <span className="cp-amount__ghost" aria-hidden="true">{ghost}</span>}
+        {ghost && (
+          <span className="cp-amount__ghost" aria-hidden="true">
+            {ghost}
+          </span>
+        )}
       </span>
     </span>
   );

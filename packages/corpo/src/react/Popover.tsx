@@ -12,7 +12,15 @@ export interface PopoverProps {
   className?: string;
 }
 
-export function Popover({ trigger, children, align = 'left', side = 'bottom', open, onOpenChange, className = '' }: PopoverProps) {
+export function Popover({
+  trigger,
+  children,
+  align = 'left',
+  side = 'bottom',
+  open,
+  onOpenChange,
+  className = '',
+}: PopoverProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = open !== undefined ? open : internalOpen;
   const setOpen = useCallback(

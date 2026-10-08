@@ -17,7 +17,9 @@ export function computeTiers(nodes, getDeps) {
     if (memo.has(n.id)) return memo.get(n.id);
     if (visiting.has(n.id)) return 0; // cycle guard
     visiting.add(n.id);
-    const deps = getDeps(n).map((id) => byId.get(id)).filter(Boolean);
+    const deps = getDeps(n)
+      .map((id) => byId.get(id))
+      .filter(Boolean);
     const t = deps.length ? Math.max(...deps.map(tierOf)) + 1 : 0;
     visiting.delete(n.id);
     memo.set(n.id, t);
@@ -149,9 +151,13 @@ function forceWorkerBody() {
     let alpha = 1;
 
     function buildTree() {
-      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      let x0 = Infinity,
+        y0 = Infinity,
+        x1 = -Infinity,
+        y1 = -Infinity;
       for (let i = 0; i < n; i++) {
-        const x = pos[2 * i], y = pos[2 * i + 1];
+        const x = pos[2 * i],
+          y = pos[2 * i + 1];
         if (x < x0) x0 = x;
         if (x > x1) x1 = x;
         if (y < y0) y0 = y;
@@ -164,7 +170,8 @@ function forceWorkerBody() {
     }
 
     function insert(node, i, depth) {
-      const x = pos[2 * i], y = pos[2 * i + 1];
+      const x = pos[2 * i],
+        y = pos[2 * i + 1];
       node.cx = (node.cx * node.mass + x) / (node.mass + 1);
       node.cy = (node.cy * node.mass + y) / (node.mass + 1);
       node.mass++;
@@ -196,8 +203,10 @@ function forceWorkerBody() {
     }
 
     function repulse(root, i) {
-      const x = pos[2 * i], y = pos[2 * i + 1];
-      let fx = 0, fy = 0;
+      const x = pos[2 * i],
+        y = pos[2 * i + 1];
+      let fx = 0,
+        fy = 0;
       const stack = [root];
       while (stack.length) {
         const node = stack.pop();
@@ -229,7 +238,8 @@ function forceWorkerBody() {
       for (let i = 0; i < n; i++) repulse(root, i);
 
       for (let e = 0; e < m; e++) {
-        const s = edges[2 * e], t = edges[2 * e + 1];
+        const s = edges[2 * e],
+          t = edges[2 * e + 1];
         let dx = pos[2 * t] + vel[2 * t] - pos[2 * s] - vel[2 * s];
         let dy = pos[2 * t + 1] + vel[2 * t + 1] - pos[2 * s + 1] - vel[2 * s + 1];
         if (!dx && !dy) dx = 0.5;
@@ -243,7 +253,8 @@ function forceWorkerBody() {
         vel[2 * s + 1] += dy * f * (1 - bias);
       }
 
-      let mx = 0, my = 0;
+      let mx = 0,
+        my = 0;
       for (let i = 0; i < n; i++) {
         vel[2 * i] *= VELOCITY_DECAY;
         vel[2 * i + 1] *= VELOCITY_DECAY;

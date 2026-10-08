@@ -21,14 +21,29 @@
   line-height: normal;
   transition: border-color var(--corpo-dur) var(--corpo-ease);
 }
-.cp-select__control:hover { border-color: var(--corpo-border-strong); }
-.cp-select__control:focus { outline: none; border-color: var(--corpo-accent); }
-.cp-select__control:disabled { opacity: 0.45; cursor: not-allowed; }
+.cp-select__control:hover {
+  border-color: var(--corpo-border-strong);
+}
+.cp-select__control:focus {
+  outline: none;
+  border-color: var(--corpo-accent);
+}
+.cp-select__control:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 
-.cp-select--sm .cp-select__control { height: var(--corpo-control-h-sm); font-size: var(--corpo-text-sm); }
-.cp-select--lg .cp-select__control { height: var(--corpo-control-h-lg); }
+.cp-select--sm .cp-select__control {
+  height: var(--corpo-control-h-sm);
+  font-size: var(--corpo-text-sm);
+}
+.cp-select--lg .cp-select__control {
+  height: var(--corpo-control-h-lg);
+}
 .cp-select--error .cp-select__control,
-.cp-select--error .cp-select__control:focus { border-color: var(--corpo-red); }
+.cp-select--error .cp-select__control:focus {
+  border-color: var(--corpo-red);
+}
 
 .cp-select__chevron {
   position: absolute;
@@ -42,4 +57,6 @@
   border-right: 4px solid transparent;
   border-top: 5px solid var(--corpo-text-muted);
 }
-.cp-select__control:focus ~ .cp-select__chevron { border-top-color: var(--corpo-accent); }
+.cp-select__control:focus ~ .cp-select__chevron {
+  border-top-color: var(--corpo-accent);
+}

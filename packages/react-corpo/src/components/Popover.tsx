@@ -14,7 +14,15 @@ export interface PopoverProps {
 }
 
 /** Corpo popover — freeform content panel, click-triggered, closes on outside click or Escape. */
-export function Popover({ trigger, children, align = 'left', side = 'bottom', open, onOpenChange, className }: PopoverProps) {
+export function Popover({
+  trigger,
+  children,
+  align = 'left',
+  side = 'bottom',
+  open,
+  onOpenChange,
+  className,
+}: PopoverProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = open !== undefined ? open : internalOpen;
   const setOpen = useCallback(
@@ -47,7 +55,13 @@ export function Popover({ trigger, children, align = 'left', side = 'bottom', op
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- the trigger (a Button) is the interactive element; its click, keyboard activation included, bubbles here */}
       <span onClick={() => setOpen(!isOpen)}>{trigger}</span>
       {isOpen && (
-        <div className={cn('cp-popover__content', align === 'right' && 'cp-popover__content--right', side === 'top' && 'cp-popover__content--top')}>
+        <div
+          className={cn(
+            'cp-popover__content',
+            align === 'right' && 'cp-popover__content--right',
+            side === 'top' && 'cp-popover__content--top',
+          )}
+        >
           {children}
         </div>
       )}

@@ -152,7 +152,9 @@
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  transition: background var(--corpo-dur-fast) var(--corpo-ease), color var(--corpo-dur-fast) var(--corpo-ease);
+  transition:
+    background var(--corpo-dur-fast) var(--corpo-ease),
+    color var(--corpo-dur-fast) var(--corpo-ease);
 }
 
 .cp-sidenav__item:hover {

@@ -24,10 +24,13 @@ export const Default: Story = {
       <Spreadsheet
         rows={rows}
         columnLabels={['Quarter', 'Revenue', 'Cost']}
-        onCellChange={(r, c, v) => setRows((prev) => prev.map((row, i) => (i === r ? row.map((cell, j) => (j === c ? v : cell)) : row)))}
+        onCellChange={(r, c, v) =>
+          setRows((prev) => prev.map((row, i) => (i === r ? row.map((cell, j) => (j === c ? v : cell)) : row)))
+        }
       />
     );
-  },  play: async ({ canvasElement }) => {
+  },
+  play: async ({ canvasElement }) => {
     const cell = within(canvasElement).getByRole('textbox', { name: 'Revenue, row 2' });
     await userEvent.clear(cell);
     await userEvent.type(cell, '15,000');
@@ -88,8 +91,18 @@ export const LedgerMode: Story = {
       running += parse(dr) - parse(cr);
       return [
         { value: ['Client invoice #1042', 'Office lease — January', 'Contractor payout'][r] ?? '', readOnly: true },
-        <Spreadsheet.Cell key="dr" value={dr} align="right" onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [v, row[1]] : row)))} />,
-        <Spreadsheet.Cell key="cr" value={cr} align="right" onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [row[0], v] : row)))} />,
+        <Spreadsheet.Cell
+          key="dr"
+          value={dr}
+          align="right"
+          onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [v, row[1]] : row)))}
+        />,
+        <Spreadsheet.Cell
+          key="cr"
+          value={cr}
+          align="right"
+          onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [row[0], v] : row)))}
+        />,
         { value: running.toLocaleString('en-US', { minimumFractionDigits: 2 }), balance: true },
       ];
     });
@@ -107,7 +120,11 @@ export const TrialBalance: Story = {
         ['411900', 'Other Appropriations Realized', { value: '1,200,000', align: 'right' }],
         ['445000', 'Unapportioned - Unexpired Authority', { value: '-1,200,000', align: 'right', tone: 'danger' }],
         ['101000', 'Fund Balance With Treasury', { value: '1,200,000', align: 'right' }],
-        ['310100', 'Unexpended Appropriations - Appropriations Received', { value: '-1,200,000', align: 'right', tone: 'danger' }],
+        [
+          '310100',
+          'Unexpended Appropriations - Appropriations Received',
+          { value: '-1,200,000', align: 'right', tone: 'danger' },
+        ],
       ]}
     />
   ),

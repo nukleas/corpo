@@ -92,7 +92,11 @@ export function DataTable({
     const q = query.trim().toLowerCase();
     if (q) {
       out = out.filter((row) =>
-        columns.some((c) => String(rawValue(row, c.key) ?? '').toLowerCase().includes(q)),
+        columns.some((c) =>
+          String(rawValue(row, c.key) ?? '')
+            .toLowerCase()
+            .includes(q),
+        ),
       );
     }
     if (sort) {
@@ -103,11 +107,7 @@ export function DataTable({
   }, [rows, columns, query, sort]);
 
   const cycleSort = (key: string) =>
-    setSort((prev) =>
-      prev?.key !== key ? { key, dir: 'asc' }
-        : prev.dir === 'asc' ? { key, dir: 'desc' }
-          : null,
-    );
+    setSort((prev) => (prev?.key !== key ? { key, dir: 'asc' } : prev.dir === 'asc' ? { key, dir: 'desc' } : null));
 
   const selectedSet = new Set(selected);
   const allVisibleSelected = visible.length > 0 && visible.every((r) => selectedSet.has(r.id));
@@ -125,10 +125,13 @@ export function DataTable({
     // SAFETY: cell-shorthand boundary parser — nil and element cases are
     // excluded first, so a remaining object is by contract a props object.
     const props: TableCellProps =
-      raw == null ? {}
-        : isValidElement(raw) ? { content: raw }
+      raw == null
+        ? {}
+        : isValidElement(raw)
+          ? { content: raw }
           : // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)
-            typeof raw === 'object' ? (raw as TableCellProps)
+            typeof raw === 'object'
+            ? (raw as TableCellProps)
             : { content: raw };
     const numeric = props.numeric ?? col.numeric;
     const mono = props.mono ?? col.mono;

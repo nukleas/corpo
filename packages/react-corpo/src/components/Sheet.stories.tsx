@@ -24,7 +24,11 @@ export const Right: Story = {
           open={open}
           onClose={() => setOpen(false)}
           title="Edit client"
-          footer={<Button variant="primary" size="sm" onClick={() => setOpen(false)}>Save changes</Button>}
+          footer={
+            <Button variant="primary" size="sm" onClick={() => setOpen(false)}>
+              Save changes
+            </Button>
+          }
         >
           <Field label="Company name">
             <Input defaultValue="Acme Inc." />

@@ -8,8 +8,12 @@
   color: var(--corpo-text-secondary);
   user-select: none;
 }
-.cp-switch--disabled { cursor: not-allowed; }
-.cp-switch--disabled .cp-switch__track { opacity: 0.45; }
+.cp-switch--disabled {
+  cursor: not-allowed;
+}
+.cp-switch--disabled .cp-switch__track {
+  opacity: 0.45;
+}
 
 .cp-switch__input {
   position: absolute;
@@ -33,7 +37,10 @@
   border-radius: 22px;
   transition: background var(--corpo-dur) var(--corpo-ease);
 }
-.cp-switch--sm .cp-switch__track { width: 32px; height: 18px; }
+.cp-switch--sm .cp-switch__track {
+  width: 32px;
+  height: 18px;
+}
 
 .cp-switch__thumb {
   position: absolute;
@@ -46,10 +53,22 @@
   box-shadow: var(--corpo-shadow-sm);
   transition: left var(--corpo-dur) var(--corpo-ease);
 }
-.cp-switch--sm .cp-switch__thumb { width: 12px; height: 12px; }
+.cp-switch--sm .cp-switch__thumb {
+  width: 12px;
+  height: 12px;
+}
 
-.cp-switch__input:checked ~ .cp-switch__track { background: var(--corpo-accent); }
-.cp-switch__input:checked ~ .cp-switch__track .cp-switch__thumb { left: 20px; }
-.cp-switch--sm .cp-switch__input:checked ~ .cp-switch__track .cp-switch__thumb { left: 16px; }
+.cp-switch__input:checked ~ .cp-switch__track {
+  background: var(--corpo-accent);
+}
+.cp-switch__input:checked ~ .cp-switch__track .cp-switch__thumb {
+  left: 20px;
+}
+.cp-switch--sm .cp-switch__input:checked ~ .cp-switch__track .cp-switch__thumb {
+  left: 16px;
+}
 
-.cp-switch__input:focus-visible ~ .cp-switch__track { outline: 2px solid var(--corpo-accent); outline-offset: 2px; }
+.cp-switch__input:focus-visible ~ .cp-switch__track {
+  outline: 2px solid var(--corpo-accent);
+  outline-offset: 2px;
+}

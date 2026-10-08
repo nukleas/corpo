@@ -66,7 +66,9 @@ function ShellDemo() {
           onNavToggle={() => setNavOpen(true)}
           actions={
             <>
-              <Button size="sm" variant="primary">New invoice</Button>
+              <Button size="sm" variant="primary">
+                New invoice
+              </Button>
               <Avatar size="sm" initials="AS" />
             </>
           }

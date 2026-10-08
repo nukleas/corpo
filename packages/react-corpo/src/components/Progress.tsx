@@ -16,14 +16,25 @@ export interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** Corpo progress bar — thin 4px track (8px thick), no glow tip. */
-export function Progress({ value = 0, max = 100, tone = 'accent', thick = false, label, className, 'aria-label': ariaLabel, ...rest }: ProgressProps) {
+export function Progress({
+  value = 0,
+  max = 100,
+  tone = 'accent',
+  thick = false,
+  label,
+  className,
+  'aria-label': ariaLabel,
+  ...rest
+}: ProgressProps) {
   const labelId = useId();
   const pct = Math.min(100, Math.max(0, (value / max) * 100));
   return (
     <div className={cn('cp-progress', className)} {...rest}>
       {label && (
         <div className="cp-progress__header">
-          <span id={labelId} className="cp-progress__label">{label}</span>
+          <span id={labelId} className="cp-progress__label">
+            {label}
+          </span>
           <span>{Math.round(pct)}%</span>
         </div>
       )}
@@ -36,7 +47,10 @@ export function Progress({ value = 0, max = 100, tone = 'accent', thick = false,
         aria-valuemax={max}
         className={cn('cp-progress__track', thick && 'cp-progress__track--thick')}
       >
-        <div className={cn('cp-progress__fill', tone !== 'accent' && `cp-progress__fill--${tone}`)} style={{ width: `${pct}%` }} />
+        <div
+          className={cn('cp-progress__fill', tone !== 'accent' && `cp-progress__fill--${tone}`)}
+          style={{ width: `${pct}%` }}
+        />
       </div>
     </div>
   );

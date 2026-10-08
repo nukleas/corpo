@@ -86,14 +86,16 @@ export function JournalEntry({ value, onChange, accounts, className = '', ...res
           onChange={(e) => onChange({ ...value, memo: e.target.value })}
         />
         <span className={cx('cp-badge', balanced ? 'cp-badge--green' : 'cp-badge--red')}>
-          {balanced ? 'Balanced'
-            : diff === 0 && !oneSided ? 'Two-sided posting'
-              : (
-                <>
-                  Out of balance (<Amount value={Math.abs(diff)} negative="minus" zeroDash={false} />
-                  {diff !== 0 && ` ${diff > 0 ? 'Dr' : 'Cr'} over`})
-                </>
-              )}
+          {balanced ? (
+            'Balanced'
+          ) : diff === 0 && !oneSided ? (
+            'Two-sided posting'
+          ) : (
+            <>
+              Out of balance (<Amount value={Math.abs(diff)} negative="minus" zeroDash={false} />
+              {diff !== 0 && ` ${diff > 0 ? 'Dr' : 'Cr'} over`})
+            </>
+          )}
         </span>
       </div>
       <div className="cp-table cp-table--compact cp-ledger">
@@ -132,9 +134,7 @@ export function JournalEntry({ value, onChange, accounts, className = '', ...res
                       type="button"
                       className="cp-journal__remove"
                       aria-label={`Remove line ${i + 1}`}
-                      onClick={() =>
-                        onChange({ ...value, postings: value.postings.filter((_, pi) => pi !== i) })
-                      }
+                      onClick={() => onChange({ ...value, postings: value.postings.filter((_, pi) => pi !== i) })}
                     >
                       ×
                     </button>

@@ -14,8 +14,7 @@ function columnLabel(index: number): string {
   return label;
 }
 
-export interface SpreadsheetCellProps
-  extends Omit<TdHTMLAttributes<HTMLTableCellElement>, 'align'> {
+export interface SpreadsheetCellProps extends Omit<TdHTMLAttributes<HTMLTableCellElement>, 'align'> {
   /** Cell content. */
   value: string | number;
   /** Non-editable value cell (computed/report cells). Inherits the grid's `readOnly` default. */

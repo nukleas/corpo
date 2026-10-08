@@ -40,7 +40,5 @@ export const RouterLinks: Story = {
 
 /** Plain-anchor link mode — `linkProps` alone defaults the element to `<a>`. */
 export const AnchorLinks: Story = {
-  render: () => (
-    <Pagination page={4} totalPages={12} linkProps={(p) => ({ href: `?page=${p}` })} />
-  ),
+  render: () => <Pagination page={4} totalPages={12} linkProps={(p) => ({ href: `?page=${p}` })} />,
 };

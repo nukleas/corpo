@@ -24,8 +24,12 @@ export const Default: Story = {
           title="Delete account"
           footer={
             <>
-              <Button size="sm" onClick={() => setOpen(false)}>Cancel</Button>
-              <Button size="sm" variant="danger" onClick={() => setOpen(false)}>Delete</Button>
+              <Button size="sm" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button size="sm" variant="danger" onClick={() => setOpen(false)}>
+                Delete
+              </Button>
             </>
           }
         >

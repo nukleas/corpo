@@ -10,7 +10,11 @@ export function Spinner({ size = 16, label, className = '', ...rest }: SpinnerPr
   return (
     <span role="status" className={cx('cp-spinner', className)} {...rest}>
       <span className="cp-spinner__ring" aria-hidden="true" style={{ width: size, height: size }} />
-      {label ? <span className="cp-spinner__label">{label}</span> : <span className="cp-spinner__sr-only">Loading</span>}
+      {label ? (
+        <span className="cp-spinner__label">{label}</span>
+      ) : (
+        <span className="cp-spinner__sr-only">Loading</span>
+      )}
     </span>
   );
 }

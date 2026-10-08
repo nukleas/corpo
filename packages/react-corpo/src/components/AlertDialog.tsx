@@ -15,7 +15,16 @@ export interface AlertDialogProps {
 }
 
 /** Corpo confirm dialog — `role="alertdialog"` variant of {@link Modal} for destructive/blocking actions. */
-export function AlertDialog({ open, onClose, title, onConfirm, confirmLabel = 'Confirm', cancelLabel = 'Cancel', danger = false, children }: AlertDialogProps) {
+export function AlertDialog({
+  open,
+  onClose,
+  title,
+  onConfirm,
+  confirmLabel = 'Confirm',
+  cancelLabel = 'Cancel',
+  danger = false,
+  children,
+}: AlertDialogProps) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {

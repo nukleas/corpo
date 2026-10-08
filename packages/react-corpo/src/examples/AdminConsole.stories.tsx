@@ -165,8 +165,7 @@ function AdminConsoleExample() {
   const pageLabel = navLabel(activeId);
   const uploadingCount = importFiles.filter((file) => file.status === 'uploading').length;
 
-  const byId = (id?: string | null): LicenseItem | null =>
-    LICENSES.find((license) => license.id === id) ?? null;
+  const byId = (id?: string | null): LicenseItem | null => LICENSES.find((license) => license.id === id) ?? null;
   const slots: AssignmentSlot[] = SLOT_DEFS.map((slot) => ({
     id: slot.id,
     label: slot.label,
@@ -315,9 +314,7 @@ function AdminConsoleExample() {
                       {selectedSlotId && placement[selectedSlotId] && (
                         <Button
                           size="sm"
-                          onClick={() =>
-                            setPlacement((prev) => ({ ...prev, [selectedSlotId]: undefined }))
-                          }
+                          onClick={() => setPlacement((prev) => ({ ...prev, [selectedSlotId]: undefined }))}
                         >
                           Remove
                         </Button>
@@ -364,10 +361,7 @@ function AdminConsoleExample() {
               />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {people.map((person) => (
-                  <div
-                    key={person.id}
-                    style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 44 }}
-                  >
+                  <div key={person.id} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 44 }}>
                     <Avatar size="sm" initials={person.initials} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div>{person.name}</div>
@@ -380,9 +374,7 @@ function AdminConsoleExample() {
                         {person.role}
                       </div>
                     </div>
-                    <Badge color={person.onLeave ? 'amber' : 'green'}>
-                      {person.onLeave ? 'On leave' : 'Active'}
-                    </Badge>
+                    <Badge color={person.onLeave ? 'amber' : 'green'}>{person.onLeave ? 'On leave' : 'Active'}</Badge>
                   </div>
                 ))}
               </div>
@@ -391,17 +383,11 @@ function AdminConsoleExample() {
 
           {activeId === 'teams' && selectedOrg && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <SectionHeader
-                title={selectedOrg.label}
-                description={teamCopy(selectedOrg.id)}
-              />
+              <SectionHeader title={selectedOrg.label} description={teamCopy(selectedOrg.id)} />
               {childTeams.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {childTeams.map((team) => (
-                    <div
-                      key={team.id}
-                      style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}
-                    >
+                    <div key={team.id} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
                       <span style={{ flex: 1, minWidth: 0 }}>{team.label}</span>
                       <Badge>{peopleInScope(team.id).length}</Badge>
                     </div>

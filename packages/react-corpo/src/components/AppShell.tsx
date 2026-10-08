@@ -20,12 +20,7 @@ export function AppShell({ navOpen = false, onNavClose, className, children, ...
     <div className={cn('cp-shell', navOpen && 'cp-shell--nav-open', className)} {...rest}>
       {children}
       {navOpen && (
-        <button
-          type="button"
-          className="cp-shell__scrim"
-          aria-label="Close navigation"
-          onClick={onNavClose}
-        />
+        <button type="button" className="cp-shell__scrim" aria-label="Close navigation" onClick={onNavClose} />
       )}
     </div>
   );

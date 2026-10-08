@@ -1,11 +1,20 @@
 /* Docs-site chrome — layout only; all component styling comes from corpo.css */
 
-html, body { height: 100%; }
-body { margin: 0; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
 
-.docs-shell { height: 100vh; }
+.docs-shell {
+  height: 100vh;
+}
 
-.docs-content { max-width: 760px; }
+.docs-content {
+  max-width: 760px;
+}
 
 .docs-prose h1 {
   font-family: var(--corpo-font-mono);
@@ -41,7 +50,9 @@ body { margin: 0; }
   line-height: var(--corpo-leading-relaxed);
 }
 
-.docs-prose a { color: var(--corpo-accent); }
+.docs-prose a {
+  color: var(--corpo-accent);
+}
 
 .docs-prose code {
   font-family: var(--corpo-font-mono);
@@ -108,7 +119,9 @@ body { margin: 0; }
   vertical-align: top;
 }
 
-.docs-prose table td:first-child code { white-space: nowrap; }
+.docs-prose table td:first-child code {
+  white-space: nowrap;
+}
 
 /* Theme swatch rows on the theming page */
 .docs-theme-row {
@@ -127,8 +140,19 @@ body { margin: 0; }
   min-width: 96px;
 }
 
-ul.checks { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-ul.checks li { font-size: var(--corpo-text-sm); color: var(--corpo-text-secondary); line-height: var(--corpo-leading-relaxed); }
+ul.checks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+ul.checks li {
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+  line-height: var(--corpo-leading-relaxed);
+}
 
 .docs-footer {
   margin-top: 48px;
@@ -142,4 +166,6 @@ ul.checks li { font-size: var(--corpo-text-sm); color: var(--corpo-text-secondar
   gap: 12px;
 }
 
-.docs-footer a { color: var(--corpo-text-secondary); }
+.docs-footer a {
+  color: var(--corpo-text-secondary);
+}

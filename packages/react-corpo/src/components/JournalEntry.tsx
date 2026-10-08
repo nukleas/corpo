@@ -142,9 +142,7 @@ export function JournalEntry({ value, onChange, accounts, className, ...rest }: 
                       type="button"
                       className="cp-journal__remove"
                       aria-label={`Remove line ${i + 1}`}
-                      onClick={() =>
-                        onChange({ ...value, postings: value.postings.filter((_, pi) => pi !== i) })
-                      }
+                      onClick={() => onChange({ ...value, postings: value.postings.filter((_, pi) => pi !== i) })}
                     >
                       ×
                     </button>

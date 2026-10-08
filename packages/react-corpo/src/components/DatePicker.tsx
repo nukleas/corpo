@@ -15,7 +15,12 @@ function defaultFormat(date: Date): string {
 }
 
 /** Corpo date picker — an input-styled trigger opening a {@link Calendar} in a {@link Popover}. */
-export function DatePicker({ value, onChange, placeholder = 'Select a date', format = defaultFormat }: DatePickerProps) {
+export function DatePicker({
+  value,
+  onChange,
+  placeholder = 'Select a date',
+  format = defaultFormat,
+}: DatePickerProps) {
   const [open, setOpen] = useState(false);
   return (
     <Popover

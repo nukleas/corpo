@@ -13,7 +13,12 @@ function defaultFormat(date: Date): string {
   return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-export function DatePicker({ value, onChange, placeholder = 'Select a date', format = defaultFormat }: DatePickerProps) {
+export function DatePicker({
+  value,
+  onChange,
+  placeholder = 'Select a date',
+  format = defaultFormat,
+}: DatePickerProps) {
   const [open, setOpen] = useState(false);
   return (
     <Popover

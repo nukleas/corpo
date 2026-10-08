@@ -9,13 +9,7 @@ import { cn } from './cn';
  * - ReactElement — cloned with the merged props
  * - `null | undefined | boolean` — renders nothing
  */
-export type Shorthand<P, V = string | number> =
-  | V
-  | Partial<P>
-  | ReactElement<Partial<P>>
-  | null
-  | undefined
-  | boolean;
+export type Shorthand<P, V = string | number> = V | Partial<P> | ReactElement<Partial<P>> | null | undefined | boolean;
 
 export interface ShorthandOptions<P> {
   /** Base props; the shorthand value's own props win over these. */

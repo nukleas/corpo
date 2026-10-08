@@ -20,9 +20,24 @@
   border: 1px solid var(--corpo-border-dim);
   user-select: none;
 }
-.cp-spreadsheet__corner { left: 0; top: 0; z-index: 3; width: 40px; }
-.cp-spreadsheet__col-head { top: 0; z-index: 2; min-width: 96px; padding: 6px 8px; }
-.cp-spreadsheet__row-head { left: 0; z-index: 1; width: 40px; padding: 6px 4px; }
+.cp-spreadsheet__corner {
+  left: 0;
+  top: 0;
+  z-index: 3;
+  width: 40px;
+}
+.cp-spreadsheet__col-head {
+  top: 0;
+  z-index: 2;
+  min-width: 96px;
+  padding: 6px 8px;
+}
+.cp-spreadsheet__row-head {
+  left: 0;
+  z-index: 1;
+  width: 40px;
+  padding: 6px 4px;
+}
 
 .cp-spreadsheet__cell {
   border: 1px solid var(--corpo-border-dim);

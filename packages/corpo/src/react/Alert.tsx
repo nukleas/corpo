@@ -10,7 +10,11 @@ export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
 
 export function Alert({ tone = 'info', title, onDismiss, className = '', children, ...rest }: AlertProps) {
   return (
-    <div role={tone === 'error' ? 'alert' : 'status'} className={cx('cp-alert', `cp-alert--${tone}`, className)} {...rest}>
+    <div
+      role={tone === 'error' ? 'alert' : 'status'}
+      className={cx('cp-alert', `cp-alert--${tone}`, className)}
+      {...rest}
+    >
       <div className="cp-alert__content">
         {title && <div className="cp-alert__title">{title}</div>}
         <div className="cp-alert__body">{children}</div>

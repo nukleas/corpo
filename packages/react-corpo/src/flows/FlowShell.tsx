@@ -14,19 +14,11 @@ export interface FlowShellProps {
  * comes entirely from the copy (cheerful HR voice with a quiet edge), not
  * from a dark/neon reskin. That's cyberdesign's job.
  */
-export function FlowShell({
-  eyebrow = 'Halcyon Group — People Success',
-  title,
-  subtitle,
-  children,
-}: FlowShellProps) {
+export function FlowShell({ eyebrow = 'Halcyon Group — People Success', title, subtitle, children }: FlowShellProps) {
   return (
     <ThemeProvider theme="teal" style={{ background: 'var(--corpo-bg)', color: 'var(--corpo-text)' }}>
       <div style={{ maxWidth: 920, margin: '0 auto', padding: '4px 4px 40px' }}>
-        <div
-          className="corpo-label corpo-label--wide"
-          style={{ color: 'var(--corpo-accent)', marginBottom: 8 }}
-        >
+        <div className="corpo-label corpo-label--wide" style={{ color: 'var(--corpo-accent)', marginBottom: 8 }}>
           {eyebrow}
         </div>
         <h1
@@ -62,8 +54,8 @@ export function FlowShell({
             color: 'var(--corpo-text-dim)',
           }}
         >
-          A note from People Success — this session may be reviewed to help us support you
-          better. Thanks for being part of the Halcyon family.
+          A note from People Success — this session may be reviewed to help us support you better. Thanks for being part
+          of the Halcyon family.
         </p>
       </div>
     </ThemeProvider>

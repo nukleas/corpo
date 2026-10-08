@@ -25,22 +25,42 @@ const COLUMNS = [
 const ROWS: DataTableRow[] = [
   {
     id: 'INV-1042',
-    cells: { id: 'INV-1042', client: 'Acme Inc.', amount: { content: <Amount value={12_400} /> }, status: { content: 'Paid', status: 'ok' } },
+    cells: {
+      id: 'INV-1042',
+      client: 'Acme Inc.',
+      amount: { content: <Amount value={12_400} /> },
+      status: { content: 'Paid', status: 'ok' },
+    },
     values: { amount: 12_400, status: 'Paid' },
   },
   {
     id: 'INV-1043',
-    cells: { id: 'INV-1043', client: 'Northwind', amount: { content: <Amount value={8_150} /> }, status: { content: 'Pending', status: 'warn' } },
+    cells: {
+      id: 'INV-1043',
+      client: 'Northwind',
+      amount: { content: <Amount value={8_150} /> },
+      status: { content: 'Pending', status: 'warn' },
+    },
     values: { amount: 8_150, status: 'Pending' },
   },
   {
     id: 'INV-1039',
-    cells: { id: 'INV-1039', client: 'Globex', amount: { content: <Amount value={-1_200} /> }, status: { content: 'Credited', status: 'idle' } },
+    cells: {
+      id: 'INV-1039',
+      client: 'Globex',
+      amount: { content: <Amount value={-1_200} /> },
+      status: { content: 'Credited', status: 'idle' },
+    },
     values: { amount: -1_200, status: 'Credited' },
   },
   {
     id: 'INV-1040',
-    cells: { id: 'INV-1040', client: 'Initech', amount: { content: <Amount value={860} /> }, status: { content: 'Overdue', status: 'err' } },
+    cells: {
+      id: 'INV-1040',
+      client: 'Initech',
+      amount: { content: <Amount value={860} /> },
+      status: { content: 'Overdue', status: 'err' },
+    },
     values: { amount: 860, status: 'Overdue' },
   },
 ];
@@ -103,7 +123,8 @@ export const Selectable: Story = {
         />
       </div>
     );
-  },  play: async ({ canvasElement }) => {
+  },
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const all = canvas.getByRole('checkbox', { name: 'Select all rows' });
     await expect(all).toHaveProperty('indeterminate', true); // one of four preselected
@@ -118,7 +139,16 @@ export const Selectable: Story = {
   },
 };
 
-const CLIENTS = ['Acme Inc.', 'Northwind', 'Globex', 'Initech', 'Umbrella', 'Hooli', 'Stark Industries', 'Wayne Enterprises'];
+const CLIENTS = [
+  'Acme Inc.',
+  'Northwind',
+  'Globex',
+  'Initech',
+  'Umbrella',
+  'Hooli',
+  'Stark Industries',
+  'Wayne Enterprises',
+];
 const REGIONS = ['North America', 'EMEA', 'APAC', 'LATAM'];
 const OWNERS = ['A. Shah', 'M. Okafor', 'J. Lindqvist', 'R. Tanaka', 'L. Moreau'];
 const STATES = [

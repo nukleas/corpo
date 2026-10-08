@@ -108,12 +108,7 @@ export const ControlledSelection: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <span className="corpo-label">Selected: {selected ?? 'none'}</span>
-        <RelationGraph
-          {...graph}
-          selectedId={selected}
-          onSelect={(id) => setSelected(id)}
-          style={{ height: 440 }}
-        />
+        <RelationGraph {...graph} selectedId={selected} onSelect={(id) => setSelected(id)} style={{ height: 440 }} />
       </div>
     );
   },
@@ -133,12 +128,7 @@ export const Filters: Story = {
           value={kinds}
           onChange={(v) => setKinds(Array.isArray(v) ? v : [v])}
         />
-        <RelationGraph
-          {...graph}
-          filters={{ kinds }}
-          labels="gutter"
-          style={{ height: 440 }}
-        />
+        <RelationGraph {...graph} filters={{ kinds }} labels="gutter" style={{ height: 440 }} />
       </div>
     );
   },
@@ -196,7 +186,8 @@ export const SearchJump: Story = {
         <RelationGraph {...graph} query={query} style={{ height: 440 }} />
       </div>
     );
-  },  play: async ({ canvasElement }) => {
+  },
+  play: async ({ canvasElement }) => {
     const live = () => canvasElement.querySelector('.cp-relgraph__live')?.textContent ?? '';
     await waitFor(() => expect(live()).toMatch(/matches? for queue/));
 
