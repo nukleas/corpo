@@ -30,15 +30,13 @@ export function Command({
   const filtered = useMemo(() => {
     if (!query) return groups;
     const q = query.toLowerCase();
-    return (
-      groups
+    return groups
+      .map((g) => ({
+        ...g,
         // oxlint-disable-next-line anti-slop/no-runtime-typeof -- labels are ReactNode; only plain-string labels are text-searchable
-        .map((g) => ({
-          ...g,
-          items: g.items.filter((i) => typeof i.label === 'string' && i.label.toLowerCase().includes(q)),
-        }))
-        .filter((g) => g.items.length > 0)
-    );
+        items: g.items.filter((i) => typeof i.label === 'string' && i.label.toLowerCase().includes(q)),
+      }))
+      .filter((g) => g.items.length > 0);
   }, [groups, query]);
 
   const isEmpty = filtered.every((g) => g.items.length === 0);

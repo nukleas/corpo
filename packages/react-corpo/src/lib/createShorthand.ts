@@ -40,7 +40,6 @@ export function createShorthandFactory<P extends { className?: string }, V = str
     // `<Parent.Item>` whose props are the item's props; nil/boolean and
     // elements excluded, a remaining object is a partial props object; and
     // the only shorthand left after that is the primitive form V.
-    // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)
     const usersProps: Partial<P> = isValidElement(value)
       ? (value.props as Partial<P>)
       : // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)

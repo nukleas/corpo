@@ -71,7 +71,6 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
     const hasSplits = (entry.splits?.length ?? 0) > 0;
     const open = hasSplits && openSplits.has(i);
     return (
-      // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
       <Fragment key={i}>
         <tr>
           <td data-mono="true">{entry.date}</td>
@@ -98,7 +97,6 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
         </tr>
         {open &&
           entry.splits?.map((split, si) => (
-            // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
             <tr key={`${i}:${si}`} className="cp-ledger__row--split">
               <td />
               <td>{split.memo}</td>

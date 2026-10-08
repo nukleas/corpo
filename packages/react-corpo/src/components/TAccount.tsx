@@ -37,7 +37,6 @@ export function TAccount({ title, debits, credits, className, ...rest }: TAccoun
     <div className={cn('cp-taccount__side', cr && 'cp-taccount__side--cr')}>
       <div className="cp-taccount__head">{headLabel}</div>
       {entries.map((entry, i) => (
-        // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
         <div key={i} className={cn('cp-taccount__entry', entry.carry && 'cp-taccount__entry--carry')}>
           <span className="cp-taccount__entry-label">{entry.label}</span>
           {Amount.create(entry.amount)}

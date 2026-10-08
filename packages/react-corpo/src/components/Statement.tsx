@@ -89,7 +89,6 @@ export function Statement({
           </thead>
           <tbody>
             {lines.map((line, i) => (
-              // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
               <tr key={i}>
                 <td>{line.description}</td>
                 {hasQty && <td data-numeric="true">{line.qty}</td>}
