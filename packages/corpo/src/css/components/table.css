@@ -52,6 +52,15 @@
 .cp-table__table td:first-child {
   color: var(--corpo-text);
 }
+/* Summary row (totals) — weighted like the header, separated by a stronger rule. */
+.cp-table__table tfoot tr {
+  border-top: 1px solid var(--corpo-border);
+}
+.cp-table__table tfoot td {
+  font-weight: 600;
+  color: var(--corpo-text);
+  background: var(--corpo-bg-inset);
+}
 .cp-table__table td[data-numeric='true'] {
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -121,6 +130,14 @@
   z-index: 2;
   border-bottom-color: var(--corpo-border);
 }
+/* The summary row sticks to the bottom of the scroll area, like the header to the top. */
+.cp-table--grid .cp-table__table tfoot td {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  border-top: 1px solid var(--corpo-border);
+  border-bottom: none;
+}
 /* Row states paint cells, not rows, so pinned cells can stay opaque. */
 .cp-table--grid .cp-table__table tbody td {
   background: var(--corpo-bg-panel);
@@ -148,7 +165,9 @@
   border-right-color: var(--corpo-border);
 }
 .cp-table--grid.cp-table--pin-first .cp-table__table th:first-child,
-.cp-table--grid.cp-table--pin-first .cp-table__table .cp-table__check + th {
+.cp-table--grid.cp-table--pin-first .cp-table__table .cp-table__check + th,
+.cp-table--grid.cp-table--pin-first .cp-table__table tfoot td:first-child,
+.cp-table--grid.cp-table--pin-first .cp-table__table tfoot .cp-table__check + td {
   z-index: 3;
 }
 .cp-table--grid.cp-table--pin-first .cp-table__table tr > .cp-table__check {

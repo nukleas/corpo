@@ -1,11 +1,13 @@
 import { isValidElement, useMemo, useState } from 'react';
-import type { HTMLAttributes, ReactElement } from 'react';
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { cx } from './cx';
 import type { TableCellProps, TableCellShorthand, TableColumn } from './Table';
 
 export interface DataTableColumn extends TableColumn {
   /** Header click sorts this column (numeric-aware, asc → desc → cleared). @default false */
   sortable?: boolean;
+  /** Footer cell computed from the rows currently shown (after filtering); any summary adds a `<tfoot>` row. */
+  summary?: (rows: DataTableRow[]) => TableCellShorthand;
 }
 
 export interface DataTableRow {
@@ -38,6 +40,8 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
   /** Selected row ids (controlled). */
   selected?: string[];
   onSelectedChange?: (ids: string[]) => void;
+  /** Actions for the selected rows, shown in a bar under the table while any row is selected. */
+  bulkActions?: ReactNode;
 }
 
 type SortState = { key: string; dir: 'asc' | 'desc' } | null;
@@ -69,6 +73,17 @@ function compareValues(a: string | number | undefined, b: string | number | unde
   return String(a).localeCompare(String(b), 'en', { numeric: true, sensitivity: 'base' });
 }
 
+/** Sum of a column's numeric raw values (explicit `values` first, then bare numeric cells). */
+export function sumColumn(rows: DataTableRow[], key: string): number {
+  let total = 0;
+  for (const row of rows) {
+    const v = rawValue(row, key);
+    // oxlint-disable-next-line anti-slop/no-runtime-typeof -- raw values are string | number by contract
+    if (typeof v === 'number' && !Number.isNaN(v)) total += v;
+  }
+  return total;
+}
+
 /** Sorting/filtering/selection layer over the cp-table chassis. */
 export function DataTable({
   columns,
@@ -81,6 +96,7 @@ export function DataTable({
   selectable = false,
   selected = [],
   onSelectedChange,
+  bulkActions,
   className = '',
   ...rest
 }: DataTableProps) {
@@ -118,6 +134,7 @@ export function DataTable({
         ? selected.filter((id) => !visible.some((r) => r.id === id))
         : [...new Set([...selected, ...visible.map((r) => r.id)])],
     );
+  const hasSummary = columns.some((c) => c.summary);
   const toggleRow = (id: string) =>
     onSelectedChange?.(selectedSet.has(id) ? selected.filter((s) => s !== id) : [...selected, id]);
 
@@ -234,8 +251,25 @@ export function DataTable({
               </tr>
             ))}
           </tbody>
+          {hasSummary && (
+            <tfoot>
+              <tr>
+                {selectable && <td className="cp-table__check" />}
+                {columns.map((c) => renderCell(c.summary?.(visible), c))}
+              </tr>
+            </tfoot>
+          )}
         </table>
       </div>
+      {bulkActions != null && selected.length > 0 && (
+        <div className="cp-datatable__bulk" role="region" aria-label="Bulk actions">
+          <span className="cp-datatable__bulk-count">{selected.length} selected</span>
+          {bulkActions}
+          <button type="button" className="cp-btn cp-btn--sm cp-btn--ghost" onClick={() => onSelectedChange?.([])}>
+            Clear selection
+          </button>
+        </div>
+      )}
     </div>
   );
 }

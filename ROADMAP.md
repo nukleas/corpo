@@ -85,6 +85,30 @@ Built in layers, each shippable on its own:
    add a dependency (e.g. TanStack Virtual) to the published `react-corpo` vs a small in-house
    windowing hook.
 
+## Next: ERP readiness — business-document screens
+
+Corpo covers primitives, overlays, the accounting family, charts, and graphs. An ERP is built from
+record-management patterns on top of those: documents with line items, totals, lifecycles, and
+bulk operations. The goal of the first four layers is one end-to-end proof point — a complete
+sales-order screen (list → record → lines → totals) built only from corpo components.
+
+1. **DataTable totals + bulk actions** — a `<tfoot>` summary row computed from the filtered rows
+   (per-column `summary`, `sumColumn` helper), sticky at the bottom of a grid; a bulk action bar that
+   appears when rows are selected (count, caller's actions, clear selection).
+2. **NumberInput + DateRangePicker** — locale-aware numeric entry with unit/currency adornment and
+   step; a two-month range picker with presets (this month, last quarter, fiscal YTD).
+3. **Line-item editor** — product lookup × qty × unit price × discount × tax = line total, add/remove
+   rows, and a subtotal/tax/total block. The general form of `JournalEntry`.
+4. **Record page layout + form grid** — document header (number, status, key fields, primary
+   actions), sectioned multi-column form grid, and a side panel slot for activity and attachments.
+
+Then, as separate layers once the sales-order screen works: async entity lookup (rich rows,
+"create new…"), multi-select / tag input, filter bar with saved views, document lifecycle and
+approvals, activity log (comments, field-change audit), attachment list, tree grid (chart of
+accounts, BOM), master–detail split view, notification inbox. Module-specific and deferred: Kanban,
+Gantt (over the depgraph engine), pivot report, resource scheduler, print layout. Permission matrix
+and import wizard are recipes over existing components, not new components.
+
 ## Under consideration
 
 Cyberdesign / shadcn-parity components that fit Corpo's brief (calm, light-first, business UI) but

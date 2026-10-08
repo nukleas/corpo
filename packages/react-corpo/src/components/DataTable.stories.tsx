@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
-import { Amount } from './Amount';
+import { Amount, roundCents } from './Amount';
 import { Button } from './Button';
-import { DataTable } from './DataTable';
-import type { DataTableRow } from './DataTable';
+import { DataTable, sumColumn } from './DataTable';
+import type { DataTableColumn, DataTableRow } from './DataTable';
 
 const meta: Meta<typeof DataTable> = {
   title: 'Display/DataTable',
@@ -101,41 +101,71 @@ export const Filterable: Story = {
   },
 };
 
-/** Selection is controlled — the page owns the ids and renders its own batch actions. Header checkbox toggles the visible (filtered) rows. */
+/**
+ * Selection is controlled — the page owns the ids. `bulkActions` renders under the table while any
+ * row is selected, with the count and a clear-selection button; the actions read `selected`
+ * themselves. The header checkbox toggles the visible (filtered) rows.
+ */
 export const Selectable: Story = {
   render: () => {
     const [selected, setSelected] = useState<string[]>(['INV-1043']);
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <Button size="sm" disabled={selected.length === 0}>
-            Send reminders ({selected.length})
-          </Button>
-        </div>
-        <DataTable
-          columns={COLUMNS}
-          rows={ROWS}
-          searchable
-          selectable
-          selected={selected}
-          onSelectedChange={setSelected}
-          compact
-        />
-      </div>
+      <DataTable
+        columns={COLUMNS}
+        rows={ROWS}
+        searchable
+        selectable
+        selected={selected}
+        onSelectedChange={setSelected}
+        compact
+        bulkActions={
+          <>
+            <Button size="sm">Send reminders</Button>
+            <Button size="sm">Export</Button>
+          </>
+        }
+      />
     );
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const all = canvas.getByRole('checkbox', { name: 'Select all rows' });
     await expect(all).toHaveProperty('indeterminate', true); // one of four preselected
+    await expect(canvas.getByRole('region', { name: 'Bulk actions' })).toHaveTextContent('1 selected');
 
     await userEvent.click(all);
     await expect(all).toBeChecked();
-    await expect(canvas.getByRole('button', { name: 'Send reminders (4)' })).toBeEnabled();
+    await expect(canvas.getByRole('region', { name: 'Bulk actions' })).toHaveTextContent('4 selected');
 
-    await userEvent.click(all);
+    await userEvent.click(canvas.getByRole('button', { name: 'Clear selection' }));
     await expect(all).not.toBeChecked();
-    await expect(canvas.getByRole('button', { name: 'Send reminders (0)' })).toBeDisabled();
+    await expect(canvas.queryByRole('region', { name: 'Bulk actions' })).toBeNull();
+  },
+};
+
+const TOTAL_COLUMNS: DataTableColumn[] = [
+  { key: 'id', label: 'Invoice', mono: true, sortable: true, summary: () => 'Total' },
+  { key: 'client', label: 'Client', sortable: true },
+  {
+    key: 'amount',
+    label: 'Amount',
+    numeric: true,
+    sortable: true,
+    summary: (rows) => ({ content: <Amount value={roundCents(sumColumn(rows, 'amount'))} /> }),
+  },
+  { key: 'status', label: 'Status', sortable: true },
+];
+
+/** A column `summary` adds a totals row. It is computed from the rows shown, so it follows the quick filter. */
+export const Totals: Story = {
+  render: () => <DataTable columns={TOTAL_COLUMNS} rows={ROWS} searchable />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const footer = () => canvasElement.querySelector('tfoot');
+    await expect(footer()).toHaveTextContent('20,210.00');
+
+    await userEvent.type(canvas.getByRole('searchbox', { name: 'Filter rows' }), 'acme');
+    await expect(footer()).toHaveTextContent('12,400.00');
   },
 };
 
@@ -158,20 +188,22 @@ const STATES = [
   { content: 'Draft', status: 'idle' },
 ] as const;
 
-const GRID_COLUMNS = [
-  { key: 'id', label: 'Invoice', mono: true, sortable: true },
+const money = (n: number) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const sumCell = (key: string) => (rows: DataTableRow[]) => money(roundCents(sumColumn(rows, key)));
+
+const GRID_COLUMNS: DataTableColumn[] = [
+  { key: 'id', label: 'Invoice', mono: true, sortable: true, summary: (rows) => `${rows.length} invoices` },
   { key: 'client', label: 'Client', sortable: true },
   { key: 'region', label: 'Region', sortable: true },
   { key: 'owner', label: 'Owner', sortable: true },
   { key: 'issued', label: 'Issued', mono: true, sortable: true },
   { key: 'due', label: 'Due', mono: true, sortable: true },
-  { key: 'subtotal', label: 'Subtotal', numeric: true, sortable: true },
-  { key: 'tax', label: 'Tax', numeric: true, sortable: true },
-  { key: 'total', label: 'Total', numeric: true, sortable: true },
+  { key: 'subtotal', label: 'Subtotal', numeric: true, sortable: true, summary: sumCell('subtotal') },
+  { key: 'tax', label: 'Tax', numeric: true, sortable: true, summary: sumCell('tax') },
+  { key: 'total', label: 'Total', numeric: true, sortable: true, summary: sumCell('total') },
   { key: 'status', label: 'Status', sortable: true },
 ];
-
-const money = (n: number) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const GRID_ROWS: DataTableRow[] = Array.from({ length: 200 }, (_, i) => {
   const id = `INV-${2000 + i}`;
@@ -201,7 +233,8 @@ const GRID_ROWS: DataTableRow[] = Array.from({ length: 200 }, (_, i) => {
  * `grid` is the dense, spreadsheet-like treatment for record-heavy screens — reach for it instead
  * of a stack of Cards. Full gridlines, ~28px rows, a sticky header (bound the DataTable's height so
  * the grid scrolls inside itself), optional `striped` rows, and `pinFirstColumn` to keep the record
- * id in view while scrolling sideways.
+ * id in view while scrolling sideways. Column summaries stick to the bottom as a totals row, and
+ * selecting rows brings up the bulk action bar.
  */
 export const Grid: Story = {
   render: () => {
@@ -217,6 +250,7 @@ export const Grid: Story = {
         selectable
         selected={selected}
         onSelectedChange={setSelected}
+        bulkActions={<Button size="sm">Export selected</Button>}
         style={{ height: 420, maxWidth: 900 }}
       />
     );
