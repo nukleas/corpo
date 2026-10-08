@@ -56,6 +56,8 @@ export * from './components/TrialBalance';
 export * from './components/JournalEntry';
 export * from './components/Statement';
 export * from './components/LineItems';
+export * from './components/FormGrid';
+export * from './components/RecordPage';
 export * from './components/AlertDialog';
 export * from './components/Sheet';
 export * from './components/Collapsible';

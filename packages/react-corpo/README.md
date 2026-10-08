@@ -65,7 +65,11 @@ export function App() {
 ```
 
 Lists of records belong in a `DataTable` with `grid` — dense rows, gridlines, a sticky header,
-sorting, filtering, and selection. Keep `Card` for a handful of summary items, not one per record.
+sorting, filtering, selection, a totals row (column `summary`), and a bulk action bar. Keep `Card` for
+a handful of summary items, not one per record.
+
+One record's detail screen is a `RecordPage` (title, status, actions, key facts, aside) holding
+`FormSection`s of `Field`s and, for documents, `LineItems`. See the *Examples/Sales order* story.
 
 ## Semantic props
 

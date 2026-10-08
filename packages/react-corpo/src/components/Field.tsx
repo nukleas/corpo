@@ -15,13 +15,15 @@ export interface FieldProps {
   required?: boolean;
   /** Forwards to the label's `htmlFor`. */
   htmlFor?: string;
+  /** Columns to span inside a {@link FormGrid}. */
+  span?: 2 | 3 | 'full';
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
 }
 
 /** Corpo field wrapper — mono uppercase label + control + hint/error line. */
-export function Field({ label, hint, error, required = false, htmlFor, className, style, children }: FieldProps) {
+export function Field({ label, hint, error, required = false, htmlFor, span, className, style, children }: FieldProps) {
   const autoId = useId();
   const id = htmlFor ?? autoId;
   const hintId = `${id}-hint`;
@@ -29,7 +31,7 @@ export function Field({ label, hint, error, required = false, htmlFor, className
   const describedBy = error ? errorId : hint ? hintId : undefined;
   return (
     <FieldContext.Provider value={{ id, describedBy, invalid: Boolean(error), required }}>
-      <div className={cn('cp-field', className)} style={style}>
+      <div className={cn('cp-field', span && `cp-field--span-${span}`, className)} style={style}>
         {label && (
           <Label htmlFor={id} required={required}>
             {label}

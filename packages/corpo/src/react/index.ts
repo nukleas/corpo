@@ -45,6 +45,8 @@ export * from './TrialBalance';
 export * from './JournalEntry';
 export * from './Statement';
 export * from './LineItems';
+export * from './FormGrid';
+export * from './RecordPage';
 export * from './AlertDialog';
 export * from './Sheet';
 export * from './Collapsible';

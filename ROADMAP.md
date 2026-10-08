@@ -3,7 +3,8 @@
 ## Shipped — 80+ components
 
 **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label,
-Slider, Combobox, DatePicker, Toggle, ToggleGroup, ButtonGroup, InputGroup, Dropzone
+Slider, Combobox, DatePicker, DateRangePicker (presets), NumberInput, FormGrid, FormSection, Toggle,
+ToggleGroup, ButtonGroup, InputGroup, Dropzone
 
 **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion,
 Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip,
@@ -13,13 +14,18 @@ Timeline, Stepper, TreeView, ProfileCard, AssignmentSlots, LicenseCatalog, Licen
 **Data**: LineChart, BarChart, DonutChart, Sparkline, DependencyGraph (CpDepGraph scene engine)
 
 **Accounting**: Amount, footing rules (`cp-foot`), Ledger (collapsible split postings), TAccount,
-TrialBalance, JournalEntry (optional Combobox account pickers), Statement, plus Spreadsheet
+TrialBalance, JournalEntry (optional Combobox account pickers), Statement, LineItems (order/invoice
+lines with catalog pickers and subtotal/tax/total), plus Spreadsheet
 balance cells. Deferred from this family: cell flash-on-change, a formula bar, and a TrialBalance
 account tree (best built on DataTable grouping).
 
 **DataTable**: sorting/filtering/selection over the Table chassis — sortable headers on raw
 values, toolbar quick filter, controlled checkbox selection, and a dense `grid` mode (gridlines,
-sticky header, zebra rows, pinned first column) shared with Table.
+sticky header, zebra rows, pinned first column) shared with Table, a sticky totals row from
+per-column `summary`, and a bulk action bar for selected rows.
+
+**Records**: RecordPage (header, status, actions, key facts, aside) — with FormSection and LineItems,
+the *Examples/Sales order* story builds a full list → record → lines → totals screen.
 
 **Feedback**: Alert, Progress, Spinner, Toast
 
@@ -92,17 +98,18 @@ record-management patterns on top of those: documents with line items, totals, l
 bulk operations. The goal of the first four layers is one end-to-end proof point — a complete
 sales-order screen (list → record → lines → totals) built only from corpo components.
 
-1. **DataTable totals + bulk actions** — a `<tfoot>` summary row computed from the filtered rows
+1. **DataTable totals + bulk actions** *(shipped)* — a `<tfoot>` summary row computed from the filtered rows
    (per-column `summary`, `sumColumn` helper), sticky at the bottom of a grid; a bulk action bar that
    appears when rows are selected (count, caller's actions, clear selection).
-2. **NumberInput + DateRangePicker** — locale-aware numeric entry with unit/currency adornment and
-   step; a two-month range picker with presets (this month, last quarter, fiscal YTD).
-3. **Line-item editor** — product lookup × qty × unit price × discount × tax = line total, add/remove
+2. **NumberInput + DateRangePicker** *(shipped)* — numeric entry with grouping, stepping, clamping,
+   and prefix/suffix addons; a range picker with calendar-period presets (fiscal periods are
+   presets the page supplies).
+3. **Line-item editor** *(shipped as `LineItems`)* — product lookup × qty × unit price × discount × tax = line total, add/remove
    rows, and a subtotal/tax/total block. The general form of `JournalEntry`.
-4. **Record page layout + form grid** — document header (number, status, key fields, primary
+4. **Record page layout + form grid** *(shipped as `RecordPage`, `FormSection`, `FormGrid`)* — document header (number, status, key fields, primary
    actions), sectioned multi-column form grid, and a side panel slot for activity and attachments.
 
-Then, as separate layers once the sales-order screen works: async entity lookup (rich rows,
+The sales-order screen works (*Examples/Sales order*). Next, as separate layers: async entity lookup (rich rows,
 "create new…"), multi-select / tag input, filter bar with saved views, document lifecycle and
 approvals, activity log (comments, field-change audit), attachment list, tree grid (chart of
 accounts, BOM), master–detail split view, notification inbox. Module-specific and deferred: Kanban,

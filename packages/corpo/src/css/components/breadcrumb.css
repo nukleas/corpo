@@ -21,6 +21,14 @@
   color: var(--corpo-text-muted);
   text-decoration: none;
 }
+/* `as: 'button'` items (in-app navigation without a URL) shed button chrome. */
+button.cp-breadcrumb__link {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
 .cp-breadcrumb__link:hover {
   color: var(--corpo-accent);
 }
