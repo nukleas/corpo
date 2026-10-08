@@ -16,6 +16,27 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Bulk action bar — appears under the table while rows are selected, so the
+   rows above it never shift under the pointer. */
+.cp-datatable__bulk {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 6px 8px 6px 12px;
+  background: var(--corpo-accent-subtle);
+  border: 1px solid var(--corpo-accent-border);
+  border-radius: var(--corpo-radius);
+}
+.cp-datatable__bulk-count {
+  margin-right: auto;
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  color: var(--corpo-text);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Sort button fills the header cell and inherits its mono micro-label styling */
 .cp-table__sort {
   display: inline-flex;
