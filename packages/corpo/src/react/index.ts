@@ -44,6 +44,7 @@ export * from './TAccount';
 export * from './TrialBalance';
 export * from './JournalEntry';
 export * from './Statement';
+export * from './LineItems';
 export * from './AlertDialog';
 export * from './Sheet';
 export * from './Collapsible';
