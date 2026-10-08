@@ -1,6 +1,7 @@
 {
   "name": "corpo-monorepo",
   "private": true,
+  "type": "module",
   "description": "Monorepo for corpo (CSS) and react-corpo (React + Storybook)",
   "license": "MIT",
   "author": "Nader Heidari <nukleas2001@gmail.com>",
@@ -18,13 +19,16 @@
     "build-storybook": "pnpm --filter @nukleas/react-corpo run build-storybook",
     "typecheck": "pnpm --filter @nukleas/react-corpo run typecheck",
     "lint": "oxlint",
-    "demo": "pnpm --filter @nukleas/corpo run demo"
+    "demo": "pnpm --filter @nukleas/corpo run demo",
+    "check:contract": "tsx tools/check-contract.ts"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
     "@oxlint/plugins": "1.79.0",
-    "oxlint": "1.79.0"
+    "oxlint": "1.79.0",
+    "tsx": "^4.23.1",
+    "typescript": "^5.9.3"
   }
 }

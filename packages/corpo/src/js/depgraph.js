@@ -186,7 +186,7 @@ export function CpDepGraph(root, opts = {}) {
     const dotY = labelY - 4;
     // SVG text neither wraps nor ellipsizes — clip node content to the frame,
     // and clip the owner short of the estimate so the two can't overlap.
-    const clipId = `cp-dg-${uid}-${idx}`;
+    const clipId = `cp-dg-${uid}-${idx}`; // contract-ignore: element id, not a class
     const ownerClipId = `${clipId}-o`;
     const ownerMaxW = n.estimate != null ? NODE_W - 64 : NODE_W;
     const owner = n.owner != null

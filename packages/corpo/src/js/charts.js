@@ -52,9 +52,8 @@ function seriesStyle(s) {
   return s.color ? ` style="--series-color:${esc(s.color)}"` : '';
 }
 
-function frame(root, variantClass) {
+function frame(root) {
   root.classList.add('cp-chart');
-  if (variantClass) root.classList.add(variantClass);
   root.innerHTML = `
     <div class="cp-chart__legend" hidden></div>
     <div class="cp-chart__plot">
@@ -155,7 +154,7 @@ function axesMarkup(ticks, yScale, xLabels, xAt, innerRight) {
 }
 
 function setupCommon(root, opts) {
-  const els = frame(root, opts.variantClass);
+  const els = frame(root);
   const state = {
     series: (opts.series || []).map((s) => ({ ...s, data: [...(s.data || [])] })),
     labels: [...(opts.labels || [])],
@@ -170,7 +169,7 @@ function setupCommon(root, opts) {
  * Crosshair + shared tooltip on hover; 2px lines; 8px hover markers.
  */
 export function CpLineChart(root, opts = {}) {
-  const { els, state } = setupCommon(root, { ...opts, variantClass: 'cp-chart--line' });
+  const { els, state } = setupCommon(root, opts);
   const { legend, plot, svg, tip } = els;
   let geom = null;
 
@@ -261,7 +260,7 @@ export function CpLineChart(root, opts = {}) {
     destroy() {
       ro.disconnect();
       root.innerHTML = '';
-      root.classList.remove('cp-chart', 'cp-chart--line');
+      root.classList.remove('cp-chart');
     },
   };
 }
@@ -273,7 +272,7 @@ export function CpLineChart(root, opts = {}) {
  * between adjacent bars and between stacked fills, per-segment tooltip.
  */
 export function CpBarChart(root, opts = {}) {
-  const { els, state } = setupCommon(root, { ...opts, variantClass: 'cp-chart--bar' });
+  const { els, state } = setupCommon(root, opts);
   state.stacked = Boolean(opts.stacked);
   const { legend, plot, svg, tip } = els;
 
@@ -414,7 +413,7 @@ export function CpBarChart(root, opts = {}) {
     destroy() {
       ro.disconnect();
       root.innerHTML = '';
-      root.classList.remove('cp-chart', 'cp-chart--bar');
+      root.classList.remove('cp-chart');
     },
   };
 }
@@ -427,7 +426,7 @@ export function CpBarChart(root, opts = {}) {
  * tail into an "Other" entry.
  */
 export function CpDonutChart(root, opts = {}) {
-  const els = frame(root, 'cp-chart--donut');
+  const els = frame(root);
   const { legend, plot, svg, tip } = els;
   const state = {
     data: (opts.data || []).map((d) => ({ ...d })),
@@ -519,7 +518,7 @@ export function CpDonutChart(root, opts = {}) {
     destroy() {
       ro.disconnect();
       root.innerHTML = '';
-      root.classList.remove('cp-chart', 'cp-chart--donut');
+      root.classList.remove('cp-chart');
     },
   };
 }

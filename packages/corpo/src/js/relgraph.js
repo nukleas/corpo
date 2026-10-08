@@ -150,7 +150,7 @@ function ellipsize(ctx, text, maxW) {
 }
 
 export function CpRelGraph(root, opts = {}) {
-  const instanceId = `cp-relgraph-${++instanceCounter}`;
+  const instanceId = `cp-relgraph-${++instanceCounter}`; // contract-ignore: element id, not a class
   root.classList.add('cp-relgraph');
 
   const canvas = document.createElement('canvas');
