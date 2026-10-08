@@ -276,7 +276,7 @@
 
 .cp-tier--professional {
   --tier-color: var(--corpo-purple);
-  --tier-fill: rgba(103, 66, 201, 0.08);
+  --tier-fill: var(--corpo-purple-subtle);
 }
 
 .cp-tier--enterprise {

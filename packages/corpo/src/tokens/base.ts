@@ -23,4 +23,6 @@ export const palette = {
   redSubtle: 'rgba(191, 36, 67, 0.08)',
   amberSubtle: 'rgba(143, 95, 0, 0.08)',
   blueSubtle: 'rgba(39, 88, 192, 0.08)',
+  purpleSubtle: 'rgba(103, 66, 201, 0.08)',
+  magentaSubtle: 'rgba(173, 26, 125, 0.08)',
 } satisfies Record<string, string>;

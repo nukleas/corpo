@@ -27,5 +27,5 @@
 .cp-badge--red { color: var(--corpo-red); background: var(--corpo-red-subtle); border-color: var(--corpo-red); }
 .cp-badge--amber { color: var(--corpo-amber); background: var(--corpo-amber-subtle); border-color: var(--corpo-amber); }
 .cp-badge--blue { color: var(--corpo-blue); background: var(--corpo-blue-subtle); border-color: var(--corpo-blue); }
-.cp-badge--magenta { color: var(--corpo-magenta); background: rgba(173, 26, 125, 0.08); border-color: var(--corpo-magenta); }
-.cp-badge--purple { color: var(--corpo-purple); background: rgba(103, 66, 201, 0.08); border-color: var(--corpo-purple); }
+.cp-badge--magenta { color: var(--corpo-magenta); background: var(--corpo-magenta-subtle); border-color: var(--corpo-magenta); }
+.cp-badge--purple { color: var(--corpo-purple); background: var(--corpo-purple-subtle); border-color: var(--corpo-purple); }

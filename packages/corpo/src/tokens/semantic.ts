@@ -43,6 +43,8 @@ export const semanticTokens = {
   'red-subtle': palette.redSubtle,
   'amber-subtle': palette.amberSubtle,
   'blue-subtle': palette.blueSubtle,
+  'purple-subtle': palette.purpleSubtle,
+  'magenta-subtle': palette.magentaSubtle,
 
   // categorical chart series — fixed assignment order, never cycled; >5 series
   // fold into "Other". CVD-validated (six-check palette validator) on white;
@@ -92,6 +94,10 @@ export const semanticTokens = {
   'shadow-sm': '0 1px 2px rgba(16, 22, 35, 0.06)',
   'shadow-md': '0 2px 8px rgba(16, 22, 35, 0.08), 0 1px 2px rgba(16, 22, 35, 0.06)',
   'shadow-lg': '0 8px 28px rgba(16, 22, 35, 0.14), 0 2px 8px rgba(16, 22, 35, 0.08)',
+  // ink for drop-shadow() filters, which take one color, not a shadow list
+  'shadow-color': 'rgba(16, 22, 35, 0.18)',
+  // scrim behind modals and sheets
+  'overlay': 'rgba(16, 22, 35, 0.4)',
 
   // motion — 120-150ms color/border/background transitions, no glitch/flicker
   'ease': 'cubic-bezier(0.2, 0, 0.2, 1)',
