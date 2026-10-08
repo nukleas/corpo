@@ -53,20 +53,24 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
       return next;
     });
 
+  // Totals and balances are computed up front so rendering stays a pure map.
   let running = opening ?? 0;
   let totalDr = 0;
   let totalCr = 0;
-
-  const rows = entries.map((entry, i) => {
+  const balances: number[] = [];
+  for (const entry of entries) {
     const dr = amountValue(entry.debit) ?? 0;
     const cr = amountValue(entry.credit) ?? 0;
     totalDr = roundCents(totalDr + dr);
     totalCr = roundCents(totalCr + cr);
     running = amountValue(entry.balance) ?? roundCents(running + dr - cr);
+    balances.push(running);
+  }
+
+  const rows = entries.map((entry, i) => {
     const hasSplits = (entry.splits?.length ?? 0) > 0;
     const open = hasSplits && openSplits.has(i);
     return (
-      // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
       <Fragment key={i}>
         <tr>
           <td data-mono="true">{entry.date}</td>
@@ -88,12 +92,11 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
           <td data-numeric="true">{Amount.create(entry.debit)}</td>
           <td data-numeric="true">{Amount.create(entry.credit)}</td>
           <td data-numeric="true" className="cp-ledger__balance">
-            {Amount.create(entry.balance ?? running, { defaultProps: { negative: 'red' } })}
+            {Amount.create(entry.balance ?? balances[i], { defaultProps: { negative: 'red' } })}
           </td>
         </tr>
         {open &&
           entry.splits?.map((split, si) => (
-            // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
             <tr key={`${i}:${si}`} className="cp-ledger__row--split">
               <td />
               <td>{split.memo}</td>
@@ -108,10 +111,7 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
   });
 
   return (
-    <div
-      className={cn('cp-table', 'cp-table--compact', 'cp-ledger', bar && 'cp-ledger--bar', className)}
-      {...rest}
-    >
+    <div className={cn('cp-table', 'cp-table--compact', 'cp-ledger', bar && 'cp-ledger--bar', className)} {...rest}>
       <table className="cp-table__table">
         <thead>
           <tr>

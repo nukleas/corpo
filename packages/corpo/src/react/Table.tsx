@@ -56,10 +56,13 @@ export function Table({
     // SAFETY: cell-shorthand boundary parser — nil/boolean and element cases
     // are excluded first, so a remaining object is by contract a props object.
     const props: TableCellProps =
-      raw == null ? {}
-        : isValidElement(raw) ? { content: raw }
+      raw == null
+        ? {}
+        : isValidElement(raw)
+          ? { content: raw }
           : // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)
-            typeof raw === 'object' ? (raw as TableCellProps)
+            typeof raw === 'object'
+            ? (raw as TableCellProps)
             : { content: raw };
     const numeric = props.numeric ?? col.numeric;
     const mono = props.mono ?? col.mono;

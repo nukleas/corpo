@@ -19,7 +19,11 @@ const DEPARTMENTS: Department[] = [
   {
     id: 'it',
     label: 'Tech handoff',
-    items: ['Company laptop returned (thanks for taking care of it!)', 'Badge access wrapped up', 'VPN access closed out'],
+    items: [
+      'Company laptop returned (thanks for taking care of it!)',
+      'Badge access wrapped up',
+      'VPN access closed out',
+    ],
   },
   {
     id: 'facilities',
@@ -54,8 +58,7 @@ export function DecommissioningFlow() {
     setChecked((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const countForDept = (dept: Department) =>
-    dept.items.filter((_, i) => checked[`${dept.id}-${i}`]).length;
+  const countForDept = (dept: Department) => dept.items.filter((_, i) => checked[`${dept.id}-${i}`]).length;
 
   return (
     <FlowShell
@@ -92,14 +95,7 @@ export function DecommissioningFlow() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 8 }}>
                     {dept.items.map((item, i) => {
                       const key = `${dept.id}-${i}`;
-                      return (
-                        <Checkbox
-                          key={key}
-                          label={item}
-                          checked={!!checked[key]}
-                          onChange={() => toggle(key)}
-                        />
-                      );
+                      return <Checkbox key={key} label={item} checked={!!checked[key]} onChange={() => toggle(key)} />;
                     })}
                   </div>
                 </Collapsible>
@@ -123,8 +119,8 @@ export function DecommissioningFlow() {
               fontSize: 'var(--corpo-text-sm)',
             }}
           >
-            Thanks for everything. Your final pay will process per your agreement, and we've
-            loved having you as part of the Halcyon family. Reversing this needs Director sign-off.
+            Thanks for everything. Your final pay will process per your agreement, and we've loved having you as part of
+            the Halcyon family. Reversing this needs Director sign-off.
           </p>
         </Card>
       )}
@@ -141,8 +137,8 @@ export function DecommissioningFlow() {
           setToastOpen(true);
         }}
       >
-        This wraps everything up and ends your access right away. We wish you all the best,
-        truly — but heads up, this can't be undone.
+        This wraps everything up and ends your access right away. We wish you all the best, truly — but heads up, this
+        can't be undone.
       </AlertDialog>
 
       {toastOpen && (

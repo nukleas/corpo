@@ -9,13 +9,7 @@ import { cn } from './cn';
  * - ReactElement — cloned with the merged props
  * - `null | undefined | boolean` — renders nothing
  */
-export type Shorthand<P, V = string | number> =
-  | V
-  | Partial<P>
-  | ReactElement<Partial<P>>
-  | null
-  | undefined
-  | boolean;
+export type Shorthand<P, V = string | number> = V | Partial<P> | ReactElement<Partial<P>> | null | undefined | boolean;
 
 export interface ShorthandOptions<P> {
   /** Base props; the shorthand value's own props win over these. */
@@ -46,7 +40,6 @@ export function createShorthandFactory<P extends { className?: string }, V = str
     // `<Parent.Item>` whose props are the item's props; nil/boolean and
     // elements excluded, a remaining object is a partial props object; and
     // the only shorthand left after that is the primitive form V.
-    // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)
     const usersProps: Partial<P> = isValidElement(value)
       ? (value.props as Partial<P>)
       : // oxlint-disable-next-line anti-slop/no-runtime-typeof -- boundary shape classification (see above)

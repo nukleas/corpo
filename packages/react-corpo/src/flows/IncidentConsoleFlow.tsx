@@ -202,11 +202,7 @@ export function IncidentConsoleFlow() {
           selected && (
             <div style={{ display: 'flex', gap: 8 }}>
               <Button onClick={() => setSelectedId(null)}>Loop in leadership</Button>
-              <Button
-                variant="primary"
-                disabled={selected.status === 'resolved'}
-                onClick={() => setResolveOpen(true)}
-              >
+              <Button variant="primary" disabled={selected.status === 'resolved'} onClick={() => setResolveOpen(true)}>
                 {selected.status === 'resolved' ? 'All wrapped up' : 'Mark resolved'}
               </Button>
             </div>
@@ -222,9 +218,7 @@ export function IncidentConsoleFlow() {
                 <StatusPill tone={selected.severityStatus}>{selected.severity}</StatusPill>
               </div>
             </div>
-            <p style={{ fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-secondary)' }}>
-              {selected.title}
-            </p>
+            <p style={{ fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-secondary)' }}>{selected.title}</p>
             <div>
               <div className="corpo-label" style={{ marginBottom: 8 }}>
                 Timeline
@@ -240,10 +234,7 @@ export function IncidentConsoleFlow() {
                 }}
               >
                 {selected.timeline.map((entry, i) => (
-                  <li
-                    key={i}
-                    style={{ fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-secondary)' }}
-                  >
+                  <li key={i} style={{ fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-secondary)' }}>
                     <span
                       style={{
                         fontFamily: 'var(--corpo-font-mono)',
@@ -278,9 +269,8 @@ export function IncidentConsoleFlow() {
           setToastOpen(true);
         }}
       >
-        Marking {selected?.id} resolved lets everyone breathe easy again. Compliance gets a
-        friendly heads-up, and reopening it after this needs a Director — just to keep things
-        smooth.
+        Marking {selected?.id} resolved lets everyone breathe easy again. Compliance gets a friendly heads-up, and
+        reopening it after this needs a Director — just to keep things smooth.
       </AlertDialog>
 
       <Modal open={commandOpen} onClose={() => setCommandOpen(false)} title="Quick actions">
@@ -290,7 +280,11 @@ export function IncidentConsoleFlow() {
               id: 'actions',
               label: 'Actions',
               items: [
-                { id: 'escalate-all', label: 'Loop in leadership on all urgent items', onSelect: () => setCommandOpen(false) },
+                {
+                  id: 'escalate-all',
+                  label: 'Loop in leadership on all urgent items',
+                  onSelect: () => setCommandOpen(false),
+                },
                 { id: 'export', label: 'Share a report with the team', onSelect: () => setCommandOpen(false) },
                 { id: 'notify', label: 'Give Compliance a heads-up', onSelect: () => setCommandOpen(false) },
               ],
@@ -298,9 +292,7 @@ export function IncidentConsoleFlow() {
             {
               id: 'nav',
               label: 'Navigate',
-              items: [
-                { id: 'exec', label: 'Jump to the quarterly briefing', onSelect: () => setCommandOpen(false) },
-              ],
+              items: [{ id: 'exec', label: 'Jump to the quarterly briefing', onSelect: () => setCommandOpen(false) }],
             },
           ]}
         />

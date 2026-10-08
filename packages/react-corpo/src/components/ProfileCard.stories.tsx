@@ -32,8 +32,8 @@ const profileChildren = (
       <Chip>Incident response</Chip>
     </ProfileCard.Skills>
     <ProfileCard.Bio>
-      Leads the invoice pipeline rebuild. Previously scaled the ledger service through two
-      provider migrations; mentors two engineers on the team.
+      Leads the invoice pipeline rebuild. Previously scaled the ledger service through two provider migrations; mentors
+      two engineers on the team.
     </ProfileCard.Bio>
   </>
 );

@@ -16,7 +16,11 @@ export const Default: Story = {
     title: 'Renewal',
     description: 'Card ending 4421 was declined.',
     children: 'We will retry the charge in 3 days. Update payment details to avoid a lapse in service.',
-    footer: <Button variant="primary" size="sm">Update card</Button>,
+    footer: (
+      <Button variant="primary" size="sm">
+        Update card
+      </Button>
+    ),
   },
 };
 export const Flat: Story = { args: { ...Default.args, flat: true } };

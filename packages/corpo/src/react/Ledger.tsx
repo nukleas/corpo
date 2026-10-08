@@ -42,9 +42,17 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
       return next;
     });
 
+  // Totals and balances are computed up front so rendering stays a pure map.
   let running = opening ?? 0;
   let totalDr = 0;
   let totalCr = 0;
+  const balances: number[] = [];
+  for (const entry of entries) {
+    totalDr = roundCents(totalDr + (entry.debit ?? 0));
+    totalCr = roundCents(totalCr + (entry.credit ?? 0));
+    running = entry.balance ?? roundCents(running + (entry.debit ?? 0) - (entry.credit ?? 0));
+    balances.push(running);
+  }
 
   const balanceCell = (value: number) => (
     <td data-numeric="true" className="cp-ledger__balance">
@@ -80,9 +88,6 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
             </tr>
           )}
           {entries.map((entry, i) => {
-            totalDr = roundCents(totalDr + (entry.debit ?? 0));
-            totalCr = roundCents(totalCr + (entry.credit ?? 0));
-            running = entry.balance ?? roundCents(running + (entry.debit ?? 0) - (entry.credit ?? 0));
             const hasSplits = (entry.splits?.length ?? 0) > 0;
             const open = hasSplits && openSplits.has(i);
             return (
@@ -106,7 +111,7 @@ export function Ledger({ entries, opening, bar = false, totals = true, className
                   <td data-mono="true">{entry.ref}</td>
                   {amountCell(entry.debit)}
                   {amountCell(entry.credit)}
-                  {balanceCell(running)}
+                  {balanceCell(balances[i])}
                 </tr>
                 {open &&
                   entry.splits?.map((split, si) => (

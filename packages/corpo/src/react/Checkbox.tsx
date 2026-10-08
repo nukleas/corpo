@@ -8,7 +8,14 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function Checkbox({ label, description, className = '', disabled, ...rest }: CheckboxProps) {
   return (
-    <label className={cx('cp-checkbox', !!description && 'cp-checkbox--has-description', disabled && 'cp-checkbox--disabled', className)}>
+    <label
+      className={cx(
+        'cp-checkbox',
+        !!description && 'cp-checkbox--has-description',
+        disabled && 'cp-checkbox--disabled',
+        className,
+      )}
+    >
       <input type="checkbox" className="cp-checkbox__input" disabled={disabled} {...rest} />
       <span className="cp-checkbox__box" aria-hidden="true" />
       {label && (

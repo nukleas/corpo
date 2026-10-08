@@ -1,0 +1,26 @@
+{
+  "extends": ["stylelint-config-recommended"],
+  "ignoreFiles": ["**/dist/**", "**/node_modules/**", "**/storybook-static/**", "_*/**", ".claude/**"],
+  "rules": {
+    "selector-class-pattern": [
+      "^(cp-[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?|is-[a-z]+(-[a-z]+)*|corpo-[a-z]+(-[a-z]+)*(--[a-z]+)?|theme-[a-z]+)$",
+      {
+        "message": "Classes are cp-block__element--modifier, is-* state, corpo-* utility, or theme-*"
+      }
+    ],
+    "custom-property-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      {
+        "message": "Custom properties are kebab-case (--corpo-* for tokens)"
+      }
+    ],
+    "color-no-hex": true,
+    "function-disallowed-list": [
+      ["rgb", "rgba", "hsl", "hsla"],
+      {
+        "message": "Colors come from --corpo-* tokens"
+      }
+    ],
+    "no-descending-specificity": null
+  }
+}

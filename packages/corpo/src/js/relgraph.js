@@ -36,9 +36,17 @@ const MINI_PAD = 6;
 let instanceCounter = 0;
 
 function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g, (ch) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-  }[ch]));
+  return String(s ?? '').replace(
+    /[&<>"']/g,
+    (ch) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[ch],
+  );
 }
 
 /** Resolve the tokens the canvas needs; canvas can't use var() directly. */
@@ -106,7 +114,7 @@ function buildGrid(nodes, cell) {
           }
         }
       }
-      out.sort((a, b) => ((a.x - x) ** 2 + (a.y - y) ** 2) - ((b.x - x) ** 2 + (b.y - y) ** 2));
+      out.sort((a, b) => (a.x - x) ** 2 + (a.y - y) ** 2 - ((b.x - x) ** 2 + (b.y - y) ** 2));
       return out;
     },
   };
@@ -123,7 +131,9 @@ function packGutter(items, height, labelH, pad, gap) {
   const need = items.length * labelH + Math.max(0, items.length - 1) * gap;
   if (need > room) {
     const span = room / items.length;
-    items.forEach((it, i) => { it.ly = pad + i * span; });
+    items.forEach((it, i) => {
+      it.ly = pad + i * span;
+    });
     return;
   }
   let y = pad;
@@ -137,7 +147,9 @@ function packGutter(items, height, labelH, pad, gap) {
     for (const it of items) it.ly -= shift;
     if (items[0].ly < pad) {
       const span = room / items.length;
-      items.forEach((it, i) => { it.ly = pad + i * span; });
+      items.forEach((it, i) => {
+        it.ly = pad + i * span;
+      });
     }
   }
 }
@@ -150,7 +162,7 @@ function ellipsize(ctx, text, maxW) {
 }
 
 export function CpRelGraph(root, opts = {}) {
-  const instanceId = `cp-relgraph-${++instanceCounter}`;
+  const instanceId = `cp-relgraph-${++instanceCounter}`; // contract-ignore: element id, not a class
   root.classList.add('cp-relgraph');
 
   const canvas = document.createElement('canvas');
@@ -441,7 +453,10 @@ export function CpRelGraph(root, opts = {}) {
   }
 
   function boundsOf(pool) {
-    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    let x0 = Infinity,
+      y0 = Infinity,
+      x1 = -Infinity,
+      y1 = -Infinity;
     for (const n of pool) {
       if (n.x - n.r < x0) x0 = n.x - n.r;
       if (n.y - n.r < y0) y0 = n.y - n.r;
@@ -695,8 +710,20 @@ export function CpRelGraph(root, opts = {}) {
       });
     }
     const rightH = minimapOn ? Math.max(80, height - MINI_H - 16) : height;
-    packGutter(pins.filter((p) => p.side === 'left'), height, GUTTER_H, GUTTER_PAD, GUTTER_GAP);
-    packGutter(pins.filter((p) => p.side === 'right'), rightH, GUTTER_H, GUTTER_PAD, GUTTER_GAP);
+    packGutter(
+      pins.filter((p) => p.side === 'left'),
+      height,
+      GUTTER_H,
+      GUTTER_PAD,
+      GUTTER_GAP,
+    );
+    packGutter(
+      pins.filter((p) => p.side === 'right'),
+      rightH,
+      GUTTER_H,
+      GUTTER_PAD,
+      GUTTER_GAP,
+    );
 
     ctx.font = `500 11px ${theme.fontSans}`;
     ctx.textBaseline = 'middle';
@@ -709,9 +736,7 @@ export function CpRelGraph(root, opts = {}) {
         const lx = it.side === 'left' ? GUTTER_PAD : width - GUTTER_PAD - GUTTER_W;
         const y = it.ly + GUTTER_H / 2;
         const x0 = it.side === 'left' ? lx + GUTTER_W : lx;
-        const elbow = it.side === 'left'
-          ? Math.min(it.tx - 12, x0 + 18)
-          : Math.max(it.tx + 12, x0 - 18);
+        const elbow = it.side === 'left' ? Math.min(it.tx - 12, x0 + 18) : Math.max(it.tx + 12, x0 - 18);
         ctx.moveTo(x0, y);
         ctx.lineTo(elbow, y);
         ctx.lineTo(elbow, it.ty);
@@ -808,7 +833,9 @@ export function CpRelGraph(root, opts = {}) {
     if (primary) {
       const rec = byId.get(primary);
       const extra = selected.size > 1 ? ` and ${selected.size - 1} more` : '';
-      announce(`Selected ${rec.node.label ?? rec.node.id}${extra} — ${rec.degree} connection${rec.degree === 1 ? '' : 's'}`);
+      announce(
+        `Selected ${rec.node.label ?? rec.node.id}${extra} — ${rec.degree} connection${rec.degree === 1 ? '' : 's'}`,
+      );
     } else {
       announce('Selection cleared');
     }
@@ -878,7 +905,9 @@ export function CpRelGraph(root, opts = {}) {
   }
 
   function find(query) {
-    const q = String(query ?? '').trim().toLowerCase();
+    const q = String(query ?? '')
+      .trim()
+      .toLowerCase();
     if (!q) return [];
     const out = [];
     for (const n of shown) {
@@ -1063,25 +1092,55 @@ export function CpRelGraph(root, opts = {}) {
   function onKeyDown(ev) {
     const pan = 40;
     switch (ev.key) {
-      case 'ArrowLeft': tx += pan; break;
-      case 'ArrowRight': tx -= pan; break;
-      case 'ArrowUp': ty += pan; break;
-      case 'ArrowDown': ty -= pan; break;
+      case 'ArrowLeft':
+        tx += pan;
+        break;
+      case 'ArrowRight':
+        tx -= pan;
+        break;
+      case 'ArrowUp':
+        ty += pan;
+        break;
+      case 'ArrowDown':
+        ty -= pan;
+        break;
       case '+':
-      case '=': zoomAt(width / 2, height / 2, 1.25); return;
-      case '-': zoomAt(width / 2, height / 2, 0.8); return;
-      case '0': userCam = false; fit(); return;
-      case ']': cycleMatch(1); return;
-      case '[': cycleMatch(-1); return;
+      case '=':
+        zoomAt(width / 2, height / 2, 1.25);
+        return;
+      case '-':
+        zoomAt(width / 2, height / 2, 0.8);
+        return;
+      case '0':
+        userCam = false;
+        fit();
+        return;
+      case ']':
+        cycleMatch(1);
+        return;
+      case '[':
+        cycleMatch(-1);
+        return;
       case 'Enter':
         if (primary) setScope(primary);
         return;
       case 'Escape':
-        if (selected.size) { select(null); return; }
-        if (matches.size) { clearSearch(); announce('Search cleared'); return; }
-        if (scopeId) { setScope(null); return; }
+        if (selected.size) {
+          select(null);
+          return;
+        }
+        if (matches.size) {
+          clearSearch();
+          announce('Search cleared');
+          return;
+        }
+        if (scopeId) {
+          setScope(null);
+          return;
+        }
         return;
-      default: return;
+      default:
+        return;
     }
     ev.preventDefault();
     userCam = true;
@@ -1114,7 +1173,9 @@ export function CpRelGraph(root, opts = {}) {
   canvas.addEventListener('pointerdown', onPointerDown);
   canvas.addEventListener('pointermove', onPointerMove);
   canvas.addEventListener('pointerup', onPointerUp);
-  canvas.addEventListener('pointerleave', () => { if (!press) setHover(null); });
+  canvas.addEventListener('pointerleave', () => {
+    if (!press) setHover(null);
+  });
   canvas.addEventListener('wheel', onWheel, { passive: false });
   canvas.addEventListener('dblclick', onDblClick);
   canvas.addEventListener('keydown', onKeyDown);

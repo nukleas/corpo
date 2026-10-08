@@ -37,24 +37,14 @@ export interface SideNavProps extends Omit<HTMLAttributes<HTMLElement>, 'onSelec
  * pinned footer. Items render as buttons, or as real links via `href` or the
  * `as` + `linkProps` pattern (router links).
  */
-export function SideNav({
-  brand,
-  sections,
-  activeId,
-  onSelect,
-  footer,
-  className,
-  ...rest
-}: SideNavProps) {
+export function SideNav({ brand, sections, activeId, onSelect, footer, className, ...rest }: SideNavProps) {
   return (
     <nav className={cn('cp-sidenav', className)} {...rest}>
       {brand != null && <div className="cp-sidenav__brand">{brand}</div>}
       <div className="cp-sidenav__sections">
         {sections.map((section, si) => (
           <div key={si} className="cp-sidenav__section">
-            {section.title != null && (
-              <div className="cp-sidenav__section-title">{section.title}</div>
-            )}
+            {section.title != null && <div className="cp-sidenav__section-title">{section.title}</div>}
             {section.items.map((item) => {
               const isLink = Boolean(item.as || item.href);
               const ItemComponent: ElementType = item.as ?? (isLink ? 'a' : 'button');

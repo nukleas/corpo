@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(16, 22, 35, 0.4);
+  background: var(--corpo-overlay);
 }
 
 .cp-modal {
@@ -48,7 +48,9 @@
   padding: 2px;
   color: var(--corpo-text-muted);
 }
-.cp-modal__close:hover { color: var(--corpo-text); }
+.cp-modal__close:hover {
+  color: var(--corpo-text);
+}
 
 .cp-modal__body {
   padding: 16px 18px;

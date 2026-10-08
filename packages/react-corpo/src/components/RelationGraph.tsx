@@ -103,7 +103,9 @@ export function RelationGraph({
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<RelGraphApi | null>(null);
   const handlers = useRef({ onSelect, onSelectIds, onHover, onLayoutEnd, onScope, onDrag });
-  handlers.current = { onSelect, onSelectIds, onHover, onLayoutEnd, onScope, onDrag };
+  useEffect(() => {
+    handlers.current = { onSelect, onSelectIds, onHover, onLayoutEnd, onScope, onDrag };
+  });
   const mounted = useRef(false);
   const queryReady = useRef(false);
   const theme = useTheme();
@@ -134,7 +136,7 @@ export function RelationGraph({
       api.destroy();
       apiRef.current = null;
     };
-    // The engine is created once; model updates flow through replaceModel below.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- the engine is created once; model updates flow through replaceModel below
   }, []);
 
   useEffect(() => {
@@ -171,6 +173,7 @@ export function RelationGraph({
   const groupsKey = (filters?.groups ?? []).join('\0');
   useEffect(() => {
     if (mounted.current) apiRef.current?.setFilters(filters ?? {});
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- keyed on filter contents so a fresh-but-equal object doesn't re-filter
   }, [kindsKey, groupsKey]);
 
   useEffect(() => {

@@ -33,13 +33,23 @@ export function Calendar({ value, defaultMonth, onChange, isDisabled }: Calendar
   return (
     <div className="cp-calendar">
       <div className="cp-calendar__header">
-        <button type="button" className="cp-calendar__nav" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} aria-label="Previous month">
+        <button
+          type="button"
+          className="cp-calendar__nav"
+          onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))}
+          aria-label="Previous month"
+        >
           ‹
         </button>
         <span className="cp-calendar__label">
           {month.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
         </span>
-        <button type="button" className="cp-calendar__nav" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))} aria-label="Next month">
+        <button
+          type="button"
+          className="cp-calendar__nav"
+          onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))}
+          aria-label="Next month"
+        >
           ›
         </button>
       </div>
@@ -59,7 +69,12 @@ export function Calendar({ value, defaultMonth, onChange, isDisabled }: Calendar
               key={d.toISOString()}
               type="button"
               disabled={disabled}
-              className={cx('cp-calendar__day', outside && 'cp-calendar__day--outside', isToday && 'cp-calendar__day--today', selected && 'cp-calendar__day--selected')}
+              className={cx(
+                'cp-calendar__day',
+                outside && 'cp-calendar__day--outside',
+                isToday && 'cp-calendar__day--today',
+                selected && 'cp-calendar__day--selected',
+              )}
               onClick={() => onChange?.(d)}
             >
               {d.getDate()}

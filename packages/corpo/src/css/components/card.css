@@ -7,7 +7,9 @@
   box-shadow: var(--corpo-shadow-sm);
   color: var(--corpo-text);
 }
-.cp-card--flat { box-shadow: none; }
+.cp-card--flat {
+  box-shadow: none;
+}
 
 .cp-card__header {
   display: flex;
@@ -17,7 +19,11 @@
   padding: 14px 16px 10px;
   border-bottom: 1px solid var(--corpo-border-dim);
 }
-.cp-card__heading { display: flex; flex-direction: column; gap: 4px; }
+.cp-card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 .cp-card__title {
   margin: 0;
   font-family: var(--corpo-font-mono);
@@ -33,7 +39,10 @@
   color: var(--corpo-text-muted);
   line-height: 1.5;
 }
-.cp-card__body { padding: 14px 16px; flex: 1; }
+.cp-card__body {
+  padding: 14px 16px;
+  flex: 1;
+}
 .cp-card__footer {
   display: flex;
   align-items: center;

@@ -23,21 +23,86 @@ const meta = {
 export default meta;
 
 const INITIAL_NODES: DepGraphNode[] = [
-  { id: 'vendor-eval', label: 'Vendor evaluation', state: 'done', owner: 'Priya N.', estimate: '3 wk', desc: 'Shortlist and score replacement billing providers.' },
+  {
+    id: 'vendor-eval',
+    label: 'Vendor evaluation',
+    state: 'done',
+    owner: 'Priya N.',
+    estimate: '3 wk',
+    desc: 'Shortlist and score replacement billing providers.',
+  },
   { id: 'data-audit', label: 'Data audit', state: 'done', owner: 'Marcus T.', estimate: '2 wk' },
-  { id: 'contract', label: 'Contract signed', state: 'done', dependsOn: ['vendor-eval'], owner: 'Priya N.', estimate: '1 wk' },
-  { id: 'schema-mapping', label: 'Schema mapping', state: 'in-progress', dependsOn: ['data-audit'], owner: 'Ana S.', estimate: '4 wk', desc: 'Field-level mapping from the legacy ledger to the new provider model.' },
-  { id: 'invoice-cutover', label: 'Invoice cutover plan', state: 'ready', dependsOn: ['contract'], owner: 'Marcus T.', estimate: '2 wk' },
-  { id: 'pilot-migration', label: 'Pilot migration', state: 'blocked', dependsOn: ['schema-mapping', 'invoice-cutover'], owner: 'Ana S.', estimate: '3 wk' },
-  { id: 'reporting-rebuild', label: 'Reporting rebuild', state: 'blocked', dependsOn: ['schema-mapping'], owner: 'Devon K.', estimate: '6 wk' },
-  { id: 'full-rollout', label: 'Full rollout', state: 'blocked', dependsOn: ['pilot-migration', 'reporting-rebuild'], owner: 'Priya N.', estimate: '4 wk' },
+  {
+    id: 'contract',
+    label: 'Contract signed',
+    state: 'done',
+    dependsOn: ['vendor-eval'],
+    owner: 'Priya N.',
+    estimate: '1 wk',
+  },
+  {
+    id: 'schema-mapping',
+    label: 'Schema mapping',
+    state: 'in-progress',
+    dependsOn: ['data-audit'],
+    owner: 'Ana S.',
+    estimate: '4 wk',
+    desc: 'Field-level mapping from the legacy ledger to the new provider model.',
+  },
+  {
+    id: 'invoice-cutover',
+    label: 'Invoice cutover plan',
+    state: 'ready',
+    dependsOn: ['contract'],
+    owner: 'Marcus T.',
+    estimate: '2 wk',
+  },
+  {
+    id: 'pilot-migration',
+    label: 'Pilot migration',
+    state: 'blocked',
+    dependsOn: ['schema-mapping', 'invoice-cutover'],
+    owner: 'Ana S.',
+    estimate: '3 wk',
+  },
+  {
+    id: 'reporting-rebuild',
+    label: 'Reporting rebuild',
+    state: 'blocked',
+    dependsOn: ['schema-mapping'],
+    owner: 'Devon K.',
+    estimate: '6 wk',
+  },
+  {
+    id: 'full-rollout',
+    label: 'Full rollout',
+    state: 'blocked',
+    dependsOn: ['pilot-migration', 'reporting-rebuild'],
+    owner: 'Priya N.',
+    estimate: '4 wk',
+  },
 ];
 
 const OWNERS = {
-  'Priya N.': { initials: 'PN', role: 'Program manager', team: 'Platform PMO', skills: ['Vendor management', 'Rollout planning'] },
+  'Priya N.': {
+    initials: 'PN',
+    role: 'Program manager',
+    team: 'Platform PMO',
+    skills: ['Vendor management', 'Rollout planning'],
+  },
   'Marcus T.': { initials: 'MT', role: 'Data engineer', team: 'Billing platform', skills: ['ETL', 'Reconciliation'] },
-  'Ana S.': { initials: 'AS', role: 'Staff engineer', team: 'Payments platform', skills: ['Kotlin', 'Postgres', 'Payments'] },
-  'Devon K.': { initials: 'DK', role: 'Analytics engineer', team: 'Business intelligence', skills: ['dbt', 'Reporting'] },
+  'Ana S.': {
+    initials: 'AS',
+    role: 'Staff engineer',
+    team: 'Payments platform',
+    skills: ['Kotlin', 'Postgres', 'Payments'],
+  },
+  'Devon K.': {
+    initials: 'DK',
+    role: 'Analytics engineer',
+    team: 'Business intelligence',
+    skills: ['dbt', 'Reporting'],
+  },
 } satisfies Record<string, { initials: string; role: string; team: string; skills: string[] }>;
 
 const ownerFor = (name: string) =>
@@ -45,17 +110,22 @@ const ownerFor = (name: string) =>
   name in OWNERS ? OWNERS[name as keyof typeof OWNERS] : null;
 
 const ACTIVITY = [
-  { title: 'Schema mapping at 60%', timestamp: 'Aug 20, 4:12 PM', description: 'Ledger accounts mapped; export feeds remain.', tone: 'warn' as const },
-  { title: 'Contract signed', timestamp: 'Aug 14, 11:02 AM', description: 'Three-year term with the new provider.', tone: 'ok' as const },
+  {
+    title: 'Schema mapping at 60%',
+    timestamp: 'Aug 20, 4:12 PM',
+    description: 'Ledger accounts mapped; export feeds remain.',
+    tone: 'warn' as const,
+  },
+  {
+    title: 'Contract signed',
+    timestamp: 'Aug 14, 11:02 AM',
+    description: 'Three-year term with the new provider.',
+    tone: 'ok' as const,
+  },
   { title: 'Data audit complete', timestamp: 'Aug 8, 3:40 PM', tone: 'ok' as const },
 ];
 
-const PHASES = [
-  { label: 'Plan' },
-  { label: 'Build' },
-  { label: 'Pilot' },
-  { label: 'Rollout' },
-];
+const PHASES = [{ label: 'Plan' }, { label: 'Build' }, { label: 'Pilot' }, { label: 'Rollout' }];
 
 function phaseFor(nodes: DepGraphNode[]): number {
   if (nodes.find((n) => n.id === 'full-rollout')?.state !== 'blocked') return 3;
@@ -84,7 +154,13 @@ function ProgramDeliveryExample() {
                 { id: 'sso', label: 'SSO consolidation' },
               ],
             },
-            { title: 'Workspace', items: [{ id: 'people', label: 'People' }, { id: 'reports', label: 'Reports' }] },
+            {
+              title: 'Workspace',
+              items: [
+                { id: 'people', label: 'People' },
+                { id: 'reports', label: 'Reports' },
+              ],
+            },
           ]}
           activeId="billing"
           onSelect={() => setNavOpen(false)}
@@ -110,20 +186,25 @@ function ProgramDeliveryExample() {
                 title="Milestone plan"
                 description="Click a milestone to see its owner; click a ready or in-progress milestone again to advance it."
               />
-              <div style={{ height: 360, border: '1px solid var(--corpo-border-dim)', borderRadius: 'var(--corpo-radius-lg)', overflow: 'hidden' }}>
+              <div
+                style={{
+                  height: 360,
+                  border: '1px solid var(--corpo-border-dim)',
+                  borderRadius: 'var(--corpo-radius-lg)',
+                  overflow: 'hidden',
+                }}
+              >
                 <DependencyGraph
                   nodes={nodes}
                   onSelect={(id) => setSelectedId(id)}
                   onAdvance={(id) => {
                     setNodes((prev) => {
                       const next = prev.map((n): DepGraphNode =>
-                        n.id === id
-                          ? { ...n, state: n.state === 'ready' ? 'in-progress' : 'done' }
-                          : n,
+                        n.id === id ? { ...n, state: n.state === 'ready' ? 'in-progress' : 'done' } : n,
                       );
                       return next.map((n) =>
-                        n.state === 'blocked'
-                          && (n.dependsOn ?? []).every((d) => next.find((x) => x.id === d)?.state === 'done')
+                        n.state === 'blocked' &&
+                        (n.dependsOn ?? []).every((d) => next.find((x) => x.id === d)?.state === 'done')
                           ? { ...n, state: 'ready' as const }
                           : n,
                       );
@@ -150,13 +231,17 @@ function ProgramDeliveryExample() {
                   <ProfileCard compact>
                     <ProfileCard.Portrait>
                       <Avatar size="lg" initials={owner.initials} status="online" />
-                      <StatusPill tone={selected.state === 'done' ? 'ok' : selected.state === 'blocked' ? 'idle' : 'warn'}>
+                      <StatusPill
+                        tone={selected.state === 'done' ? 'ok' : selected.state === 'blocked' ? 'idle' : 'warn'}
+                      >
                         {selected.label}
                       </StatusPill>
                     </ProfileCard.Portrait>
                     <ProfileCard.Identity name={selected.owner} role={owner.role} team={owner.team} />
                     <ProfileCard.Skills>
-                      {owner.skills.map((s) => <Chip key={s}>{s}</Chip>)}
+                      {owner.skills.map((s) => (
+                        <Chip key={s}>{s}</Chip>
+                      ))}
                     </ProfileCard.Skills>
                   </ProfileCard>
                 ) : (

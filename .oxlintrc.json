@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "jsx-a11y"],
   "ignorePatterns": [
     ".agents/**",
     ".claude/**",
@@ -11,9 +12,19 @@
     "tools/oxlint/anti-slop/**"
   ],
   "jsPlugins": [
-    { "name": "anti-slop", "specifier": "./tools/oxlint/anti-slop/index.ts" }
+    {
+      "name": "anti-slop",
+      "specifier": "./tools/oxlint/anti-slop/index.ts"
+    }
   ],
   "rules": {
+    // Corpo styles ARIA-role divs on purpose (role="dialog", "group", "separator", "progressbar"…);
+    // native-tag substitution is a design decision, not a lint fix.
+    "jsx-a11y/prefer-tag-over-role": "off",
+    // Flags empty layout cells (<td />) as unlabeled controls; real controls are covered by the axe run in test-storybook.
+    "jsx-a11y/control-has-associated-label": "off",
+    // Only DOM elements carry ARIA roles — ProfileCard.Identity's `role` prop is a job title.
+    "jsx-a11y/aria-role": ["error", { "ignoreNonDOM": true }],
     "anti-slop/no-chained-type-assertions": "error",
     "anti-slop/no-conditional-empty-object-spread": "error",
     "anti-slop/no-known-value-widening": "error",

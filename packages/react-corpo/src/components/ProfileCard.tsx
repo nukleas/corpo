@@ -26,21 +26,10 @@ export interface ProfileCardProps extends HTMLAttributes<HTMLDivElement> {
  * {@link ProfileCardCapacity}, {@link ProfileCardSkills},
  * and {@link ProfileCardBio}.
  */
-export function ProfileCard({
-  compact = false,
-  wide = false,
-  className = '',
-  children,
-  ...rest
-}: ProfileCardProps) {
+export function ProfileCard({ compact = false, wide = false, className = '', children, ...rest }: ProfileCardProps) {
   return (
     <div
-      className={cn(
-        'cp-profile',
-        compact && 'cp-profile--compact',
-        wide && 'cp-profile--wide',
-        className,
-      )}
+      className={cn('cp-profile', compact && 'cp-profile--compact', wide && 'cp-profile--wide', className)}
       {...rest}
     >
       {children}
@@ -54,11 +43,7 @@ export interface ProfileCardPortraitProps extends HTMLAttributes<HTMLDivElement>
 }
 
 /** Quiet inset portrait column. */
-export function ProfileCardPortrait({
-  className = '',
-  children,
-  ...rest
-}: ProfileCardPortraitProps) {
+export function ProfileCardPortrait({ className = '', children, ...rest }: ProfileCardPortraitProps) {
   return (
     <div className={cn('cp-profile__portrait', className)} {...rest}>
       {children}
@@ -66,8 +51,7 @@ export function ProfileCardPortrait({
   );
 }
 
-export interface ProfileCardIdentityProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'role'> {
+export interface ProfileCardIdentityProps extends Omit<HTMLAttributes<HTMLDivElement>, 'role'> {
   name: ReactNode;
   /** Role line, e.g. "Staff engineer". */
   role?: ReactNode;
@@ -76,14 +60,7 @@ export interface ProfileCardIdentityProps
 }
 
 /** Name, role, and team. */
-export function ProfileCardIdentity({
-  name,
-  role,
-  team,
-  className = '',
-  children,
-  ...rest
-}: ProfileCardIdentityProps) {
+export function ProfileCardIdentity({ name, role, team, className = '', children, ...rest }: ProfileCardIdentityProps) {
   return (
     <div className={cn('cp-profile__identity', className)} {...rest}>
       <div className="cp-profile__name">{name}</div>
@@ -94,31 +71,19 @@ export function ProfileCardIdentity({
   );
 }
 
-export interface ProfileCardCapacityProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface ProfileCardCapacityProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   rows: ProfileCapacityRow[];
   /** Section heading. Defaults to "Capacity". */
   title?: ReactNode;
 }
 
 /** Capacity/utilization block — labeled {@link Progress} rows. */
-export function ProfileCardCapacity({
-  rows,
-  title = 'Capacity',
-  className = '',
-  ...rest
-}: ProfileCardCapacityProps) {
+export function ProfileCardCapacity({ rows, title = 'Capacity', className = '', ...rest }: ProfileCardCapacityProps) {
   return (
     <div className={cn('cp-profile__capacity', className)} {...rest}>
       {title != null && <div className="cp-profile__section-title">{title}</div>}
       {rows.map((row) => (
-        <Progress
-          key={row.label}
-          label={row.label}
-          value={row.value}
-          max={row.max ?? 100}
-          tone={row.tone}
-        />
+        <Progress key={row.label} label={row.label} value={row.value} max={row.max ?? 100} tone={row.tone} />
       ))}
     </div>
   );
@@ -130,11 +95,7 @@ export interface ProfileCardSkillsProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** Skill-tag row — host for {@link Chip} / {@link Badge} children. */
-export function ProfileCardSkills({
-  className = '',
-  children,
-  ...rest
-}: ProfileCardSkillsProps) {
+export function ProfileCardSkills({ className = '', children, ...rest }: ProfileCardSkillsProps) {
   return (
     <div className={cn('cp-profile__skills', className)} {...rest}>
       {children}
@@ -147,11 +108,7 @@ export interface ProfileCardBioProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** Short free-text biography block. */
-export function ProfileCardBio({
-  className = '',
-  children,
-  ...rest
-}: ProfileCardBioProps) {
+export function ProfileCardBio({ className = '', children, ...rest }: ProfileCardBioProps) {
   return (
     <div className={cn('cp-profile__bio', className)} {...rest}>
       {children}

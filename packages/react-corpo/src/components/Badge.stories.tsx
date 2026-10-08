@@ -22,9 +22,15 @@ export const AllColors: Story = {
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       <Badge>Neutral</Badge>
       <Badge color="accent">Accent</Badge>
-      <Badge color="green" dot>Paid</Badge>
-      <Badge color="red" dot>Overdue</Badge>
-      <Badge color="amber" dot>Pending</Badge>
+      <Badge color="green" dot>
+        Paid
+      </Badge>
+      <Badge color="red" dot>
+        Overdue
+      </Badge>
+      <Badge color="amber" dot>
+        Pending
+      </Badge>
       <Badge color="blue">Draft</Badge>
       <Badge color="magenta">Beta</Badge>
       <Badge color="purple">Internal</Badge>

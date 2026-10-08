@@ -38,13 +38,25 @@
 }
 
 /* Fixed categorical assignment — see tokens/semantic.ts for the validated set */
-.cp-chart-series--1 { --series-color: var(--corpo-chart-1); }
-.cp-chart-series--2 { --series-color: var(--corpo-chart-2); }
-.cp-chart-series--3 { --series-color: var(--corpo-chart-3); }
-.cp-chart-series--4 { --series-color: var(--corpo-chart-4); }
-.cp-chart-series--5 { --series-color: var(--corpo-chart-5); }
+.cp-chart-series--1 {
+  --series-color: var(--corpo-chart-1);
+}
+.cp-chart-series--2 {
+  --series-color: var(--corpo-chart-2);
+}
+.cp-chart-series--3 {
+  --series-color: var(--corpo-chart-3);
+}
+.cp-chart-series--4 {
+  --series-color: var(--corpo-chart-4);
+}
+.cp-chart-series--5 {
+  --series-color: var(--corpo-chart-5);
+}
 /* 6th+ series render neutral — fold extras into an "Other" series instead */
-.cp-chart-series--overflow { --series-color: var(--corpo-gray-500); }
+.cp-chart-series--overflow {
+  --series-color: var(--corpo-gray-500);
+}
 
 /* Recessive grid and axes — hairlines, dim text */
 .cp-chart__grid {
@@ -116,7 +128,9 @@
   color: var(--corpo-text-secondary);
 }
 
-.cp-chart__legend[hidden] { display: none; }
+.cp-chart__legend[hidden] {
+  display: none;
+}
 
 .cp-chart__legend-item {
   display: inline-flex;

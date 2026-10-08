@@ -20,12 +20,7 @@ export function AppShell({ navOpen = false, onNavClose, className, children, ...
     <div className={cn('cp-shell', navOpen && 'cp-shell--nav-open', className)} {...rest}>
       {children}
       {navOpen && (
-        <button
-          type="button"
-          className="cp-shell__scrim"
-          aria-label="Close navigation"
-          onClick={onNavClose}
-        />
+        <button type="button" className="cp-shell__scrim" aria-label="Close navigation" onClick={onNavClose} />
       )}
     </div>
   );
@@ -64,7 +59,8 @@ export interface AppShellContentProps extends HTMLAttributes<HTMLElement> {
 /** Scrolling content region. */
 export function AppShellContent({ className, children, ...rest }: AppShellContentProps) {
   return (
-    <main className={cn('cp-shell__content', className)} {...rest}>
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scroll container must be focusable for keyboard scrolling (WCAG 2.1.1)
+    <main className={cn('cp-shell__content', className)} tabIndex={0} {...rest}>
       {children}
     </main>
   );

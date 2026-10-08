@@ -39,29 +39,57 @@ interface Invoice {
 
 const INVOICES: Invoice[] = [
   {
-    id: 'INV-2041', client: 'Acme Inc.', amount: '$4,200.00', status: 'Paid', tone: 'ok',
-    issued: 'Aug 4, 2026', due: 'Sep 3, 2026', terms: 'Net 30',
+    id: 'INV-2041',
+    client: 'Acme Inc.',
+    amount: '$4,200.00',
+    status: 'Paid',
+    tone: 'ok',
+    issued: 'Aug 4, 2026',
+    due: 'Sep 3, 2026',
+    terms: 'Net 30',
     history: [
       { title: 'Invoice created', timestamp: 'Aug 4, 9:14 AM', tone: 'idle' },
       { title: 'Invoice sent', timestamp: 'Aug 4, 9:16 AM', description: 'Sent to billing@acme.com', tone: 'ok' },
-      { title: 'Payment received', timestamp: 'Aug 15, 10:41 AM', description: '$4,200.00 posted to the ledger', tone: 'ok' },
+      {
+        title: 'Payment received',
+        timestamp: 'Aug 15, 10:41 AM',
+        description: '$4,200.00 posted to the ledger',
+        tone: 'ok',
+      },
     ],
   },
   {
-    id: 'INV-2042', client: 'Northwind', amount: '$1,180.00', status: 'Pending', tone: 'warn',
-    issued: 'Aug 12, 2026', due: 'Sep 11, 2026', terms: 'Net 30',
+    id: 'INV-2042',
+    client: 'Northwind',
+    amount: '$1,180.00',
+    status: 'Pending',
+    tone: 'warn',
+    issued: 'Aug 12, 2026',
+    due: 'Sep 11, 2026',
+    terms: 'Net 30',
     history: [
       { title: 'Invoice created', timestamp: 'Aug 12, 2:03 PM', tone: 'idle' },
       { title: 'Invoice sent', timestamp: 'Aug 12, 2:05 PM', tone: 'ok' },
     ],
   },
   {
-    id: 'INV-2043', client: 'Globex', amount: '$860.00', status: 'Overdue', tone: 'err',
-    issued: 'Jul 2, 2026', due: 'Aug 1, 2026', terms: 'Net 30',
+    id: 'INV-2043',
+    client: 'Globex',
+    amount: '$860.00',
+    status: 'Overdue',
+    tone: 'err',
+    issued: 'Jul 2, 2026',
+    due: 'Aug 1, 2026',
+    terms: 'Net 30',
     history: [
       { title: 'Invoice created', timestamp: 'Jul 2, 11:20 AM', tone: 'idle' },
       { title: 'Invoice sent', timestamp: 'Jul 2, 11:22 AM', tone: 'ok' },
-      { title: 'Reminder sent', timestamp: 'Aug 5, 8:00 AM', description: 'Second notice to accounts@globex.com', tone: 'warn' },
+      {
+        title: 'Reminder sent',
+        timestamp: 'Aug 5, 8:00 AM',
+        description: 'Second notice to accounts@globex.com',
+        tone: 'warn',
+      },
       { title: 'Payment overdue', timestamp: 'Aug 15, 12:00 AM', description: '14 days past due', tone: 'err' },
     ],
   },
@@ -92,7 +120,10 @@ function BillingWorkspaceExample() {
           brand="Halcyon Group"
           sections={SECTIONS}
           activeId={activeId}
-          onSelect={(id) => { setActiveId(id); setNavOpen(false); }}
+          onSelect={(id) => {
+            setActiveId(id);
+            setNavOpen(false);
+          }}
           footer={
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Avatar size="sm" initials="AS" status="online" />
@@ -107,7 +138,9 @@ function BillingWorkspaceExample() {
           onNavToggle={() => setNavOpen(true)}
           actions={
             <>
-              <Button size="sm" variant="primary">New invoice</Button>
+              <Button size="sm" variant="primary">
+                New invoice
+              </Button>
               <Avatar size="sm" initials="AS" />
             </>
           }
@@ -162,7 +195,13 @@ function BillingWorkspaceExample() {
                       <button
                         type="button"
                         onClick={() => setSelectedId(inv.id)}
-                        style={{ all: 'unset', cursor: 'pointer', color: 'var(--corpo-accent)', fontFamily: 'var(--corpo-font-mono)', fontSize: 'var(--corpo-text-xs)' }}
+                        style={{
+                          all: 'unset',
+                          cursor: 'pointer',
+                          color: 'var(--corpo-accent)',
+                          fontFamily: 'var(--corpo-font-mono)',
+                          fontSize: 'var(--corpo-text-xs)',
+                        }}
                       >
                         {inv.id}
                       </button>
@@ -183,8 +222,12 @@ function BillingWorkspaceExample() {
         title={selected?.id}
         footer={
           <>
-            <Button size="sm" onClick={() => setSelectedId(null)}>Close</Button>
-            <Button size="sm" variant="primary">Send reminder</Button>
+            <Button size="sm" onClick={() => setSelectedId(null)}>
+              Close
+            </Button>
+            <Button size="sm" variant="primary">
+              Send reminder
+            </Button>
           </>
         }
       >

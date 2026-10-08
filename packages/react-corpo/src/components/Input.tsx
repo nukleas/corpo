@@ -1,5 +1,6 @@
 import type { InputHTMLAttributes } from 'react';
 import { cn } from '../lib/cn';
+import { useFieldControlProps } from '../lib/field-context';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /** Control height. @default 'md' */
@@ -12,9 +13,17 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
 
 /** Corpo text input — white field, 1px border, accent focus ring. */
 export function Input({ size = 'md', accent = false, error = false, className, ...rest }: InputProps) {
+  const fieldProps = useFieldControlProps(error);
   return (
     <input
-      className={cn('cp-input', size !== 'md' && `cp-input--${size}`, accent && 'cp-input--accent', error && 'cp-input--error', className)}
+      {...fieldProps}
+      className={cn(
+        'cp-input',
+        size !== 'md' && `cp-input--${size}`,
+        accent && 'cp-input--accent',
+        error && 'cp-input--error',
+        className,
+      )}
       {...rest}
     />
   );

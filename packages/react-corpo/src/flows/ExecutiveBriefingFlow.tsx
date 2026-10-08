@@ -38,9 +38,8 @@ export function ExecutiveBriefingFlow() {
     >
       {!alertDismissed && (
         <Alert tone="warning" title="Just between us" onDismiss={() => setAlertDismissed(true)}>
-          This briefing includes a few figures we're keeping in the Halcyon family for now.
-          Sharing it outside the Executive Board would technically violate your employment
-          agreement — but we know you've got this.
+          This briefing includes a few figures we're keeping in the Halcyon family for now. Sharing it outside the
+          Executive Board would technically violate your employment agreement — but we know you've got this.
         </Alert>
       )}
 

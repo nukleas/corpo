@@ -17,7 +17,9 @@ export const Default: Story = {
     style: { maxWidth: 320 },
     actions: (
       <>
-        <Button variant="primary" size="sm">Assign seat</Button>
+        <Button variant="primary" size="sm">
+          Assign seat
+        </Button>
         <Button size="sm">View usage</Button>
       </>
     ),

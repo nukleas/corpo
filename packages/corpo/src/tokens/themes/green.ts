@@ -1,5 +1,5 @@
 export const greenTheme = {
-  'accent': '#157244',
+  accent: '#157244',
   'accent-strong': '#0e5432',
   'accent-subtle': 'rgba(21, 114, 68, 0.09)',
   'accent-muted': 'rgba(21, 114, 68, 0.30)',

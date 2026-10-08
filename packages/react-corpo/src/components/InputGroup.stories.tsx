@@ -15,7 +15,7 @@ export const Currency: Story = {
   render: () => (
     <div style={{ width: 220 }}>
       <InputGroup leading="$">
-        <Input defaultValue="4,200.00" />
+        <Input aria-label="Amount" defaultValue="4,200.00" />
       </InputGroup>
     </div>
   ),
@@ -25,7 +25,7 @@ export const Unit: Story = {
   render: () => (
     <div style={{ width: 220 }}>
       <InputGroup trailing="days">
-        <Input defaultValue="30" />
+        <Input aria-label="Payment terms" defaultValue="30" />
       </InputGroup>
     </div>
   ),

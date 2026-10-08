@@ -9,7 +9,11 @@ const meta: Meta<typeof SectionHeader> = {
   args: {
     title: 'Invoices',
     description: '84 invoices across all clients.',
-    actions: <Button variant="primary" size="sm">New invoice</Button>,
+    actions: (
+      <Button variant="primary" size="sm">
+        New invoice
+      </Button>
+    ),
   },
 };
 export default meta;

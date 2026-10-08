@@ -10,7 +10,16 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
   children?: ReactNode;
 }
 
-export function Card({ title, description, footer, headerActions, flat = false, className = '', children, ...rest }: CardProps) {
+export function Card({
+  title,
+  description,
+  footer,
+  headerActions,
+  flat = false,
+  className = '',
+  children,
+  ...rest
+}: CardProps) {
   return (
     <div className={cx('cp-card', flat && 'cp-card--flat', className)} {...rest}>
       {(title || description) && (

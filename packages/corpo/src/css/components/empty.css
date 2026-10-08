@@ -29,4 +29,6 @@
   font-size: var(--corpo-text-sm);
   line-height: 1.5;
 }
-.cp-empty__action { margin-top: 6px; }
+.cp-empty__action {
+  margin-top: 6px;
+}

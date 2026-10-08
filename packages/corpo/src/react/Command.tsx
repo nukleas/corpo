@@ -19,15 +19,22 @@ export interface CommandProps {
   emptyText?: string;
 }
 
-export function Command({ groups, placeholder = 'Type a command or search…', emptyText = 'No results found.' }: CommandProps) {
+export function Command({
+  groups,
+  placeholder = 'Type a command or search…',
+  emptyText = 'No results found.',
+}: CommandProps) {
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
     if (!query) return groups;
     const q = query.toLowerCase();
     return groups
-      // oxlint-disable-next-line anti-slop/no-runtime-typeof -- labels are ReactNode; only plain-string labels are text-searchable
-      .map((g) => ({ ...g, items: g.items.filter((i) => typeof i.label === 'string' && i.label.toLowerCase().includes(q)) }))
+      .map((g) => ({
+        ...g,
+        // oxlint-disable-next-line anti-slop/no-runtime-typeof -- labels are ReactNode; only plain-string labels are text-searchable
+        items: g.items.filter((i) => typeof i.label === 'string' && i.label.toLowerCase().includes(q)),
+      }))
       .filter((g) => g.items.length > 0);
   }, [groups, query]);
 
@@ -41,6 +48,7 @@ export function Command({ groups, placeholder = 'Type a command or search…', e
           placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          // oxlint-disable-next-line jsx-a11y/no-autofocus -- the palette opens to type; its input is the entry point
           autoFocus
         />
       </div>

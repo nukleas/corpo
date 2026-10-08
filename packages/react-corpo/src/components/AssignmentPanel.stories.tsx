@@ -34,8 +34,7 @@ function AssignmentScreen() {
     Object.fromEntries(SLOT_DEFS.map((s) => [s.id, s.initial])),
   );
 
-  const byId = (id?: string | null): LicenseItem | null =>
-    LICENSES.find((l) => l.id === id) ?? null;
+  const byId = (id?: string | null): LicenseItem | null => LICENSES.find((l) => l.id === id) ?? null;
   const slots: AssignmentSlot[] = SLOT_DEFS.map((s) => ({
     id: s.id,
     label: s.label,
@@ -77,21 +76,11 @@ function AssignmentScreen() {
         actions={
           selected && (
             <>
-              <Button
-                variant="primary"
-                size="sm"
-                disabled={!selectedSlotId}
-                onClick={() => assign(selected)}
-              >
+              <Button variant="primary" size="sm" disabled={!selectedSlotId} onClick={() => assign(selected)}>
                 Assign to slot
               </Button>
               {selectedSlotId && placement[selectedSlotId] && (
-                <Button
-                  size="sm"
-                  onClick={() =>
-                    setPlacement((prev) => ({ ...prev, [selectedSlotId]: undefined }))
-                  }
-                >
+                <Button size="sm" onClick={() => setPlacement((prev) => ({ ...prev, [selectedSlotId]: undefined }))}>
                   Remove
                 </Button>
               )}

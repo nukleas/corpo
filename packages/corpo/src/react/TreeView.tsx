@@ -42,7 +42,9 @@ function TreeNode({ item, depth, expandedIds, selectedId, onToggle, onSelect }: 
           <button
             type="button"
             className="cp-tree__toggle"
-            aria-label={expanded ? `Collapse ${item.label}` : `Expand ${item.label}`}
+            // Pointer affordance only — keyboard and AT users expand from the treeitem (ArrowRight/ArrowLeft).
+            tabIndex={-1}
+            aria-hidden="true"
             onClick={() => onToggle(item.id)}
           >
             <span className={cx('cp-tree__chevron', expanded && 'is-open')} aria-hidden="true" />
@@ -57,6 +59,12 @@ function TreeNode({ item, depth, expandedIds, selectedId, onToggle, onSelect }: 
           aria-expanded={hasChildren ? expanded : undefined}
           aria-selected={selected}
           onClick={() => onSelect?.(item.id, item)}
+          onKeyDown={(e) => {
+            if ((e.key === 'ArrowRight' && hasChildren && !expanded) || (e.key === 'ArrowLeft' && expanded)) {
+              e.preventDefault();
+              onToggle(item.id);
+            }
+          }}
         >
           <span className="cp-tree__label">{item.label}</span>
         </button>

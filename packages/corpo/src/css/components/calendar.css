@@ -29,7 +29,10 @@
   cursor: pointer;
   font-size: 12px;
 }
-.cp-calendar__nav:hover { border-color: var(--corpo-accent); color: var(--corpo-accent); }
+.cp-calendar__nav:hover {
+  border-color: var(--corpo-accent);
+  color: var(--corpo-accent);
+}
 
 .cp-calendar__grid {
   display: grid;
@@ -58,11 +61,27 @@
   font-size: var(--corpo-text-sm);
   color: var(--corpo-text);
   font-variant-numeric: tabular-nums;
-  transition: background var(--corpo-dur-fast) var(--corpo-ease), color var(--corpo-dur-fast) var(--corpo-ease);
+  transition:
+    background var(--corpo-dur-fast) var(--corpo-ease),
+    color var(--corpo-dur-fast) var(--corpo-ease);
 }
-.cp-calendar__day:hover { background: var(--corpo-bg-panel-hover); }
-.cp-calendar__day--outside { color: var(--corpo-text-dim); }
-.cp-calendar__day--today { border-color: var(--corpo-accent); }
-.cp-calendar__day--selected { background: var(--corpo-accent); color: var(--corpo-on-accent); }
-.cp-calendar__day--selected:hover { background: var(--corpo-accent-strong); }
-.cp-calendar__day:disabled { opacity: 0.35; cursor: not-allowed; }
+.cp-calendar__day:hover {
+  background: var(--corpo-bg-panel-hover);
+}
+.cp-calendar__day--outside {
+  color: var(--corpo-text-dim);
+}
+.cp-calendar__day--today {
+  border-color: var(--corpo-accent);
+}
+.cp-calendar__day--selected {
+  background: var(--corpo-accent);
+  color: var(--corpo-on-accent);
+}
+.cp-calendar__day--selected:hover {
+  background: var(--corpo-accent-strong);
+}
+.cp-calendar__day:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

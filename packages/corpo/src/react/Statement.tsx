@@ -83,9 +83,7 @@ export function Statement({
               <tr key={i}>
                 <td>{line.description}</td>
                 {hasQty && <td data-numeric="true">{line.qty}</td>}
-                {hasQty && (
-                  <td data-numeric="true">{line.rate != null && <Amount value={line.rate} />}</td>
-                )}
+                {hasQty && <td data-numeric="true">{line.rate != null && <Amount value={line.rate} />}</td>}
                 <td data-numeric="true">
                   <Amount value={line.amount} currency={i === 0 ? '$' : undefined} />
                 </td>

@@ -38,7 +38,7 @@ export function BarChart({ series, labels, yFormat, stacked = false, className =
       api.destroy();
       apiRef.current = null;
     };
-    // The engine is created once; model updates flow through update below.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- the engine is created once; model updates flow through update below
   }, []);
 
   useEffect(() => {

@@ -61,8 +61,7 @@ const EMPTY_JOURNAL: JournalEntryValue = {
 };
 
 const parse = (s: string) => Number(s.replace(/[,$\s]/g, '')) || 0;
-const money = (v: number) =>
-  `$${v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+const money = (v: number) => `$${v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 function AccountingWorkspaceExample() {
   const [navOpen, setNavOpen] = useState(false);
@@ -102,7 +101,10 @@ function AccountingWorkspaceExample() {
           brand="Meridian Books"
           sections={SECTIONS}
           activeId={activeId}
-          onSelect={(id) => { setActiveId(id); setNavOpen(false); }}
+          onSelect={(id) => {
+            setActiveId(id);
+            setNavOpen(false);
+          }}
           footer={
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Avatar size="sm" initials="NH" status="online" />
@@ -177,7 +179,9 @@ function AccountingWorkspaceExample() {
         title="New journal entry"
         footer={
           <>
-            <Button size="sm" onClick={() => setJournalOpen(false)}>Cancel</Button>
+            <Button size="sm" onClick={() => setJournalOpen(false)}>
+              Cancel
+            </Button>
             <Button size="sm" variant="primary" disabled={!journalBalanced} onClick={postJournal}>
               Post
             </Button>

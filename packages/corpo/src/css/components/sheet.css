@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(16, 22, 35, 0.4);
+  background: var(--corpo-overlay);
 }
 
 .cp-sheet {
@@ -13,9 +13,30 @@
   box-shadow: var(--corpo-shadow-lg);
   z-index: 101;
 }
-.cp-sheet--right { top: 0; right: 0; bottom: 0; width: 100%; max-width: 400px; border-left: 1px solid var(--corpo-border); }
-.cp-sheet--left { top: 0; left: 0; bottom: 0; width: 100%; max-width: 400px; border-right: 1px solid var(--corpo-border); }
-.cp-sheet--bottom { left: 0; right: 0; bottom: 0; max-height: 80vh; border-top: 1px solid var(--corpo-border); border-radius: var(--corpo-radius-lg) var(--corpo-radius-lg) 0 0; }
+.cp-sheet--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 400px;
+  border-left: 1px solid var(--corpo-border);
+}
+.cp-sheet--left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 400px;
+  border-right: 1px solid var(--corpo-border);
+}
+.cp-sheet--bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 80vh;
+  border-top: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg) var(--corpo-radius-lg) 0 0;
+}
 
 .cp-sheet__header {
   display: flex;
@@ -44,7 +65,9 @@
   padding: 2px;
   color: var(--corpo-text-muted);
 }
-.cp-sheet__close:hover { color: var(--corpo-text); }
+.cp-sheet__close:hover {
+  color: var(--corpo-text);
+}
 
 .cp-sheet__body {
   padding: 16px 18px;

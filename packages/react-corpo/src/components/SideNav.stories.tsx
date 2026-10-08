@@ -14,6 +14,7 @@ type Story = StoryObj<typeof meta>;
 // Stand-in for a router link (react-router's Link, Next's Link, …).
 // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- stand-in router link mirrors the untyped passthrough contract
 function FakeRouterLink({ to, ...rest }: { to: string } & Record<string, unknown>) {
+  // oxlint-disable-next-line jsx-a11y/anchor-has-content -- children arrive through the rest spread
   return <a data-router-to={to} {...rest} />;
 }
 

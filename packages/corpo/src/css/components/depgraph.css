@@ -37,7 +37,9 @@
   cursor: grab;
 }
 
-.cp-depgraph:active { cursor: grabbing; }
+.cp-depgraph:active {
+  cursor: grabbing;
+}
 
 .cp-depgraph__svg {
   display: block;
@@ -70,7 +72,9 @@
   stroke-dasharray: 4 4;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
-  transition: stroke var(--corpo-dur) var(--corpo-ease), opacity var(--corpo-dur) var(--corpo-ease);
+  transition:
+    stroke var(--corpo-dur) var(--corpo-ease),
+    opacity var(--corpo-dur) var(--corpo-ease);
 }
 
 /* Dependency satisfied, successor actionable */
@@ -91,8 +95,10 @@
   stroke-width: 2;
 }
 
-/* Nodes */
+/* Nodes — --node-color/--node-fill are the default state; modifiers below override them. */
 .cp-depgraph-node {
+  --node-color: var(--corpo-gray-500);
+  --node-fill: var(--corpo-bg-inset);
   cursor: pointer;
   outline: none;
 }
@@ -102,7 +108,10 @@
   stroke: var(--node-color);
   stroke-width: 1.2;
   vector-effect: non-scaling-stroke;
-  transition: fill var(--corpo-dur) var(--corpo-ease), stroke var(--corpo-dur) var(--corpo-ease), opacity var(--corpo-dur) var(--corpo-ease);
+  transition:
+    fill var(--corpo-dur) var(--corpo-ease),
+    stroke var(--corpo-dur) var(--corpo-ease),
+    opacity var(--corpo-dur) var(--corpo-ease);
 }
 
 .cp-depgraph-node__dot {
@@ -132,17 +141,14 @@
 }
 
 /* Node states — the modifiers come last so they beat the block defaults. */
-.cp-depgraph-node {
-  --node-color: var(--corpo-gray-500);
-  --node-fill: var(--corpo-bg-inset);
-}
-
 .cp-depgraph-node.is-blocked .cp-depgraph-node__frame {
   stroke: var(--corpo-border);
   stroke-dasharray: 4 3;
 }
 
-.cp-depgraph-node.is-blocked .cp-depgraph-node__label { fill: var(--corpo-text-muted); }
+.cp-depgraph-node.is-blocked .cp-depgraph-node__label {
+  fill: var(--corpo-text-muted);
+}
 
 .cp-depgraph-node.is-ready {
   --node-color: var(--corpo-blue);
@@ -171,11 +177,10 @@
 }
 
 .cp-depgraph-node.is-selected {
-  filter: drop-shadow(0 2px 6px rgba(16, 22, 35, 0.18));
+  filter: drop-shadow(0 2px 6px var(--corpo-shadow-color));
 }
 
-.cp-depgraph.is-focusing
-  .cp-depgraph-node:not(.is-selected):not(.is-related):not(.is-hovered) {
+.cp-depgraph.is-focusing .cp-depgraph-node:not(.is-selected):not(.is-related):not(.is-hovered) {
   opacity: 0.35;
 }
 
@@ -256,6 +261,12 @@
   color: var(--corpo-text-secondary);
 }
 
-.cp-depgraph__tip-dep-mark { flex-shrink: 0; }
-.cp-depgraph__tip-dep--met .cp-depgraph__tip-dep-mark { color: var(--corpo-green); }
-.cp-depgraph__tip-dep--unmet .cp-depgraph__tip-dep-mark { color: var(--corpo-amber); }
+.cp-depgraph__tip-dep-mark {
+  flex-shrink: 0;
+}
+.cp-depgraph__tip-dep--met .cp-depgraph__tip-dep-mark {
+  color: var(--corpo-green);
+}
+.cp-depgraph__tip-dep--unmet .cp-depgraph__tip-dep-mark {
+  color: var(--corpo-amber);
+}

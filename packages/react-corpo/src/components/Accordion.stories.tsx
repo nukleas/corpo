@@ -3,7 +3,11 @@ import { Accordion } from './Accordion';
 
 const items = [
   { id: 'billing', title: 'How does billing work?', content: 'You are billed monthly based on active seats.' },
-  { id: 'cancel', title: 'Can I cancel anytime?', content: 'Yes — cancel from Settings and access continues until the period ends.' },
+  {
+    id: 'cancel',
+    title: 'Can I cancel anytime?',
+    content: 'Yes — cancel from Settings and access continues until the period ends.',
+  },
   { id: 'export', title: 'Can I export my data?', content: 'Yes, a full CSV export is available under Reports.' },
 ];
 

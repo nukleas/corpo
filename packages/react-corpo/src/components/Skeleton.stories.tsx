@@ -11,7 +11,31 @@ export default meta;
 
 type Story = StoryObj<typeof Skeleton>;
 
-export const Text: Story = { render: () => <div style={{ width: 240 }}><Skeleton variant="text" /></div> };
-export const Heading: Story = { render: () => <div style={{ width: 240 }}><Skeleton variant="heading" /></div> };
-export const Block: Story = { render: () => <div style={{ width: 320 }}><Skeleton variant="block" /></div> };
-export const Row: Story = { render: () => <div style={{ width: 280 }}><SkeletonRow /></div> };
+export const Text: Story = {
+  render: () => (
+    <div style={{ width: 240 }}>
+      <Skeleton variant="text" />
+    </div>
+  ),
+};
+export const Heading: Story = {
+  render: () => (
+    <div style={{ width: 240 }}>
+      <Skeleton variant="heading" />
+    </div>
+  ),
+};
+export const Block: Story = {
+  render: () => (
+    <div style={{ width: 320 }}>
+      <Skeleton variant="block" />
+    </div>
+  ),
+};
+export const Row: Story = {
+  render: () => (
+    <div style={{ width: 280 }}>
+      <SkeletonRow />
+    </div>
+  ),
+};

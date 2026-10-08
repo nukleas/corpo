@@ -58,7 +58,6 @@ export function TrialBalance({ entity, asOf, rows, className, ...rest }: TrialBa
           </thead>
           <tbody>
             {rows.map((row, i) => (
-              // oxlint-disable-next-line react/no-array-index-key -- display-only rows, no reorder
               <tr key={i}>
                 <td>{row.account}</td>
                 <td data-mono="true">{row.ref}</td>

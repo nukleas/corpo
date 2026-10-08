@@ -16,7 +16,14 @@ export const Default: Story = {
     const [value, setValue] = useState(40);
     return (
       <div style={{ width: 260 }}>
-        <Slider value={value} min={0} max={100} showValue onChange={(e) => setValue(Number(e.target.value))} />
+        <Slider
+          aria-label="Allocation"
+          value={value}
+          min={0}
+          max={100}
+          showValue
+          onChange={(e) => setValue(Number(e.target.value))}
+        />
       </div>
     );
   },

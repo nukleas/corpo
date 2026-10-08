@@ -32,9 +32,7 @@ export const Interactive: Story = {
         assignedIds={assignedIds}
         onSelect={(item) => setSelectedId(item.id)}
         onActivate={(item) =>
-          setAssignedIds((prev) =>
-            prev.includes(item.id) ? prev.filter((id) => id !== item.id) : [...prev, item.id],
-          )
+          setAssignedIds((prev) => (prev.includes(item.id) ? prev.filter((id) => id !== item.id) : [...prev, item.id]))
         }
       />
     );

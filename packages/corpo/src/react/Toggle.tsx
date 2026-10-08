@@ -8,7 +8,14 @@ export interface ToggleProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   children?: ReactNode;
 }
 
-export function Toggle({ pressed = false, onPressedChange, size = 'md', className = '', children, ...rest }: ToggleProps) {
+export function Toggle({
+  pressed = false,
+  onPressedChange,
+  size = 'md',
+  className = '',
+  children,
+  ...rest
+}: ToggleProps) {
   return (
     <button
       type="button"

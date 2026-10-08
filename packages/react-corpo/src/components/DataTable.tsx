@@ -107,7 +107,11 @@ export function DataTable({
     const q = query.trim().toLowerCase();
     if (q) {
       out = out.filter((row) =>
-        columns.some((c) => String(rawValue(row, c.key) ?? '').toLowerCase().includes(q)),
+        columns.some((c) =>
+          String(rawValue(row, c.key) ?? '')
+            .toLowerCase()
+            .includes(q),
+        ),
       );
     }
     if (sort) {
@@ -118,11 +122,7 @@ export function DataTable({
   }, [rows, columns, query, sort]);
 
   const cycleSort = (key: string) =>
-    setSort((prev) =>
-      prev?.key !== key ? { key, dir: 'asc' }
-        : prev.dir === 'asc' ? { key, dir: 'desc' }
-          : null,
-    );
+    setSort((prev) => (prev?.key !== key ? { key, dir: 'asc' } : prev.dir === 'asc' ? { key, dir: 'desc' } : null));
 
   const selectedSet = new Set(selected);
   const allVisibleSelected = visible.length > 0 && visible.every((r) => selectedSet.has(r.id));

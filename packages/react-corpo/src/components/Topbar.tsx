@@ -19,12 +19,7 @@ export function Topbar({ title, onNavToggle, actions, className, children, ...re
   return (
     <header className={cn('cp-topbar', className)} {...rest}>
       {onNavToggle && (
-        <button
-          type="button"
-          className="cp-topbar__nav-toggle"
-          aria-label="Open navigation"
-          onClick={onNavToggle}
-        >
+        <button type="button" className="cp-topbar__nav-toggle" aria-label="Open navigation" onClick={onNavToggle}>
           <span className="cp-topbar__nav-toggle-icon" aria-hidden="true" />
         </button>
       )}

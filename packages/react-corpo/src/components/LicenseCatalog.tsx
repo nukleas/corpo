@@ -22,8 +22,7 @@ export interface LicenseItem {
   desc?: string;
 }
 
-export interface LicenseCatalogProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+export interface LicenseCatalogProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   items: LicenseItem[];
   /** Pad the grid with empty cells up to this count. */
   minCells?: number;
@@ -71,9 +70,7 @@ export function LicenseCatalog({
         >
           <span className="cp-license-card__name">{item.name}</span>
           <span className="cp-license-card__tier">{item.tier}</span>
-          {item.seats != null && (
-            <span className="cp-license-card__seats">{item.seats} seats</span>
-          )}
+          {item.seats != null && <span className="cp-license-card__seats">{item.seats} seats</span>}
         </button>
       ))}
       {Array.from({ length: padding }, (_, i) => (

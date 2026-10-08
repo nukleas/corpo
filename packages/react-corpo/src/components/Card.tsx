@@ -16,7 +16,16 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
 }
 
 /** Corpo card — white panel, 1px border, 4px radius, quiet elevation. */
-export function Card({ title, description, footer, headerActions, flat = false, className, children, ...rest }: CardProps) {
+export function Card({
+  title,
+  description,
+  footer,
+  headerActions,
+  flat = false,
+  className,
+  children,
+  ...rest
+}: CardProps) {
   return (
     <div className={cn('cp-card', flat && 'cp-card--flat', className)} {...rest}>
       {(title || description) && (

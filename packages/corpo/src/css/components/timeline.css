@@ -49,10 +49,18 @@
   z-index: 1;
 }
 
-.cp-timeline__item--ok .cp-timeline__dot { background: var(--corpo-green); }
-.cp-timeline__item--warn .cp-timeline__dot { background: var(--corpo-amber); }
-.cp-timeline__item--err .cp-timeline__dot { background: var(--corpo-red); }
-.cp-timeline__item--idle .cp-timeline__dot { background: var(--corpo-text-dim); }
+.cp-timeline__item--ok .cp-timeline__dot {
+  background: var(--corpo-green);
+}
+.cp-timeline__item--warn .cp-timeline__dot {
+  background: var(--corpo-amber);
+}
+.cp-timeline__item--err .cp-timeline__dot {
+  background: var(--corpo-red);
+}
+.cp-timeline__item--idle .cp-timeline__dot {
+  background: var(--corpo-text-dim);
+}
 
 .cp-timeline__item:not(:last-child) .cp-timeline__rail::after {
   content: '';

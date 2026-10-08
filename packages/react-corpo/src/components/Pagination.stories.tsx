@@ -21,6 +21,7 @@ export const Default: Story = {
 // Stand-in for a router link (react-router's Link, Next's Link, …).
 // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- stand-in router link mirrors the untyped passthrough contract
 function FakeRouterLink({ to, ...rest }: { to: string } & Record<string, unknown>) {
+  // oxlint-disable-next-line jsx-a11y/anchor-has-content -- children arrive through the rest spread
   return <a data-router-to={to} {...rest} />;
 }
 
@@ -39,7 +40,5 @@ export const RouterLinks: Story = {
 
 /** Plain-anchor link mode — `linkProps` alone defaults the element to `<a>`. */
 export const AnchorLinks: Story = {
-  render: () => (
-    <Pagination page={4} totalPages={12} linkProps={(p) => ({ href: `?page=${p}` })} />
-  ),
+  render: () => <Pagination page={4} totalPages={12} linkProps={(p) => ({ href: `?page=${p}` })} />,
 };

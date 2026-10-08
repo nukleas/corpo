@@ -7,7 +7,11 @@ export interface RadioGroupProps extends HTMLAttributes<HTMLDivElement> {
 
 export function RadioGroup({ orientation = 'vertical', className = '', children, ...rest }: RadioGroupProps) {
   return (
-    <div role="radiogroup" className={cx('cp-radio-group', orientation === 'horizontal' && 'cp-radio-group--horizontal', className)} {...rest}>
+    <div
+      role="radiogroup"
+      className={cx('cp-radio-group', orientation === 'horizontal' && 'cp-radio-group--horizontal', className)}
+      {...rest}
+    >
       {children}
     </div>
   );

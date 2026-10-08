@@ -9,11 +9,17 @@
   color: var(--corpo-text-secondary);
   user-select: none;
 }
-.cp-checkbox--has-description { align-items: flex-start; }
+.cp-checkbox--has-description {
+  align-items: flex-start;
+}
 .cp-checkbox--disabled,
-.cp-radio--disabled { cursor: not-allowed; }
+.cp-radio--disabled {
+  cursor: not-allowed;
+}
 .cp-checkbox--disabled .cp-checkbox__text,
-.cp-radio--disabled .cp-radio__text { opacity: 0.45; }
+.cp-radio--disabled .cp-radio__text {
+  opacity: 0.45;
+}
 
 .cp-checkbox__input,
 .cp-radio__input {
@@ -23,7 +29,7 @@
   margin: -1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
@@ -39,10 +45,16 @@
   justify-content: center;
   background: var(--corpo-bg-panel);
   border: 1px solid var(--corpo-border-strong);
-  transition: background var(--corpo-dur) var(--corpo-ease), border-color var(--corpo-dur) var(--corpo-ease);
+  transition:
+    background var(--corpo-dur) var(--corpo-ease),
+    border-color var(--corpo-dur) var(--corpo-ease);
 }
-.cp-checkbox__box { border-radius: var(--corpo-radius); }
-.cp-radio__box { border-radius: 50%; }
+.cp-checkbox__box {
+  border-radius: var(--corpo-radius);
+}
+.cp-radio__box {
+  border-radius: 50%;
+}
 
 .cp-checkbox__box::after {
   content: '';
@@ -67,7 +79,9 @@
   background: var(--corpo-accent);
   border-color: var(--corpo-accent);
 }
-.cp-checkbox__input:checked + .cp-checkbox__box::after { opacity: 1; }
+.cp-checkbox__input:checked + .cp-checkbox__box::after {
+  opacity: 1;
+}
 
 /* Partial selection (set via the DOM `indeterminate` property) — accent box with a dash */
 .cp-checkbox__input:indeterminate + .cp-checkbox__box {
@@ -83,7 +97,9 @@
   border-color: var(--corpo-accent);
   background: var(--corpo-accent);
 }
-.cp-radio__input:checked + .cp-radio__box::after { opacity: 1; }
+.cp-radio__input:checked + .cp-radio__box::after {
+  opacity: 1;
+}
 
 .cp-checkbox__input:focus-visible + .cp-checkbox__box,
 .cp-radio__input:focus-visible + .cp-radio__box {
@@ -91,9 +107,14 @@
   outline-offset: 2px;
 }
 .cp-checkbox__input:disabled + .cp-checkbox__box,
-.cp-radio__input:disabled + .cp-radio__box { opacity: 0.45; }
+.cp-radio__input:disabled + .cp-radio__box {
+  opacity: 0.45;
+}
 
-.cp-checkbox__text { display: flex; flex-direction: column; }
+.cp-checkbox__text {
+  display: flex;
+  flex-direction: column;
+}
 .cp-checkbox__description {
   font-size: var(--corpo-text-xs);
   color: var(--corpo-text-muted);

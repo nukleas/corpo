@@ -42,7 +42,14 @@ export const WithAccountPicker: Story = {
       <JournalEntry
         value={value}
         onChange={setValue}
-        accounts={['Cash', 'Accounts Receivable', 'Accounts Payable', 'Rent Expense', 'Service Revenue', 'Payroll Expense']}
+        accounts={[
+          'Cash',
+          'Accounts Receivable',
+          'Accounts Payable',
+          'Rent Expense',
+          'Service Revenue',
+          'Payroll Expense',
+        ]}
       />
     );
   },

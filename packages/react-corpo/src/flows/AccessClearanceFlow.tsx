@@ -113,8 +113,8 @@ export function AccessClearanceFlow() {
           description="For Tier 3 and up, we just need to double-check it's really you."
         >
           <p style={{ color: 'var(--corpo-text-secondary)', fontSize: 'var(--corpo-text-sm)' }}>
-            One quick retina and voice-print scan and you're through — nothing to worry about!
-            It's automatically logged to your personnel file, purely for everyone's security.
+            One quick retina and voice-print scan and you're through — nothing to worry about! It's automatically logged
+            to your personnel file, purely for everyone's security.
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
             <Button onClick={() => setStep(2)}>Back</Button>
@@ -135,9 +135,8 @@ export function AccessClearanceFlow() {
               fontSize: 'var(--corpo-text-sm)',
             }}
           >
-            Everything syncs within 15 minutes. If anything feels off, Workplace Experience is
-            always happy to help — and just so you know, access can be adjusted at any time based
-            on business needs.
+            Everything syncs within 15 minutes. If anything feels off, Workplace Experience is always happy to help —
+            and just so you know, access can be adjusted at any time based on business needs.
           </p>
         </Card>
       )}
@@ -152,8 +151,8 @@ export function AccessClearanceFlow() {
           setToastOpen(true);
         }}
       >
-        We'll record a retina and voice-print match against your personnel file. Nothing to
-        worry about — this is just how we keep everyone's access safe and sound.
+        We'll record a retina and voice-print match against your personnel file. Nothing to worry about — this is just
+        how we keep everyone's access safe and sound.
       </AlertDialog>
 
       {toastOpen && (

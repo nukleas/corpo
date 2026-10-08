@@ -21,7 +21,9 @@
   font-weight: 600;
   color: var(--corpo-text);
 }
-.cp-accordion__trigger:hover { color: var(--corpo-accent); }
+.cp-accordion__trigger:hover {
+  color: var(--corpo-accent);
+}
 
 .cp-accordion__chevron {
   flex-shrink: 0;
@@ -32,14 +34,18 @@
   transform: rotate(45deg);
   transition: transform var(--corpo-dur) var(--corpo-ease);
 }
-.cp-accordion__item[data-open='true'] .cp-accordion__chevron { transform: rotate(-135deg); }
+.cp-accordion__item[data-open='true'] .cp-accordion__chevron {
+  transform: rotate(-135deg);
+}
 
 .cp-accordion__collapse {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows var(--corpo-dur-slow) var(--corpo-ease);
 }
-.cp-accordion__item[data-open='true'] .cp-accordion__collapse { grid-template-rows: 1fr; }
+.cp-accordion__item[data-open='true'] .cp-accordion__collapse {
+  grid-template-rows: 1fr;
+}
 
 .cp-accordion__content {
   overflow: hidden;

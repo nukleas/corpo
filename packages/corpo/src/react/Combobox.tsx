@@ -16,7 +16,14 @@ export interface ComboboxProps {
   ariaLabel?: string;
 }
 
-export function Combobox({ options, value, onChange, placeholder = 'Search…', emptyText = 'No results', ariaLabel }: ComboboxProps) {
+export function Combobox({
+  options,
+  value,
+  onChange,
+  placeholder = 'Search…',
+  emptyText = 'No results',
+  ariaLabel,
+}: ComboboxProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const ref = useRef<HTMLDivElement>(null);
@@ -39,7 +46,7 @@ export function Combobox({ options, value, onChange, placeholder = 'Search…', 
         className="cp-input"
         aria-label={ariaLabel}
         placeholder={placeholder}
-        value={open ? query : selected?.label ?? ''}
+        value={open ? query : (selected?.label ?? '')}
         onFocus={() => {
           setOpen(true);
           setQuery('');

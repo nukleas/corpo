@@ -118,7 +118,6 @@ export function JournalEntry({ value, onChange, accounts, className, ...rest }: 
           </thead>
           <tbody>
             {value.postings.map((posting, i) => (
-              // oxlint-disable-next-line react/no-array-index-key -- inputs are controlled by value, rows only append/remove
               <tr key={i}>
                 {accounts ? (
                   <td className="cp-journal__cell">
@@ -142,9 +141,7 @@ export function JournalEntry({ value, onChange, accounts, className, ...rest }: 
                       type="button"
                       className="cp-journal__remove"
                       aria-label={`Remove line ${i + 1}`}
-                      onClick={() =>
-                        onChange({ ...value, postings: value.postings.filter((_, pi) => pi !== i) })
-                      }
+                      onClick={() => onChange({ ...value, postings: value.postings.filter((_, pi) => pi !== i) })}
                     >
                       ×
                     </button>

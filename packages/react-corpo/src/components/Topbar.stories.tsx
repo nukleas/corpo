@@ -17,7 +17,9 @@ export const Default: Story = {
     title: 'Invoices',
     actions: (
       <>
-        <Button size="sm" variant="primary">New invoice</Button>
+        <Button size="sm" variant="primary">
+          New invoice
+        </Button>
         <Avatar size="sm" initials="AS" />
       </>
     ),
