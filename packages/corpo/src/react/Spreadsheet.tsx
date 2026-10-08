@@ -38,6 +38,12 @@ export interface SpreadsheetProps {
   readOnly?: boolean;
 }
 
+/** Accessible name for a cell input: `B3`, or `Revenue, row 3` when columns are relabeled. */
+function cellName(c: number, r: number, columnLabels?: string[]): string {
+  const custom = columnLabels?.[c];
+  return custom ? `${custom}, row ${r + 1}` : `${columnLabel(c)}${r + 1}`;
+}
+
 /** Corpo spreadsheet — sticky-headed grid; cell shorthand controls per-cell readOnly/align/tone. */
 export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false }: SpreadsheetProps) {
   const colCount = rows[0]?.length ?? 0;
@@ -68,6 +74,7 @@ export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false
         ) : (
           <input
             className="cp-spreadsheet__input"
+            aria-label={cellName(c, r, columnLabels)}
             value={String(props.value)}
             onChange={(e) => onCellChange?.(r, c, e.target.value)}
           />

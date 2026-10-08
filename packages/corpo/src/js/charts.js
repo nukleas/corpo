@@ -52,6 +52,12 @@ function seriesStyle(s) {
   return s.color ? ` style="--series-color:${esc(s.color)}"` : '';
 }
 
+/** Accessible name for a chart's svg — the kind plus its series or segment labels. */
+function chartName(kind, items) {
+  const names = items.map((it) => it.label).filter(Boolean);
+  return names.length ? `${kind}: ${names.join(', ')}` : kind;
+}
+
 function frame(root) {
   root.classList.add('cp-chart');
   root.innerHTML = `
@@ -173,8 +179,13 @@ export function CpLineChart(root, opts = {}) {
   const { legend, plot, svg, tip } = els;
   let geom = null;
 
+  // Named at creation and on every paint, so the svg is never briefly unnamed.
+  const nameSvg = () => svg.setAttribute('aria-label', chartName('Line chart', state.series));
+  nameSvg();
+
   function paint() {
     renderLegend(legend, state.series);
+    nameSvg();
     const { width, height } = plot.getBoundingClientRect();
     if (width < 60 || height < 60 || !state.series.length) {
       svg.innerHTML = '';
@@ -287,8 +298,13 @@ export function CpBarChart(root, opts = {}) {
       state.series.reduce((sum, s) => sum + (s.data[i] ?? 0), 0));
   }
 
+  // Named at creation and on every paint, so the svg is never briefly unnamed.
+  const nameSvg = () => svg.setAttribute('aria-label', chartName('Bar chart', state.series));
+  nameSvg();
+
   function paint() {
     renderLegend(legend, state.series);
+    nameSvg();
     const { width, height } = plot.getBoundingClientRect();
     if (width < 60 || height < 60 || !state.series.length) {
       svg.innerHTML = '';
@@ -440,8 +456,13 @@ export function CpDonutChart(root, opts = {}) {
     return `M${px(r1, a0)} A${r1},${r1} 0 ${large} 1 ${px(r1, a1)} L${px(r0, a1)} A${r0},${r0} 0 ${large} 0 ${px(r0, a0)} Z`;
   }
 
+  // Named at creation and on every paint, so the svg is never briefly unnamed.
+  const nameSvg = () => svg.setAttribute('aria-label', chartName('Donut chart', state.data));
+  nameSvg();
+
   function paint() {
     renderLegend(legend, state.data);
+    nameSvg();
     const { width, height } = plot.getBoundingClientRect();
     const values = state.data.filter((d) => d.value > 0);
     const total = values.reduce((sum, d) => sum + d.value, 0);

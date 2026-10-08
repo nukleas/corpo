@@ -28,6 +28,8 @@ export interface SpreadsheetCellProps
   balance?: boolean;
   /** Change handler; injected per-cell by the grid. */
   onValueChange?: (value: string) => void;
+  /** Accessible name for the cell's input (`B3`); injected per-cell by the grid. */
+  label?: string;
 }
 
 /**
@@ -42,6 +44,7 @@ export function SpreadsheetCell({
   tone,
   balance = false,
   onValueChange,
+  label,
   className,
   ...rest
 }: SpreadsheetCellProps) {
@@ -62,12 +65,19 @@ export function SpreadsheetCell({
       ) : (
         <input
           className="cp-spreadsheet__input"
+          aria-label={label}
           value={String(value)}
           onChange={(e) => onValueChange?.(e.target.value)}
         />
       )}
     </td>
   );
+}
+
+/** Accessible name for a cell input: `B3`, or `Revenue, row 3` when columns are relabeled. */
+function cellName(c: number, r: number, columnLabels?: string[]): string {
+  const custom = columnLabels?.[c];
+  return custom ? `${custom}, row ${r + 1}` : `${columnLabel(c)}${r + 1}`;
 }
 
 /** Normalizes cell shorthand — `12_400` / `{ value, readOnly, tone }` / element — to a {@link SpreadsheetCell}. */
@@ -116,7 +126,11 @@ export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false
                   key: c,
                   // Grid wiring is a default — a cell's own readOnly/onValueChange wins.
                   // `false` stays uninjected so a `balance` cell can imply its own readOnly.
-                  defaultProps: { readOnly: readOnly || undefined, onValueChange: (v) => onCellChange?.(r, c, v) },
+                  defaultProps: {
+                    readOnly: readOnly || undefined,
+                    onValueChange: (v) => onCellChange?.(r, c, v),
+                    label: cellName(c, r, columnLabels),
+                  },
                 }),
               )}
             </tr>

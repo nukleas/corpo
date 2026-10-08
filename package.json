@@ -21,7 +21,8 @@
     "lint": "oxlint --deny-warnings",
     "demo": "pnpm --filter @nukleas/corpo run demo",
     "check:contract": "tsx tools/check-contract.ts",
-    "lint:css": "stylelint \"packages/corpo/src/css/**/*.css\""
+    "lint:css": "stylelint \"packages/corpo/src/css/**/*.css\"",
+    "test": "pnpm --filter @nukleas/react-corpo run test-storybook:ci"
   },
   "engines": {
     "node": ">=22"

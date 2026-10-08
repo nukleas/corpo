@@ -38,7 +38,8 @@ export function AppShellMain({ className = '', children, ...rest }: HTMLAttribut
 
 export function AppShellContent({ className = '', children, ...rest }: HTMLAttributes<HTMLElement>) {
   return (
-    <main className={cx('cp-shell__content', className)} {...rest}>
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scroll container must be focusable for keyboard scrolling (WCAG 2.1.1)
+    <main className={cx('cp-shell__content', className)} tabIndex={0} {...rest}>
       {children}
     </main>
   );

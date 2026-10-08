@@ -64,7 +64,8 @@ export interface AppShellContentProps extends HTMLAttributes<HTMLElement> {
 /** Scrolling content region. */
 export function AppShellContent({ className, children, ...rest }: AppShellContentProps) {
   return (
-    <main className={cn('cp-shell__content', className)} {...rest}>
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scroll container must be focusable for keyboard scrolling (WCAG 2.1.1)
+    <main className={cn('cp-shell__content', className)} tabIndex={0} {...rest}>
       {children}
     </main>
   );

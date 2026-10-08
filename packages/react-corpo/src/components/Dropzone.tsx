@@ -107,7 +107,7 @@ export function Dropzone({
   };
 
   return (
-    <div className={cn('cp-dropzone', disabled && 'is-disabled', className)} {...rest}>
+    <div className={cn('cp-dropzone', disabled && 'is-disabled', className)} aria-disabled={disabled || undefined} {...rest}>
       <div
         className={cn('cp-dropzone__area', dragover && 'is-dragover')}
         onDragEnter={onDragEnter}
@@ -162,6 +162,7 @@ export function Dropzone({
                   <div className="cp-progress">
                     <div
                       role="progressbar"
+                      aria-label={`Uploading ${file.name}`}
                       aria-valuenow={pct}
                       aria-valuemin={0}
                       aria-valuemax={100}

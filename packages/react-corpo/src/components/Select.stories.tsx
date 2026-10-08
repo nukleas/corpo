@@ -12,7 +12,7 @@ type Story = StoryObj<typeof Select>;
 
 export const Default: Story = {
   render: (args) => (
-    <Select {...args}>
+    <Select aria-label="Payment terms" {...args}>
       <option>Net 30</option>
       <option>Net 60</option>
       <option>Due on receipt</option>
@@ -22,7 +22,7 @@ export const Default: Story = {
 export const Error: Story = {
   args: { error: true },
   render: (args) => (
-    <Select {...args}>
+    <Select aria-label="Currency" {...args}>
       <option>Choose a currency</option>
     </Select>
   ),

@@ -1,5 +1,6 @@
 import type { SelectHTMLAttributes, ReactNode } from 'react';
 import { cx } from './cx';
+import { useFieldControlProps } from './field-context';
 
 export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   size?: 'sm' | 'md' | 'lg';
@@ -8,9 +9,10 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
 }
 
 export function Select({ size = 'md', error = false, className = '', children, ...rest }: SelectProps) {
+  const fieldProps = useFieldControlProps(error);
   return (
     <span className={cx('cp-select', size !== 'md' && `cp-select--${size}`, error && 'cp-select--error', className)}>
-      <select className="cp-select__control" {...rest}>
+      <select {...fieldProps} className="cp-select__control" {...rest}>
         {children}
       </select>
       <span className="cp-select__chevron" aria-hidden="true" />

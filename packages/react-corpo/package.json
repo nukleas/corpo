@@ -50,7 +50,9 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006 --ci",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test-storybook": "test-storybook --url http://127.0.0.1:6010",
+    "test-storybook:ci": "concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6010 --silent\" \"wait-on tcp:127.0.0.1:6010 && test-storybook --url http://127.0.0.1:6010 --maxWorkers=4\""
   },
   "peerDependencies": {
     "react": ">=18",
@@ -69,15 +71,21 @@
     "@storybook/react": "^8.6.14",
     "@storybook/react-vite": "^8.6.14",
     "@storybook/test": "^8.6.14",
+    "@storybook/test-runner": "^0.22.1",
     "@types/node": "^22",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
+    "axe-playwright": "^2.2.2",
+    "concurrently": "^10.0.5",
+    "http-server": "^14.1.1",
+    "playwright": "1.63.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "storybook": "^8.6.14",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "wait-on": "^9.5.1"
   }
 }

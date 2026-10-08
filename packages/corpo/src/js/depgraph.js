@@ -131,7 +131,7 @@ export function CpDepGraph(root, opts = {}) {
 
   root.classList.add('cp-depgraph');
   root.innerHTML = `
-    <svg class="cp-depgraph__svg" role="img">
+    <svg class="cp-depgraph__svg" role="group" aria-label="Dependency graph">
       <g class="cp-depgraph__viewport"></g>
     </svg>
     <div class="cp-depgraph__tip" hidden></div>
@@ -197,7 +197,7 @@ export function CpDepGraph(root, opts = {}) {
       ? `<text class="cp-depgraph-node__estimate" x="${x + NODE_W - 12}" y="${y + NODE_H - 12}">${esc(n.estimate)}</text>`
       : '';
     return `
-      <g class="cp-depgraph-node is-${stateOf(n)}" data-id="${esc(n.id)}" tabindex="0"${color}>
+      <g class="cp-depgraph-node is-${stateOf(n)}" data-id="${esc(n.id)}" tabindex="0" role="button" aria-label="${esc(`${n.label}, ${stateOf(n)}`)}"${color}>
         <clipPath id="${clipId}"><rect ${nodeFrame(x, y)} /></clipPath>
         <rect class="cp-depgraph-node__frame" ${nodeFrame(x, y)} />
         <g clip-path="url(#${clipId})">
