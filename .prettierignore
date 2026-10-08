@@ -1,0 +1,12 @@
+**/dist/
+**/storybook-static/
+**/node_modules/
+_*/
+.claude/
+.agents/
+.playwright-mcp/
+pages_dist/
+pnpm-lock.yaml
+tools/oxlint/anti-slop/
+*.md
+*.html
