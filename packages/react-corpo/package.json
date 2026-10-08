@@ -50,8 +50,7 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006 --ci",
-    "build-storybook": "storybook build",
-    "lint": "tsc --noEmit"
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "react": ">=18",

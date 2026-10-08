@@ -41,6 +41,7 @@ export function Command({ groups, placeholder = 'Type a command or search…', e
           placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          // oxlint-disable-next-line jsx-a11y/no-autofocus -- the palette opens to type; its input is the entry point
           autoFocus
         />
       </div>

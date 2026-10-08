@@ -37,7 +37,14 @@ export function Command({ groups, placeholder = 'Type a command or search…', e
   return (
     <div className="cp-command">
       <div className="cp-command__input-row">
-        <input className="cp-command__input" placeholder={placeholder} value={query} onChange={(e) => setQuery(e.target.value)} autoFocus />
+        <input
+          className="cp-command__input"
+          placeholder={placeholder}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          // oxlint-disable-next-line jsx-a11y/no-autofocus -- the palette opens to type; its input is the entry point
+          autoFocus
+        />
       </div>
       <div className="cp-command__list">
         {isEmpty && <div className="cp-command__empty">{emptyText}</div>}

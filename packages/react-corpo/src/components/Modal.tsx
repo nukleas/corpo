@@ -28,13 +28,14 @@ export function Modal({ open, onClose, title, footer, children }: ModalProps) {
   const ariaLabel = typeof title === 'string' ? title : undefined;
 
   return createPortal(
-    <div className="cp-modal-backdrop" onClick={onClose}>
+    // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop click is a pointer convenience; keyboard users close with Escape
+    <div className="cp-modal-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div
         className="cp-modal"
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}
-        onClick={(e) => e.stopPropagation()}
+       
       >
         {title && (
           <div className="cp-modal__header">

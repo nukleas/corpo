@@ -39,7 +39,9 @@ export function DependencyGraph({
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<DepGraphApi | null>(null);
   const handlers = useRef({ onSelect, onAdvance, onHover });
-  handlers.current = { onSelect, onAdvance, onHover };
+  useEffect(() => {
+    handlers.current = { onSelect, onAdvance, onHover };
+  });
   const mounted = useRef(false);
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export function DependencyGraph({
       api.destroy();
       apiRef.current = null;
     };
-    // The engine is created once; model updates flow through replaceModel below.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- the engine is created once; model updates flow through replaceModel below
   }, []);
 
   useEffect(() => {

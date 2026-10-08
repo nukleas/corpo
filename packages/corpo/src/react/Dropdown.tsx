@@ -25,12 +25,20 @@ export function Dropdown({ trigger, items, align = 'left', className = '' }: Dro
     const onDocClick = (e: MouseEvent) => {
       if (ref.current && e.target instanceof Node && !ref.current.contains(e.target)) setOpen(false);
     };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
     document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onDocClick);
+      document.removeEventListener('keydown', onKeyDown);
+    };
   }, [open]);
 
   return (
     <div ref={ref} className={cx('cp-dropdown', className)}>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- the trigger (a Button) is the interactive element; its click, keyboard activation included, bubbles here */}
       <span onClick={() => setOpen((v) => !v)}>{trigger}</span>
       {open && (
         <div className={cx('cp-dropdown__menu', align === 'right' && 'cp-dropdown__menu--right')} role="menu">

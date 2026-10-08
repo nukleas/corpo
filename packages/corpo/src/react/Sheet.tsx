@@ -24,8 +24,9 @@ export function Sheet({ open, onClose, side = 'right', title, footer, children }
   if (!open) return null;
 
   return createPortal(
-    <div className="cp-sheet-backdrop" onClick={onClose}>
-      <div className={cx('cp-sheet', `cp-sheet--${side}`)} role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+    // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop click is a pointer convenience; keyboard users close with Escape
+    <div className="cp-sheet-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className={cx('cp-sheet', `cp-sheet--${side}`)} role="dialog" aria-modal="true">
         {title && (
           <div className="cp-sheet__header">
             <h2 className="cp-sheet__title">{title}</h2>
