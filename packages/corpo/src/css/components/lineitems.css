@@ -1,0 +1,99 @@
+/* LineItems — the editable line grid of a business document (order, invoice,
+   bill): item · description · qty · unit price · discount · tax · amount, an
+   add-line bar, and a subtotal/tax/total block with cp-foot footing rules.
+   Cells hold real corpo controls (Input, NumberInput, Combobox) that shed their
+   field chrome here so the rows read as one grid. */
+.cp-lines {
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  background: var(--corpo-bg-panel);
+}
+.cp-lines__cell {
+  padding: 0;
+}
+.cp-lines__cell .cp-combobox {
+  width: 100%;
+}
+.cp-lines__cell .cp-input {
+  height: auto;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  font-size: var(--corpo-text-sm);
+}
+.cp-lines__cell .cp-input:focus,
+.cp-lines__cell .cp-input:focus-visible {
+  outline: 2px solid var(--corpo-accent);
+  outline-offset: -2px;
+}
+.cp-lines__cell .cp-input[aria-invalid='true'] {
+  outline: 1px solid var(--corpo-red);
+  outline-offset: -1px;
+}
+
+/* Fixed layout: header widths rule, the description column takes the slack,
+   and below the minimum the grid scrolls sideways instead of crushing cells. */
+.cp-lines .cp-table__table {
+  table-layout: fixed;
+  min-width: 760px;
+}
+.cp-lines__col--item {
+  width: 24%;
+}
+.cp-lines__col--qty {
+  width: 72px;
+}
+.cp-lines__col--money {
+  width: 120px;
+}
+.cp-lines__col--pct {
+  width: 80px;
+}
+.cp-lines__col--action {
+  width: 40px;
+}
+
+.cp-lines__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; /* WCAG 2.5.8 minimum target */
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: transparent;
+  color: var(--corpo-text-muted);
+  cursor: pointer;
+  font-size: var(--corpo-text-sm);
+  line-height: 1;
+}
+.cp-lines__remove:hover {
+  background: var(--corpo-red-subtle);
+  color: var(--corpo-red);
+}
+
+.cp-lines__bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 12px 12px;
+  border-top: 1px solid var(--corpo-border-dim);
+}
+.cp-lines__totals {
+  margin-left: auto;
+  border-collapse: collapse;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+}
+.cp-lines__totals td {
+  padding: 4px 0 4px 24px;
+}
+.cp-lines__totals td[data-numeric='true'] {
+  min-width: 14ch;
+  text-align: right;
+}

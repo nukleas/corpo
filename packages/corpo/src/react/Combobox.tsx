@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { cx } from './cx';
 
 export interface ComboboxOption {
@@ -27,6 +27,7 @@ export function Combobox({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const ref = useRef<HTMLDivElement>(null);
+  const listId = useId();
   const selected = options.find((o) => o.value === value);
 
   useEffect(() => {
@@ -44,7 +45,11 @@ export function Combobox({
     <div ref={ref} className="cp-combobox">
       <input
         className="cp-input"
+        role="combobox"
         aria-label={ariaLabel}
+        aria-expanded={open}
+        aria-controls={open ? listId : undefined}
+        aria-autocomplete="list"
         placeholder={placeholder}
         value={open ? query : (selected?.label ?? '')}
         onFocus={() => {
@@ -54,12 +59,14 @@ export function Combobox({
         onChange={(e) => setQuery(e.target.value)}
       />
       {open && (
-        <div className="cp-combobox__list" role="listbox">
+        <div id={listId} className="cp-combobox__list" role="listbox">
           {filtered.length === 0 && <div className="cp-combobox__empty">{emptyText}</div>}
           {filtered.map((o) => (
             <button
               key={o.value}
               type="button"
+              role="option"
+              aria-selected={o.value === value}
               className={cx('cp-combobox__option', o.value === value && 'cp-combobox__option--selected')}
               onClick={() => {
                 onChange?.(o.value);

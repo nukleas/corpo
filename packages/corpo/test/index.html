@@ -588,6 +588,37 @@
   </section>
 
   <section>
+    <h2>Line items</h2>
+    <div class="cp-lines" style="max-width: 1000px;">
+      <div class="cp-table">
+        <table class="cp-table__table">
+          <thead>
+            <tr><th class="cp-lines__col--item">Item</th><th>Description</th><th class="cp-lines__col--qty" data-numeric="true">Qty</th><th class="cp-lines__col--money" data-numeric="true">Unit price</th><th class="cp-lines__col--pct" data-numeric="true">Disc.</th><th class="cp-lines__col--pct" data-numeric="true">Tax</th><th class="cp-lines__col--money" data-numeric="true">Amount</th><th class="cp-lines__col--action" aria-hidden="true"></th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="cp-lines__cell"><input class="cp-input" aria-label="Item, line 1" value="CHR-100 Task chair" /></td><td class="cp-lines__cell"><input class="cp-input" aria-label="Description, line 1" value="Ergonomic task chair, graphite" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Quantity, line 1" value="4" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Unit price, line 1" value="349.00" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Discount percent, line 1" value="10" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Tax rate percent, line 1" value="7.75" /></td><td data-numeric="true"><span class="cp-amount cp-amount--pad"><span class="cp-amount__value">1,256.40</span></span></td><td><button type="button" class="cp-lines__remove" aria-label="Remove line 1">×</button></td></tr>
+            <tr><td class="cp-lines__cell"><input class="cp-input" aria-label="Item, line 2" value="DSK-210 Standing desk" /></td><td class="cp-lines__cell"><input class="cp-input" aria-label="Description, line 2" value="Electric standing desk, 60 in" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Quantity, line 2" value="1" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Unit price, line 2" value="899.00" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Discount percent, line 2" value="" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Tax rate percent, line 2" value="7.75" /></td><td data-numeric="true"><span class="cp-amount cp-amount--pad"><span class="cp-amount__value">899.00</span></span></td><td><button type="button" class="cp-lines__remove" aria-label="Remove line 2">×</button></td></tr>
+            <tr><td class="cp-lines__cell"><input class="cp-input" aria-label="Item, line 3" value="SVC-001 Assembly" /></td><td class="cp-lines__cell"><input class="cp-input" aria-label="Description, line 3" value="On-site assembly, per visit" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Quantity, line 3" value="1" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Unit price, line 3" value="75.00" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Discount percent, line 3" value="" /></td><td class="cp-lines__cell"><input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Tax rate percent, line 3" value="0" /></td><td data-numeric="true"><span class="cp-amount cp-amount--pad"><span class="cp-amount__value">75.00</span></span></td><td><button type="button" class="cp-lines__remove" aria-label="Remove line 3">×</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cp-lines__bar">
+        <button type="button" class="cp-btn cp-btn--ghost cp-btn--sm">Add line</button>
+        <table class="cp-lines__totals" aria-label="Totals">
+          <tbody>
+            <tr><td>Subtotal</td><td data-numeric="true"><span class="cp-amount cp-amount--pad"><span class="cp-amount__value">2,230.40</span></span></td></tr>
+            <tr><td>Tax</td><td data-numeric="true"><span class="cp-amount cp-amount--pad"><span class="cp-amount__value">167.04</span></span></td></tr>
+            <tr class="cp-foot cp-foot--grand"><td>Total</td><td data-numeric="true"><span class="cp-amount cp-amount--split cp-amount--pad"><span class="cp-amount__currency">$</span><span class="cp-amount__value">2,397.44</span></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      <code>cp-lines</code> — a document's editable lines. Cells hold ordinary corpo controls that shed their field chrome; the totals block reuses the <code>cp-foot</code> footing rules.
+    </p>
+  </section>
+
+  <section>
     <h2>DataTable</h2>
     <div class="cp-datatable" style="max-width: 640px;">
       <div class="cp-datatable__toolbar">
