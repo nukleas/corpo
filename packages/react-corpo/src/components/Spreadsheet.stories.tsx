@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
 import { Spreadsheet } from './Spreadsheet';
 import type { SpreadsheetCellShorthand } from './Spreadsheet';
 
@@ -26,6 +27,11 @@ export const Default: Story = {
         onCellChange={(r, c, v) => setRows((prev) => prev.map((row, i) => (i === r ? row.map((cell, j) => (j === c ? v : cell)) : row)))}
       />
     );
+  },  play: async ({ canvasElement }) => {
+    const cell = within(canvasElement).getByRole('textbox', { name: 'Revenue, row 2' });
+    await userEvent.clear(cell);
+    await userEvent.type(cell, '15,000');
+    await expect(cell).toHaveValue('15,000'); // onCellChange round-trips through the caller's state
   },
 };
 

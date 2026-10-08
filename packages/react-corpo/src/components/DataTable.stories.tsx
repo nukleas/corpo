@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
 import { Amount } from './Amount';
 import { Button } from './Button';
 import { DataTable } from './DataTable';
@@ -47,11 +48,37 @@ const ROWS: DataTableRow[] = [
 /** Click a header to sort — asc, desc, then cleared. Amount sorts on its raw value from `values`, so `(1,200.00)` orders as −1200. */
 export const Sortable: Story = {
   render: () => <DataTable columns={COLUMNS} rows={ROWS} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const firstId = () => canvasElement.querySelector('tbody tr td')?.textContent;
+    const amount = canvas.getByRole('button', { name: /Amount/ });
+    const header = amount.closest('th');
+
+    await userEvent.click(amount);
+    await expect(header).toHaveAttribute('aria-sort', 'ascending');
+    await expect(firstId()).toBe('INV-1039'); // −1,200 sorts on its raw value, not "(1,200.00)"
+
+    await userEvent.click(amount);
+    await expect(header).toHaveAttribute('aria-sort', 'descending');
+    await expect(firstId()).toBe('INV-1042');
+
+    await userEvent.click(amount);
+    await expect(header).not.toHaveAttribute('aria-sort');
+    await expect(firstId()).toBe('INV-1042'); // back to source order
+  },
 };
 
 /** `searchable` adds the toolbar quick filter across every column's raw values, with a filtered count. */
 export const Filterable: Story = {
   render: () => <DataTable columns={COLUMNS} rows={ROWS} searchable />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.type(canvas.getByRole('searchbox', { name: 'Filter rows' }), 'north');
+    await expect(canvasElement.querySelectorAll('tbody tr')).toHaveLength(1);
+    await expect(canvas.getByText('1/4')).toBeInTheDocument();
+    await userEvent.clear(canvas.getByRole('searchbox', { name: 'Filter rows' }));
+    await expect(canvasElement.querySelectorAll('tbody tr')).toHaveLength(4);
+  },
 };
 
 /** Selection is controlled — the page owns the ids and renders its own batch actions. Header checkbox toggles the visible (filtered) rows. */
@@ -76,6 +103,18 @@ export const Selectable: Story = {
         />
       </div>
     );
+  },  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const all = canvas.getByRole('checkbox', { name: 'Select all rows' });
+    await expect(all).toHaveProperty('indeterminate', true); // one of four preselected
+
+    await userEvent.click(all);
+    await expect(all).toBeChecked();
+    await expect(canvas.getByRole('button', { name: 'Send reminders (4)' })).toBeEnabled();
+
+    await userEvent.click(all);
+    await expect(all).not.toBeChecked();
+    await expect(canvas.getByRole('button', { name: 'Send reminders (0)' })).toBeDisabled();
   },
 };
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, waitFor, within } from '@storybook/test';
 import { RelationGraph } from './RelationGraph';
 import type { RelGraphEdge, RelGraphNode } from './RelationGraph';
 import { Input } from './Input';
@@ -195,5 +196,13 @@ export const SearchJump: Story = {
         <RelationGraph {...graph} query={query} style={{ height: 440 }} />
       </div>
     );
+  },  play: async ({ canvasElement }) => {
+    const live = () => canvasElement.querySelector('.cp-relgraph__live')?.textContent ?? '';
+    await waitFor(() => expect(live()).toMatch(/matches? for queue/));
+
+    const search = within(canvasElement).getByRole('textbox', { name: 'Search nodes' });
+    await userEvent.clear(search);
+    await userEvent.type(search, 'zzz-nothing{Enter}');
+    await waitFor(() => expect(live()).toBe('No matches for zzz-nothing'));
   },
 };
