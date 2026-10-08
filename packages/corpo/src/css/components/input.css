@@ -50,3 +50,22 @@
 .cp-input--error:focus {
   border-color: var(--corpo-red);
 }
+
+/* Numeric entry — right-aligned tabular figures, matching numeric table cells. */
+.cp-input--numeric {
+  text-align: right;
+  font-family: var(--corpo-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A button dressed as a field — the trigger for date pickers. */
+.cp-input--trigger {
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cp-input__placeholder {
+  color: var(--corpo-text-dim);
+}

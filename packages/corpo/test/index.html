@@ -83,6 +83,52 @@
         <span class="cp-slider-wrap__value">40</span>
       </span>
     </div>
+    <h3 style="font-size: var(--corpo-text-sm); margin: 20px 0 8px;">Numbers and dates</h3>
+    <div class="demo-col">
+      <span class="cp-input-group" style="width: 220px;">
+        <span class="cp-input-group__addon cp-input-group__addon--leading">$</span>
+        <input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Unit price" value="12,400.00" />
+      </span>
+      <span class="cp-input-group" style="width: 160px;">
+        <input class="cp-input cp-input--numeric" role="spinbutton" aria-label="Quantity" value="14" />
+        <span class="cp-input-group__addon cp-input-group__addon--trailing">pcs</span>
+      </span>
+      <button type="button" class="cp-input cp-input--trigger" style="width: 240px;">Sep 8 – Sep 19, 2026</button>
+      <button type="button" class="cp-input cp-input--trigger" style="width: 240px;"><span class="cp-input__placeholder">Select a date range</span></button>
+    </div>
+    <div class="cp-popover__content" style="position: static; display: inline-block; margin-top: 12px;">
+      <div class="cp-daterange">
+        <div class="cp-daterange__presets" role="group" aria-label="Presets">
+          <button type="button" class="cp-daterange__preset" aria-pressed="false">This month</button>
+          <button type="button" class="cp-daterange__preset" aria-pressed="true">Last month</button>
+          <button type="button" class="cp-daterange__preset" aria-pressed="false">This quarter</button>
+          <button type="button" class="cp-daterange__preset" aria-pressed="false">Last quarter</button>
+          <button type="button" class="cp-daterange__preset" aria-pressed="false">Year to date</button>
+        </div>
+        <div>
+          <div class="cp-calendar">
+            <div class="cp-calendar__header">
+              <button type="button" class="cp-calendar__nav" aria-label="Previous month">‹</button>
+              <span class="cp-calendar__label">September 2026</span>
+              <button type="button" class="cp-calendar__nav" aria-label="Next month">›</button>
+            </div>
+            <div class="cp-calendar__grid">
+            <span class="cp-calendar__weekday">Su</span><span class="cp-calendar__weekday">Mo</span><span class="cp-calendar__weekday">Tu</span><span class="cp-calendar__weekday">We</span><span class="cp-calendar__weekday">Th</span><span class="cp-calendar__weekday">Fr</span><span class="cp-calendar__weekday">Sa</span>
+            <button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">30</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">31</button><button type="button" class="cp-calendar__day" aria-pressed="false">1</button><button type="button" class="cp-calendar__day" aria-pressed="false">2</button><button type="button" class="cp-calendar__day" aria-pressed="false">3</button><button type="button" class="cp-calendar__day" aria-pressed="false">4</button><button type="button" class="cp-calendar__day" aria-pressed="false">5</button>
+            <button type="button" class="cp-calendar__day" aria-pressed="false">6</button><button type="button" class="cp-calendar__day" aria-pressed="false">7</button><button type="button" class="cp-calendar__day cp-calendar__day--selected" aria-pressed="true">8</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">9</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">10</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">11</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">12</button>
+            <button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">13</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">14</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">15</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">16</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">17</button><button type="button" class="cp-calendar__day cp-calendar__day--in-range" aria-pressed="false">18</button><button type="button" class="cp-calendar__day cp-calendar__day--selected" aria-pressed="true">19</button>
+            <button type="button" class="cp-calendar__day" aria-pressed="false">20</button><button type="button" class="cp-calendar__day" aria-pressed="false">21</button><button type="button" class="cp-calendar__day" aria-pressed="false">22</button><button type="button" class="cp-calendar__day" aria-pressed="false">23</button><button type="button" class="cp-calendar__day" aria-pressed="false">24</button><button type="button" class="cp-calendar__day" aria-pressed="false">25</button><button type="button" class="cp-calendar__day" aria-pressed="false">26</button>
+            <button type="button" class="cp-calendar__day" aria-pressed="false">27</button><button type="button" class="cp-calendar__day" aria-pressed="false">28</button><button type="button" class="cp-calendar__day" aria-pressed="false">29</button><button type="button" class="cp-calendar__day" aria-pressed="false">30</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">1</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">2</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">3</button>
+            <button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">4</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">5</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">6</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">7</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">8</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">9</button><button type="button" class="cp-calendar__day cp-calendar__day--outside" aria-pressed="false">10</button>
+            </div>
+          </div>
+          <p class="cp-daterange__hint">Select the start date</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      <code>cp-input--numeric</code> right-aligns tabular figures; <code>cp-input--trigger</code> dresses a picker's button as a field. The range panel pairs <code>cp-daterange__presets</code> with a calendar whose span uses <code>cp-calendar__day--in-range</code>.
+    </p>
   </section>
 
   <section>

@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { cn } from '../lib/cn';
 
 export interface CalendarProps {
+  /** Selected day. */
   value?: Date;
+  /** Highlight a span: both endpoints render selected, the days between get a band. `end` may be pending. */
+  range?: { start: Date; end?: Date };
+  /** Month shown first. @default value, range start, or today */
   defaultMonth?: Date;
   onChange?: (date: Date) => void;
   isDisabled?: (date: Date) => boolean;
@@ -26,8 +30,8 @@ function buildGrid(month: Date): Date[] {
 }
 
 /** Corpo calendar — month grid with prev/next navigation, no external date library. */
-export function Calendar({ value, defaultMonth, onChange, isDisabled }: CalendarProps) {
-  const [month, setMonth] = useState(() => defaultMonth ?? value ?? new Date());
+export function Calendar({ value, range, defaultMonth, onChange, isDisabled }: CalendarProps) {
+  const [month, setMonth] = useState(() => defaultMonth ?? value ?? range?.start ?? new Date());
   const today = new Date();
   const days = buildGrid(month);
 
@@ -62,7 +66,10 @@ export function Calendar({ value, defaultMonth, onChange, isDisabled }: Calendar
         ))}
         {days.map((d) => {
           const outside = d.getMonth() !== month.getMonth();
-          const selected = value ? sameDay(d, value) : false;
+          const selected =
+            (value != null && sameDay(d, value)) ||
+            (range != null && (sameDay(d, range.start) || (range.end != null && sameDay(d, range.end))));
+          const inRange = range?.end != null && !selected && d > range.start && d < range.end;
           const isToday = sameDay(d, today);
           const disabled = isDisabled?.(d) ?? false;
           return (
@@ -75,7 +82,9 @@ export function Calendar({ value, defaultMonth, onChange, isDisabled }: Calendar
                 outside && 'cp-calendar__day--outside',
                 isToday && 'cp-calendar__day--today',
                 selected && 'cp-calendar__day--selected',
+                inRange && 'cp-calendar__day--in-range',
               )}
+              aria-pressed={selected}
               onClick={() => onChange?.(d)}
             >
               {d.getDate()}
