@@ -588,6 +588,63 @@
   </section>
 
   <section>
+    <h2>Record page</h2>
+    <article class="cp-record cp-record--with-aside">
+      <header class="cp-record__header">
+        <div class="cp-record__top">
+          <div class="cp-record__heading">
+            <p class="cp-record__eyebrow">Sales order</p>
+            <div class="cp-record__title-row">
+              <h3 class="cp-record__title">SO-10482</h3>
+              <span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--idle" aria-hidden="true"></span>Draft</span>
+            </div>
+          </div>
+          <div class="cp-record__actions">
+            <button type="button" class="cp-btn cp-btn--sm">Save draft</button>
+            <button type="button" class="cp-btn cp-btn--primary cp-btn--sm">Confirm order</button>
+          </div>
+        </div>
+        <dl class="cp-record__facts">
+          <div class="cp-record__fact"><dt class="cp-record__fact-label">Customer</dt><dd class="cp-record__fact-value">Northwind Traders</dd></div>
+          <div class="cp-record__fact"><dt class="cp-record__fact-label">Ordered</dt><dd class="cp-record__fact-value">Oct 5, 2026</dd></div>
+          <div class="cp-record__fact"><dt class="cp-record__fact-label">Due</dt><dd class="cp-record__fact-value">Nov 4, 2026</dd></div>
+          <div class="cp-record__fact"><dt class="cp-record__fact-label">Total</dt><dd class="cp-record__fact-value">2,397.44</dd></div>
+        </dl>
+      </header>
+      <div class="cp-record__body">
+        <div class="cp-record__main">
+          <div>
+            <fieldset class="cp-form-section">
+              <legend class="cp-form-section__title">Customer</legend>
+              <p class="cp-form-section__description">Who the order bills and ships to.</p>
+              <div class="cp-form-grid cp-form-grid--3">
+                <div class="cp-field"><label class="cp-label" for="rec-f1">Customer <span class="cp-label__required" aria-hidden="true">*</span></label><input class="cp-input" id="rec-f1" value="Northwind Traders" /></div>
+                <div class="cp-field"><label class="cp-label" for="rec-f2">Contact</label><input class="cp-input" id="rec-f2" value="Maria Anders" /></div>
+                <div class="cp-field"><label class="cp-label" for="rec-f3">Customer PO</label><input class="cp-input" id="rec-f3" value="PO-88231" /></div>
+                <div class="cp-field cp-field--span-2"><label class="cp-label" for="rec-f4">Billing address</label><input class="cp-input" id="rec-f4" value="12 Orchard Way, Portland, OR 97205" /></div>
+              </div>
+            </fieldset>
+            <fieldset class="cp-form-section">
+              <legend class="cp-form-section__title">Terms</legend>
+              <div class="cp-form-grid cp-form-grid--3">
+                <div class="cp-field"><label class="cp-label" for="rec-f5">Payment terms</label><input class="cp-input" id="rec-f5" value="Net 30" /></div>
+                <div class="cp-field"><label class="cp-label" for="rec-f6">Due date</label><input class="cp-input" id="rec-f6" value="Nov 4, 2026" /></div>
+                <div class="cp-field cp-field--span-full"><label class="cp-label" for="rec-f7">Notes</label><input class="cp-input" id="rec-f7" value="Deliver to the loading dock before 3 PM." /></div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <aside class="cp-record__aside">
+          <div class="cp-card"><p class="cp-record__eyebrow">Activity</p><p style="margin: 6px 0 0; font-size: var(--corpo-text-sm);">Draft created · Oct 5, 9:12 AM</p></div>
+        </aside>
+      </div>
+    </article>
+    <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
+      <code>cp-record</code> — header, key-facts strip, main column and aside (stacks below 768px). <code>cp-form-section</code> is a fieldset over a <code>cp-form-grid--{2,3,4}</code>; fields span with <code>cp-field--span-{2,3,full}</code>.
+    </p>
+  </section>
+
+  <section>
     <h2>Line items</h2>
     <div class="cp-lines" style="max-width: 1000px;">
       <div class="cp-table">

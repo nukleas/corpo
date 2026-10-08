@@ -37,22 +37,22 @@
    and below the minimum the grid scrolls sideways instead of crushing cells. */
 .cp-lines .cp-table__table {
   table-layout: fixed;
-  min-width: 760px;
+  min-width: 640px;
 }
 .cp-lines__col--item {
-  width: 24%;
+  width: 22%;
 }
 .cp-lines__col--qty {
-  width: 72px;
+  width: 64px;
 }
 .cp-lines__col--money {
-  width: 120px;
+  width: 108px;
 }
 .cp-lines__col--pct {
-  width: 80px;
+  width: 68px;
 }
 .cp-lines__col--action {
-  width: 40px;
+  width: 36px;
 }
 
 .cp-lines__remove {

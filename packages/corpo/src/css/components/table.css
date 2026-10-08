@@ -66,6 +66,22 @@
   font-variant-numeric: tabular-nums;
   font-family: var(--corpo-font-mono);
 }
+/* A record id or name that opens the record — link or button, styled as a link. */
+.cp-table__link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--corpo-accent-strong);
+  font: inherit;
+  text-align: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--corpo-accent-muted);
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.cp-table__link:hover {
+  text-decoration-color: currentcolor;
+}
 .cp-table__table td[data-mono='true'] {
   font-family: var(--corpo-font-mono);
 }

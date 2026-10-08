@@ -10,11 +10,13 @@ export interface FieldProps {
   error?: ReactNode;
   required?: boolean;
   htmlFor?: string;
+  /** Columns to span inside a FormGrid. */
+  span?: 2 | 3 | 'full';
   className?: string;
   children?: ReactNode;
 }
 
-export function Field({ label, hint, error, required = false, htmlFor, className = '', children }: FieldProps) {
+export function Field({ label, hint, error, required = false, htmlFor, span, className = '', children }: FieldProps) {
   const autoId = useId();
   const id = htmlFor ?? autoId;
   const hintId = `${id}-hint`;
@@ -22,7 +24,7 @@ export function Field({ label, hint, error, required = false, htmlFor, className
   const describedBy = error ? errorId : hint ? hintId : undefined;
   return (
     <FieldContext.Provider value={{ id, describedBy, invalid: Boolean(error), required }}>
-      <div className={cx('cp-field', className)}>
+      <div className={cx('cp-field', span && `cp-field--span-${span}`, className)}>
         {label && (
           <Label htmlFor={id} required={required}>
             {label}

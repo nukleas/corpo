@@ -21,8 +21,8 @@ Public Sans body copy, quiet elevation instead of neon glow, sentence-case conte
 shadcn-parity extras that fit a calm business UI. Cyber-only families (Terminal, HUD, Scanner,
 Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts) are intentionally not ported.
 
-- **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label, Slider, Combobox, DatePicker, Toggle, ToggleGroup, ButtonGroup, InputGroup
-- **Display**: Card, Badge, Table, DataTable, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip, StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, SectionHeader
+- **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label, Slider, Combobox, DatePicker, DateRangePicker, NumberInput, FormGrid, FormSection, Toggle, ToggleGroup, ButtonGroup, InputGroup
+- **Display**: Card, Badge, Table, DataTable, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip, StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, SectionHeader, RecordPage, LineItems
 - **Feedback**: Alert, Progress, Spinner, Toast
 - **Navigation**: Tabs, Breadcrumb, Dropdown, Pagination, Command
 

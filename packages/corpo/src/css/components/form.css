@@ -1,0 +1,82 @@
+/* FormGrid + FormSection — dense multi-column record forms.
+   .cp-form-grid--{2,3,4} sets the column count; a field spans with
+   .cp-field--span-{2,3} or .cp-field--span-full. Columns step down at the
+   standard breakpoints: max 2 at 768px, 1 at 480px. */
+.cp-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px 20px;
+  align-items: start;
+}
+.cp-form-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.cp-form-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.cp-form-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.cp-form-grid > .cp-field--span-2 {
+  grid-column: span 2;
+}
+.cp-form-grid > .cp-field--span-3 {
+  grid-column: span 3;
+}
+.cp-form-grid > .cp-field--span-full {
+  grid-column: 1 / -1;
+}
+
+/* A titled group of fields — a fieldset whose legend reads like a section label. */
+.cp-form-section {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.cp-form-section + .cp-form-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--corpo-border-dim);
+}
+.cp-form-section__title {
+  float: left; /* lets the legend sit in flow so the description and grid follow it */
+  width: 100%;
+  margin: 0 0 4px;
+  padding: 0;
+  font-size: var(--corpo-text-base);
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-form-section__description {
+  clear: both;
+  margin: 0 0 14px;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-muted);
+}
+.cp-form-section > .cp-form-grid {
+  clear: both;
+}
+.cp-form-section__title + .cp-form-grid {
+  padding-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .cp-form-grid--3,
+  .cp-form-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cp-form-grid > .cp-field--span-3 {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 480px) {
+  .cp-form-grid--2,
+  .cp-form-grid--3,
+  .cp-form-grid--4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cp-form-grid > .cp-field--span-2 {
+    grid-column: auto;
+  }
+}
