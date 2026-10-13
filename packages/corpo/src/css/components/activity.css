@@ -1,0 +1,64 @@
+/* ActivityGrid — a calendar heatmap: weeks are columns, Sunday–Saturday are rows. */
+.cp-activity {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+  font-family: var(--corpo-font-sans);
+}
+.cp-activity__grid {
+  display: grid;
+  grid-template-rows: auto repeat(7, 11px);
+  grid-template-columns: auto;
+  grid-auto-columns: 11px;
+  gap: 3px;
+}
+.cp-activity__month,
+.cp-activity__weekday {
+  font-size: 10px;
+  line-height: 11px;
+  color: var(--corpo-text-dim);
+  white-space: nowrap;
+}
+.cp-activity__month {
+  grid-row: 1;
+  padding-bottom: 2px;
+}
+.cp-activity__weekday {
+  grid-column: 1;
+  padding-right: 4px;
+}
+
+.cp-activity__cell {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  background: var(--corpo-border-dim);
+}
+.cp-activity__cell--1 {
+  background: var(--corpo-chart-seq-1);
+}
+.cp-activity__cell--2 {
+  background: var(--corpo-chart-seq-2);
+}
+.cp-activity__cell--3 {
+  background: var(--corpo-chart-seq-3);
+}
+.cp-activity__cell--4 {
+  background: var(--corpo-chart-seq-4);
+}
+.cp-activity__grid .cp-activity__cell:hover {
+  outline: 1px solid var(--corpo-text);
+  outline-offset: 1px;
+}
+
+.cp-activity__legend {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  gap: 3px;
+  font-size: 10px;
+  color: var(--corpo-text-dim);
+}

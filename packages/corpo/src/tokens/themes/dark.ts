@@ -27,6 +27,11 @@ export const darkTheme = {
   'chart-3': '#5b83d6',
   'chart-4': '#d44f92',
   'chart-5': '#7a68e0',
+  // sequential ramp — anchor flipped for the dark surface: more is lighter (validated on #151b24)
+  'chart-seq-1': '#1d6574',
+  'chart-seq-2': '#2d8a9d',
+  'chart-seq-3': '#45adc0',
+  'chart-seq-4': '#86d6e3',
   'shadow-sm': '0 1px 2px rgba(0, 0, 0, 0.4)',
   'shadow-md': '0 2px 8px rgba(0, 0, 0, 0.45)',
   'shadow-lg': '0 8px 28px rgba(0, 0, 0, 0.55)',

@@ -55,6 +55,12 @@ export const semanticTokens = {
   'chart-3': '#2758c0',
   'chart-4': '#ad1a7d',
   'chart-5': '#6742c9',
+  // sequential ramp — one hue, low → high magnitude (ActivityGrid levels 1–4). Validated as an ordinal
+  // ramp on white (monotone L, visible steps, light end ≥ 2:1); themes/dark.ts flips the anchor.
+  'chart-seq-1': '#7bbfce',
+  'chart-seq-2': '#4aa3b8',
+  'chart-seq-3': '#1d8299',
+  'chart-seq-4': '#0b5a6b',
 
   // default accent theme (teal) — amber/green/red/steel override just this block via .theme-*
   accent: palette.teal,

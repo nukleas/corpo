@@ -1,0 +1,50 @@
+/* Gauge — a radial meter. The fill carries the tone; the track is a lighter step of the same color. */
+.cp-gauge {
+  --gauge-fill: var(--corpo-accent);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160px;
+  font-family: var(--corpo-font-sans);
+}
+.cp-gauge--ok {
+  --gauge-fill: var(--corpo-green);
+}
+.cp-gauge--warn {
+  --gauge-fill: var(--corpo-amber);
+}
+.cp-gauge--err {
+  --gauge-fill: var(--corpo-red);
+}
+
+.cp-gauge__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.cp-gauge__track,
+.cp-gauge__fill {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+.cp-gauge__track {
+  stroke: color-mix(in srgb, var(--gauge-fill) 22%, transparent);
+}
+.cp-gauge__fill {
+  stroke: var(--gauge-fill);
+}
+/* Text wears text tokens, never the tone color. */
+.cp-gauge__value {
+  fill: var(--corpo-text);
+  font-size: 24px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+.cp-gauge__label {
+  margin-top: -6px;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-muted);
+  text-align: center;
+}
