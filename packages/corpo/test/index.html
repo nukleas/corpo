@@ -402,6 +402,30 @@
   </section>
 
   <section>
+    <h2>Approvals</h2>
+    <div class="cp-approvals" style="max-width: 420px;">
+      <p class="cp-approvals__summary">1 of 2 approved</p>
+      <ol class="cp-approvals__list" aria-label="Approvers">
+        <li class="cp-approvals__item">
+          <span class="cp-avatar cp-avatar--sm" aria-hidden="true">MA</span>
+          <div class="cp-approvals__body"><span class="cp-approvals__name">Maria Anders</span><span class="cp-approvals__role">Department manager</span><p class="cp-approvals__comment">Needed for the Q4 warehouse refit.</p></div>
+          <div class="cp-approvals__decision"><span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--ok" aria-hidden="true"></span>Approved</span><span class="cp-approvals__time">Oct 6, 9:14 AM</span></div>
+        </li>
+        <li class="cp-approvals__item">
+          <span class="cp-avatar cp-avatar--sm" aria-hidden="true">AS</span>
+          <div class="cp-approvals__body"><span class="cp-approvals__name">Ana Sørensen</span><span class="cp-approvals__role">Finance</span></div>
+          <div class="cp-approvals__decision"><span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--idle" aria-hidden="true"></span>Pending</span></div>
+        </li>
+      </ol>
+      <div class="cp-approvals__decide">
+        <label class="cp-label" for="demo-approval-comment">Comment</label>
+        <textarea class="cp-textarea" id="demo-approval-comment" rows="2" placeholder="Required to reject"></textarea>
+        <div class="cp-approvals__actions"><button class="cp-btn cp-btn--sm cp-btn--danger" disabled>Reject</button><button class="cp-btn cp-btn--sm cp-btn--primary">Approve</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <h2>Tree grid</h2>
     <div class="cp-table cp-table--grid" style="max-width: 480px;">
       <table class="cp-table__table" role="treegrid" aria-label="Chart of accounts">

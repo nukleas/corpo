@@ -24,6 +24,7 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Select } from '../components/Select';
 import { SideNav } from '../components/SideNav';
 import { StatusPill } from '../components/StatusPill';
+import { Stepper } from '../components/Stepper';
 import { Tabs } from '../components/Tabs';
 import { Textarea } from '../components/Textarea';
 import { Topbar } from '../components/Topbar';
@@ -319,6 +320,11 @@ function OrderRecord({
           </>
         }
       >
+        <Stepper
+          aria-label="Order lifecycle"
+          items={[{ label: 'Draft' }, { label: 'Confirmed' }, { label: 'Shipped' }, { label: 'Invoiced' }]}
+          current={['Draft', 'Confirmed', 'Shipped'].indexOf(order.status)}
+        />
         <Tabs
           aria-label="Order sections"
           tabs={[
