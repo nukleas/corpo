@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 import { SplitView } from './SplitView';
 import { Amount } from './Amount';
-import { DataTable, type DataTableRow } from './DataTable';
 import { DescriptionList } from './DescriptionList';
+import { Feed, FeedItem } from './FeedItem';
 import { SectionHeader } from './SectionHeader';
 import { StatusPill } from './StatusPill';
 
@@ -28,37 +28,25 @@ type Story = StoryObj<typeof SplitView>;
 function InvoiceInbox() {
   const [openId, setOpenId] = useState<string | null>(null);
   const open = INVOICES.find((inv) => inv.id === openId);
-  const rows: DataTableRow[] = INVOICES.map((inv) => ({
-    id: inv.id,
-    cells: {
-      id: {
-        content: (
-          <button type="button" className="cp-table__link" onClick={() => setOpenId(inv.id)}>
-            {inv.id}
-          </button>
-        ),
-      },
-      client: inv.client,
-      amount: { content: <Amount value={inv.amount} /> },
-    },
-  }));
-
   return (
     <div style={{ height: 420 }}>
       <SplitView
         listLabel="Invoices"
         onBack={() => setOpenId(null)}
         list={
-          <DataTable
-            grid
-            onRowActivate={setOpenId}
-            columns={[
-              { key: 'id', label: 'Invoice', mono: true },
-              { key: 'client', label: 'Client' },
-              { key: 'amount', label: 'Amount', numeric: true },
-            ]}
-            rows={rows}
-          />
+          <Feed aria-label="Invoices">
+            {INVOICES.map((inv) => (
+              <FeedItem
+                key={inv.id}
+                badge={<StatusPill tone={TONE[inv.status]}>{inv.status}</StatusPill>}
+                title={inv.id}
+                subtitle={`${inv.client} · due ${inv.due}`}
+                time={<Amount value={inv.amount} />}
+                selected={openId === inv.id}
+                onClick={() => setOpenId(inv.id)}
+              />
+            ))}
+          </Feed>
         }
         detail={
           open && (
@@ -92,7 +80,8 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText('Select an item to see its details.')).toBeInTheDocument();
     await expect(canvas.getByRole('separator', { name: 'Resize invoices' })).toBeInTheDocument();
-    await userEvent.click(canvas.getByRole('button', { name: 'INV-2040' }));
+    await userEvent.click(canvas.getByRole('button', { name: /INV-2040/ }));
+    await expect(canvas.getByRole('button', { name: /INV-2040/ })).toHaveAttribute('aria-current', 'true');
     await expect(canvas.getByRole('heading', { name: 'INV-2040' })).toBeInTheDocument();
     await expect(canvas.getByText('Oct 30, 2026')).toBeInTheDocument();
   },
