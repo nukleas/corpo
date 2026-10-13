@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 import { ActivityLog, type ActivityEntry } from '../components/ActivityLog';
 import { AppShell } from '../components/AppShell';
+import { AttachmentList, type Attachment } from '../components/AttachmentList';
 import { Amount } from '../components/Amount';
 import { Avatar } from '../components/Avatar';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -49,6 +50,7 @@ interface Order {
   status: OrderStatus;
   lines: LineItem[];
   history: ActivityEntry[];
+  attachments: Attachment[];
 }
 
 const PRODUCTS: LineItemProduct[] = [
@@ -101,6 +103,16 @@ const ORDERS: Order[] = [
     notes: 'Deliver to the loading dock before 3 PM.',
     status: 'Draft',
     lines: [line('a1', 'CHR-100', 4, 10), line('a2', 'DSK-210', 1), line('a3', 'SVC-001', 1)],
+    attachments: [
+      {
+        id: 'f1',
+        name: 'PO-88231 signed.pdf',
+        size: 248_312,
+        href: '#po-88231.pdf',
+        uploadedBy: 'Maria Anders',
+        uploadedAt: 'Oct 5',
+      },
+    ],
     history: [{ id: 'h1', type: 'event', title: 'Draft created', timestamp: 'Oct 5, 9:12 AM' }],
   },
   {
@@ -114,6 +126,7 @@ const ORDERS: Order[] = [
     notes: '',
     status: 'Confirmed',
     lines: [line('b1', 'DSK-210', 6, 5), line('b2', 'MON-27', 6)],
+    attachments: [],
     history: [
       { id: 'h2', type: 'event', title: 'Order confirmed', timestamp: 'Oct 2, 2:40 PM', tone: 'ok' },
       { id: 'h3', type: 'event', title: 'Draft created', timestamp: 'Oct 2, 11:03 AM' },
@@ -130,6 +143,7 @@ const ORDERS: Order[] = [
     notes: '',
     status: 'Shipped',
     lines: [line('c1', 'CHR-100', 12, 15), line('c2', 'SVC-001', 2)],
+    attachments: [],
     history: [
       { id: 'h4', type: 'event', title: 'Shipped', timestamp: 'Sep 29, 8:15 AM', tone: 'ok' },
       { id: 'h5', type: 'event', title: 'Order confirmed', timestamp: 'Sep 24, 4:02 PM', tone: 'ok' },
@@ -260,26 +274,49 @@ function OrderRecord({
           { label: 'Total', value: <Amount value={totals.total} /> },
         ]}
         aside={
-          <Card title="Activity">
-            <ActivityLog
-              entries={order.history}
-              onComment={(body) =>
-                onChange({
-                  ...order,
-                  history: [
-                    {
-                      id: `h${order.history.length + 100}`,
-                      type: 'comment',
-                      author: 'Ana Sørensen',
-                      timestamp: 'Just now',
-                      body,
-                    },
-                    ...order.history,
-                  ],
-                })
-              }
-            />
-          </Card>
+          <>
+            <Card title="Activity">
+              <ActivityLog
+                entries={order.history}
+                onComment={(body) =>
+                  onChange({
+                    ...order,
+                    history: [
+                      {
+                        id: `h${order.history.length + 100}`,
+                        type: 'comment',
+                        author: 'Ana Sørensen',
+                        timestamp: 'Just now',
+                        body,
+                      },
+                      ...order.history,
+                    ],
+                  })
+                }
+              />
+            </Card>
+            <Card title="Attachments">
+              <AttachmentList
+                attachments={order.attachments}
+                onRemove={(id) => onChange({ ...order, attachments: order.attachments.filter((a) => a.id !== id) })}
+                onAdd={(files) =>
+                  onChange({
+                    ...order,
+                    attachments: [
+                      ...order.attachments,
+                      ...files.map((f, n) => ({
+                        id: `f${order.attachments.length + n + 1}`,
+                        name: f.name,
+                        size: f.size,
+                        uploadedBy: 'Ana Sørensen',
+                        uploadedAt: 'Just now',
+                      })),
+                    ],
+                  })
+                }
+              />
+            </Card>
+          </>
         }
       >
         <Tabs

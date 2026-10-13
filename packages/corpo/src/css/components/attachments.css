@@ -1,0 +1,79 @@
+/* AttachmentList — settled files on a record. Uploads in progress belong to Dropzone. */
+.cp-attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: var(--corpo-font-sans);
+}
+.cp-attachments__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cp-attachments__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--corpo-border-dim);
+}
+.cp-attachments__item:first-child {
+  padding-top: 0;
+}
+.cp-attachments__item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.cp-attachments__type {
+  min-width: 38px;
+  padding: 3px 4px;
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  background: var(--corpo-bg-inset);
+  font-family: var(--corpo-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--corpo-text-secondary);
+}
+.cp-attachments__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.cp-attachments__name {
+  overflow: hidden;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+a.cp-attachments__name {
+  color: var(--corpo-accent);
+}
+a.cp-attachments__name:hover {
+  text-decoration: underline;
+}
+.cp-attachments__meta {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+.cp-attachments__empty {
+  margin: 0;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-muted);
+}
+.cp-attachments__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
