@@ -287,13 +287,20 @@
     </nav>
     <div class="demo-row" style="margin-top: 16px;">
       <div class="cp-dropdown" id="demo-dropdown">
-        <span><button class="cp-btn cp-btn--sm">Actions ▾</button></span>
+        <button class="cp-btn cp-btn--sm" aria-haspopup="menu" aria-expanded="false">Actions ▾</button>
         <div class="cp-dropdown__menu" style="display: none;" role="menu">
           <button class="cp-dropdown__item" role="menuitem">Edit</button>
           <button class="cp-dropdown__item" role="menuitem">Duplicate</button>
           <div class="cp-dropdown__separator"></div>
           <button class="cp-dropdown__item cp-dropdown__item--danger" role="menuitem">Delete</button>
         </div>
+      </div>
+      <div class="cp-menubar" role="menubar" aria-label="Report editor">
+        <div class="cp-menubar__menu">
+          <button class="cp-menubar__trigger" role="menuitem" aria-haspopup="menu" aria-expanded="false" tabindex="0">File</button>
+        </div>
+        <div class="cp-menubar__menu"><button class="cp-menubar__trigger" role="menuitem" aria-haspopup="menu" aria-expanded="false" tabindex="-1">Edit</button></div>
+        <div class="cp-menubar__menu"><button class="cp-menubar__trigger" role="menuitem" aria-haspopup="menu" aria-expanded="false" tabindex="-1">View</button></div>
       </div>
       <nav class="cp-pagination" aria-label="Pagination">
         <button class="cp-pagination__btn" aria-label="Previous page">‹</button>
@@ -1241,7 +1248,7 @@
 
     const dropdown = document.getElementById('demo-dropdown');
     const dropdownMenu = dropdown.querySelector('.cp-dropdown__menu');
-    dropdown.querySelector('span').addEventListener('click', (e) => {
+    dropdown.querySelector('button').addEventListener('click', (e) => {
       e.stopPropagation();
       dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
     });

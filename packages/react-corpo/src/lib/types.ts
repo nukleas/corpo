@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 /**
  * Accent theme applied via `.theme-*` on a root element
  * (typically `<html>` or {@link ThemeProvider}). `teal` is the default and
@@ -10,3 +12,13 @@ export type CpColor = 'neutral' | 'accent' | 'green' | 'red' | 'amber' | 'blue' 
 
 /** Shared size scale used by form controls and buttons. */
 export type CpSize = 'sm' | 'md' | 'lg';
+
+/** One action in a {@link Dropdown}, {@link ContextMenu} or {@link Menubar} menu. */
+export interface MenuItem {
+  id: string;
+  label: ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  /** Renders in red — use for destructive actions. */
+  danger?: boolean;
+}

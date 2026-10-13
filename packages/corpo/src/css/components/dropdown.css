@@ -60,3 +60,16 @@
   margin: 4px 6px;
   background: var(--corpo-border-dim);
 }
+.cp-dropdown__item:focus-visible {
+  outline-offset: -2px; /* inset: the menu's padding is too tight for an outset ring */
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+
+/* ContextMenu: the menu is placed at the pointer (left/top set inline). */
+.cp-dropdown__menu--fixed {
+  position: fixed;
+}
+.cp-context-menu {
+  display: contents;
+}

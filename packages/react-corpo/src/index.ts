@@ -5,7 +5,7 @@ export { cn } from './lib/cn';
 export { createShorthandFactory } from './lib/createShorthand';
 export type { Shorthand, ShorthandOptions } from './lib/createShorthand';
 export type { PolymorphicProps } from './lib/polymorphic';
-export type { CpColor, CpTheme, CpSize } from './lib/types';
+export type { CpColor, CpTheme, CpSize, MenuItem } from './lib/types';
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';
 export type { ThemeProviderProps } from './theme/ThemeProvider';
 
@@ -37,6 +37,8 @@ export * from './components/Skeleton';
 export * from './components/SkeletonRow';
 export * from './components/Toast';
 export * from './components/Dropdown';
+export * from './components/ContextMenu';
+export * from './components/Menubar';
 export * from './components/Accordion';
 export * from './components/Pagination';
 export * from './components/Modal';

@@ -26,6 +26,7 @@ export * from './Skeleton';
 export * from './SkeletonRow';
 export * from './Toast';
 export * from './Dropdown';
+export type { MenuItem } from './MenuList';
 export * from './Accordion';
 export * from './Pagination';
 export * from './Modal';
