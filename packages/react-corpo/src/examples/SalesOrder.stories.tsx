@@ -22,6 +22,7 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Select } from '../components/Select';
 import { SideNav } from '../components/SideNav';
 import { StatusPill } from '../components/StatusPill';
+import { Tabs } from '../components/Tabs';
 import { Textarea } from '../components/Textarea';
 import { Timeline } from '../components/Timeline';
 import type { TimelineItem } from '../components/Timeline';
@@ -262,40 +263,65 @@ function OrderRecord({
           </Card>
         }
       >
-        <div>
-          <FormSection title="Customer" columns={3} disabled={!editable}>
-            <Field label="Customer" required>
-              <Input value={order.customer} onChange={(e) => onChange({ ...order, customer: e.target.value })} />
-            </Field>
-            <Field label="Contact">
-              <Input value={order.contact} onChange={(e) => onChange({ ...order, contact: e.target.value })} />
-            </Field>
-            <Field label="Customer PO">
-              <Input value={order.po} onChange={(e) => onChange({ ...order, po: e.target.value })} />
-            </Field>
-          </FormSection>
-          <FormSection title="Terms" columns={3} disabled={!editable}>
-            <Field label="Payment terms">
-              <Select value={order.terms} onChange={(e) => onChange({ ...order, terms: e.target.value })}>
-                <option value="net15">Net 15</option>
-                <option value="net30">Net 30</option>
-                <option value="net60">Net 60</option>
-              </Select>
-            </Field>
-            <Field label="Due date">
-              <DatePicker value={order.due} onChange={(due) => onChange({ ...order, due })} />
-            </Field>
-            <Field label="Notes" span="full">
-              <Textarea rows={2} value={order.notes} onChange={(e) => onChange({ ...order, notes: e.target.value })} />
-            </Field>
-          </FormSection>
-        </div>
-        <LineItems
-          value={order.lines}
-          onChange={(lines) => onChange({ ...order, lines })}
-          products={PRODUCTS}
-          currency="$"
-          readOnly={!editable}
+        <Tabs
+          aria-label="Order sections"
+          tabs={[
+            {
+              id: 'details',
+              label: 'Details',
+              panel: (
+                <div>
+                  <FormSection title="Customer" columns={3} disabled={!editable}>
+                    <Field label="Customer" required>
+                      <Input
+                        value={order.customer}
+                        onChange={(e) => onChange({ ...order, customer: e.target.value })}
+                      />
+                    </Field>
+                    <Field label="Contact">
+                      <Input value={order.contact} onChange={(e) => onChange({ ...order, contact: e.target.value })} />
+                    </Field>
+                    <Field label="Customer PO">
+                      <Input value={order.po} onChange={(e) => onChange({ ...order, po: e.target.value })} />
+                    </Field>
+                  </FormSection>
+                  <FormSection title="Terms" columns={3} disabled={!editable}>
+                    <Field label="Payment terms">
+                      <Select value={order.terms} onChange={(e) => onChange({ ...order, terms: e.target.value })}>
+                        <option value="net15">Net 15</option>
+                        <option value="net30">Net 30</option>
+                        <option value="net60">Net 60</option>
+                      </Select>
+                    </Field>
+                    <Field label="Due date">
+                      <DatePicker value={order.due} onChange={(due) => onChange({ ...order, due })} />
+                    </Field>
+                    <Field label="Notes" span="full">
+                      <Textarea
+                        rows={2}
+                        value={order.notes}
+                        onChange={(e) => onChange({ ...order, notes: e.target.value })}
+                      />
+                    </Field>
+                  </FormSection>
+                </div>
+              ),
+            },
+            {
+              id: 'lines',
+              label: 'Lines',
+              count: order.lines.length,
+              panel: (
+                <LineItems
+                  value={order.lines}
+                  onChange={(lines) => onChange({ ...order, lines })}
+                  products={PRODUCTS}
+                  currency="$"
+                  readOnly={!editable}
+                />
+              ),
+            },
+          ]}
         />
       </RecordPage>
     </div>
@@ -358,8 +384,8 @@ function SalesOrderExample() {
 
 /**
  * The ERP proof point, built only from corpo components: an order list (DataTable grid with totals,
- * bulk actions, and a DateRangePicker period) opens a RecordPage with FormSections, LineItems, and
- * an activity aside. Confirming the draft locks the form and lines.
+ * bulk actions, and a DateRangePicker period) opens a RecordPage with Details and Lines tabs
+ * (FormSections, LineItems) and an activity aside. Confirming the draft locks the form and lines.
  */
 export const Workspace: StoryObj = {
   render: () => <SalesOrderExample />,
@@ -371,6 +397,7 @@ export const Workspace: StoryObj = {
     await userEvent.click(canvas.getByRole('button', { name: 'SO-10482' }));
     await expect(canvas.getByRole('heading', { level: 1, name: 'SO-10482' })).toBeInTheDocument();
 
+    await userEvent.click(canvas.getByRole('tab', { name: /Lines/ }));
     const qty = canvas.getByRole('spinbutton', { name: 'Quantity, line 3' });
     await userEvent.click(qty);
     await userEvent.clear(qty);
@@ -382,6 +409,8 @@ export const Workspace: StoryObj = {
     await userEvent.click(canvas.getByRole('button', { name: 'Confirm order' }));
     await expect(canvas.getByText('Confirmed', { selector: '.cp-record__title-row *' })).toBeInTheDocument();
     await expect(canvas.queryByRole('button', { name: 'Add line' })).toBeNull();
+    await userEvent.click(canvas.getByRole('tab', { name: 'Details' }));
+    await expect(canvas.getByRole('textbox', { name: /Customer PO/ })).toBeDisabled();
 
     const crumbs = within(canvas.getByRole('navigation', { name: 'Breadcrumb' }));
     await userEvent.click(crumbs.getByRole('button', { name: 'Sales orders' }));

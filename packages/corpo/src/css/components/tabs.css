@@ -30,6 +30,9 @@
   box-shadow: none;
   transition: color var(--corpo-dur-fast) var(--corpo-ease);
 }
+.cp-tabs__tab:focus-visible {
+  outline-offset: -2px; /* inset: the tablist scrolls, so an outset ring would be clipped */
+}
 .cp-tabs__tab[aria-selected='true'] {
   color: var(--corpo-accent);
   box-shadow: inset 0 -2px 0 var(--corpo-accent);
@@ -38,7 +41,7 @@
 .cp-tabs--pills .cp-tabs__tab {
   border: 1px solid var(--corpo-border);
   border-radius: var(--corpo-radius);
-  box-shadow: none !important;
+  box-shadow: none;
 }
 .cp-tabs--pills .cp-tabs__tab[aria-selected='true'] {
   background: var(--corpo-accent-subtle);
@@ -52,4 +55,8 @@
   font-size: 10px;
   color: var(--corpo-text-muted);
   background: var(--corpo-bg-inset);
+}
+
+.cp-tabs__panel {
+  padding-top: 16px;
 }

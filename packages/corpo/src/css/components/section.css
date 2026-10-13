@@ -1,0 +1,11 @@
+.cp-section + .cp-section {
+  margin-top: 32px;
+}
+.cp-section__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cp-section__body > .cp-section + .cp-section {
+  margin-top: 0;
+}

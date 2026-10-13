@@ -63,6 +63,7 @@ export * from './Empty';
 export * from './AspectRatio';
 export * from './ScrollArea';
 export * from './SectionHeader';
+export * from './Section';
 export * from './DescriptionList';
 export * from './Timeline';
 export * from './Stepper';
