@@ -1,0 +1,51 @@
+.cp-bottom-nav {
+  display: flex;
+  flex-shrink: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--corpo-bg-panel);
+  border-top: 1px solid var(--corpo-border-dim);
+}
+/* Inside AppShell it is the phone nav: the sidebar covers desktop. */
+.cp-shell .cp-bottom-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .cp-shell .cp-bottom-nav {
+    display: flex;
+  }
+}
+
+.cp-bottom-nav__item {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 56px;
+  padding: 6px 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  text-decoration: none;
+}
+.cp-bottom-nav__item[aria-current='page'] {
+  color: var(--corpo-accent);
+}
+.cp-bottom-nav__item:focus-visible {
+  outline-offset: -2px;
+}
+.cp-bottom-nav__icon {
+  display: inline-flex;
+  font-size: 18px;
+  line-height: 1;
+}
+.cp-bottom-nav__badge {
+  position: absolute;
+  top: 2px;
+  left: calc(50% + 9px);
+}

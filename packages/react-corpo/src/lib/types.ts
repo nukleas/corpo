@@ -13,12 +13,25 @@ export type CpColor = 'neutral' | 'accent' | 'green' | 'red' | 'amber' | 'blue' 
 /** Shared size scale used by form controls and buttons. */
 export type CpSize = 'sm' | 'md' | 'lg';
 
-/** One action in a {@link Dropdown}, {@link ContextMenu} or {@link Menubar} menu. */
-export interface MenuItem {
+interface MenuEntryBase {
   id: string;
   label: ReactNode;
-  onClick?: () => void;
   disabled?: boolean;
-  /** Renders in red — use for destructive actions. */
-  danger?: boolean;
 }
+
+/**
+ * One entry in a {@link Dropdown}, {@link ContextMenu} or {@link Menubar}
+ * menu: an action (the default), a checkbox or radio item, a submenu, or a
+ * separator. Checkbox and radio items are controlled and keep the menu open.
+ */
+export type MenuItem =
+  | (MenuEntryBase & {
+      type?: 'action';
+      onClick?: () => void;
+      /** Renders in red — use for destructive actions. */
+      danger?: boolean;
+    })
+  | (MenuEntryBase & { type: 'checkbox'; checked: boolean; onCheckedChange: (checked: boolean) => void })
+  | (MenuEntryBase & { type: 'radio'; checked: boolean; onCheckedChange: (checked: boolean) => void })
+  | (MenuEntryBase & { type: 'submenu'; items: MenuItem[] })
+  | { type: 'separator'; id: string };

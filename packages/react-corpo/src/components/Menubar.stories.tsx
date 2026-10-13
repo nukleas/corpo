@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fn, userEvent, within } from '@storybook/test';
 import { Menubar } from './Menubar';
 
+const onExport = fn();
+
 const meta: Meta<typeof Menubar> = {
   title: 'Navigation/Menubar',
   component: Menubar,
@@ -14,7 +16,7 @@ const meta: Meta<typeof Menubar> = {
         label: 'File',
         items: [
           { id: 'new', label: 'New report' },
-          { id: 'export', label: 'Export as CSV', onClick: fn() },
+          { id: 'export', label: 'Export as CSV', onClick: onExport },
           { id: 'print', label: 'Print' },
         ],
       },
@@ -69,12 +71,12 @@ export const Default: Story = {
 
 /** With a menu open, hovering another title switches to its menu. */
 export const HoverSwitch: Story = {
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('menuitem', { name: 'Edit' }));
     await userEvent.hover(canvas.getByRole('menuitem', { name: 'File' }));
     await userEvent.click(canvas.getByRole('menuitem', { name: 'Export as CSV' }));
-    await expect(args.menus[0].items[1].onClick).toHaveBeenCalledOnce();
+    await expect(onExport).toHaveBeenCalledOnce();
     await expect(canvas.queryByRole('menu')).toBeNull();
   },
 };

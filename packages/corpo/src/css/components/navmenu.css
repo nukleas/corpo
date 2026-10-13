@@ -1,0 +1,90 @@
+.cp-navmenu__list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cp-navmenu__item {
+  position: relative;
+}
+.cp-navmenu__link,
+.cp-navmenu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: none;
+  cursor: pointer;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-sm);
+  font-weight: 500;
+  color: var(--corpo-text-secondary);
+  text-decoration: none;
+  transition:
+    background var(--corpo-dur-fast) var(--corpo-ease),
+    color var(--corpo-dur-fast) var(--corpo-ease);
+}
+.cp-navmenu__link:hover,
+.cp-navmenu__trigger:hover,
+.cp-navmenu__trigger[aria-expanded='true'] {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+.cp-navmenu__link[aria-current='page'],
+.cp-navmenu__trigger.is-active {
+  color: var(--corpo-accent);
+}
+.cp-navmenu__chevron {
+  font-size: 10px;
+  color: var(--corpo-text-muted);
+}
+
+.cp-navmenu__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 50;
+  display: grid;
+  gap: 2px;
+  min-width: 280px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-md);
+}
+/* `display: grid` would otherwise beat the hidden attribute. */
+.cp-navmenu__panel[hidden] {
+  display: none;
+}
+.cp-navmenu__panel-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: var(--corpo-radius);
+  color: var(--corpo-text);
+  text-decoration: none;
+}
+.cp-navmenu__panel-link:hover {
+  background: var(--corpo-bg-panel-hover);
+}
+.cp-navmenu__panel-title {
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+}
+.cp-navmenu__panel-link[aria-current='page'] .cp-navmenu__panel-title {
+  color: var(--corpo-accent);
+}
+.cp-navmenu__panel-description {
+  font-size: var(--corpo-text-xs);
+  line-height: 1.4;
+  color: var(--corpo-text-muted);
+}

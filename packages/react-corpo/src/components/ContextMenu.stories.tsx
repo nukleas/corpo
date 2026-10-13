@@ -4,6 +4,8 @@ import { ContextMenu } from './ContextMenu';
 import { Button } from './Button';
 import { Card } from './Card';
 
+const onOpen = fn();
+
 const meta: Meta<typeof ContextMenu> = {
   title: 'Navigation/ContextMenu',
   component: ContextMenu,
@@ -11,7 +13,7 @@ const meta: Meta<typeof ContextMenu> = {
   args: {
     label: 'Invoice actions',
     items: [
-      { id: 'open', label: 'Open invoice', onClick: fn() },
+      { id: 'open', label: 'Open invoice', onClick: onOpen },
       { id: 'duplicate', label: 'Duplicate' },
       { id: 'void', label: 'Void invoice', danger: true },
     ],
@@ -30,7 +32,7 @@ export default meta;
 type Story = StoryObj<typeof ContextMenu>;
 
 export const Default: Story = {
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -46,7 +48,7 @@ export const Default: Story = {
     details.focus();
     await userEvent.keyboard('{Shift>}{F10}{/Shift}');
     await userEvent.keyboard('{Enter}');
-    await expect(args.items[0].onClick).toHaveBeenCalledOnce();
+    await expect(onOpen).toHaveBeenCalledOnce();
     await expect(details).toHaveFocus();
   },
 };

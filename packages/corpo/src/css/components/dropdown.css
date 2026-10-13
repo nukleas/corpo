@@ -73,3 +73,29 @@
 .cp-context-menu {
   display: contents;
 }
+
+/* Submenus open beside their item. */
+.cp-dropdown__sub {
+  position: relative;
+}
+.cp-dropdown__menu--sub {
+  top: -5px;
+  left: calc(100% + 4px);
+}
+.cp-dropdown__item[aria-expanded='true'] {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+.cp-dropdown__chevron {
+  margin-left: auto;
+  padding-left: 12px;
+  color: var(--corpo-text-muted);
+}
+/* Checkbox and radio items: a fixed slot keeps labels aligned whether checked or not. */
+.cp-dropdown__check {
+  display: inline-flex;
+  justify-content: center;
+  width: 14px;
+  margin-right: 8px;
+  color: var(--corpo-accent);
+}

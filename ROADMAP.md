@@ -29,7 +29,8 @@ the *Examples/Sales order* story builds a full list → record → lines → tot
 
 **Feedback**: Alert, Progress, Spinner, Toast
 
-**Navigation**: Tabs (with panels; WAI-ARIA keyboard model), Breadcrumb, Dropdown, ContextMenu, Menubar, Pagination, Command, AppShell, SideNav, Topbar
+**Navigation**: Tabs (with panels; WAI-ARIA keyboard model), Breadcrumb, Dropdown / ContextMenu / Menubar
+(submenus, checkbox and radio items), NavigationMenu, BottomNav, Pagination, Command, AppShell, SideNav, Topbar
 
 **Quality gates** (CI): Prettier, oxlint (anti-slop, React, hooks, jsx-a11y), stylelint, a design-system
 contract check (classes, tokens, package parity, story coverage), and the Storybook test runner — every
@@ -121,13 +122,12 @@ and import wizard are recipes over existing components, not new components.
 Cyberdesign / shadcn-parity components that fit Corpo's brief (calm, light-first, business UI) but
 haven't been ported yet, roughly in value order:
 
-- **Overlays**: a richer Dropdown (nested submenus, checkable items)
-- **App shell / navigation**: NavigationMenu, Drawer, BottomNav (corpo has no mobile nav)
 - **Display**: Item (generic list-row primitive), FeedItem
 - **Data**: Gauge (calm radial KPI meter — cyberdesign's core is neutral, its neon is all tokens),
   ActivityGrid (contribution-style heatmap)
 
-Not planned from this list: Carousel (off-voice for corpo).
+Not planned from this list: Carousel (off-voice for corpo), and a separate Drawer — `Sheet side="bottom"`
+is the drawer.
 
 Have an opinion on priority, or a use case that needs one of these sooner? Open an issue — see
 [CONTRIBUTING.md](./CONTRIBUTING.md).
