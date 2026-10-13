@@ -1,5 +1,6 @@
 .cp-spreadsheet {
-  width: 100%;
+  width: fit-content;
+  max-width: 100%;
   overflow: auto;
   border: 1px solid var(--corpo-border);
   border-radius: var(--corpo-radius-lg);
