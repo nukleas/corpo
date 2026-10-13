@@ -511,3 +511,98 @@ export const ResizableColumnsGrid: Story = {
     await expect(handle).toHaveAttribute('aria-valuenow', '104');
   },
 };
+
+interface BudgetLine {
+  id: string;
+  account: string;
+  amount: number;
+  note: string;
+  locked?: boolean;
+}
+
+function BudgetGrid() {
+  const [lines, setLines] = useState<BudgetLine[]>([
+    { id: 'b1', account: '6100 Travel', amount: 12_000, note: 'Two offsites' },
+    { id: 'b2', account: '6200 Software', amount: 48_500, note: '' },
+    { id: 'b3', account: '6300 Payroll', amount: 410_000, note: 'Set by HR', locked: true },
+  ]);
+  const rows: DataTableRow[] = lines.map((l) => ({
+    id: l.id,
+    cells: { account: l.account, amount: { content: <Amount value={l.amount} /> }, note: l.note },
+    values: { amount: l.amount },
+  }));
+  return (
+    <DataTable
+      grid
+      rowNumbers
+      columns={[
+        { key: 'account', label: 'Account' },
+        {
+          key: 'amount',
+          label: 'Budget',
+          numeric: true,
+          editable: (row) => !lines.find((l) => l.id === row.id)?.locked,
+        },
+        { key: 'note', label: 'Note', editable: true },
+      ]}
+      rows={rows}
+      onCellEdit={(id, key, value) =>
+        setLines(
+          lines.map((l) =>
+            l.id !== id
+              ? l
+              : key === 'amount'
+                ? { ...l, amount: Number(value.replace(/[,\s$]/g, '')) || 0 }
+                : { ...l, note: value },
+          ),
+        )
+      }
+      style={{ maxWidth: 640 }}
+    />
+  );
+}
+
+/**
+ * In-place editing on the grid: Enter, F2, typing or a double-click edits the active cell; Enter commits and
+ * moves down, Tab commits and moves right, Escape cancels, Delete clears. Editability can be per cell — the
+ * payroll budget is locked.
+ */
+export const EditableCells: Story = {
+  render: () => <BudgetGrid />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const grid = canvas.getByRole('grid');
+    const cell = (row: number, col: number) => grid.querySelectorAll('tr')[row].children[col];
+    const focus = (row: number, col: number) => {
+      const el = cell(row, col);
+      if (el instanceof HTMLElement) el.focus();
+    };
+    await expect(cell(1, 0)).toHaveTextContent('1');
+
+    focus(1, 2);
+    await userEvent.keyboard('{Enter}');
+    const editor = canvas.getByRole('textbox', { name: 'Budget 1' });
+    await expect(editor).toHaveValue('12000');
+    await userEvent.keyboard('15000{Enter}');
+    await expect(cell(1, 2)).toHaveTextContent('15,000.00');
+    await expect(cell(2, 2)).toHaveFocus();
+
+    await userEvent.keyboard('9');
+    await expect(canvas.getByRole('textbox', { name: 'Budget 2' })).toHaveValue('9');
+    await userEvent.keyboard('{Escape}');
+    await expect(cell(2, 2)).toHaveTextContent('48,500.00');
+
+    await userEvent.keyboard('{Enter}{Tab}');
+    await expect(cell(2, 3)).toHaveFocus();
+    await userEvent.keyboard('Renewals due{Enter}');
+    await expect(cell(2, 3)).toHaveTextContent('Renewals due');
+
+    focus(1, 3);
+    await userEvent.keyboard('{Delete}');
+    await expect(cell(1, 3)).toHaveTextContent('');
+
+    focus(3, 2);
+    await userEvent.keyboard('{Enter}');
+    await expect(canvas.queryByRole('textbox')).toBeNull();
+  },
+};

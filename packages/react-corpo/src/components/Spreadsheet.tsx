@@ -1,7 +1,6 @@
-import type { ReactElement, TdHTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
 import { cn } from '../lib/cn';
-import { createShorthandFactory } from '../lib/createShorthand';
-import type { Shorthand } from '../lib/createShorthand';
+import { DataTable, type DataTableColumn, type DataTableRow } from './DataTable';
 
 function columnLabel(index: number): string {
   let n = index + 1;
@@ -14,80 +13,28 @@ function columnLabel(index: number): string {
   return label;
 }
 
-export interface SpreadsheetCellProps extends Omit<TdHTMLAttributes<HTMLTableCellElement>, 'align'> {
+export interface SpreadsheetCellProps {
   /** Cell content. */
   value: string | number;
-  /** Non-editable value cell (computed/report cells). Inherits the grid's `readOnly` default. */
+  /** Non-editable value cell (computed/report cells). Defaults to the sheet's `readOnly`. */
   readOnly?: boolean;
-  /** Column alignment. Defaults to `right` for `number` values, `left` otherwise. */
+  /** Alignment. Defaults to `right` for `number` values, `left` otherwise. */
   align?: 'left' | 'right';
   /** Value emphasis — `muted` for derived/quiet cells, `danger` for negatives/alerts. */
   tone?: 'muted' | 'danger';
   /** Computed running-balance cell — right-aligned, bold, inset. Implies `readOnly` unless overridden. */
   balance?: boolean;
-  /** Change handler; injected per-cell by the grid. */
+  /** This cell's own commit handler; runs before the sheet's `onCellChange`. */
   onValueChange?: (value: string) => void;
-  /** Accessible name for the cell's input (`B3`); injected per-cell by the grid. */
-  label?: string;
 }
 
-/**
- * One spreadsheet cell — an editable input or, when `readOnly`, a selectable
- * value. Usually written as shorthand inside {@link Spreadsheet} `rows`:
- * a bare `string | number`, a props object, or a ReactElement.
- */
-export function SpreadsheetCell({
-  value,
-  readOnly,
-  align,
-  tone,
-  balance = false,
-  onValueChange,
-  label,
-  className,
-  ...rest
-}: SpreadsheetCellProps) {
-  const alignRight = align ? align === 'right' : Number.isFinite(value);
-  return (
-    <td
-      className={cn(
-        'cp-spreadsheet__cell',
-        alignRight && 'cp-spreadsheet__cell--num',
-        tone && `cp-spreadsheet__cell--${tone}`,
-        balance && 'cp-spreadsheet__cell--balance',
-        className,
-      )}
-      {...rest}
-    >
-      {(readOnly ?? balance) ? (
-        <div className="cp-spreadsheet__value">{value}</div>
-      ) : (
-        <input
-          className="cp-spreadsheet__input"
-          aria-label={label}
-          value={String(value)}
-          onChange={(e) => onValueChange?.(e.target.value)}
-        />
-      )}
-    </td>
-  );
-}
+/** A cell in {@link Spreadsheet} `rows`: a bare value (editable unless the sheet is `readOnly`) or props. */
+export type SpreadsheetCellShorthand = string | number | SpreadsheetCellProps;
 
-/** Accessible name for a cell input: `B3`, or `Revenue, row 3` when columns are relabeled. */
-function cellName(c: number, r: number, columnLabels?: string[]): string {
-  const custom = columnLabels?.[c];
-  return custom ? `${custom}, row ${r + 1}` : `${columnLabel(c)}${r + 1}`;
-}
-
-/** Normalizes cell shorthand — `12_400` / `{ value, readOnly, tone }` / element — to a {@link SpreadsheetCell}. */
-SpreadsheetCell.create = createShorthandFactory<SpreadsheetCellProps>(SpreadsheetCell, (value) => ({ value }));
-
-/** Shorthand accepted in {@link Spreadsheet} `rows`. */
-export type SpreadsheetCellShorthand = Shorthand<SpreadsheetCellProps>;
-
-export interface SpreadsheetProps {
-  /** 2D array of cell shorthands — `rows[r][c]` is a `string | number`, {@link SpreadsheetCellProps}, or element. */
+export interface SpreadsheetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  /** `rows[r][c]` — a bare value or {@link SpreadsheetCellProps}. */
   rows: SpreadsheetCellShorthand[][];
+  /** Called when an edit is committed (Enter, Tab, or leaving the cell). */
   onCellChange?: (row: number, col: number, value: string) => void;
   /** Override auto A/B/C… column headers. */
   columnLabels?: string[];
@@ -95,49 +42,70 @@ export interface SpreadsheetProps {
   readOnly?: boolean;
 }
 
+const cellProps = (cell: SpreadsheetCellShorthand): SpreadsheetCellProps =>
+  cell instanceof Object ? cell : { value: cell };
+
 /**
- * Corpo spreadsheet — grid with sticky row/column headers. Cells take
- * shorthand: bare values are editable inputs, props objects can mark
- * individual cells `readOnly` (computed subtotals) or set `align`/`tone`;
- * grid-level `readOnly` flips the default for report/projection sheets.
+ * Corpo spreadsheet — a preset over {@link DataTable}'s grid: A/B/C column
+ * headers, row numbers, mono cells, and the same keyboard model (arrows,
+ * ranges, copy as TSV, column resize). Edit a cell with Enter, F2, typing or a
+ * double-click; Enter / Tab commit, Escape cancels. Object cells can be
+ * `readOnly` (computed subtotals), `balance`, or set `align`/`tone`; the
+ * sheet-level `readOnly` flips the default for reports and projections.
  */
-export function Spreadsheet({ rows, onCellChange, columnLabels, readOnly = false }: SpreadsheetProps) {
-  const colCount = rows[0]?.length ?? 0;
+export function Spreadsheet({
+  rows,
+  onCellChange,
+  columnLabels,
+  readOnly = false,
+  className,
+  ...rest
+}: SpreadsheetProps) {
+  const grid = rows.map((row) => row.map(cellProps));
+  const colCount = grid[0]?.length ?? 0;
+  const key = (c: number) => `c${c}`;
+  const isRight = (p: SpreadsheetCellProps) => (p.align ? p.align === 'right' : Number.isFinite(p.value));
+  const editable = (r: number, c: number) => {
+    const p = grid[r]?.[c];
+    return p != null && !(p.readOnly ?? (p.balance || readOnly));
+  };
+
+  const columns: DataTableColumn[] = Array.from({ length: colCount }, (_, c) => ({
+    key: key(c),
+    label: columnLabels?.[c] ?? columnLabel(c),
+    numeric: grid.every((row) => row[c] == null || isRight(row[c])),
+    editable: (row: DataTableRow) => editable(Number(row.id), c),
+  }));
+
+  const tableRows: DataTableRow[] = grid.map((row, r) => ({
+    id: String(r),
+    cells: Object.fromEntries(
+      row.map((p, c) => [
+        key(c),
+        {
+          content: p.value,
+          numeric: isRight(p),
+          className: cn(p.tone && `cp-spreadsheet__cell--${p.tone}`, p.balance && 'cp-spreadsheet__cell--balance'),
+        },
+      ]),
+    ),
+    values: Object.fromEntries(row.map((p, c) => [key(c), p.value])),
+  }));
+
   return (
-    <div className="cp-spreadsheet">
-      <table className="cp-spreadsheet__table">
-        <thead>
-          <tr>
-            <th className="cp-spreadsheet__corner" />
-            {Array.from({ length: colCount }, (_, c) => (
-              <th key={c} className="cp-spreadsheet__col-head">
-                {columnLabels?.[c] ?? columnLabel(c)}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, r) => (
-            <tr key={r}>
-              <th className="cp-spreadsheet__row-head">{r + 1}</th>
-              {row.map((cell, c): ReactElement | null =>
-                SpreadsheetCell.create(cell, {
-                  key: c,
-                  // Grid wiring is a default — a cell's own readOnly/onValueChange wins.
-                  // `false` stays uninjected so a `balance` cell can imply its own readOnly.
-                  defaultProps: {
-                    readOnly: readOnly || undefined,
-                    onValueChange: (v) => onCellChange?.(r, c, v),
-                    label: cellName(c, r, columnLabels),
-                  },
-                }),
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <DataTable
+      grid
+      rowNumbers
+      className={cn('cp-spreadsheet', className)}
+      columns={columns}
+      rows={tableRows}
+      onCellEdit={(rowId, colKey, value) => {
+        const r = Number(rowId);
+        const c = Number(colKey.slice(1));
+        grid[r]?.[c]?.onValueChange?.(value);
+        onCellChange?.(r, c, value);
+      }}
+      {...rest}
+    />
   );
 }
-
-Spreadsheet.Cell = SpreadsheetCell;

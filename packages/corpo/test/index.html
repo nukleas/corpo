@@ -623,37 +623,21 @@
 
   <section>
     <h2>Spreadsheet</h2>
-    <div class="cp-spreadsheet" style="max-width: 560px;">
-      <table class="cp-spreadsheet__table">
-        <thead>
-          <tr>
-            <th class="cp-spreadsheet__corner"></th>
-            <th class="cp-spreadsheet__col-head">Metric</th>
-            <th class="cp-spreadsheet__col-head">Q1</th>
-            <th class="cp-spreadsheet__col-head">Q2</th>
-            <th class="cp-spreadsheet__col-head">Balance</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th class="cp-spreadsheet__row-head">1</th>
-            <td class="cp-spreadsheet__cell"><div class="cp-spreadsheet__value">Revenue</div></td>
-            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num"><input class="cp-spreadsheet__input" value="12,400" /></td>
-            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num cp-spreadsheet__cell--muted"><div class="cp-spreadsheet__value">12,896</div></td>
-            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--balance"><div class="cp-spreadsheet__value">25,296.00</div></td>
-          </tr>
-          <tr>
-            <th class="cp-spreadsheet__row-head">2</th>
-            <td class="cp-spreadsheet__cell"><div class="cp-spreadsheet__value">Net position</div></td>
-            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num"><input class="cp-spreadsheet__input" value="3,300" /></td>
-            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--num cp-spreadsheet__cell--danger"><div class="cp-spreadsheet__value">-860</div></td>
-            <td class="cp-spreadsheet__cell cp-spreadsheet__cell--balance"><div class="cp-spreadsheet__value">27,736.00</div></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="cp-datatable cp-datatable--grid cp-spreadsheet">
+      <div class="cp-table cp-table--grid">
+        <table class="cp-table__table" role="grid" aria-multiselectable="true">
+          <thead>
+            <tr><th class="cp-table__row-head"></th><th>Metric</th><th data-numeric="true">Q1</th><th data-numeric="true">Q2</th><th data-numeric="true">Balance</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row" class="cp-table__row-head">1</th><td>Revenue</td><td data-numeric="true" data-mono="true">12,400</td><td data-numeric="true" data-mono="true" class="cp-spreadsheet__cell--muted">12,896</td><td data-numeric="true" data-mono="true" class="cp-spreadsheet__cell--balance">25,296.00</td></tr>
+            <tr><th scope="row" class="cp-table__row-head">2</th><td>Net position</td><td data-numeric="true" data-mono="true" class="cp-table__cell--editing"><input class="cp-table__editor" aria-label="Q1 2" value="3,300"></td><td data-numeric="true" data-mono="true" class="cp-spreadsheet__cell--danger">-860</td><td data-numeric="true" data-mono="true" class="cp-spreadsheet__cell--balance">27,736.00</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
-      Editable inputs and read-only value cells mix per cell — numeric cells right-align, tones mark derived and negative values, balance cells are bold read-only inset.
+      A DataTable grid preset: row numbers, in-place editing (B2 is open in the editor), tones for derived and negative values, bold inset balance cells.
     </p>
   </section>
 

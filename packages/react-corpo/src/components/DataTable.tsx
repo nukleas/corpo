@@ -18,6 +18,11 @@ export interface DataTableColumn extends TableColumn {
   summary?: (rows: DataTableRow[]) => TableCellShorthand;
   /** Width in px. Set on any column, the table lays out at fixed widths (others share the rest). */
   width?: number;
+  /**
+   * With `grid` and `onCellEdit`: the column's cells can be edited in place —
+   * `true`, or a predicate for per-row (per-cell) editability.
+   */
+  editable?: boolean | ((row: DataTableRow) => boolean);
 }
 
 export interface DataTableRow {
@@ -81,6 +86,14 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
    * (px). Widths are the caller's — store them in `columns[].width`.
    */
   onColumnResize?: (key: string, width: number) => void;
+  /**
+   * Commits an in-place edit (`grid` + `columns[].editable`): Enter, F2, typing
+   * or a double-click edits the active cell; Enter / Tab commit and move,
+   * Escape cancels, Delete clears. The page updates its rows.
+   */
+  onCellEdit?: (rowId: string, key: string, value: string) => void;
+  /** Number the rows in a row-header column, spreadsheet style. @default false */
+  rowNumbers?: boolean;
 }
 
 const MIN_COLUMN_WIDTH = 56;
@@ -96,6 +109,9 @@ interface ShownRow {
 }
 
 const INTERACTIVE = 'a[href], button, input, select, textarea, [role="separator"]';
+
+const isEditor = (target: EventTarget | null) =>
+  target instanceof Element && target.classList.contains('cp-table__editor');
 
 /** The grid position of the cell an event happened in. */
 function cellAt(target: EventTarget | null) {
@@ -207,6 +223,8 @@ export function DataTable({
   onRowActivate,
   defaultExpanded = [],
   onColumnResize,
+  onCellEdit,
+  rowNumbers = false,
   className,
   ...rest
 }: DataTableProps) {
@@ -219,6 +237,9 @@ export function DataTable({
   const [anchor, setAnchor] = useState<{ row: number; col: number } | null>(null);
   const dragging = useRef(false);
   const [copied, setCopied] = useState('');
+  // In-place editing: the cell being edited and its draft; `seeded` when typing started the edit.
+  const [editing, setEditing] = useState<{ row: number; col: number; draft: string; seeded: boolean } | null>(null);
+  const closing = useRef(false);
   const base = useId();
   const fixedLayout = columns.some((c) => c.width != null);
   const resizeBy = (ci: number, delta: number, from?: number) => {
@@ -285,7 +306,8 @@ export function DataTable({
     onSelectedChange?.(selectedSet.has(id) ? selected.filter((s) => s !== id) : [...selected, id]);
 
   const rowCount = 1 + visible.length + (hasSummary ? 1 : 0);
-  const firstDataCol = selectable ? 1 : 0;
+  const numberCol = selectable ? 1 : 0;
+  const firstDataCol = numberCol + (rowNumbers ? 1 : 0);
   const colCount = firstDataCol + columns.length;
   const at = { row: Math.min(active.row, rowCount - 1), col: Math.min(active.col, colCount - 1) };
   const range = anchor && {
@@ -304,6 +326,46 @@ export function DataTable({
   const moveTo = (row: number, col: number, extend: boolean) => {
     if (extend) setAnchor((prev) => prev ?? at);
     else setAnchor(null);
+    setActive({ row, col });
+    tableRef.current?.rows[row]?.cells[col]?.focus();
+  };
+
+  const editTarget = (row: number, col: number) => {
+    const bodyRow = row >= 1 && row <= visible.length ? visible[row - 1] : undefined;
+    const column = columns[col - firstDataCol];
+    const editable = column?.editable;
+    if (!bodyRow || !column || !onCellEdit || editable === undefined || editable === false) return null;
+    return editable === true || editable(bodyRow) ? { row: bodyRow, column } : null;
+  };
+  const startEdit = (row: number, col: number, seed?: string) => {
+    const target = editTarget(row, col);
+    if (!target) return false;
+    closing.current = false;
+    setAnchor(null);
+    setEditing({
+      row,
+      col,
+      draft: seed ?? String(rawValue(target.row, target.column.key) ?? ''),
+      seeded: seed != null,
+    });
+    return true;
+  };
+  /** Ends the edit — committing the draft unless cancelled — and moves the active cell. */
+  const finishEdit = (commit: boolean, move: 'down' | 'right' | 'left' | null) => {
+    if (!editing) return;
+    closing.current = true;
+    const target = editTarget(editing.row, editing.col);
+    if (commit && target && editing.draft !== String(rawValue(target.row, target.column.key) ?? '')) {
+      onCellEdit?.(target.row.id, target.column.key, editing.draft);
+    }
+    const row = move === 'down' ? Math.min(visible.length, editing.row + 1) : editing.row;
+    const col =
+      move === 'right'
+        ? Math.min(colCount - 1, editing.col + 1)
+        : move === 'left'
+          ? Math.max(firstDataCol, editing.col - 1)
+          : editing.col;
+    setEditing(null);
     setActive({ row, col });
     tableRef.current?.rows[row]?.cells[col]?.focus();
   };
@@ -364,6 +426,25 @@ export function DataTable({
       moveTo(parent, at.col, false);
       return;
     }
+    const ctrlKey = e.ctrlKey || e.metaKey;
+    if (editTarget(at.row, at.col) && e.target === cell) {
+      if (e.key === 'Enter' || e.key === 'F2') {
+        e.preventDefault();
+        startEdit(at.row, at.col);
+        return;
+      }
+      if (e.key === 'Delete') {
+        e.preventDefault();
+        const target = editTarget(at.row, at.col);
+        if (target) onCellEdit?.(target.row.id, target.column.key, '');
+        return;
+      }
+      if (e.key.length === 1 && !ctrlKey && !e.altKey) {
+        e.preventDefault();
+        startEdit(at.row, at.col, e.key);
+        return;
+      }
+    }
     // Alt+ArrowLeft/Right on a header resizes its column (its handle is out of the tab order).
     if (
       onColumnResize &&
@@ -376,7 +457,7 @@ export function DataTable({
       resizeBy(at.col - firstDataCol, e.key === 'ArrowRight' ? RESIZE_STEP : -RESIZE_STEP);
       return;
     }
-    const ctrl = e.ctrlKey || e.metaKey;
+    const ctrl = ctrlKey;
     if (ctrl && e.key.toLowerCase() === 'c') {
       e.preventDefault();
       copyRange();
@@ -456,7 +537,7 @@ export function DataTable({
             // Pointer ranges: press starts one (Shift extends from the anchor), dragging grows it.
             onMouseDown: (e: MouseEvent<HTMLTableElement>) => {
               const pos = cellAt(e.target);
-              if (!pos || e.button !== 0) return;
+              if (!pos || e.button !== 0 || isEditor(e.target)) return;
               if (e.shiftKey) {
                 e.preventDefault();
                 moveTo(pos.row, pos.col, true);
@@ -470,6 +551,10 @@ export function DataTable({
               if (!dragging.current || !pos || (pos.row === at.row && pos.col === at.col)) return;
               setActive(pos);
             },
+            onDoubleClick: (e: MouseEvent<HTMLTableElement>) => {
+              const pos = cellAt(e.target);
+              if (pos && !isEditor(e.target)) startEdit(pos.row, pos.col);
+            },
             onMouseUp: () => {
               dragging.current = false;
               if (anchor && anchor.row === at.row && anchor.col === at.col) setAnchor(null);
@@ -479,6 +564,7 @@ export function DataTable({
           {fixedLayout && (
             <colgroup>
               {selectable && <col className="cp-table__col-check" />}
+              {rowNumbers && <col className="cp-table__col-rownum" />}
               {columns.map((c) => (
                 <col key={c.key} style={c.width != null ? { width: c.width } : undefined} />
               ))}
@@ -498,10 +584,11 @@ export function DataTable({
                   />
                 </th>
               )}
+              {rowNumbers && <th className="cp-table__row-head" {...cellTab(0, numberCol)} />}
               {columns.map((c, ci) => (
                 <th
                   key={c.key}
-                  {...cellTab(0, ci + (selectable ? 1 : 0))}
+                  {...cellTab(0, ci + firstDataCol)}
                   data-numeric={c.numeric || undefined}
                   className={cn(onColumnResize && 'cp-table__th--resizable')}
                   aria-sort={sort?.key === c.key ? (sort.dir === 'asc' ? 'ascending' : 'descending') : undefined}
@@ -545,6 +632,16 @@ export function DataTable({
                     />
                   </td>
                 )}
+                {rowNumbers && (
+                  <th
+                    scope="row"
+                    id={`${base}-row-${ri}`}
+                    className="cp-table__row-head"
+                    {...cellTab(ri + 1, numberCol)}
+                  >
+                    {ri + 1}
+                  </th>
+                )}
                 {columns.map((c, ci) => {
                   const raw = row.cells[c.key];
                   const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
@@ -566,10 +663,48 @@ export function DataTable({
                           ),
                         }
                       : undefined;
+                  const isEditing = editing?.row === ri + 1 && editing.col === ci + firstDataCol;
                   return TableCell.create(cell, {
                     key: c.key,
                     defaultProps: { numeric: c.numeric, mono: c.mono },
-                    overrideProps: { ...treeCell, ...cellTab(ri + 1, ci + firstDataCol) },
+                    overrideProps: {
+                      ...treeCell,
+                      ...cellTab(ri + 1, ci + firstDataCol),
+                      ...(isEditing && {
+                        className: cn(treeCell?.className, 'cp-table__cell--editing'),
+                        content: (
+                          <input
+                            className="cp-table__editor"
+                            aria-labelledby={rowNumbers ? `${base}-col-${ci} ${base}-row-${ri}` : `${base}-col-${ci}`}
+                            value={editing.draft}
+                            ref={(el) => {
+                              // Focus once on mount: select the value, or keep the caret after a typed seed.
+                              if (!el || document.activeElement === el) return;
+                              el.focus();
+                              if (!editing.seeded) el.select();
+                            }}
+                            onChange={(e) => setEditing({ ...editing, draft: e.target.value })}
+                            onKeyDown={(e) => {
+                              // The editor owns its keys: arrows move the caret, Ctrl+A/C act on the text.
+                              e.stopPropagation();
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                finishEdit(true, 'down');
+                              } else if (e.key === 'Tab') {
+                                e.preventDefault();
+                                finishEdit(true, e.shiftKey ? 'left' : 'right');
+                              } else if (e.key === 'Escape') {
+                                e.preventDefault();
+                                finishEdit(false, null);
+                              }
+                            }}
+                            onBlur={() => {
+                              if (!closing.current) finishEdit(true, null);
+                            }}
+                          />
+                        ),
+                      }),
+                    },
                   });
                 })}
               </tr>
@@ -579,13 +714,14 @@ export function DataTable({
             <tfoot>
               <tr>
                 {selectable && <td className="cp-table__check" {...cellTab(rowCount - 1, 0)} />}
+                {rowNumbers && <td className="cp-table__row-head" {...cellTab(rowCount - 1, numberCol)} />}
                 {columns.map((c, ci) => {
                   const raw = c.summary?.(summaryRows);
                   const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
                   return TableCell.create(cell, {
                     key: c.key,
                     defaultProps: { numeric: c.numeric, mono: c.mono },
-                    overrideProps: cellTab(rowCount - 1, ci + (selectable ? 1 : 0)),
+                    overrideProps: cellTab(rowCount - 1, ci + firstDataCol),
                   });
                 })}
               </tr>
