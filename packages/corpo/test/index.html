@@ -302,6 +302,15 @@
         <div class="cp-menubar__menu"><button class="cp-menubar__trigger" role="menuitem" aria-haspopup="menu" aria-expanded="false" tabindex="-1">Edit</button></div>
         <div class="cp-menubar__menu"><button class="cp-menubar__trigger" role="menuitem" aria-haspopup="menu" aria-expanded="false" tabindex="-1">View</button></div>
       </div>
+      <div class="cp-dropdown__menu" role="menu" aria-label="View options" style="position: static;">
+        <button class="cp-dropdown__item" role="menuitem" tabindex="-1">Refresh</button>
+        <div class="cp-dropdown__sub">
+          <button class="cp-dropdown__item" role="menuitem" tabindex="-1" aria-haspopup="menu" aria-expanded="false">Move to<span class="cp-dropdown__chevron" aria-hidden="true">›</span></button>
+        </div>
+        <div class="cp-dropdown__separator" role="separator"></div>
+        <button class="cp-dropdown__item" role="menuitemcheckbox" tabindex="-1" aria-checked="true"><span class="cp-dropdown__check" aria-hidden="true">✓</span>Show totals</button>
+        <button class="cp-dropdown__item" role="menuitemradio" tabindex="-1" aria-checked="false"><span class="cp-dropdown__check" aria-hidden="true"></span>Sort by date</button>
+      </div>
       <nav class="cp-pagination" aria-label="Pagination">
         <button class="cp-pagination__btn" aria-label="Previous page">‹</button>
         <button class="cp-pagination__btn">1</button>
@@ -319,6 +328,28 @@
         <a class="cp-pagination__btn" href="#" aria-label="Next page">›</a>
       </nav>
     </div>
+  </section>
+
+  <section>
+    <h2>App navigation</h2>
+    <nav class="cp-navmenu" aria-label="Modules" style="min-height: 200px;">
+      <ul class="cp-navmenu__list">
+        <li class="cp-navmenu__item"><a class="cp-navmenu__link" href="#">Home</a></li>
+        <li class="cp-navmenu__item">
+          <button class="cp-navmenu__trigger is-active" aria-expanded="true" aria-controls="demo-navmenu-finance">Finance<span class="cp-navmenu__chevron" aria-hidden="true">▾</span></button>
+          <ul class="cp-navmenu__panel" id="demo-navmenu-finance">
+            <li><a class="cp-navmenu__panel-link" href="#"><span class="cp-navmenu__panel-title">General ledger</span><span class="cp-navmenu__panel-description">Journals, postings and the trial balance.</span></a></li>
+            <li><a class="cp-navmenu__panel-link" href="#" aria-current="page"><span class="cp-navmenu__panel-title">Payables</span><span class="cp-navmenu__panel-description">Vendor bills and payment runs.</span></a></li>
+          </ul>
+        </li>
+        <li class="cp-navmenu__item"><a class="cp-navmenu__link" href="#">Reports</a></li>
+      </ul>
+    </nav>
+    <nav class="cp-bottom-nav" aria-label="Phone" style="max-width: 360px; border: 1px solid var(--corpo-border);">
+      <button class="cp-bottom-nav__item" aria-current="page"><span class="cp-bottom-nav__icon" aria-hidden="true">⌂</span><span>Home</span></button>
+      <button class="cp-bottom-nav__item"><span class="cp-bottom-nav__icon" aria-hidden="true">✓</span><span>Approvals</span><span class="cp-bottom-nav__badge"><span class="cp-badge cp-badge--red">3</span></span></button>
+      <button class="cp-bottom-nav__item"><span class="cp-bottom-nav__icon" aria-hidden="true">≡</span><span>Expenses</span></button>
+    </nav>
   </section>
 
   <section>
