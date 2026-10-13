@@ -269,3 +269,45 @@
 .cp-table--grid .cp-table__table[aria-multiselectable='true'] td {
   user-select: none;
 }
+
+/* Column resizing (DataTable `onColumnResize`): fixed layout honors <col> widths; cells clip to them. */
+.cp-table__table--fixed {
+  table-layout: fixed;
+}
+.cp-table__table--fixed :is(th, td) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cp-table__col-check {
+  width: 36px;
+}
+.cp-table__th--resizable {
+  position: relative;
+}
+.cp-table__resize {
+  position: absolute;
+  top: 0;
+  right: 0; /* inside the cell: fixed-layout headers clip overflow */
+  z-index: 3;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+}
+.cp-table__resize::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  bottom: 20%;
+  right: 0;
+  width: 2px;
+  border-radius: 1px;
+}
+.cp-table__resize:hover::after,
+.cp-table__resize:focus-visible::after,
+.cp-table__resize[data-dragging]::after {
+  background: var(--corpo-accent);
+}
+.cp-table__resize:focus-visible {
+  outline: none;
+}

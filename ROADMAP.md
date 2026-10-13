@@ -83,8 +83,8 @@ Built in layers, each shippable on its own:
    (`onRowActivate`, Space selects when `selectable`). Read-only; on by default in `grid` mode.
 3. **Range selection + clipboard** *(shipped)* — Shift+arrow, Shift+click, and drag ranges with a range CSS
    state; Cmd/Ctrl+C copies as TSV so it pastes cleanly into Excel/Sheets.
-4. **Columns** — resize handles (widths reported to the caller, not persisted internally) and row
-   grouping. *Tree rows shipped:* `DataTableRow.children` makes a treegrid (expand/collapse, ArrowRight/
+4. **Columns** *(shipped)* — resize handles (`onColumnResize`; widths reported to the caller, not
+   persisted internally) and row grouping. *Tree rows shipped:* `DataTableRow.children` makes a treegrid (expand/collapse, ArrowRight/
    ArrowLeft, filter keeps ancestors), and TrialBalance's account tree uses the same tree styling.
 5. **Spreadsheet on the grid** — rebuild `Spreadsheet` as a preset over the same grid (A1 headers,
    row numbers, editable cells) so corpo has one keyboard/selection model, not two. Inline editing
