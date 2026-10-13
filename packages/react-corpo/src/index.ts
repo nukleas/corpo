@@ -49,6 +49,7 @@ export * from './components/Modal';
 export * from './components/Slider';
 export * from './components/Popover';
 export * from './components/HoverCard';
+export * from './components/NotificationInbox';
 export * from './components/Calendar';
 export * from './components/DatePicker';
 export * from './components/DateRangePicker';
