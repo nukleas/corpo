@@ -389,3 +389,39 @@ export const TreeGrid: Story = {
     await expect(row('1110 Cash')).toHaveAttribute('aria-level', '3');
   },
 };
+
+/** Tree rows with a selection column: Space on a row selects it, and the select-all box covers the rows shown. */
+export const TreeGridSelectable: Story = {
+  render: () => {
+    const [selected, setSelected] = useState<string[]>([]);
+    return (
+      <DataTable
+        columns={[
+          { key: 'account', label: 'Account' },
+          { key: 'balance', label: 'Balance', numeric: true },
+        ]}
+        rows={ACCOUNTS}
+        grid
+        searchable
+        selectable
+        selected={selected}
+        onSelectedChange={setSelected}
+        defaultExpanded={['1000', '1100']}
+        style={{ maxWidth: 560 }}
+      />
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('checkbox', { name: 'Select row 1110' }));
+    await expect(canvas.getByRole('checkbox', { name: 'Select row 1110' })).toBeChecked();
+
+    canvas.getByText('1500 Fixed assets').closest('td')?.focus();
+    await userEvent.keyboard(' ');
+    await expect(canvas.getByRole('checkbox', { name: 'Select row 1500' })).toBeChecked();
+
+    // The filter count compares shown rows with every row in the tree, not just the top level.
+    await userEvent.type(canvas.getByRole('searchbox', { name: 'Filter rows' }), 'cash');
+    await expect(canvas.getByText('3/10')).toBeInTheDocument();
+  },
+};

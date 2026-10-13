@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState, type HTMLAttributes } from 'react';
 import { cn } from '../lib/cn';
+import { ToggleGroup } from './ToggleGroup';
 
 const DAY = 86_400_000;
 
@@ -36,6 +37,7 @@ const levelOf = (value: number, max: number) => (value <= 0 ? 0 : Math.min(4, Ma
  */
 export function ActivityGrid({ data, label, format = String, className, ...rest }: ActivityGridProps) {
   const [tip, setTip] = useState<{ index: number; x: number; y: number } | null>(null);
+  const [view, setView] = useState<'chart' | 'table'>('chart');
   const root = useRef<HTMLDivElement>(null);
   const tipRef = useRef<HTMLDivElement>(null);
 
@@ -74,49 +76,109 @@ export function ActivityGrid({ data, label, format = String, className, ...rest 
 
   const active = tip ? cells[tip.index] : undefined;
 
+  // Table view: the same data summarized per month — the accessible, scannable equivalent of the grid.
+  const byMonth = new Map<
+    string,
+    { label: string; total: number; activeDays: number; busiest?: (typeof cells)[number] }
+  >();
+  for (const c of cells) {
+    const d = new Date(c.t);
+    const key = `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
+    const m = byMonth.get(key) ?? {
+      label: d.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }),
+      total: 0,
+      activeDays: 0,
+    };
+    m.total += c.value;
+    if (c.value > 0) m.activeDays += 1;
+    if (!m.busiest || c.value > m.busiest.value) m.busiest = c;
+    byMonth.set(key, m);
+  }
+
   return (
     <div ref={root} role="group" aria-label={label} className={cn('cp-activity', className)} {...rest}>
-      <div
-        className="cp-activity__grid"
-        onMouseMove={(e) => {
-          const cell = e.target instanceof HTMLElement ? e.target.closest<HTMLElement>('[data-index]') : null;
-          if (cell && Number(cell.dataset.index) !== tip?.index)
-            setTip({ index: Number(cell.dataset.index), x: cell.offsetLeft + cell.offsetWidth, y: cell.offsetTop });
-        }}
-        onMouseLeave={() => setTip(null)}
-      >
-        {months.map((m) => (
-          <span
-            key={`${m.week}-${m.text}`}
-            className="cp-activity__month"
-            style={{ gridColumn: `${m.week + 2} / span 4` }}
+      <ToggleGroup
+        aria-label="View"
+        className="cp-activity__view"
+        options={[
+          { value: 'chart', label: 'Chart' },
+          { value: 'table', label: 'Table' },
+        ]}
+        value={view}
+        onChange={(v) => setView(v === 'table' ? 'table' : 'chart')}
+      />
+      {view === 'table' && (
+        <div className="cp-table cp-table--compact">
+          <table className="cp-table__table">
+            <caption className="cp-activity__caption">{label}, by month</caption>
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th data-numeric="true">Total</th>
+                <th data-numeric="true">Active days</th>
+                <th>Busiest day</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...byMonth.values()].map((m) => (
+                <tr key={m.label}>
+                  <td>{m.label}</td>
+                  <td data-numeric="true">{m.total}</td>
+                  <td data-numeric="true">{m.activeDays}</td>
+                  <td>
+                    {m.busiest && m.busiest.value > 0 ? `${dayLabel(m.busiest.t)}: ${format(m.busiest.value)}` : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {view === 'chart' && (
+        <>
+          <div
+            className="cp-activity__grid"
+            onMouseMove={(e) => {
+              const cell = e.target instanceof HTMLElement ? e.target.closest<HTMLElement>('[data-index]') : null;
+              if (cell && Number(cell.dataset.index) !== tip?.index)
+                setTip({ index: Number(cell.dataset.index), x: cell.offsetLeft + cell.offsetWidth, y: cell.offsetTop });
+            }}
+            onMouseLeave={() => setTip(null)}
           >
-            {m.text}
-          </span>
-        ))}
-        {(['Mon', 'Wed', 'Fri'] as const).map((d, i) => (
-          <span key={d} className="cp-activity__weekday" style={{ gridRow: i * 2 + 3 }}>
-            {d}
-          </span>
-        ))}
-        {cells.map((c, i) => (
-          <span
-            key={c.t}
-            role="img"
-            aria-label={`${dayLabel(c.t)}: ${format(c.value)}`}
-            className={cn('cp-activity__cell', c.level > 0 && `cp-activity__cell--${c.level}`)}
-            style={{ gridColumn: c.week + 2, gridRow: c.weekday + 2 }}
-            data-index={i}
-          />
-        ))}
-      </div>
-      <div className="cp-activity__legend" aria-hidden="true">
-        Less
-        {[0, 1, 2, 3, 4].map((l) => (
-          <span key={l} className={cn('cp-activity__cell', l > 0 && `cp-activity__cell--${l}`)} />
-        ))}
-        More
-      </div>
+            {months.map((m) => (
+              <span
+                key={`${m.week}-${m.text}`}
+                className="cp-activity__month"
+                style={{ gridColumn: `${m.week + 2} / span 4` }}
+              >
+                {m.text}
+              </span>
+            ))}
+            {(['Mon', 'Wed', 'Fri'] as const).map((d, i) => (
+              <span key={d} className="cp-activity__weekday" style={{ gridRow: i * 2 + 3 }}>
+                {d}
+              </span>
+            ))}
+            {cells.map((c, i) => (
+              <span
+                key={c.t}
+                role="img"
+                aria-label={`${dayLabel(c.t)}: ${format(c.value)}`}
+                className={cn('cp-activity__cell', c.level > 0 && `cp-activity__cell--${c.level}`)}
+                style={{ gridColumn: c.week + 2, gridRow: c.weekday + 2 }}
+                data-index={i}
+              />
+            ))}
+          </div>
+          <div className="cp-activity__legend" aria-hidden="true">
+            Less
+            {[0, 1, 2, 3, 4].map((l) => (
+              <span key={l} className={cn('cp-activity__cell', l > 0 && `cp-activity__cell--${l}`)} />
+            ))}
+            More
+          </div>
+        </>
+      )}
       {active && (
         <div ref={tipRef} className="cp-chart__tip" aria-hidden="true">
           <span className="cp-chart__tip-title">{dayLabel(active.t)}</span>

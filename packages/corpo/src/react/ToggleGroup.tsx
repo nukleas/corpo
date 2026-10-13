@@ -14,6 +14,8 @@ export interface ToggleGroupProps {
   onChange: (value: string | string[]) => void;
   /** Allow multiple options selected at once. @default false */
   multiple?: boolean;
+  /** Names the group, e.g. "View". */
+  'aria-label'?: string;
   className?: string;
 }
 
@@ -22,7 +24,14 @@ export interface ToggleGroupProps {
  * {@link Toggle}. One tab stop: arrow keys and Home/End move focus between
  * options, Space or Enter toggles.
  */
-export function ToggleGroup({ options, value, onChange, multiple = false, className }: ToggleGroupProps) {
+export function ToggleGroup({
+  options,
+  value,
+  onChange,
+  multiple = false,
+  'aria-label': ariaLabel,
+  className,
+}: ToggleGroupProps) {
   const values = Array.isArray(value) ? value : [value];
   const [focused, setFocused] = useState<number | null>(null);
   const stop =
@@ -42,7 +51,7 @@ export function ToggleGroup({ options, value, onChange, multiple = false, classN
   };
 
   return (
-    <div className={cx('cp-toggle-group', className)} role="group">
+    <div className={cx('cp-toggle-group', className)} role="group" aria-label={ariaLabel}>
       {options.map((o, i) => (
         <Toggle
           key={o.value}
