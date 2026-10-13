@@ -51,6 +51,7 @@ export * from './components/DatePicker';
 export * from './components/DateRangePicker';
 export * from './components/NumberInput';
 export * from './components/Combobox';
+export * from './components/MultiSelect';
 export * from './components/Command';
 export * from './components/Spreadsheet';
 export * from './components/Amount';

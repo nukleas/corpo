@@ -125,7 +125,7 @@ export function JournalEntry({ value, onChange, accounts, className, ...rest }: 
                       options={accounts.map((a) => ({ value: a, label: a }))}
                       value={posting.account}
                       placeholder="Account…"
-                      ariaLabel={`Account, line ${i + 1}`}
+                      aria-label={`Account, line ${i + 1}`}
                       onChange={(account) => patchPosting(i, { account })}
                     />
                   </td>

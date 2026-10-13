@@ -3,7 +3,7 @@
 ## Shipped — 80+ components
 
 **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label,
-Slider, Combobox, DatePicker, DateRangePicker (presets), NumberInput, OtpInput, FormGrid, FormSection, Toggle,
+Slider, Combobox (keyboard, async lookup, create-new), MultiSelect, DatePicker, DateRangePicker (presets), NumberInput, OtpInput, FormGrid, FormSection, Toggle,
 ToggleGroup, ButtonGroup, InputGroup, Dropzone
 
 **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion,
@@ -109,8 +109,8 @@ sales-order screen (list → record → lines → totals) built only from corpo 
 4. **Record page layout + form grid** *(shipped as `RecordPage`, `FormSection`, `FormGrid`)* — document header (number, status, key fields, primary
    actions), sectioned multi-column form grid, and a side panel slot for activity and attachments.
 
-The sales-order screen works (*Examples/Sales order*). Next, as separate layers: async entity lookup (rich rows,
-"create new…"), multi-select / tag input, filter bar with saved views, document lifecycle and
+The sales-order screen works (*Examples/Sales order*). Async entity lookup (Combobox `onQueryChange`,
+rich rows, "create new…") and multi-select / tag input (`MultiSelect`) have shipped. Next, as separate layers: filter bar with saved views, document lifecycle and
 approvals, activity log (comments, field-change audit), attachment list, tree grid (chart of
 accounts, BOM), master–detail split view, notification inbox. Module-specific and deferred: Kanban,
 Gantt (over the depgraph engine), pivot report, resource scheduler, print layout. Permission matrix

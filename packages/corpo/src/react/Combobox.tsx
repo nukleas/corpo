@@ -1,83 +1,87 @@
-import { useEffect, useId, useRef, useState } from 'react';
-import { cx } from './cx';
+import { useEffect, useRef } from 'react';
+import { useFieldControlProps } from './field-context';
+import { useCombobox, type ComboboxOption } from './useCombobox';
 
-export interface ComboboxOption {
-  value: string;
-  label: string;
-}
+export type { ComboboxOption };
 
 export interface ComboboxProps {
+  /** Choices. With `onQueryChange`, the current search results — keep the selected option among them so its label shows. */
   options: ComboboxOption[];
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
   emptyText?: string;
-  /** Accessible name for the search input — required when no visible label is associated. */
-  ariaLabel?: string;
+  /** Accessible name when no {@link Field} label is associated. */
+  'aria-label'?: string;
+  /** Search remotely: called as the user types; the component stops filtering `options` itself. */
+  onQueryChange?: (query: string) => void;
+  /** Shows "Searching…" while remote results load. */
+  loading?: boolean;
+  /** Offers a "Create “query”" row when nothing matches exactly — e.g. a new customer. */
+  onCreate?: (query: string) => void;
 }
 
+/**
+ * Corpo combobox — searchable single-select and entity lookup. Arrow keys move
+ * through the options, Enter picks, Escape closes. Options can carry a
+ * `description` line; `onQueryChange` + `loading` turn it into a remote
+ * search, and `onCreate` adds a create-new row.
+ */
 export function Combobox({
   options,
   value,
   onChange,
   placeholder = 'Search…',
   emptyText = 'No results',
-  ariaLabel,
+  'aria-label': ariaLabel,
+  onQueryChange,
+  loading,
+  onCreate,
 }: ComboboxProps) {
-  const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState('');
-  const ref = useRef<HTMLDivElement>(null);
-  const listId = useId();
+  const fieldProps = useFieldControlProps(false);
   const selected = options.find((o) => o.value === value);
+  const { root, open, setOpen, query, setQuery, inputProps, popup } = useCombobox({
+    options,
+    isSelected: (v) => v === value,
+    onPick: (o) => onChange?.(o.value),
+    closeOnPick: true,
+    onQueryChange,
+    onCreate,
+    loading,
+    emptyText,
+  });
 
+  // After a pick the input shows the label, selected — the next keystroke starts a new search.
+  const input = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if (!open) return;
-    const onDocClick = (e: MouseEvent) => {
-      if (ref.current && e.target instanceof Node && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
+    if (!open && document.activeElement === input.current) input.current?.select();
   }, [open]);
 
-  const filtered = options.filter((o) => o.label.toLowerCase().includes(query.toLowerCase()));
-
   return (
-    <div ref={ref} className="cp-combobox">
+    <div ref={root} className="cp-combobox">
       <input
+        ref={input}
+        {...fieldProps}
+        {...inputProps}
         className="cp-input"
-        role="combobox"
         aria-label={ariaLabel}
-        aria-expanded={open}
-        aria-controls={open ? listId : undefined}
-        aria-autocomplete="list"
         placeholder={placeholder}
         value={open ? query : (selected?.label ?? '')}
         onFocus={() => {
           setOpen(true);
           setQuery('');
         }}
-        onChange={(e) => setQuery(e.target.value)}
+        onClick={() => {
+          if (open) return;
+          setOpen(true);
+          setQuery('');
+        }}
+        onChange={(e) => {
+          setOpen(true);
+          setQuery(e.target.value);
+        }}
       />
-      {open && (
-        <div id={listId} className="cp-combobox__list" role="listbox">
-          {filtered.length === 0 && <div className="cp-combobox__empty">{emptyText}</div>}
-          {filtered.map((o) => (
-            <button
-              key={o.value}
-              type="button"
-              role="option"
-              aria-selected={o.value === value}
-              className={cx('cp-combobox__option', o.value === value && 'cp-combobox__option--selected')}
-              onClick={() => {
-                onChange?.(o.value);
-                setOpen(false);
-              }}
-            >
-              {o.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {popup}
     </div>
   );
 }

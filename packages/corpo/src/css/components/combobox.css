@@ -18,10 +18,11 @@
 }
 .cp-combobox__option {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
-  height: 32px;
-  padding: 0 10px;
+  min-height: 32px;
+  padding: 6px 10px;
   border: none;
   border-radius: var(--corpo-radius);
   background: none;
@@ -31,7 +32,8 @@
   font-size: var(--corpo-text-sm);
   color: var(--corpo-text-secondary);
 }
-.cp-combobox__option:hover {
+.cp-combobox__option:hover,
+.cp-combobox__option--active {
   background: var(--corpo-bg-panel-hover);
   color: var(--corpo-text);
 }
@@ -43,5 +45,53 @@
   padding: 10px;
   text-align: center;
   font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-dim);
+}
+
+.cp-combobox__option-description {
+  font-size: var(--corpo-text-xs);
+  font-weight: 400;
+  color: var(--corpo-text-muted);
+}
+.cp-combobox__option--create {
+  color: var(--corpo-accent);
+}
+
+/* MultiSelect: chips and the search input share one input-styled box. */
+.cp-multiselect {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--corpo-control-h);
+  padding: 3px 4px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  transition: border-color var(--corpo-dur) var(--corpo-ease);
+}
+.cp-multiselect:hover {
+  border-color: var(--corpo-border-strong);
+}
+.cp-multiselect:focus-within {
+  border-color: var(--corpo-accent);
+}
+.cp-multiselect__input {
+  flex: 1 0 80px;
+  min-width: 0;
+  height: 26px;
+  padding: 0 6px;
+  border: none;
+  background: none;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-base);
+  color: var(--corpo-text);
+}
+/* The box's accent border (:focus-within) is the focus indicator. */
+.cp-multiselect__input:focus,
+.cp-multiselect__input:focus-visible {
+  outline: none;
+}
+.cp-multiselect__input::placeholder {
   color: var(--corpo-text-dim);
 }
