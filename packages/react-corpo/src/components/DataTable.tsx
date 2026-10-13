@@ -48,6 +48,8 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
   pinFirstColumn?: boolean;
   /** Toolbar quick-filter across all columns' raw values. @default false */
   searchable?: boolean;
+  /** More toolbar controls beside the quick filter — typically a {@link FilterBar}. */
+  toolbar?: ReactNode;
   /** Render a selection checkbox column; requires `onSelectedChange`. @default false */
   selectable?: boolean;
   /** Selected row ids (controlled). */
@@ -118,6 +120,7 @@ export function DataTable({
   striped = false,
   pinFirstColumn = false,
   searchable = false,
+  toolbar,
   selectable = false,
   selected = [],
   onSelectedChange,
@@ -165,16 +168,19 @@ export function DataTable({
 
   return (
     <div className={cn('cp-datatable', grid && 'cp-datatable--grid', className)} {...rest}>
-      {searchable && (
+      {(searchable || toolbar != null) && (
         <div className="cp-datatable__toolbar">
-          <Input
-            size="sm"
-            type="search"
-            placeholder="Filter…"
-            aria-label="Filter rows"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          {searchable && (
+            <Input
+              size="sm"
+              type="search"
+              placeholder="Filter…"
+              aria-label="Filter rows"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          )}
+          {toolbar}
           {query && (
             <span className="cp-datatable__count">
               {visible.length}/{rows.length}

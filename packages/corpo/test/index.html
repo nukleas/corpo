@@ -331,6 +331,20 @@
   </section>
 
   <section>
+    <h2>Filters</h2>
+    <div class="cp-datatable__toolbar">
+      <input class="cp-input cp-input--sm" type="search" placeholder="Filter…" aria-label="Filter rows" style="width: 200px;">
+      <div class="cp-filter-bar" role="group" aria-label="Filters">
+        <button class="cp-btn cp-btn--sm">Add filter ▾</button>
+        <span class="cp-chip">Status: Overdue<button class="cp-chip__remove" aria-label="Remove filter Status: Overdue">×</button></span>
+        <span class="cp-chip">Client: Acme Inc.<button class="cp-chip__remove" aria-label="Remove filter Client: Acme Inc.">×</button></span>
+        <button class="cp-btn cp-btn--sm cp-btn--ghost">Clear filters</button>
+        <span class="cp-filter-bar__count" aria-live="polite">2 of 84 invoices</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <h2>App navigation</h2>
     <nav class="cp-navmenu" aria-label="Modules" style="min-height: 200px;">
       <ul class="cp-navmenu__list">

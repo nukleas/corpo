@@ -1,0 +1,15 @@
+.cp-filter-bar {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  min-width: 0;
+}
+.cp-filter-bar__count {
+  margin-left: auto;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--corpo-text-muted);
+}

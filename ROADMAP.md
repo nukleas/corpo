@@ -9,7 +9,7 @@ ToggleGroup, ButtonGroup, InputGroup, Dropzone
 **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion,
 Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip,
 StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, ResizablePanels, Section, SectionHeader, DescriptionList, HoverCard,
-Timeline, Stepper, TreeView, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
+Timeline, Stepper, TreeView, FilterBar, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
 
 **Data**: LineChart, BarChart, DonutChart, Sparkline, DependencyGraph (CpDepGraph scene engine)
 
@@ -111,7 +111,8 @@ sales-order screen (list → record → lines → totals) built only from corpo 
    actions), sectioned multi-column form grid, and a side panel slot for activity and attachments.
 
 The sales-order screen works (*Examples/Sales order*). Async entity lookup (Combobox `onQueryChange`,
-rich rows, "create new…") and multi-select / tag input (`MultiSelect`) have shipped. Next, as separate layers: filter bar with saved views, document lifecycle and
+rich rows, "create new…") and multi-select / tag input (`MultiSelect`) have shipped, and so has a filter bar with saved views (`FilterBar` in the DataTable `toolbar`, pill
+Tabs as the view switcher). Next, as separate layers: document lifecycle and
 approvals, activity log (comments, field-change audit), attachment list, tree grid (chart of
 accounts, BOM), master–detail split view, notification inbox. Module-specific and deferred: Kanban,
 Gantt (over the depgraph engine), pivot report, resource scheduler, print layout. Permission matrix
