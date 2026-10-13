@@ -81,7 +81,7 @@ Built in layers, each shippable on its own:
 2. **Keyboard cell navigation** *(shipped)* — ARIA grid pattern on the existing `<table>`: roving tabindex,
    arrows / Home / End / PageUp / PageDown, a visible cell focus ring, Enter/Space act on the row
    (`onRowActivate`, Space selects when `selectable`). Read-only; on by default in `grid` mode.
-3. **Range selection + clipboard** — Shift+arrow, Shift+click, and drag ranges with a range CSS
+3. **Range selection + clipboard** *(shipped)* — Shift+arrow, Shift+click, and drag ranges with a range CSS
    state; Cmd/Ctrl+C copies as TSV so it pastes cleanly into Excel/Sheets.
 4. **Columns** — resize handles (widths reported to the caller, not persisted internally) and row
    grouping. *Tree rows shipped:* `DataTableRow.children` makes a treegrid (expand/collapse, ArrowRight/

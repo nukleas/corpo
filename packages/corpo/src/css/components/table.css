@@ -259,3 +259,13 @@
 .cp-table__tree-toggle[aria-expanded='true'] {
   transform: translateY(-50%) rotate(90deg);
 }
+
+/* Range selection (DataTable `grid`): selected cells take the accent wash; drag-selecting doesn't select text. */
+/* Outranks zebra and hover row backgrounds. */
+.cp-table.cp-table--grid .cp-table__table tbody tr td[aria-selected='true'],
+.cp-table.cp-table--grid .cp-table__table :is(thead, tfoot) tr > [aria-selected='true'] {
+  background: color-mix(in srgb, var(--corpo-accent) 16%, var(--corpo-bg-panel));
+}
+.cp-table--grid .cp-table__table[aria-multiselectable='true'] td {
+  user-select: none;
+}

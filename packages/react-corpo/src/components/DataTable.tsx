@@ -1,5 +1,5 @@
 import { isValidElement, useEffect, useMemo, useRef, useState } from 'react';
-import type { FocusEvent, HTMLAttributes, KeyboardEvent, ReactNode } from 'react';
+import type { FocusEvent, HTMLAttributes, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import { Button } from './Button';
 import { Checkbox } from './Checkbox';
@@ -86,6 +86,15 @@ interface ShownRow {
 }
 
 const INTERACTIVE = 'a[href], button, input, select, textarea';
+
+/** The grid position of the cell an event happened in. */
+function cellAt(target: EventTarget | null) {
+  const cell = target instanceof Element ? target.closest('td, th') : null;
+  const row = cell?.parentElement;
+  return cell instanceof HTMLTableCellElement && row instanceof HTMLTableRowElement
+    ? { row: row.rowIndex, col: cell.cellIndex }
+    : null;
+}
 
 /** Extra props for a tree row's first cell: indent depth (CSS reads `data-level`) and the toggle. */
 interface TreeCellProps {
@@ -195,6 +204,10 @@ export function DataTable({
   // Grid mode: the one cell in the tab order. Row 0 is the header; the footer, if any, is last.
   const [active, setActive] = useState({ row: 0, col: 0 });
   const tableRef = useRef<HTMLTableElement>(null);
+  // Range selection: the anchor cell; the range runs from it to the active cell. Null is a single cell.
+  const [anchor, setAnchor] = useState<{ row: number; col: number } | null>(null);
+  const dragging = useRef(false);
+  const [copied, setCopied] = useState('');
   const [expanded, setExpanded] = useState(() => new Set(defaultExpanded));
   const isTree = rows.some((r) => (r.children?.length ?? 0) > 0);
   const toggleExpanded = (id: string) =>
@@ -257,7 +270,49 @@ export function DataTable({
   const firstDataCol = selectable ? 1 : 0;
   const colCount = firstDataCol + columns.length;
   const at = { row: Math.min(active.row, rowCount - 1), col: Math.min(active.col, colCount - 1) };
-  const cellTab = (row: number, col: number) => (grid ? { tabIndex: row === at.row && col === at.col ? 0 : -1 } : {});
+  const range = anchor && {
+    top: Math.min(anchor.row, at.row),
+    bottom: Math.max(anchor.row, at.row),
+    left: Math.min(anchor.col, at.col),
+    right: Math.max(anchor.col, at.col),
+  };
+  const inRange = (row: number, col: number) =>
+    range != null && row >= range.top && row <= range.bottom && col >= range.left && col <= range.right;
+  const cellTab = (row: number, col: number) =>
+    grid
+      ? { tabIndex: row === at.row && col === at.col ? 0 : -1, 'aria-selected': inRange(row, col) || undefined }
+      : {};
+
+  const moveTo = (row: number, col: number, extend: boolean) => {
+    if (extend) setAnchor((prev) => prev ?? at);
+    else setAnchor(null);
+    setActive({ row, col });
+    tableRef.current?.rows[row]?.cells[col]?.focus();
+  };
+
+  /** The range (or the active cell) as tab-separated text: raw values for body cells, text elsewhere. */
+  const copyRange = () => {
+    const table = tableRef.current;
+    if (!table) return;
+    const b = range ?? { top: at.row, bottom: at.row, left: at.col, right: at.col };
+    const lines: string[] = [];
+    for (let r = b.top; r <= b.bottom; r++) {
+      const cells: string[] = [];
+      for (let c = Math.max(b.left, firstDataCol); c <= b.right; c++) {
+        const bodyRow = visible[r - 1];
+        const column = columns[c - firstDataCol];
+        const raw = bodyRow && column && r <= visible.length ? rawValue(bodyRow, column.key) : undefined;
+        cells.push(String(raw ?? table.rows[r]?.cells[c]?.textContent?.trim() ?? ''));
+      }
+      lines.push(cells.join('\t'));
+    }
+    const rows = b.bottom - b.top + 1;
+    const cols = b.right - Math.max(b.left, firstDataCol) + 1;
+    navigator.clipboard?.writeText(lines.join('\n')).then(
+      () => setCopied(`Copied ${rows} ${rows === 1 ? 'row' : 'rows'} × ${cols} ${cols === 1 ? 'column' : 'columns'}`),
+      () => setCopied("Couldn't copy — the browser blocked clipboard access"),
+    );
+  };
 
   // Grid mode keeps one tab stop: links and buttons inside cells leave the tab order and are reached
   // through their cell (Enter clicks them).
@@ -288,17 +343,31 @@ export function DataTable({
         return;
       }
       const parent = shown.findIndex((s) => s.row.id === treeRow.parentId) + 1;
-      setActive({ row: parent, col: at.col });
-      table.rows[parent]?.cells[at.col]?.focus();
+      moveTo(parent, at.col, false);
+      return;
+    }
+    const ctrl = e.ctrlKey || e.metaKey;
+    if (ctrl && e.key.toLowerCase() === 'c') {
+      e.preventDefault();
+      copyRange();
+      return;
+    }
+    if (ctrl && e.key.toLowerCase() === 'a' && visible.length > 0) {
+      e.preventDefault();
+      setAnchor({ row: 1, col: firstDataCol });
+      setActive({ row: visible.length, col: colCount - 1 });
+      table.rows[visible.length]?.cells[colCount - 1]?.focus();
+      return;
+    }
+    if (e.key === 'Escape' && anchor) {
+      e.preventDefault();
+      setAnchor(null);
       return;
     }
     const next = nextCell(e, at, { rows: rowCount, cols: colCount, page });
     if (next) {
       e.preventDefault();
-      const row = Math.min(rowCount - 1, Math.max(0, next.row));
-      const col = Math.min(colCount - 1, Math.max(0, next.col));
-      setActive({ row, col });
-      table.rows[row]?.cells[col]?.focus();
+      moveTo(Math.min(rowCount - 1, Math.max(0, next.row)), Math.min(colCount - 1, Math.max(0, next.col)), e.shiftKey);
       return;
     }
     if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -347,13 +416,33 @@ export function DataTable({
           className="cp-table__table"
           {...(grid && {
             role: isTree ? 'treegrid' : 'grid',
+            'aria-multiselectable': true,
             onKeyDown: onGridKeyDown,
             // Clicking (or tabbing into) a cell makes it the active one.
             onFocus: (e: FocusEvent<HTMLTableElement>) => {
-              const cell = e.target instanceof Element ? e.target.closest('td, th') : null;
-              const row = cell?.parentElement;
-              if (cell instanceof HTMLTableCellElement && row instanceof HTMLTableRowElement)
-                setActive({ row: row.rowIndex, col: cell.cellIndex });
+              const pos = cellAt(e.target);
+              if (pos) setActive(pos);
+            },
+            // Pointer ranges: press starts one (Shift extends from the anchor), dragging grows it.
+            onMouseDown: (e: MouseEvent<HTMLTableElement>) => {
+              const pos = cellAt(e.target);
+              if (!pos || e.button !== 0) return;
+              if (e.shiftKey) {
+                e.preventDefault();
+                moveTo(pos.row, pos.col, true);
+                return;
+              }
+              setAnchor(pos);
+              dragging.current = true;
+            },
+            onMouseMove: (e: MouseEvent<HTMLTableElement>) => {
+              const pos = cellAt(e.target);
+              if (!dragging.current || !pos || (pos.row === at.row && pos.col === at.col)) return;
+              setActive(pos);
+            },
+            onMouseUp: () => {
+              dragging.current = false;
+              if (anchor && anchor.row === at.row && anchor.col === at.col) setAnchor(null);
             },
           })}
         >
@@ -456,6 +545,11 @@ export function DataTable({
           )}
         </table>
       </div>
+      {grid && (
+        <span className="cp-datatable__status" role="status">
+          {copied}
+        </span>
+      )}
       {bulkActions != null && selected.length > 0 && (
         <div className="cp-datatable__bulk" role="region" aria-label="Bulk actions">
           <span className="cp-datatable__bulk-count">{selected.length} selected</span>
