@@ -328,6 +328,10 @@
 .cp-table__col-rownum {
   width: 44px;
 }
+/* Body row headers are cells of their row: they scroll with it, not with the sticky column header. */
+.cp-table--grid .cp-table__table tbody th {
+  position: static;
+}
 
 /* In-place editing (DataTable `onCellEdit`): the editor fills the cell and carries the focus ring. */
 .cp-table .cp-table__table td.cp-table__cell--editing {
@@ -346,4 +350,9 @@
   font: inherit;
   text-align: inherit;
   user-select: text;
+}
+
+/* Virtualized body (DataTable `virtualize`): spacer rows stand in for the rows out of view. */
+.cp-table__table .cp-table__spacer {
+  border: 0;
 }

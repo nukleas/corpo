@@ -1,4 +1,5 @@
 import { isValidElement, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import type { FocusEvent, HTMLAttributes, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import { Button } from './Button';
@@ -94,7 +95,15 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
   onCellEdit?: (rowId: string, key: string, value: string) => void;
   /** Number the rows in a row-header column, spreadsheet style. @default false */
   rowNumbers?: boolean;
+  /**
+   * With `grid` and a bounded height: render only the rows in view, for
+   * thousands of rows. Keyboard navigation, ranges and editing still cover
+   * every row; copy uses raw `values` for rows out of view. @default false
+   */
+  virtualize?: boolean;
 }
+
+const ROW_HEIGHT = 29;
 
 const MIN_COLUMN_WIDTH = 56;
 const RESIZE_STEP = 16;
@@ -117,8 +126,9 @@ const isEditor = (target: EventTarget | null) =>
 function cellAt(target: EventTarget | null) {
   const cell = target instanceof Element ? target.closest('td, th') : null;
   const row = cell?.parentElement;
-  return cell instanceof HTMLTableCellElement && row instanceof HTMLTableRowElement
-    ? { row: row.rowIndex, col: cell.cellIndex }
+  // Rows carry their grid index in data-row: a virtualized body renders only a window of them.
+  return cell instanceof HTMLTableCellElement && row instanceof HTMLTableRowElement && row.dataset.row
+    ? { row: Number(row.dataset.row), col: cell.cellIndex }
     : null;
 }
 
@@ -225,6 +235,7 @@ export function DataTable({
   onColumnResize,
   onCellEdit,
   rowNumbers = false,
+  virtualize = false,
   className,
   ...rest
 }: DataTableProps) {
@@ -233,6 +244,11 @@ export function DataTable({
   // Grid mode: the one cell in the tab order. Row 0 is the header; the footer, if any, is last.
   const [active, setActive] = useState({ row: 0, col: 0 });
   const tableRef = useRef<HTMLTableElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const cellEl = (row: number, col: number) =>
+    tableRef.current?.querySelector<HTMLTableRowElement>(`tr[data-row="${row}"]`)?.cells[col];
+  // A cell to focus once a virtualized row scrolls into the rendered window.
+  const pendingFocus = useRef<{ row: number; col: number } | null>(null);
   // Range selection: the anchor cell; the range runs from it to the active cell. Null is a single cell.
   const [anchor, setAnchor] = useState<{ row: number; col: number } | null>(null);
   const dragging = useRef(false);
@@ -243,7 +259,7 @@ export function DataTable({
   const base = useId();
   const fixedLayout = columns.some((c) => c.width != null);
   const resizeBy = (ci: number, delta: number, from?: number) => {
-    const th = tableRef.current?.rows[0]?.cells[ci + firstDataCol];
+    const th = cellEl(0, ci + firstDataCol);
     const current = from ?? columns[ci].width ?? th?.getBoundingClientRect().width ?? MIN_COLUMN_WIDTH;
     onColumnResize?.(columns[ci].key, Math.max(MIN_COLUMN_WIDTH, Math.round(current + delta)));
   };
@@ -310,6 +326,38 @@ export function DataTable({
   const firstDataCol = numberCol + (rowNumbers ? 1 : 0);
   const colCount = firstDataCol + columns.length;
   const at = { row: Math.min(active.row, rowCount - 1), col: Math.min(active.col, colCount - 1) };
+
+  // oxlint-disable-next-line react/incompatible-library -- TanStack Virtual returns fresh functions each render; DataTable isn't compiler-memoized, so nothing goes stale
+  const virtualizer = useVirtualizer({
+    count: virtualize ? shown.length : 0,
+    getScrollElement: () => scrollerRef.current,
+    estimateSize: () => ROW_HEIGHT,
+    overscan: 12,
+  });
+  const windowed = virtualize ? virtualizer.getVirtualItems() : null;
+  const bodyRows = windowed ? windowed.map((item) => item.index) : shown.map((_, i) => i);
+  const padTop = windowed?.[0]?.start ?? 0;
+  const padBottom = windowed?.length ? virtualizer.getTotalSize() - windowed[windowed.length - 1].end : 0;
+
+  /** Focus a cell; a body row outside a virtualized window scrolls in first and is focused after render. */
+  const focusCell = (row: number, col: number) => {
+    const el = cellEl(row, col);
+    if (el) {
+      el.focus();
+      return;
+    }
+    if (virtualize && row >= 1 && row <= visible.length) {
+      pendingFocus.current = { row, col };
+      virtualizer.scrollToIndex(row - 1, { align: 'auto' });
+    }
+  };
+  useEffect(() => {
+    const want = pendingFocus.current;
+    const el = want && cellEl(want.row, want.col);
+    if (!want || !el) return;
+    pendingFocus.current = null;
+    el.focus();
+  });
   const range = anchor && {
     top: Math.min(anchor.row, at.row),
     bottom: Math.max(anchor.row, at.row),
@@ -327,7 +375,7 @@ export function DataTable({
     if (extend) setAnchor((prev) => prev ?? at);
     else setAnchor(null);
     setActive({ row, col });
-    tableRef.current?.rows[row]?.cells[col]?.focus();
+    focusCell(row, col);
   };
 
   const editTarget = (row: number, col: number) => {
@@ -367,7 +415,7 @@ export function DataTable({
           : editing.col;
     setEditing(null);
     setActive({ row, col });
-    tableRef.current?.rows[row]?.cells[col]?.focus();
+    focusCell(row, col);
   };
 
   /** The range (or the active cell) as tab-separated text: raw values for body cells, text elsewhere. */
@@ -382,7 +430,7 @@ export function DataTable({
         const bodyRow = visible[r - 1];
         const column = columns[c - firstDataCol];
         const raw = bodyRow && column && r <= visible.length ? rawValue(bodyRow, column.key) : undefined;
-        cells.push(String(raw ?? table.rows[r]?.cells[c]?.textContent?.trim() ?? ''));
+        cells.push(String(raw ?? cellEl(r, c)?.textContent?.trim() ?? ''));
       }
       lines.push(cells.join('\t'));
     }
@@ -405,7 +453,7 @@ export function DataTable({
 
   const onGridKeyDown = (e: KeyboardEvent<HTMLTableElement>) => {
     const table = tableRef.current;
-    const cell = table?.rows[at.row]?.cells[at.col];
+    const cell = cellEl(at.row, at.col);
     if (!table || !cell) return;
     const rowHeight = cell.getBoundingClientRect().height || 28;
     const scroller = table.parentElement;
@@ -467,7 +515,7 @@ export function DataTable({
       e.preventDefault();
       setAnchor({ row: 1, col: firstDataCol });
       setActive({ row: visible.length, col: colCount - 1 });
-      table.rows[visible.length]?.cells[colCount - 1]?.focus();
+      focusCell(visible.length, colCount - 1);
       return;
     }
     if (e.key === 'Escape' && anchor) {
@@ -514,6 +562,7 @@ export function DataTable({
         </div>
       )}
       <div
+        ref={scrollerRef}
         className={cn(
           'cp-table',
           compact && 'cp-table--compact',
@@ -528,6 +577,7 @@ export function DataTable({
           {...(grid && {
             role: isTree ? 'treegrid' : 'grid',
             'aria-multiselectable': true,
+            'aria-rowcount': virtualize ? rowCount : undefined,
             onKeyDown: onGridKeyDown,
             // Clicking (or tabbing into) a cell makes it the active one.
             onFocus: (e: FocusEvent<HTMLTableElement>) => {
@@ -571,7 +621,7 @@ export function DataTable({
             </colgroup>
           )}
           <thead>
-            <tr>
+            <tr data-row={0} aria-rowindex={virtualize ? 1 : undefined}>
               {selectable && (
                 <th className="cp-table__check" {...cellTab(0, 0)}>
                   <Checkbox
@@ -617,102 +667,111 @@ export function DataTable({
             </tr>
           </thead>
           <tbody>
-            {shown.map(({ row, level, expandable, expanded: open }, ri) => (
-              <tr
-                key={row.id}
-                className={cn(selectedSet.has(row.id) && 'cp-table__row--selected')}
-                {...(grid && isTree && { 'aria-level': level, 'aria-expanded': expandable ? open : undefined })}
-              >
-                {selectable && (
-                  <td className="cp-table__check" {...cellTab(ri + 1, 0)}>
-                    <Checkbox
-                      aria-label={`Select row ${row.id}`}
-                      checked={selectedSet.has(row.id)}
-                      onChange={() => toggleRow(row.id)}
-                    />
-                  </td>
-                )}
-                {rowNumbers && (
-                  <th
-                    scope="row"
-                    id={`${base}-row-${ri}`}
-                    className="cp-table__row-head"
-                    {...cellTab(ri + 1, numberCol)}
-                  >
-                    {ri + 1}
-                  </th>
-                )}
-                {columns.map((c, ci) => {
-                  const raw = row.cells[c.key];
-                  const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
-                  const treeCell: TreeCellProps | undefined =
-                    isTree && ci === 0
-                      ? {
-                          className: 'cp-table__tree-cell',
-                          'data-level': Math.min(level, 6),
-                          children: expandable && (
-                            <button
-                              type="button"
-                              className="cp-table__tree-toggle"
-                              aria-label={`${open ? 'Collapse' : 'Expand'} row ${row.id}`}
-                              aria-expanded={open}
-                              onClick={() => toggleExpanded(row.id)}
-                            >
-                              <span aria-hidden="true">›</span>
-                            </button>
+            {padTop > 0 && <tr className="cp-table__spacer" aria-hidden="true" style={{ height: padTop }} />}
+            {bodyRows.map((ri) => {
+              const { row, level, expandable, expanded: open } = shown[ri];
+              return (
+                <tr
+                  key={row.id}
+                  data-row={ri + 1}
+                  data-index={ri}
+                  ref={virtualize ? virtualizer.measureElement : undefined}
+                  aria-rowindex={virtualize ? ri + 2 : undefined}
+                  className={cn(selectedSet.has(row.id) && 'cp-table__row--selected')}
+                  {...(grid && isTree && { 'aria-level': level, 'aria-expanded': expandable ? open : undefined })}
+                >
+                  {selectable && (
+                    <td className="cp-table__check" {...cellTab(ri + 1, 0)}>
+                      <Checkbox
+                        aria-label={`Select row ${row.id}`}
+                        checked={selectedSet.has(row.id)}
+                        onChange={() => toggleRow(row.id)}
+                      />
+                    </td>
+                  )}
+                  {rowNumbers && (
+                    <th
+                      scope="row"
+                      id={`${base}-row-${ri}`}
+                      className="cp-table__row-head"
+                      {...cellTab(ri + 1, numberCol)}
+                    >
+                      {ri + 1}
+                    </th>
+                  )}
+                  {columns.map((c, ci) => {
+                    const raw = row.cells[c.key];
+                    const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
+                    const treeCell: TreeCellProps | undefined =
+                      isTree && ci === 0
+                        ? {
+                            className: 'cp-table__tree-cell',
+                            'data-level': Math.min(level, 6),
+                            children: expandable && (
+                              <button
+                                type="button"
+                                className="cp-table__tree-toggle"
+                                aria-label={`${open ? 'Collapse' : 'Expand'} row ${row.id}`}
+                                aria-expanded={open}
+                                onClick={() => toggleExpanded(row.id)}
+                              >
+                                <span aria-hidden="true">›</span>
+                              </button>
+                            ),
+                          }
+                        : undefined;
+                    const isEditing = editing?.row === ri + 1 && editing.col === ci + firstDataCol;
+                    return TableCell.create(cell, {
+                      key: c.key,
+                      defaultProps: { numeric: c.numeric, mono: c.mono },
+                      overrideProps: {
+                        ...treeCell,
+                        ...cellTab(ri + 1, ci + firstDataCol),
+                        ...(isEditing && {
+                          className: cn(treeCell?.className, 'cp-table__cell--editing'),
+                          content: (
+                            <input
+                              className="cp-table__editor"
+                              aria-labelledby={rowNumbers ? `${base}-col-${ci} ${base}-row-${ri}` : `${base}-col-${ci}`}
+                              value={editing.draft}
+                              ref={(el) => {
+                                // Focus once on mount: select the value, or keep the caret after a typed seed.
+                                if (!el || document.activeElement === el) return;
+                                el.focus();
+                                if (!editing.seeded) el.select();
+                              }}
+                              onChange={(e) => setEditing({ ...editing, draft: e.target.value })}
+                              onKeyDown={(e) => {
+                                // The editor owns its keys: arrows move the caret, Ctrl+A/C act on the text.
+                                e.stopPropagation();
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  finishEdit(true, 'down');
+                                } else if (e.key === 'Tab') {
+                                  e.preventDefault();
+                                  finishEdit(true, e.shiftKey ? 'left' : 'right');
+                                } else if (e.key === 'Escape') {
+                                  e.preventDefault();
+                                  finishEdit(false, null);
+                                }
+                              }}
+                              onBlur={() => {
+                                if (!closing.current) finishEdit(true, null);
+                              }}
+                            />
                           ),
-                        }
-                      : undefined;
-                  const isEditing = editing?.row === ri + 1 && editing.col === ci + firstDataCol;
-                  return TableCell.create(cell, {
-                    key: c.key,
-                    defaultProps: { numeric: c.numeric, mono: c.mono },
-                    overrideProps: {
-                      ...treeCell,
-                      ...cellTab(ri + 1, ci + firstDataCol),
-                      ...(isEditing && {
-                        className: cn(treeCell?.className, 'cp-table__cell--editing'),
-                        content: (
-                          <input
-                            className="cp-table__editor"
-                            aria-labelledby={rowNumbers ? `${base}-col-${ci} ${base}-row-${ri}` : `${base}-col-${ci}`}
-                            value={editing.draft}
-                            ref={(el) => {
-                              // Focus once on mount: select the value, or keep the caret after a typed seed.
-                              if (!el || document.activeElement === el) return;
-                              el.focus();
-                              if (!editing.seeded) el.select();
-                            }}
-                            onChange={(e) => setEditing({ ...editing, draft: e.target.value })}
-                            onKeyDown={(e) => {
-                              // The editor owns its keys: arrows move the caret, Ctrl+A/C act on the text.
-                              e.stopPropagation();
-                              if (e.key === 'Enter') {
-                                e.preventDefault();
-                                finishEdit(true, 'down');
-                              } else if (e.key === 'Tab') {
-                                e.preventDefault();
-                                finishEdit(true, e.shiftKey ? 'left' : 'right');
-                              } else if (e.key === 'Escape') {
-                                e.preventDefault();
-                                finishEdit(false, null);
-                              }
-                            }}
-                            onBlur={() => {
-                              if (!closing.current) finishEdit(true, null);
-                            }}
-                          />
-                        ),
-                      }),
-                    },
-                  });
-                })}
-              </tr>
-            ))}
+                        }),
+                      },
+                    });
+                  })}
+                </tr>
+              );
+            })}
+            {padBottom > 0 && <tr className="cp-table__spacer" aria-hidden="true" style={{ height: padBottom }} />}
           </tbody>
           {hasSummary && (
             <tfoot>
-              <tr>
+              <tr data-row={rowCount - 1} aria-rowindex={virtualize ? rowCount : undefined}>
                 {selectable && <td className="cp-table__check" {...cellTab(rowCount - 1, 0)} />}
                 {rowNumbers && <td className="cp-table__row-head" {...cellTab(rowCount - 1, numberCol)} />}
                 {columns.map((c, ci) => {
