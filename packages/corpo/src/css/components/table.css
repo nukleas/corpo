@@ -195,3 +195,15 @@
 .cp-table--grid.cp-table--pin-first .cp-table__table tr > .cp-table__check + * {
   left: 36px;
 }
+
+/* Grid keyboard navigation (DataTable `grid`): the active cell's ring sits inside the gridlines, and
+   cells scroll clear of the sticky header and totals row. */
+.cp-table--grid th:focus-visible,
+.cp-table--grid td:focus-visible {
+  outline: 2px solid var(--corpo-accent);
+  outline-offset: -2px;
+}
+.cp-table--grid th,
+.cp-table--grid td {
+  scroll-margin: 34px 0;
+}

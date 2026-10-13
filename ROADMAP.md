@@ -78,9 +78,9 @@ Built in layers, each shippable on its own:
    `cp-table--pin-first` to pin the first data column (plus the selection column). Table and
    DataTable take `grid` / `striped` / `pinFirstColumn`. The README quick-starts now lead with a
    DataTable grid instead of a Card — the docs were why agents reached for Cards.
-2. **Keyboard cell navigation** — ARIA grid pattern on the existing `<table>`: roving tabindex,
-   arrows / Home / End / PageUp / PageDown, a visible cell focus ring, Enter/Space act on the row.
-   Read-only.
+2. **Keyboard cell navigation** *(shipped)* — ARIA grid pattern on the existing `<table>`: roving tabindex,
+   arrows / Home / End / PageUp / PageDown, a visible cell focus ring, Enter/Space act on the row
+   (`onRowActivate`, Space selects when `selectable`). Read-only; on by default in `grid` mode.
 3. **Range selection + clipboard** — Shift+arrow, Shift+click, and drag ranges with a range CSS
    state; Cmd/Ctrl+C copies as TSV so it pastes cleanly into Excel/Sheets.
 4. **Columns** — resize handles (widths reported to the caller, not persisted internally) and row
