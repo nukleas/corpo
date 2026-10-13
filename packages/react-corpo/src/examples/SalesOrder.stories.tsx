@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
+import { ActivityLog, type ActivityEntry } from '../components/ActivityLog';
 import { AppShell } from '../components/AppShell';
 import { Amount } from '../components/Amount';
 import { Avatar } from '../components/Avatar';
@@ -24,8 +25,6 @@ import { SideNav } from '../components/SideNav';
 import { StatusPill } from '../components/StatusPill';
 import { Tabs } from '../components/Tabs';
 import { Textarea } from '../components/Textarea';
-import { Timeline } from '../components/Timeline';
-import type { TimelineItem } from '../components/Timeline';
 import { Topbar } from '../components/Topbar';
 
 const meta = {
@@ -49,7 +48,7 @@ interface Order {
   notes: string;
   status: OrderStatus;
   lines: LineItem[];
-  history: TimelineItem[];
+  history: ActivityEntry[];
 }
 
 const PRODUCTS: LineItemProduct[] = [
@@ -102,7 +101,7 @@ const ORDERS: Order[] = [
     notes: 'Deliver to the loading dock before 3 PM.',
     status: 'Draft',
     lines: [line('a1', 'CHR-100', 4, 10), line('a2', 'DSK-210', 1), line('a3', 'SVC-001', 1)],
-    history: [{ title: 'Draft created', timestamp: 'Oct 5, 9:12 AM', tone: 'idle' }],
+    history: [{ id: 'h1', type: 'event', title: 'Draft created', timestamp: 'Oct 5, 9:12 AM' }],
   },
   {
     id: 'SO-10479',
@@ -116,8 +115,8 @@ const ORDERS: Order[] = [
     status: 'Confirmed',
     lines: [line('b1', 'DSK-210', 6, 5), line('b2', 'MON-27', 6)],
     history: [
-      { title: 'Order confirmed', timestamp: 'Oct 2, 2:40 PM', tone: 'ok' },
-      { title: 'Draft created', timestamp: 'Oct 2, 11:03 AM', tone: 'idle' },
+      { id: 'h2', type: 'event', title: 'Order confirmed', timestamp: 'Oct 2, 2:40 PM', tone: 'ok' },
+      { id: 'h3', type: 'event', title: 'Draft created', timestamp: 'Oct 2, 11:03 AM' },
     ],
   },
   {
@@ -132,9 +131,9 @@ const ORDERS: Order[] = [
     status: 'Shipped',
     lines: [line('c1', 'CHR-100', 12, 15), line('c2', 'SVC-001', 2)],
     history: [
-      { title: 'Shipped', timestamp: 'Sep 29, 8:15 AM', tone: 'ok' },
-      { title: 'Order confirmed', timestamp: 'Sep 24, 4:02 PM', tone: 'ok' },
-      { title: 'Draft created', timestamp: 'Sep 24, 3:47 PM', tone: 'idle' },
+      { id: 'h4', type: 'event', title: 'Shipped', timestamp: 'Sep 29, 8:15 AM', tone: 'ok' },
+      { id: 'h5', type: 'event', title: 'Order confirmed', timestamp: 'Sep 24, 4:02 PM', tone: 'ok' },
+      { id: 'h6', type: 'event', title: 'Draft created', timestamp: 'Sep 24, 3:47 PM' },
     ],
   },
 ];
@@ -223,7 +222,10 @@ function OrderRecord({
     onChange({
       ...order,
       status: 'Confirmed',
-      history: [{ title: 'Order confirmed', timestamp: 'Just now', tone: 'ok' }, ...order.history],
+      history: [
+        { id: 'h7', type: 'event', title: 'Order confirmed', timestamp: 'Just now', tone: 'ok' },
+        ...order.history,
+      ],
     });
 
   return (
@@ -259,7 +261,24 @@ function OrderRecord({
         ]}
         aside={
           <Card title="Activity">
-            <Timeline items={order.history} />
+            <ActivityLog
+              entries={order.history}
+              onComment={(body) =>
+                onChange({
+                  ...order,
+                  history: [
+                    {
+                      id: `h${order.history.length + 100}`,
+                      type: 'comment',
+                      author: 'Ana Sørensen',
+                      timestamp: 'Just now',
+                      body,
+                    },
+                    ...order.history,
+                  ],
+                })
+              }
+            />
           </Card>
         }
       >

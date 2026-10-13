@@ -353,6 +353,36 @@
   </section>
 
   <section>
+    <h2>Activity log</h2>
+    <div class="cp-activity-log" style="max-width: 380px;">
+      <div class="cp-activity-log__composer">
+        <textarea class="cp-textarea" rows="2" aria-label="Comment" placeholder="Add a comment…"></textarea>
+        <div class="cp-activity-log__composer-actions"><span class="cp-activity-log__hint">Ctrl+Enter to post</span><button class="cp-btn cp-btn--sm cp-btn--primary" disabled>Post comment</button></div>
+      </div>
+      <ol class="cp-activity-log__list" aria-label="Activity">
+        <li class="cp-activity-log__entry">
+          <span class="cp-activity-log__marker" aria-hidden="true"><span class="cp-avatar cp-avatar--sm">MA</span></span>
+          <div class="cp-activity-log__content">
+            <div class="cp-activity-log__head"><span class="cp-activity-log__author">Maria Anders</span><span class="cp-activity-log__action">commented</span><span class="cp-activity-log__time">Oct 6, 10:02 AM</span></div>
+            <div class="cp-activity-log__comment">Customer asked to hold delivery until the dock is repaired.</div>
+          </div>
+        </li>
+        <li class="cp-activity-log__entry">
+          <span class="cp-activity-log__marker" aria-hidden="true"><span class="cp-avatar cp-avatar--sm">MA</span></span>
+          <div class="cp-activity-log__content">
+            <div class="cp-activity-log__head"><span class="cp-activity-log__author">Maria Anders</span><span class="cp-activity-log__action">changed 1 field</span><span class="cp-activity-log__time">Oct 6, 9:58 AM</span></div>
+            <ul class="cp-activity-log__changes"><li><span class="cp-activity-log__field">Due date</span> <del class="cp-activity-log__from">Nov 4, 2026</del> <span aria-hidden="true">→</span><span class="cp-activity-log__sr"> to</span> <ins class="cp-activity-log__to">Nov 18, 2026</ins></li></ul>
+          </div>
+        </li>
+        <li class="cp-activity-log__entry">
+          <span class="cp-activity-log__marker" aria-hidden="true"><span class="cp-status-dot cp-status-dot--ok"></span></span>
+          <div class="cp-activity-log__content"><div class="cp-activity-log__head"><span class="cp-activity-log__title">Order confirmed</span><span class="cp-activity-log__time">Oct 5, 2:40 PM</span></div></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
     <h2>Tree grid</h2>
     <div class="cp-table cp-table--grid" style="max-width: 480px;">
       <table class="cp-table__table" role="treegrid" aria-label="Chart of accounts">

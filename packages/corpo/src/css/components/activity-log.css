@@ -1,0 +1,117 @@
+/* ActivityLog — a record's comments, field changes and system events, newest first. */
+.cp-activity-log {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: var(--corpo-font-sans);
+  color: var(--corpo-text);
+}
+
+.cp-activity-log__composer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cp-activity-log__composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.cp-activity-log__hint {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-dim);
+}
+
+.cp-activity-log__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cp-activity-log__entry {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+}
+.cp-activity-log__content {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.cp-activity-log__marker {
+  display: flex;
+  justify-content: center;
+  padding-top: 1px;
+}
+/* A status dot sits on the first text line, not the avatar's center. */
+.cp-activity-log__marker .cp-status-dot {
+  margin-top: 6px;
+}
+
+.cp-activity-log__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 6px;
+  font-size: var(--corpo-text-sm);
+  line-height: 1.4;
+}
+.cp-activity-log__author,
+.cp-activity-log__title {
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-activity-log__action {
+  color: var(--corpo-text-secondary);
+}
+.cp-activity-log__time {
+  margin-left: auto;
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  white-space: nowrap;
+}
+
+.cp-activity-log__comment {
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius-lg);
+  font-size: var(--corpo-text-sm);
+  line-height: var(--corpo-leading-normal);
+  white-space: pre-wrap;
+}
+
+.cp-activity-log__changes {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-muted);
+}
+.cp-activity-log__field {
+  color: var(--corpo-text-secondary);
+}
+.cp-activity-log__field::after {
+  content: ':';
+}
+.cp-activity-log__from {
+  color: var(--corpo-text-muted);
+}
+.cp-activity-log__to {
+  color: var(--corpo-text);
+  text-decoration: none;
+}
+.cp-activity-log__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
