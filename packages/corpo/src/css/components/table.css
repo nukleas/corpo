@@ -207,3 +207,55 @@
 .cp-table--grid td {
   scroll-margin: 34px 0;
 }
+
+/* Tree rows (DataTable `children`): the first cell indents by depth; parents carry a toggle in the indent. */
+.cp-table__tree-cell {
+  --tree-depth: 0;
+  position: relative;
+}
+/* Outranks the plain, compact and grid cell paddings. */
+.cp-table .cp-table__table td.cp-table__tree-cell {
+  padding-left: calc(30px + var(--tree-depth) * 16px);
+}
+.cp-table__tree-cell[data-level='2'] {
+  --tree-depth: 1;
+}
+.cp-table__tree-cell[data-level='3'] {
+  --tree-depth: 2;
+}
+.cp-table__tree-cell[data-level='4'] {
+  --tree-depth: 3;
+}
+.cp-table__tree-cell[data-level='5'] {
+  --tree-depth: 4;
+}
+.cp-table__tree-cell[data-level='6'] {
+  --tree-depth: 5;
+}
+.cp-table__tree-toggle {
+  position: absolute;
+  top: 50%;
+  left: calc(6px + var(--tree-depth) * 16px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: none;
+  color: var(--corpo-text-muted);
+  cursor: pointer;
+  font-size: var(--corpo-text-lg);
+  line-height: 1;
+  transform: translateY(-50%);
+  transition: transform var(--corpo-dur-fast) var(--corpo-ease);
+}
+.cp-table__tree-toggle:hover {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+.cp-table__tree-toggle[aria-expanded='true'] {
+  transform: translateY(-50%) rotate(90deg);
+}

@@ -84,7 +84,8 @@ Built in layers, each shippable on its own:
 3. **Range selection + clipboard** — Shift+arrow, Shift+click, and drag ranges with a range CSS
    state; Cmd/Ctrl+C copies as TSV so it pastes cleanly into Excel/Sheets.
 4. **Columns** — resize handles (widths reported to the caller, not persisted internally) and row
-   grouping, which unlocks the deferred TrialBalance account tree.
+   grouping. *Tree rows shipped:* `DataTableRow.children` makes a treegrid (expand/collapse, ArrowRight/
+   ArrowLeft, filter keeps ancestors), which unblocks rebuilding the TrialBalance account tree on it.
 5. **Spreadsheet on the grid** — rebuild `Spreadsheet` as a preset over the same grid (A1 headers,
    row numbers, editable cells) so corpo has one keyboard/selection model, not two. Inline editing
    lands here, not in the DataTable layers.
