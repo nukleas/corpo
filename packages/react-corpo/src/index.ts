@@ -82,6 +82,7 @@ export * from './components/Empty';
 export * from './components/AspectRatio';
 export * from './components/ScrollArea';
 export * from './components/ResizablePanels';
+export * from './components/SplitView';
 export * from './components/SectionHeader';
 export * from './components/Section';
 export * from './components/DependencyGraph';

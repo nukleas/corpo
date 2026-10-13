@@ -1,0 +1,31 @@
+/* SplitView — master–detail inside a framed, height-bounded box. */
+.cp-split {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  font-family: var(--corpo-font-sans);
+}
+.cp-split__pane {
+  height: 100%;
+  overflow: auto;
+  padding: 16px;
+}
+.cp-split__detail {
+  height: 100%;
+}
+.cp-split__back {
+  margin: -6px 0 10px -8px;
+}
+.cp-split__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 16px;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-muted);
+  text-align: center;
+}
