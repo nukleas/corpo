@@ -1,5 +1,5 @@
-import { isValidElement, useMemo, useState } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import { isValidElement, useEffect, useMemo, useRef, useState } from 'react';
+import type { FocusEvent, HTMLAttributes, KeyboardEvent, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import { Button } from './Button';
 import { Checkbox } from './Checkbox';
@@ -61,6 +61,42 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
    * count, these actions, and a clear-selection button.
    */
   bulkActions?: ReactNode;
+  /**
+   * With `grid`: Enter on a body cell that holds no link or button (or Space,
+   * when not `selectable`) activates its row — open the record, say.
+   */
+  onRowActivate?: (id: string) => void;
+}
+
+const INTERACTIVE = 'a[href], button, input, select, textarea';
+
+/** Where a key moves the active cell, or null when the grid doesn't handle it. */
+function nextCell(
+  e: KeyboardEvent,
+  at: { row: number; col: number },
+  size: { rows: number; cols: number; page: number },
+) {
+  const ctrl = e.ctrlKey || e.metaKey;
+  switch (e.key) {
+    case 'ArrowUp':
+      return { row: at.row - 1, col: at.col };
+    case 'ArrowDown':
+      return { row: at.row + 1, col: at.col };
+    case 'ArrowLeft':
+      return { row: at.row, col: at.col - 1 };
+    case 'ArrowRight':
+      return { row: at.row, col: at.col + 1 };
+    case 'Home':
+      return { row: ctrl ? 0 : at.row, col: 0 };
+    case 'End':
+      return { row: ctrl ? size.rows - 1 : at.row, col: size.cols - 1 };
+    case 'PageUp':
+      return { row: at.row - size.page, col: at.col };
+    case 'PageDown':
+      return { row: at.row + size.page, col: at.col };
+    default:
+      return null;
+  }
 }
 
 type SortState = { key: string; dir: 'asc' | 'desc' } | null;
@@ -125,11 +161,15 @@ export function DataTable({
   selected = [],
   onSelectedChange,
   bulkActions,
+  onRowActivate,
   className,
   ...rest
 }: DataTableProps) {
   const [sort, setSort] = useState<SortState>(null);
   const [query, setQuery] = useState('');
+  // Grid mode: the one cell in the tab order. Row 0 is the header; the footer, if any, is last.
+  const [active, setActive] = useState({ row: 0, col: 0 });
+  const tableRef = useRef<HTMLTableElement>(null);
 
   const visible = useMemo(() => {
     let out = rows;
@@ -166,6 +206,46 @@ export function DataTable({
   const toggleRow = (id: string) =>
     onSelectedChange?.(selectedSet.has(id) ? selected.filter((s) => s !== id) : [...selected, id]);
 
+  const rowCount = 1 + visible.length + (hasSummary ? 1 : 0);
+  const colCount = (selectable ? 1 : 0) + columns.length;
+  const at = { row: Math.min(active.row, rowCount - 1), col: Math.min(active.col, colCount - 1) };
+  const cellTab = (row: number, col: number) => (grid ? { tabIndex: row === at.row && col === at.col ? 0 : -1 } : {});
+
+  // Grid mode keeps one tab stop: links and buttons inside cells leave the tab order and are reached
+  // through their cell (Enter clicks them).
+  useEffect(() => {
+    if (!grid) return;
+    tableRef.current?.querySelectorAll<HTMLElement>(INTERACTIVE).forEach((el) => {
+      el.tabIndex = -1;
+    });
+  });
+
+  const onGridKeyDown = (e: KeyboardEvent<HTMLTableElement>) => {
+    const table = tableRef.current;
+    const cell = table?.rows[at.row]?.cells[at.col];
+    if (!table || !cell) return;
+    const rowHeight = cell.getBoundingClientRect().height || 28;
+    const scroller = table.parentElement;
+    const page = Math.max(1, Math.floor((scroller?.clientHeight ?? 0) / rowHeight) - 1);
+    const next = nextCell(e, at, { rows: rowCount, cols: colCount, page });
+    if (next) {
+      e.preventDefault();
+      const row = Math.min(rowCount - 1, Math.max(0, next.row));
+      const col = Math.min(colCount - 1, Math.max(0, next.col));
+      setActive({ row, col });
+      table.rows[row]?.cells[col]?.focus();
+      return;
+    }
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    if (e.target !== cell) return; // a widget inside the cell has focus and handles its own keys
+    const bodyRow = visible[at.row - 1];
+    const widget = cell.querySelector<HTMLElement>(INTERACTIVE);
+    e.preventDefault();
+    if (e.key === ' ' && selectable && bodyRow) toggleRow(bodyRow.id);
+    else if (widget) widget.click();
+    else if (bodyRow) onRowActivate?.(bodyRow.id);
+  };
+
   return (
     <div className={cn('cp-datatable', grid && 'cp-datatable--grid', className)} {...rest}>
       {(searchable || toolbar != null) && (
@@ -197,11 +277,25 @@ export function DataTable({
           grid && pinFirstColumn && 'cp-table--pin-first',
         )}
       >
-        <table className="cp-table__table">
+        <table
+          ref={tableRef}
+          className="cp-table__table"
+          {...(grid && {
+            role: 'grid',
+            onKeyDown: onGridKeyDown,
+            // Clicking (or tabbing into) a cell makes it the active one.
+            onFocus: (e: FocusEvent<HTMLTableElement>) => {
+              const cell = e.target instanceof Element ? e.target.closest('td, th') : null;
+              const row = cell?.parentElement;
+              if (cell instanceof HTMLTableCellElement && row instanceof HTMLTableRowElement)
+                setActive({ row: row.rowIndex, col: cell.cellIndex });
+            },
+          })}
+        >
           <thead>
             <tr>
               {selectable && (
-                <th className="cp-table__check">
+                <th className="cp-table__check" {...cellTab(0, 0)}>
                   <Checkbox
                     aria-label="Select all rows"
                     checked={allVisibleSelected}
@@ -212,9 +306,10 @@ export function DataTable({
                   />
                 </th>
               )}
-              {columns.map((c) => (
+              {columns.map((c, ci) => (
                 <th
                   key={c.key}
+                  {...cellTab(0, ci + (selectable ? 1 : 0))}
                   data-numeric={c.numeric || undefined}
                   aria-sort={sort?.key === c.key ? (sort.dir === 'asc' ? 'ascending' : 'descending') : undefined}
                 >
@@ -233,10 +328,10 @@ export function DataTable({
             </tr>
           </thead>
           <tbody>
-            {visible.map((row) => (
+            {visible.map((row, ri) => (
               <tr key={row.id} className={cn(selectedSet.has(row.id) && 'cp-table__row--selected')}>
                 {selectable && (
-                  <td className="cp-table__check">
+                  <td className="cp-table__check" {...cellTab(ri + 1, 0)}>
                     <Checkbox
                       aria-label={`Select row ${row.id}`}
                       checked={selectedSet.has(row.id)}
@@ -244,12 +339,13 @@ export function DataTable({
                     />
                   </td>
                 )}
-                {columns.map((c) => {
+                {columns.map((c, ci) => {
                   const raw = row.cells[c.key];
                   const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
                   return TableCell.create(cell, {
                     key: c.key,
                     defaultProps: { numeric: c.numeric, mono: c.mono },
+                    overrideProps: cellTab(ri + 1, ci + (selectable ? 1 : 0)),
                   });
                 })}
               </tr>
@@ -258,13 +354,14 @@ export function DataTable({
           {hasSummary && (
             <tfoot>
               <tr>
-                {selectable && <td className="cp-table__check" />}
-                {columns.map((c) => {
+                {selectable && <td className="cp-table__check" {...cellTab(rowCount - 1, 0)} />}
+                {columns.map((c, ci) => {
                   const raw = c.summary?.(visible);
                   const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
                   return TableCell.create(cell, {
                     key: c.key,
                     defaultProps: { numeric: c.numeric, mono: c.mono },
+                    overrideProps: cellTab(rowCount - 1, ci + (selectable ? 1 : 0)),
                   });
                 })}
               </tr>

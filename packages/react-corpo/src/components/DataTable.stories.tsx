@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from '@storybook/test';
+import { expect, fn, userEvent, within } from '@storybook/test';
 import { Amount, roundCents } from './Amount';
 import { Button } from './Button';
 import { DataTable, sumColumn } from './DataTable';
@@ -254,5 +254,62 @@ export const Grid: Story = {
         style={{ height: 420, maxWidth: 900 }}
       />
     );
+  },
+};
+
+const onOpen = fn();
+
+/**
+ * Grid mode is keyboard-navigable (WAI-ARIA grid): one tab stop, arrows move between cells, Home/End to the
+ * row's ends, Ctrl+Home/End to the grid's corners, PageUp/PageDown by a screenful. Enter sorts from a header
+ * and opens a row (`onRowActivate`) from the body; Space selects the row.
+ */
+export const KeyboardGrid: Story = {
+  render: () => {
+    const [selected, setSelected] = useState<string[]>([]);
+    return (
+      <DataTable
+        columns={[...COLUMNS, { key: 'note', label: 'Note', summary: (rows) => `${rows.length} invoices` }]}
+        rows={ROWS}
+        grid
+        selectable
+        selected={selected}
+        onSelectedChange={setSelected}
+        onRowActivate={onOpen}
+        style={{ maxWidth: 720 }}
+      />
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const grid = canvas.getByRole('grid');
+    const cell = (row: number, col: number) => grid.querySelectorAll('tr')[row].children[col];
+
+    await userEvent.tab();
+    await expect(cell(0, 0)).toHaveFocus();
+    await expect(grid.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+
+    await userEvent.keyboard('{ArrowRight}{ArrowDown}');
+    await expect(cell(1, 1)).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    await expect(onOpen).toHaveBeenCalledWith('INV-1042');
+
+    await userEvent.keyboard(' ');
+    await expect(canvas.getByRole('checkbox', { name: 'Select row INV-1042' })).toBeChecked();
+
+    await userEvent.keyboard('{End}');
+    await expect(cell(1, 5)).toHaveFocus();
+    await userEvent.keyboard('{Control>}{End}{/Control}');
+    await expect(cell(5, 5)).toHaveFocus();
+    await expect(cell(5, 5)).toHaveTextContent('4 invoices');
+    await userEvent.keyboard('{Control>}{Home}{/Control}');
+    await expect(cell(0, 0)).toHaveFocus();
+
+    // Enter on a sortable header sorts; the header's button stays out of the tab order.
+    await userEvent.keyboard('{ArrowRight}{ArrowRight}');
+    await userEvent.keyboard('{Enter}');
+    await expect(cell(0, 2)).toHaveAttribute('aria-sort', 'ascending');
+    await expect(canvas.getByRole('button', { name: /Client/ })).toHaveAttribute('tabindex', '-1');
+    await expect(cell(1, 1)).toHaveTextContent('INV-1042');
   },
 };
