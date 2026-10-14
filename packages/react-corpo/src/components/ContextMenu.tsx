@@ -1,6 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { MenuList } from '../lib/MenuList';
+import { MenuList, type MenuCloseReason } from '../lib/MenuList';
 import type { MenuItem } from '../lib/types';
 
 export interface ContextMenuProps {
@@ -21,9 +21,9 @@ export function ContextMenu({ items, children, label = 'Actions' }: ContextMenuP
   const opener = useRef<HTMLElement | null>(null);
   const menuId = useId();
 
-  const close = (returnFocus: boolean) => {
+  const close = (reason: MenuCloseReason) => {
     setAt(null);
-    if (returnFocus) opener.current?.focus();
+    if (reason !== 'tab') opener.current?.focus();
   };
 
   // Keep the menu inside the viewport — it has to be measured after mount, so the node is moved directly.

@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState, type HTMLAttributes, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
-import { MenuList } from '../lib/MenuList';
+import { MenuList, type MenuCloseReason } from '../lib/MenuList';
 import { moveRovingFocus } from '../lib/roving';
 import type { MenuItem } from '../lib/types';
 
@@ -31,8 +31,8 @@ export function Menubar({ menus, className, ...rest }: MenubarProps) {
     setFocusIndex(index);
     setOpen({ index, focus });
   };
-  const close = (returnFocus: boolean) => {
-    if (returnFocus && open) triggers.current[open.index]?.focus();
+  const close = (reason: MenuCloseReason) => {
+    if (reason !== 'tab' && open) triggers.current[open.index]?.focus();
     setOpen(null);
   };
 

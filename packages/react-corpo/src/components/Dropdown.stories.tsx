@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fn, userEvent, within } from '@storybook/test';
 import { Dropdown } from './Dropdown';
 import { Button } from './Button';
+
+const onEdit = fn();
 
 const meta: Meta<typeof Dropdown> = {
   title: 'Navigation/Dropdown',
@@ -28,12 +31,12 @@ export const RightAligned: Story = { args: { align: 'right' } };
 export const Keyboard: Story = {
   args: {
     items: [
-      { id: 'edit', label: 'Edit', onClick: fn() },
+      { id: 'edit', label: 'Edit', onClick: onEdit },
       { id: 'archive', label: 'Archive', disabled: true },
       { id: 'delete', label: 'Delete', danger: true },
     ],
   },
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: /Actions/ });
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
@@ -54,7 +57,86 @@ export const Keyboard: Story = {
 
     await userEvent.keyboard('{Enter}');
     await userEvent.keyboard('{Enter}');
-    await expect(args.items[0].onClick).toHaveBeenCalledOnce();
+    await expect(onEdit).toHaveBeenCalledOnce();
     await expect(trigger).toHaveFocus();
+  },
+};
+
+const onMove = fn();
+
+function ViewMenu() {
+  const [totals, setTotals] = useState(true);
+  const [sort, setSort] = useState<'name' | 'date'>('name');
+  return (
+    <Dropdown
+      trigger={<Button size="sm">Options ▾</Button>}
+      items={[
+        { id: 'refresh', label: 'Refresh' },
+        {
+          id: 'move',
+          type: 'submenu',
+          label: 'Move to',
+          items: [
+            { id: 'q3', label: 'Q3 archive', onClick: onMove },
+            { id: 'q4', label: 'Q4 archive' },
+          ],
+        },
+        { id: 'sep-1', type: 'separator' },
+        { id: 'totals', type: 'checkbox', label: 'Show totals', checked: totals, onCheckedChange: setTotals },
+        { id: 'sep-2', type: 'separator' },
+        {
+          id: 'by-name',
+          type: 'radio',
+          label: 'Sort by name',
+          checked: sort === 'name',
+          onCheckedChange: () => setSort('name'),
+        },
+        {
+          id: 'by-date',
+          type: 'radio',
+          label: 'Sort by date',
+          checked: sort === 'date',
+          onCheckedChange: () => setSort('date'),
+        },
+      ]}
+    />
+  );
+}
+
+/**
+ * Submenus (ArrowRight or hover opens, ArrowLeft or Escape backs out), separators, and checkbox / radio
+ * items that toggle without closing the menu.
+ */
+export const SubmenusAndCheckables: Story = {
+  render: () => <ViewMenu />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /Options/ });
+    trigger.focus();
+
+    await userEvent.keyboard('{ArrowDown}{ArrowDown}');
+    const move = canvas.getByRole('menuitem', { name: /Move to/ });
+    await expect(move).toHaveFocus();
+    await userEvent.keyboard('{ArrowRight}');
+    await expect(canvas.getByRole('menuitem', { name: 'Q3 archive' })).toHaveFocus();
+    await userEvent.keyboard('{ArrowLeft}');
+    await expect(move).toHaveFocus();
+    await expect(move).toHaveAttribute('aria-expanded', 'false');
+
+    await userEvent.keyboard('{ArrowRight}{Enter}');
+    await expect(onMove).toHaveBeenCalledOnce();
+    await expect(canvas.queryByRole('menu')).toBeNull();
+    await expect(trigger).toHaveFocus();
+
+    await userEvent.keyboard('{ArrowUp}');
+    await expect(canvas.getByRole('menuitemradio', { name: 'Sort by date' })).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    await expect(canvas.getByRole('menuitemradio', { name: 'Sort by date' })).toHaveAttribute('aria-checked', 'true');
+    await expect(canvas.getByRole('menuitemradio', { name: 'Sort by name' })).toHaveAttribute('aria-checked', 'false');
+    await userEvent.click(canvas.getByRole('menuitemcheckbox', { name: 'Show totals' }));
+    await expect(canvas.getByRole('menuitemcheckbox', { name: 'Show totals' })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
   },
 };

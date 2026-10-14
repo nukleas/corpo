@@ -40,6 +40,8 @@ export * from './components/Toast';
 export * from './components/Dropdown';
 export * from './components/ContextMenu';
 export * from './components/Menubar';
+export * from './components/NavigationMenu';
+export * from './components/BottomNav';
 export * from './components/Accordion';
 export * from './components/Pagination';
 export * from './components/Modal';

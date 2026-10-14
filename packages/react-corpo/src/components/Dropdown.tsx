@@ -9,7 +9,7 @@ import {
   type KeyboardEvent,
 } from 'react';
 import { cn } from '../lib/cn';
-import { MenuList } from '../lib/MenuList';
+import { MenuList, type MenuCloseReason } from '../lib/MenuList';
 import type { MenuItem } from '../lib/types';
 
 interface TriggerProps {
@@ -42,10 +42,10 @@ export function Dropdown({ trigger, items, align = 'left', className }: Dropdown
   const fallbackId = useId();
   const triggerId = trigger.props.id ?? fallbackId;
 
-  const close = (returnFocus: boolean) => {
+  const close = (reason: MenuCloseReason) => {
     setOpen(false);
     const triggerEl = ref.current?.firstElementChild;
-    if (returnFocus && triggerEl instanceof HTMLElement) triggerEl.focus();
+    if (reason !== 'tab' && triggerEl instanceof HTMLElement) triggerEl.focus();
   };
 
   useEffect(() => {
