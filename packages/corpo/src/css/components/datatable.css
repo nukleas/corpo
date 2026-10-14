@@ -90,3 +90,13 @@ th[aria-sort] .cp-table__sort-icon {
   flex: 1 1 auto;
   min-height: 0;
 }
+
+/* Announces copies from a grid; visually hidden. */
+.cp-datatable__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

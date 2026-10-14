@@ -425,3 +425,45 @@ export const TreeGridSelectable: Story = {
     await expect(canvas.getByText('3/10')).toBeInTheDocument();
   },
 };
+
+/**
+ * Range selection in grid mode: Shift+arrows, Shift+click or a drag select a block of cells; Ctrl/⌘+A selects
+ * every body cell; Escape collapses back to one cell. Ctrl/⌘+C copies the block as tab-separated text — raw
+ * values for amounts — so it pastes straight into Excel or Sheets.
+ */
+export const RangeAndCopy: Story = {
+  render: () => <DataTable columns={COLUMNS} rows={ROWS} grid style={{ maxWidth: 720 }} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const writeText = fn(async (_text: string) => {});
+    Object.defineProperty(canvasElement.ownerDocument.defaultView?.navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true,
+    });
+    const grid = canvas.getByRole('grid');
+    await expect(grid).toHaveAttribute('aria-multiselectable', 'true');
+    const cell = (row: number, col: number) => grid.querySelectorAll('tr')[row].children[col];
+
+    const start = cell(1, 0);
+    if (start instanceof HTMLElement) start.focus();
+    await userEvent.keyboard('{Shift>}{ArrowRight}{ArrowRight}{ArrowDown}{/Shift}');
+    await expect(grid.querySelectorAll('[aria-selected="true"]')).toHaveLength(6);
+    await userEvent.keyboard('{Control>}c{/Control}');
+    await expect(writeText).toHaveBeenCalledWith('INV-1042\tAcme Inc.\t12400\nINV-1043\tNorthwind\t8150');
+    await expect(canvas.getByRole('status')).toHaveTextContent('Copied 2 rows × 3 columns');
+
+    await userEvent.keyboard('{Escape}');
+    await expect(grid.querySelectorAll('[aria-selected="true"]')).toHaveLength(0);
+
+    await userEvent.keyboard('{Control>}a{/Control}');
+    await expect(grid.querySelectorAll('[aria-selected="true"]')).toHaveLength(16);
+
+    // One user-event instance, so the held Shift carries into the click.
+    const user = userEvent.setup();
+    await user.click(cell(3, 1));
+    await user.keyboard('{Shift>}');
+    await user.click(cell(4, 3));
+    await user.keyboard('{/Shift}');
+    await expect(grid.querySelectorAll('[aria-selected="true"]')).toHaveLength(6);
+  },
+};
