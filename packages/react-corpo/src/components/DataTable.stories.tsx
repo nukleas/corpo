@@ -234,7 +234,7 @@ const GRID_ROWS: DataTableRow[] = Array.from({ length: 200 }, (_, i) => {
  * of a stack of Cards. Full gridlines, ~28px rows, a sticky header (bound the DataTable's height so
  * the grid scrolls inside itself), optional `striped` rows, and `pinFirstColumn` to keep the record
  * id in view while scrolling sideways. Column summaries stick to the bottom as a totals row, and
- * selecting rows brings up the bulk action bar.
+ * selecting rows brings up the bulk action bar. `virtualize` renders only the rows in view.
  */
 export const Grid: Story = {
   render: () => {
@@ -251,6 +251,7 @@ export const Grid: Story = {
         selected={selected}
         onSelectedChange={setSelected}
         bulkActions={<Button size="sm">Export selected</Button>}
+        virtualize
         style={{ height: 420, maxWidth: 900 }}
       />
     );

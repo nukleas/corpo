@@ -668,6 +668,10 @@ export function DataTable({
           </thead>
           <tbody>
             {padTop > 0 && <tr className="cp-table__spacer" aria-hidden="true" style={{ height: padTop }} />}
+            {/* Zebra stripes use :nth-child — a second, empty spacer keeps row parity as the window scrolls. */}
+            {padTop > 0 && (windowed?.[0]?.index ?? 0) % 2 === 0 && (
+              <tr className="cp-table__spacer" aria-hidden="true" />
+            )}
             {bodyRows.map((ri) => {
               const { row, level, expandable, expanded: open } = shown[ri];
               return (
