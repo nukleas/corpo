@@ -1,0 +1,34 @@
+.cp-menubar {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+}
+.cp-menubar__menu {
+  position: relative;
+}
+.cp-menubar__trigger {
+  height: 28px;
+  padding: 0 10px;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: none;
+  cursor: pointer;
+  font-family: var(--corpo-font-sans);
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+  transition:
+    background var(--corpo-dur-fast) var(--corpo-ease),
+    color var(--corpo-dur-fast) var(--corpo-ease);
+}
+.cp-menubar__trigger:hover,
+.cp-menubar__trigger[aria-expanded='true'] {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+.cp-menubar__trigger:focus-visible {
+  outline-offset: -2px;
+}

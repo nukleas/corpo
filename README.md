@@ -24,7 +24,7 @@ Interference, Gauge, GlowCard, AugButton/AugPanel, Ticker, charts) are intention
 - **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label, Slider, Combobox, DatePicker, DateRangePicker, NumberInput, FormGrid, FormSection, Toggle, ToggleGroup, ButtonGroup, InputGroup
 - **Display**: Card, Badge, Table, DataTable, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion, Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip, StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, Section, SectionHeader, RecordPage, LineItems
 - **Feedback**: Alert, Progress, Spinner, Toast
-- **Navigation**: Tabs (with panels), Breadcrumb, Dropdown, Pagination, Command
+- **Navigation**: Tabs (with panels), Breadcrumb, Dropdown, ContextMenu, Menubar, Pagination, Command
 
 See [ROADMAP.md](./ROADMAP.md) for what's under consideration next and what's intentionally out of scope.
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
 import { ToggleGroup } from './ToggleGroup';
 
 const options = [
@@ -30,5 +31,22 @@ export const SingleSelect: Story = {
         }}
       />
     );
+  },
+};
+
+/** One tab stop on the pressed option; arrows move focus, Space selects. */
+export const Keyboard: Story = {
+  ...SingleSelect,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.tab();
+    await expect(canvas.getByRole('button', { name: 'Week' })).toHaveFocus();
+    await userEvent.keyboard('{ArrowRight}');
+    await expect(canvas.getByRole('button', { name: 'Month' })).toHaveFocus();
+    await userEvent.keyboard(' ');
+    await expect(canvas.getByRole('button', { name: 'Month' })).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.keyboard('{Home}');
+    await expect(canvas.getByRole('button', { name: 'Day' })).toHaveFocus();
+    await expect(canvas.getByRole('button', { name: 'Month' })).toHaveAttribute('tabindex', '-1');
   },
 };
