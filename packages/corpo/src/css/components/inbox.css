@@ -1,0 +1,108 @@
+/* NotificationInbox — recent notifications with unread markers; usually inside a Popover. */
+.cp-inbox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 360px;
+  max-width: calc(100vw - 48px); /* the Popover shrinks to fit, so a % width would collapse */
+  font-family: var(--corpo-font-sans);
+}
+.cp-inbox__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+}
+.cp-inbox__heading {
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-inbox__count {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-accent);
+}
+.cp-inbox__header .cp-btn {
+  margin-left: auto;
+}
+.cp-inbox__list {
+  display: flex;
+  flex-direction: column;
+  max-height: 360px;
+  margin: 0 -6px;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+.cp-inbox__item {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 6px;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+}
+.cp-inbox__item:hover {
+  background: var(--corpo-bg-panel-hover);
+}
+.cp-inbox__item:focus-visible {
+  outline-offset: -2px;
+}
+.cp-inbox__dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 50%;
+}
+.cp-inbox__item--unread .cp-inbox__dot {
+  background: var(--corpo-accent);
+}
+.cp-inbox__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.cp-inbox__title {
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+}
+.cp-inbox__item--unread .cp-inbox__title {
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-inbox__body {
+  font-size: var(--corpo-text-xs);
+  line-height: 1.4;
+  color: var(--corpo-text-muted);
+}
+.cp-inbox__time {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  white-space: nowrap;
+}
+.cp-inbox__empty {
+  margin: 0;
+  padding: 12px 0;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-muted);
+  text-align: center;
+}
+.cp-inbox__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
