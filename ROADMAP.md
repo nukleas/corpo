@@ -16,8 +16,8 @@ Timeline, ActivityLog, AttachmentList, Approvals, NotificationInbox, Item, FeedI
 **Accounting**: Amount, footing rules (`cp-foot`), Ledger (collapsible split postings), TAccount,
 TrialBalance, JournalEntry (optional Combobox account pickers), Statement, LineItems (order/invoice
 lines with catalog pickers and subtotal/tax/total), plus Spreadsheet
-balance cells. Deferred from this family: cell flash-on-change, a formula bar, and a TrialBalance
-account tree (best built on DataTable grouping).
+balance cells. TrialBalance has an account tree (`children` rows, on the DataTable tree styling).
+Deferred from this family: cell flash-on-change and a formula bar.
 
 **DataTable**: sorting/filtering/selection over the Table chassis — sortable headers on raw
 values, toolbar quick filter, controlled checkbox selection, and a dense `grid` mode (gridlines,
@@ -85,7 +85,7 @@ Built in layers, each shippable on its own:
    state; Cmd/Ctrl+C copies as TSV so it pastes cleanly into Excel/Sheets.
 4. **Columns** — resize handles (widths reported to the caller, not persisted internally) and row
    grouping. *Tree rows shipped:* `DataTableRow.children` makes a treegrid (expand/collapse, ArrowRight/
-   ArrowLeft, filter keeps ancestors), which unblocks rebuilding the TrialBalance account tree on it.
+   ArrowLeft, filter keeps ancestors), and TrialBalance's account tree uses the same tree styling.
 5. **Spreadsheet on the grid** — rebuild `Spreadsheet` as a preset over the same grid (A1 headers,
    row numbers, editable cells) so corpo has one keyboard/selection model, not two. Inline editing
    lands here, not in the DataTable layers.

@@ -252,3 +252,8 @@
   padding: 8px 12px;
   border-top: 1px solid var(--corpo-border-dim);
 }
+
+/* TrialBalance account tree: group headers read as headings; the tree indent and toggle come from table.css. */
+.cp-trial__group > td:first-child {
+  font-weight: 600;
+}

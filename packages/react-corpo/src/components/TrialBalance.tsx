@@ -1,4 +1,4 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import { useId, useState, type HTMLAttributes, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import { Amount, roundCents } from './Amount';
 
@@ -10,7 +10,34 @@ export interface TrialBalanceRow {
   debit?: number;
   /** Amount in the credit column — a row carries one side only. */
   credit?: number;
+  /**
+   * Sub-accounts — makes this row a collapsible group (an account tree). A
+   * group's own debit/credit are ignored: it shows its children's net as a
+   * subtotal, and only leaf accounts count toward the totals.
+   */
+  children?: TrialBalanceRow[];
 }
+
+/** A row as rendered: an account, a group header, or a group's subtotal line. */
+interface Line {
+  key: string;
+  kind: 'account' | 'group' | 'subtotal';
+  row: TrialBalanceRow;
+  level: number;
+  debit?: number;
+  credit?: number;
+  open?: boolean;
+}
+
+const leaves = (rows: TrialBalanceRow[]): TrialBalanceRow[] =>
+  rows.flatMap((r) => (r.children?.length ? leaves(r.children) : [r]));
+
+/** A group's balance as one figure on its normal side. */
+const net = (rows: TrialBalanceRow[]) => {
+  const all = leaves(rows);
+  const n = roundCents(all.reduce((sum, r) => sum + (r.debit ?? 0) - (r.credit ?? 0), 0));
+  return n >= 0 ? { debit: n } : { credit: -n };
+};
 
 export interface TrialBalanceProps extends HTMLAttributes<HTMLDivElement> {
   /** Entity name in the document header. */
@@ -27,15 +54,48 @@ export interface TrialBalanceProps extends HTMLAttributes<HTMLDivElement> {
  * Σ Dr ≠ Σ Cr the imbalance renders as a first-class error strip and the
  * totals keep the single rule — only a proved balance earns the double rule.
  * `$` marks the first figure in each column and the totals (statement
- * convention).
+ * convention). Rows with `children` form an account tree: groups collapse to
+ * their net subtotal, and only leaf accounts are totaled.
  */
 export function TrialBalance({ entity, asOf, rows, className, ...rest }: TrialBalanceProps) {
-  const totalDr = roundCents(rows.reduce((sum, r) => sum + (r.debit ?? 0), 0));
-  const totalCr = roundCents(rows.reduce((sum, r) => sum + (r.credit ?? 0), 0));
+  const base = useId();
+  const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
+  const toggle = (key: string) =>
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+
+  const accounts = leaves(rows);
+  const totalDr = roundCents(accounts.reduce((sum, r) => sum + (r.debit ?? 0), 0));
+  const totalCr = roundCents(accounts.reduce((sum, r) => sum + (r.credit ?? 0), 0));
   const diff = roundCents(totalDr - totalCr);
   const balanced = diff === 0;
-  const firstDr = rows.findIndex((r) => r.debit != null);
-  const firstCr = rows.findIndex((r) => r.credit != null);
+  const isTree = rows.some((r) => (r.children?.length ?? 0) > 0);
+
+  const lines: Line[] = [];
+  const walk = (list: TrialBalanceRow[], level: number, path: string) =>
+    list.forEach((row, i) => {
+      const key = `${path}${i}`;
+      if (!row.children?.length) {
+        lines.push({ key, kind: 'account', row, level, debit: row.debit, credit: row.credit });
+        return;
+      }
+      const open = !collapsed.has(key);
+      const group: Line = { key, kind: 'group', row, level, open };
+      // Collapsed, the group's own row carries its net balance.
+      if (!open) Object.assign(group, net(row.children));
+      lines.push(group);
+      if (open) {
+        walk(row.children, level + 1, `${key}.`);
+        lines.push({ key: `${key}-total`, kind: 'subtotal', row, level, ...net(row.children) });
+      }
+    });
+  walk(rows, 1, '');
+  const firstDr = lines.findIndex((l) => l.debit != null);
+  const firstCr = lines.findIndex((l) => l.credit != null);
 
   return (
     <div className={cn('cp-trial', className)} {...rest}>
@@ -57,18 +117,47 @@ export function TrialBalance({ entity, asOf, rows, className, ...rest }: TrialBa
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, i) => (
-              <tr key={i}>
-                <td>{row.account}</td>
-                <td data-mono="true">{row.ref}</td>
-                <td data-numeric="true">
-                  {row.debit != null && <Amount value={row.debit} currency={i === firstDr ? '$' : undefined} />}
-                </td>
-                <td data-numeric="true">
-                  {row.credit != null && <Amount value={row.credit} currency={i === firstCr ? '$' : undefined} />}
-                </td>
-              </tr>
-            ))}
+            {lines.map((line, i) => {
+              const accountId = `${base}-${line.key}`;
+              return (
+                <tr
+                  key={line.key}
+                  className={cn(
+                    line.kind === 'group' && 'cp-trial__group',
+                    line.kind === 'subtotal' && 'cp-foot cp-foot--subtotal',
+                  )}
+                >
+                  <td
+                    className={cn(isTree && 'cp-table__tree-cell')}
+                    {...(isTree && { 'data-level': Math.min(line.level, 6) })}
+                  >
+                    {line.kind === 'subtotal' ? (
+                      <>Total {line.row.account}</>
+                    ) : (
+                      <span id={accountId}>{line.row.account}</span>
+                    )}
+                    {line.kind === 'group' && (
+                      <button
+                        type="button"
+                        className="cp-table__tree-toggle"
+                        aria-expanded={line.open}
+                        aria-labelledby={accountId}
+                        onClick={() => toggle(line.key)}
+                      >
+                        <span aria-hidden="true">›</span>
+                      </button>
+                    )}
+                  </td>
+                  <td data-mono="true">{line.kind === 'subtotal' ? null : line.row.ref}</td>
+                  <td data-numeric="true">
+                    {line.debit != null && <Amount value={line.debit} currency={i === firstDr ? '$' : undefined} />}
+                  </td>
+                  <td data-numeric="true">
+                    {line.credit != null && <Amount value={line.credit} currency={i === firstCr ? '$' : undefined} />}
+                  </td>
+                </tr>
+              );
+            })}
             <tr className={cn('cp-foot', balanced ? 'cp-foot--grand' : 'cp-foot--total')}>
               <td>Totals</td>
               <td />
