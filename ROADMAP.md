@@ -89,9 +89,8 @@ Built in layers, each shippable on its own:
 5. **Spreadsheet on the grid** *(shipped)* — rebuild `Spreadsheet` as a preset over the same grid (A1 headers,
    row numbers, editable cells) so corpo has one keyboard/selection model, not two. Inline editing
    lands here, not in the DataTable layers.
-6. **Row virtualization** — only once a real use case outgrows plain rendering. Open decision:
-   add a dependency (e.g. TanStack Virtual) to the published `react-corpo` vs a small in-house
-   windowing hook.
+6. **Row virtualization** *(shipped)* — `virtualize` on a height-bounded grid renders only the rows in
+   view (TanStack Virtual, `@tanstack/react-virtual`); keyboard, ranges and editing still cover every row.
 
 ## Next: ERP readiness — business-document screens
 

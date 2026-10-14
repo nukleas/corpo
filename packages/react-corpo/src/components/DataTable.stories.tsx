@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, fn, userEvent, within } from '@storybook/test';
+import { expect, fn, userEvent, waitFor, within } from '@storybook/test';
 import { Amount, roundCents } from './Amount';
 import { Button } from './Button';
 import { DataTable, sumColumn } from './DataTable';
@@ -234,7 +234,7 @@ const GRID_ROWS: DataTableRow[] = Array.from({ length: 200 }, (_, i) => {
  * of a stack of Cards. Full gridlines, ~28px rows, a sticky header (bound the DataTable's height so
  * the grid scrolls inside itself), optional `striped` rows, and `pinFirstColumn` to keep the record
  * id in view while scrolling sideways. Column summaries stick to the bottom as a totals row, and
- * selecting rows brings up the bulk action bar.
+ * selecting rows brings up the bulk action bar. `virtualize` renders only the rows in view.
  */
 export const Grid: Story = {
   render: () => {
@@ -251,6 +251,7 @@ export const Grid: Story = {
         selected={selected}
         onSelectedChange={setSelected}
         bulkActions={<Button size="sm">Export selected</Button>}
+        virtualize
         style={{ height: 420, maxWidth: 900 }}
       />
     );
@@ -604,5 +605,55 @@ export const EditableCells: Story = {
     focus(3, 2);
     await userEvent.keyboard('{Enter}');
     await expect(canvas.queryByRole('textbox')).toBeNull();
+  },
+};
+
+const MANY: DataTableRow[] = Array.from({ length: 10_000 }, (_, i) => {
+  const amount = ((i * 7919) % 50_000) + 120;
+  return {
+    id: `INV-${String(i + 1).padStart(5, '0')}`,
+    cells: {
+      id: `INV-${String(i + 1).padStart(5, '0')}`,
+      client: ['Acme Inc.', 'Globex', 'Initech', 'Northwind', 'Umbrella'][i % 5],
+      amount: { content: <Amount value={amount} /> },
+    },
+    values: { amount },
+  };
+});
+
+/**
+ * 10,000 rows with `virtualize`: only the rows in view render (bound the height), yet arrows, Ctrl+Home/End,
+ * PageUp/PageDown, ranges and editing cover every row — a row out of view scrolls in before it takes focus.
+ */
+export const Virtualized: Story = {
+  render: () => (
+    <DataTable
+      grid
+      virtualize
+      rowNumbers
+      columns={[
+        { key: 'id', label: 'Invoice', mono: true, sortable: true },
+        { key: 'client', label: 'Client', sortable: true },
+        { key: 'amount', label: 'Amount', numeric: true, sortable: true },
+      ]}
+      rows={MANY}
+      style={{ height: 420, maxWidth: 640 }}
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const grid = canvas.getByRole('grid');
+    await expect(grid).toHaveAttribute('aria-rowcount', '10001');
+    await expect(grid.querySelectorAll('tbody tr[data-row]').length).toBeLessThan(80);
+
+    const focusedRow = () => canvasElement.ownerDocument.activeElement?.closest('tr')?.getAttribute('data-row');
+    grid.querySelector<HTMLElement>('tr[data-row="1"] td')?.focus();
+    await userEvent.keyboard('{Control>}{End}{/Control}');
+    await waitFor(() => expect(focusedRow()).toBe('10000'));
+    await expect(canvas.getByText('INV-10000')).toBeInTheDocument();
+    await expect(grid.querySelectorAll('tbody tr[data-row]').length).toBeLessThan(80);
+
+    await userEvent.keyboard('{Control>}{Home}{/Control}');
+    await waitFor(() => expect(focusedRow()).toBe('0'));
   },
 };
