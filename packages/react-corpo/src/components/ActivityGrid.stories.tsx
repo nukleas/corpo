@@ -39,3 +39,16 @@ export const Default: Story = {
     await expect(canvas.getByRole('img', { name: 'Oct 11, 2026: 0 approvals' })).toBeInTheDocument();
   },
 };
+
+/** The Table view summarizes the same data by month — total, active days and the busiest day. */
+export const TableView: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Table' }));
+    const table = canvas.getByRole('table', { name: 'Approvals per day, last 12 months, by month' });
+    await expect(within(table).getAllByRole('row').length).toBeGreaterThan(12);
+    await expect(within(table).getByRole('row', { name: /October 2026/ })).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('button', { name: 'Chart' }));
+    await expect(canvas.getByRole('img', { name: 'Oct 13, 2026: 4 approvals' })).toBeInTheDocument();
+  },
+};

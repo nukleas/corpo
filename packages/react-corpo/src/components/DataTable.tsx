@@ -232,6 +232,8 @@ export function DataTable({
     return out;
   }, [rows, columns, query, sort, expanded]);
   const visible = shown.map((s) => s.row);
+  const countRows = (list: DataTableRow[]): number => list.reduce((n, r) => n + 1 + countRows(r.children ?? []), 0);
+  const total = countRows(rows);
   // Totals sum the top level only — in a tree, parents already roll up their children.
   const summaryRows = shown.filter((s) => s.level === 1).map((s) => s.row);
 
@@ -326,7 +328,7 @@ export function DataTable({
           {toolbar}
           {query && (
             <span className="cp-datatable__count">
-              {visible.length}/{rows.length}
+              {visible.length}/{total}
             </span>
           )}
         </div>
