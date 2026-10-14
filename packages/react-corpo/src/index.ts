@@ -90,6 +90,8 @@ export * from './components/LineChart';
 export * from './components/BarChart';
 export * from './components/DonutChart';
 export * from './components/Sparkline';
+export * from './components/Gauge';
+export * from './components/ActivityGrid';
 export * from './components/ProfileCard';
 export * from './components/LicenseCatalog';
 export * from './components/AssignmentSlots';

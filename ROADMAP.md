@@ -11,7 +11,7 @@ Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, C
 StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, ResizablePanels, Section, SectionHeader, DescriptionList, HoverCard,
 Timeline, Stepper, TreeView, FilterBar, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
 
-**Data**: LineChart, BarChart, DonutChart, Sparkline, DependencyGraph (CpDepGraph scene engine)
+**Data**: LineChart, BarChart, DonutChart, Sparkline, Gauge, ActivityGrid (sequential `--corpo-chart-seq-*` ramp), DependencyGraph (CpDepGraph scene engine)
 
 **Accounting**: Amount, footing rules (`cp-foot`), Ledger (collapsible split postings), TAccount,
 TrialBalance, JournalEntry (optional Combobox account pickers), Statement, LineItems (order/invoice
@@ -124,8 +124,6 @@ Cyberdesign / shadcn-parity components that fit Corpo's brief (calm, light-first
 haven't been ported yet, roughly in value order:
 
 - **Display**: Item (generic list-row primitive), FeedItem
-- **Data**: Gauge (calm radial KPI meter — cyberdesign's core is neutral, its neon is all tokens),
-  ActivityGrid (contribution-style heatmap)
 
 Not planned from this list: Carousel (off-voice for corpo), and a separate Drawer — `Sheet side="bottom"`
 is the drawer.
