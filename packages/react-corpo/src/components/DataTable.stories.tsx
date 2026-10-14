@@ -313,3 +313,79 @@ export const KeyboardGrid: Story = {
     await expect(cell(1, 1)).toHaveTextContent('INV-1042');
   },
 };
+
+const account = (id: string, name: string, balance: number, children?: DataTableRow[]): DataTableRow => ({
+  id,
+  cells: { account: `${id} ${name}`, balance: { content: <Amount value={balance} /> } },
+  values: { account: `${id} ${name}`, balance },
+  children,
+});
+
+const ACCOUNTS: DataTableRow[] = [
+  account('1000', 'Assets', 412_300, [
+    account('1100', 'Current assets', 162_300, [
+      account('1110', 'Cash', 48_900),
+      account('1120', 'Accounts receivable', 96_400),
+      account('1130', 'Inventory', 17_000),
+    ]),
+    account('1500', 'Fixed assets', 250_000),
+  ]),
+  account('2000', 'Liabilities', 138_750, [
+    account('2100', 'Accounts payable', 61_250),
+    account('2200', 'Accrued expenses', 77_500),
+  ]),
+  account('3000', 'Equity', 273_550),
+];
+
+/**
+ * A chart of accounts as a tree grid: rows with `children` expand in place. With the keyboard, ArrowRight on
+ * a parent's first cell expands it, ArrowLeft collapses it or moves to the parent; the quick filter keeps the
+ * ancestors of matches. Totals sum the top level only, since parents already roll up their children.
+ */
+export const TreeGrid: Story = {
+  render: () => (
+    <DataTable
+      columns={[
+        { key: 'account', label: 'Account' },
+        {
+          key: 'balance',
+          label: 'Balance',
+          numeric: true,
+          summary: (rows) => ({ content: <Amount value={sumColumn(rows, 'balance')} /> }),
+        },
+      ]}
+      rows={ACCOUNTS}
+      grid
+      searchable
+      defaultExpanded={['1000']}
+      style={{ maxWidth: 560 }}
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const grid = canvas.getByRole('treegrid');
+    const row = (name: string) => canvas.getByRole('row', { name: new RegExp(name) });
+    const cell = (text: string) => canvas.getByText(text).closest('td');
+    await expect(row('1000 Assets')).toHaveAttribute('aria-expanded', 'true');
+    await expect(row('1100 Current assets')).toHaveAttribute('aria-level', '2');
+    await expect(canvas.queryByRole('row', { name: /1110 Cash/ })).toBeNull();
+    await expect(grid.querySelector('tfoot')).toHaveTextContent('824,600.00');
+
+    cell('1100 Current assets')?.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    await expect(row('1100 Current assets')).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(cell('1110 Cash')).toHaveFocus();
+    await userEvent.keyboard('{ArrowLeft}');
+    await expect(cell('1100 Current assets')).toHaveFocus();
+    await userEvent.keyboard('{ArrowLeft}');
+    await expect(row('1100 Current assets')).toHaveAttribute('aria-expanded', 'false');
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Expand row 2000' }));
+    await expect(row('2100 Accounts payable')).toBeInTheDocument();
+
+    await userEvent.type(canvas.getByRole('searchbox', { name: 'Filter rows' }), 'cash');
+    await expect(canvas.getAllByRole('row')).toHaveLength(5); // header, 1000, 1100, 1110, totals
+    await expect(row('1110 Cash')).toHaveAttribute('aria-level', '3');
+  },
+};

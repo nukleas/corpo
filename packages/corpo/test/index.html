@@ -353,6 +353,21 @@
   </section>
 
   <section>
+    <h2>Tree grid</h2>
+    <div class="cp-table cp-table--grid" style="max-width: 480px;">
+      <table class="cp-table__table" role="treegrid" aria-label="Chart of accounts">
+        <thead><tr><th>Account</th><th data-numeric="true">Balance</th></tr></thead>
+        <tbody>
+          <tr aria-level="1" aria-expanded="true"><td class="cp-table__tree-cell" data-level="1">1000 Assets<button class="cp-table__tree-toggle" aria-label="Collapse row 1000" aria-expanded="true"><span aria-hidden="true">›</span></button></td><td data-numeric="true" data-mono="true">412,300.00</td></tr>
+          <tr aria-level="2" aria-expanded="false"><td class="cp-table__tree-cell" data-level="2">1100 Current assets<button class="cp-table__tree-toggle" aria-label="Expand row 1100" aria-expanded="false"><span aria-hidden="true">›</span></button></td><td data-numeric="true" data-mono="true">162,300.00</td></tr>
+          <tr aria-level="2"><td class="cp-table__tree-cell" data-level="2" tabindex="0">1500 Fixed assets</td><td data-numeric="true" data-mono="true">250,000.00</td></tr>
+          <tr aria-level="1"><td class="cp-table__tree-cell" data-level="1">3000 Equity</td><td data-numeric="true" data-mono="true">273,550.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
     <h2>Filters</h2>
     <div class="cp-datatable__toolbar">
       <input class="cp-input cp-input--sm" type="search" placeholder="Filter…" aria-label="Filter rows" style="width: 200px;">

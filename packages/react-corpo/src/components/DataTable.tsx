@@ -29,6 +29,12 @@ export interface DataTableRow {
    * parses rendered strings.
    */
   values?: Record<string, string | number>;
+  /**
+   * Child rows — makes the table a tree (chart of accounts, bill of
+   * materials). The first column gets an expand toggle; sorting orders
+   * siblings, and the quick filter keeps the ancestors of matching rows.
+   */
+  children?: DataTableRow[];
 }
 
 export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
@@ -66,9 +72,27 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
    * when not `selectable`) activates its row — open the record, say.
    */
   onRowActivate?: (id: string) => void;
+  /** Tree rows (`children`) expanded on first render. */
+  defaultExpanded?: string[];
+}
+
+/** A row as rendered: rows flattened depth-first through the expanded parents. */
+interface ShownRow {
+  row: DataTableRow;
+  level: number;
+  parentId?: string;
+  expandable: boolean;
+  expanded: boolean;
 }
 
 const INTERACTIVE = 'a[href], button, input, select, textarea';
+
+/** Extra props for a tree row's first cell: indent depth (CSS reads `data-level`) and the toggle. */
+interface TreeCellProps {
+  className: string;
+  'data-level': number;
+  children: ReactNode;
+}
 
 /** Where a key moves the active cell, or null when the grid doesn't handle it. */
 function nextCell(
@@ -162,6 +186,7 @@ export function DataTable({
   onSelectedChange,
   bulkActions,
   onRowActivate,
+  defaultExpanded = [],
   className,
   ...rest
 }: DataTableProps) {
@@ -170,25 +195,45 @@ export function DataTable({
   // Grid mode: the one cell in the tab order. Row 0 is the header; the footer, if any, is last.
   const [active, setActive] = useState({ row: 0, col: 0 });
   const tableRef = useRef<HTMLTableElement>(null);
+  const [expanded, setExpanded] = useState(() => new Set(defaultExpanded));
+  const isTree = rows.some((r) => (r.children?.length ?? 0) > 0);
+  const toggleExpanded = (id: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
-  const visible = useMemo(() => {
-    let out = rows;
+  const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (q) {
-      out = out.filter((row) =>
-        columns.some((c) =>
-          String(rawValue(row, c.key) ?? '')
-            .toLowerCase()
-            .includes(q),
-        ),
-      );
-    }
-    if (sort) {
-      const dir = sort.dir === 'asc' ? 1 : -1;
-      out = [...out].sort((a, b) => dir * compareValues(rawValue(a, sort.key), rawValue(b, sort.key)));
-    }
+    const matches = (row: DataTableRow): boolean =>
+      columns.some((c) =>
+        String(rawValue(row, c.key) ?? '')
+          .toLowerCase()
+          .includes(q),
+      ) || (row.children ?? []).some(matches);
+    const dir = sort?.dir === 'asc' ? 1 : -1;
+    const out: ShownRow[] = [];
+    const walk = (list: DataTableRow[], level: number, parentId?: string) => {
+      const ordered = sort
+        ? [...list].sort((a, b) => dir * compareValues(rawValue(a, sort.key), rawValue(b, sort.key)))
+        : list;
+      for (const row of ordered) {
+        if (q && !matches(row)) continue;
+        const expandable = (row.children?.length ?? 0) > 0;
+        // While filtering, parents open to show the matches beneath them.
+        const open = expandable && (q !== '' || expanded.has(row.id));
+        out.push({ row, level, parentId, expandable, expanded: open });
+        if (open) walk(row.children ?? [], level + 1, row.id);
+      }
+    };
+    walk(rows, 1);
     return out;
-  }, [rows, columns, query, sort]);
+  }, [rows, columns, query, sort, expanded]);
+  const visible = shown.map((s) => s.row);
+  // Totals sum the top level only — in a tree, parents already roll up their children.
+  const summaryRows = shown.filter((s) => s.level === 1).map((s) => s.row);
 
   const cycleSort = (key: string) =>
     setSort((prev) => (prev?.key !== key ? { key, dir: 'asc' } : prev.dir === 'asc' ? { key, dir: 'desc' } : null));
@@ -207,7 +252,8 @@ export function DataTable({
     onSelectedChange?.(selectedSet.has(id) ? selected.filter((s) => s !== id) : [...selected, id]);
 
   const rowCount = 1 + visible.length + (hasSummary ? 1 : 0);
-  const colCount = (selectable ? 1 : 0) + columns.length;
+  const firstDataCol = selectable ? 1 : 0;
+  const colCount = firstDataCol + columns.length;
   const at = { row: Math.min(active.row, rowCount - 1), col: Math.min(active.col, colCount - 1) };
   const cellTab = (row: number, col: number) => (grid ? { tabIndex: row === at.row && col === at.col ? 0 : -1 } : {});
 
@@ -227,6 +273,23 @@ export function DataTable({
     const rowHeight = cell.getBoundingClientRect().height || 28;
     const scroller = table.parentElement;
     const page = Math.max(1, Math.floor((scroller?.clientHeight ?? 0) / rowHeight) - 1);
+    const treeRow = isTree && at.col === firstDataCol ? shown[at.row - 1] : undefined;
+    if (treeRow && e.key === 'ArrowRight' && treeRow.expandable && !treeRow.expanded) {
+      e.preventDefault();
+      toggleExpanded(treeRow.row.id);
+      return;
+    }
+    if (treeRow && e.key === 'ArrowLeft' && (treeRow.expanded || treeRow.parentId)) {
+      e.preventDefault();
+      if (treeRow.expanded) {
+        toggleExpanded(treeRow.row.id);
+        return;
+      }
+      const parent = shown.findIndex((s) => s.row.id === treeRow.parentId) + 1;
+      setActive({ row: parent, col: at.col });
+      table.rows[parent]?.cells[at.col]?.focus();
+      return;
+    }
     const next = nextCell(e, at, { rows: rowCount, cols: colCount, page });
     if (next) {
       e.preventDefault();
@@ -281,7 +344,7 @@ export function DataTable({
           ref={tableRef}
           className="cp-table__table"
           {...(grid && {
-            role: 'grid',
+            role: isTree ? 'treegrid' : 'grid',
             onKeyDown: onGridKeyDown,
             // Clicking (or tabbing into) a cell makes it the active one.
             onFocus: (e: FocusEvent<HTMLTableElement>) => {
@@ -328,8 +391,12 @@ export function DataTable({
             </tr>
           </thead>
           <tbody>
-            {visible.map((row, ri) => (
-              <tr key={row.id} className={cn(selectedSet.has(row.id) && 'cp-table__row--selected')}>
+            {shown.map(({ row, level, expandable, expanded: open }, ri) => (
+              <tr
+                key={row.id}
+                className={cn(selectedSet.has(row.id) && 'cp-table__row--selected')}
+                {...(grid && isTree && { 'aria-level': level, 'aria-expanded': expandable ? open : undefined })}
+              >
                 {selectable && (
                   <td className="cp-table__check" {...cellTab(ri + 1, 0)}>
                     <Checkbox
@@ -342,10 +409,28 @@ export function DataTable({
                 {columns.map((c, ci) => {
                   const raw = row.cells[c.key];
                   const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
+                  const treeCell: TreeCellProps | undefined =
+                    isTree && ci === 0
+                      ? {
+                          className: 'cp-table__tree-cell',
+                          'data-level': Math.min(level, 6),
+                          children: expandable && (
+                            <button
+                              type="button"
+                              className="cp-table__tree-toggle"
+                              aria-label={`${open ? 'Collapse' : 'Expand'} row ${row.id}`}
+                              aria-expanded={open}
+                              onClick={() => toggleExpanded(row.id)}
+                            >
+                              <span aria-hidden="true">›</span>
+                            </button>
+                          ),
+                        }
+                      : undefined;
                   return TableCell.create(cell, {
                     key: c.key,
                     defaultProps: { numeric: c.numeric, mono: c.mono },
-                    overrideProps: cellTab(ri + 1, ci + (selectable ? 1 : 0)),
+                    overrideProps: { ...treeCell, ...cellTab(ri + 1, ci + firstDataCol) },
                   });
                 })}
               </tr>
@@ -356,7 +441,7 @@ export function DataTable({
               <tr>
                 {selectable && <td className="cp-table__check" {...cellTab(rowCount - 1, 0)} />}
                 {columns.map((c, ci) => {
-                  const raw = c.summary?.(visible);
+                  const raw = c.summary?.(summaryRows);
                   const cell = raw == null || raw === true || raw === false ? { content: null } : raw;
                   return TableCell.create(cell, {
                     key: c.key,
