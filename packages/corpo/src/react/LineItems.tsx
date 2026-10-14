@@ -162,7 +162,7 @@ export function LineItems({
                         options={products.map((p) => ({ value: p.value, label: p.label }))}
                         value={line.item}
                         placeholder="Item…"
-                        ariaLabel={`Item, line ${n}`}
+                        aria-label={`Item, line ${n}`}
                         onChange={(item) => pickProduct(line, item)}
                       />
                     ) : (

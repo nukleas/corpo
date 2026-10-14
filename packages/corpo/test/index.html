@@ -335,6 +335,30 @@
         <div class="cp-otp__slot" aria-hidden="true"></div>
       </div>
     </div>
+    <div class="demo-row" style="margin-top: 16px; align-items: flex-start;">
+      <div class="cp-field" style="width: 320px;">
+        <label class="cp-label" for="demo-lookup">Customer</label>
+        <div class="cp-combobox">
+          <input class="cp-input" id="demo-lookup" role="combobox" aria-expanded="true" aria-controls="demo-lookup-list" aria-autocomplete="list" aria-activedescendant="demo-lookup-1" value="glo">
+          <div class="cp-combobox__list" style="position: static; margin-top: 4px;">
+            <div id="demo-lookup-list" role="listbox">
+              <div class="cp-combobox__option cp-combobox__option--active" id="demo-lookup-1" role="option" aria-selected="false"><span>Globex Corporation</span><span class="cp-combobox__option-description">C-1003 · ap@globex.example</span></div>
+              <div class="cp-combobox__option cp-combobox__option--create" id="demo-lookup-2" role="option" aria-selected="false">Create “glo”</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cp-field" style="width: 320px;">
+        <label class="cp-label" for="demo-multi">Cost centers</label>
+        <div class="cp-combobox">
+          <div class="cp-multiselect">
+            <span class="cp-chip">Finance<button class="cp-chip__remove" aria-label="Remove Finance">×</button></span>
+            <span class="cp-chip">Operations<button class="cp-chip__remove" aria-label="Remove Operations">×</button></span>
+            <input class="cp-multiselect__input" id="demo-multi" role="combobox" aria-expanded="false" aria-autocomplete="list">
+          </div>
+        </div>
+      </div>
+    </div>
     <div style="height: 160px; margin-top: 16px; border: 1px solid var(--corpo-border);">
       <div class="cp-resizable">
         <div class="cp-resizable__pane" id="demo-resizable-first" style="flex: 0 0 35%; padding: 12px;">Invoice list</div>
