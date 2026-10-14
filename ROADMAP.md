@@ -86,7 +86,7 @@ Built in layers, each shippable on its own:
 4. **Columns** *(shipped)* — resize handles (`onColumnResize`; widths reported to the caller, not
    persisted internally) and row grouping. *Tree rows shipped:* `DataTableRow.children` makes a treegrid (expand/collapse, ArrowRight/
    ArrowLeft, filter keeps ancestors), and TrialBalance's account tree uses the same tree styling.
-5. **Spreadsheet on the grid** — rebuild `Spreadsheet` as a preset over the same grid (A1 headers,
+5. **Spreadsheet on the grid** *(shipped)* — rebuild `Spreadsheet` as a preset over the same grid (A1 headers,
    row numbers, editable cells) so corpo has one keyboard/selection model, not two. Inline editing
    lands here, not in the DataTable layers.
 6. **Row virtualization** — only once a real use case outgrows plain rendering. Open decision:

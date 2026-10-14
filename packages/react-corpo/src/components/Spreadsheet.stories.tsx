@@ -31,10 +31,21 @@ export const Default: Story = {
     );
   },
   play: async ({ canvasElement }) => {
-    const cell = within(canvasElement).getByRole('textbox', { name: 'Revenue, row 2' });
-    await userEvent.clear(cell);
-    await userEvent.type(cell, '15,000');
-    await expect(cell).toHaveValue('15,000'); // onCellChange round-trips through the caller's state
+    const canvas = within(canvasElement);
+    const cell = canvas.getByText('13,750').closest('td');
+    if (!cell) throw new Error('cell missing');
+    cell.focus();
+    await userEvent.keyboard('{Enter}');
+    const editor = canvas.getByRole('textbox', { name: 'Revenue 2' });
+    await expect(editor).toHaveValue('13,750');
+    await userEvent.keyboard('{Control>}a{/Control}15,000{Enter}');
+    await expect(canvas.getByText('15,000')).toBeInTheDocument(); // onCellChange round-trips through the caller's state
+
+    // Escape cancels: the cell keeps its value.
+    const cost = canvas.getByText('9,800').closest('td');
+    cost?.focus();
+    await userEvent.keyboard('7{Escape}');
+    await expect(canvas.getByText('9,800')).toBeInTheDocument();
   },
 };
 
@@ -58,18 +69,8 @@ export const MixedProjection: Story = {
           [
             { value: 'Growth % (edit me)', readOnly: true },
             { value: '—', align: 'right', readOnly: true, tone: 'muted' },
-            <Spreadsheet.Cell
-              key="g1"
-              value={growth[0]}
-              align="right"
-              onValueChange={(v) => setGrowth(([, b]) => [v, b])}
-            />,
-            <Spreadsheet.Cell
-              key="g2"
-              value={growth[1]}
-              align="right"
-              onValueChange={(v) => setGrowth(([a]) => [a, v])}
-            />,
+            { value: growth[0], align: 'right', onValueChange: (v) => setGrowth(([, b]) => [v, b]) },
+            { value: growth[1], align: 'right', onValueChange: (v) => setGrowth(([a]) => [a, v]) },
           ],
         ]}
       />
@@ -87,22 +88,20 @@ export const LedgerMode: Story = {
     ]);
     let running = 24_180.4;
     const parse = (s: string) => Number(s.replace(/[,$\s]/g, '')) || 0;
-    const rows = drCr.map(([dr, cr], r) => {
+    const rows: SpreadsheetCellShorthand[][] = drCr.map(([dr, cr], r) => {
       running += parse(dr) - parse(cr);
       return [
         { value: ['Client invoice #1042', 'Office lease — January', 'Contractor payout'][r] ?? '', readOnly: true },
-        <Spreadsheet.Cell
-          key="dr"
-          value={dr}
-          align="right"
-          onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [v, row[1]] : row)))}
-        />,
-        <Spreadsheet.Cell
-          key="cr"
-          value={cr}
-          align="right"
-          onValueChange={(v) => setDrCr((p) => p.map((row, i) => (i === r ? [row[0], v] : row)))}
-        />,
+        {
+          value: dr,
+          align: 'right',
+          onValueChange: (v) => setDrCr((p) => p.map((row, i) => (i === r ? [v, row[1]] : row))),
+        },
+        {
+          value: cr,
+          align: 'right',
+          onValueChange: (v) => setDrCr((p) => p.map((row, i) => (i === r ? [row[0], v] : row))),
+        },
         { value: running.toLocaleString('en-US', { minimumFractionDigits: 2 }), balance: true },
       ];
     });

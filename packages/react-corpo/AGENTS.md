@@ -15,7 +15,7 @@ react-corpo/
   src/lib/cn.ts          className join helper
   src/lib/types.ts       CpColor, CpTheme, CpSize
   src/lib/createShorthand.ts  semantic-ui-react-style shorthand slots — `X.create(value)` normalizes
-                        `string | number | props object | element` (see Spreadsheet.Cell)
+                        `string | number | props object | element` (see Table.Cell)
   src/theme/             ThemeProvider, useTheme
   src/styles/index.css   Storybook CSS entry → imports corpo/css
   src/index.ts           public barrel
@@ -51,7 +51,7 @@ react-corpo/
 
 ## Shorthand slots (semantic-ui-react style)
 
-Data-driven components with a repeated item slot (Table cells, Spreadsheet cells)
+Data-driven components with a repeated item slot (Table cells)
 take **shorthand** instead of a fixed value type. A slot value may be:
 
 - a bare `string | number` — mapped to the item's natural prop (`content`/`value`)
@@ -69,7 +69,7 @@ props always win; reserve `overrideProps` for values the item must never
 control. Don't reach for shorthand on simple one-off `ReactNode` slots
 (Card `title`, Alert `children`) — plain props are already right there.
 
-Reference implementations: `Spreadsheet.Cell`, `Table.Cell`. Source study copy
+Reference implementation: `Table.Cell`. Source study copy
 of semantic-ui-react lives in gitignored `_references/semantic-ui-react`.
 
 ## `as` element polymorphism
@@ -130,4 +130,4 @@ import '@nukleas/react-corpo/styles.css';
 - Hand-edit corpo `dist/` — build it from corpo source.
 - Add Tailwind as a hard dependency of this package (corpo CSS is enough).
 - Duplicate token definitions; import or reference corpo.
-- Port Cyberdesign's cyber-only families (Terminal, HUD, Scanner, Gauge, GlowCard, Ticker, etc.) — intentionally excluded.
+- Port Cyberdesign's cyber-only families (Terminal, HUD, Scanner, GlowCard, Ticker, etc.) — intentionally excluded. (Gauge was ported as a calm radial meter.)

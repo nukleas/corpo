@@ -38,7 +38,6 @@ export * from './DateRangePicker';
 export * from './NumberInput';
 export * from './Combobox';
 export * from './Command';
-export * from './Spreadsheet';
 export * from './Amount';
 export * from './Ledger';
 export * from './TAccount';
