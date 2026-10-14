@@ -98,6 +98,7 @@ export * from './components/AssignmentSlots';
 export * from './components/LicenseDetail';
 export * from './components/DescriptionList';
 export * from './components/Timeline';
+export * from './components/ActivityLog';
 export * from './components/Stepper';
 export * from './components/Dropzone';
 export * from './components/TreeView';
