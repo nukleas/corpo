@@ -80,6 +80,8 @@ export * from './components/StatusDot';
 export * from './components/StatusPill';
 export * from './components/StatusBar';
 export * from './components/Empty';
+export * from './components/Item';
+export * from './components/FeedItem';
 export * from './components/AspectRatio';
 export * from './components/ScrollArea';
 export * from './components/ResizablePanels';

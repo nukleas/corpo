@@ -9,7 +9,7 @@ ToggleGroup, ButtonGroup, InputGroup, Dropzone
 **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion,
 Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip,
 StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, ResizablePanels, SplitView, Section, SectionHeader, DescriptionList, HoverCard,
-Timeline, ActivityLog, AttachmentList, Approvals, NotificationInbox, Stepper, TreeView, FilterBar, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
+Timeline, ActivityLog, AttachmentList, Approvals, NotificationInbox, Item, FeedItem, Stepper, TreeView, FilterBar, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
 
 **Data**: LineChart, BarChart, DonutChart, Sparkline, Gauge, ActivityGrid (sequential `--corpo-chart-seq-*` ramp), DependencyGraph (CpDepGraph scene engine)
 
@@ -121,18 +121,9 @@ screen list is done. Module-specific and deferred: Kanban,
 Gantt (over the depgraph engine), pivot report, resource scheduler, print layout. Permission matrix
 and import wizard are recipes over existing components, not new components.
 
-## Under consideration
+## Not ported from the parity list
 
-Cyberdesign / shadcn-parity components that fit Corpo's brief (calm, light-first, business UI) but
-haven't been ported yet, roughly in value order:
-
-- **Display**: Item (generic list-row primitive), FeedItem
-
-Not planned from this list: Carousel (off-voice for corpo), and a separate Drawer — `Sheet side="bottom"`
-is the drawer.
-
-Have an opinion on priority, or a use case that needs one of these sooner? Open an issue — see
-[CONTRIBUTING.md](./CONTRIBUTING.md).
+Carousel (off-voice for corpo), and a separate Drawer — `Sheet side="bottom"` is the drawer.
 
 ## Not planned
 
