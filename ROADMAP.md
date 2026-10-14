@@ -3,12 +3,12 @@
 ## Shipped — 80+ components
 
 **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label,
-Slider, Combobox, DatePicker, DateRangePicker (presets), NumberInput, FormGrid, FormSection, Toggle,
+Slider, Combobox, DatePicker, DateRangePicker (presets), NumberInput, OtpInput, FormGrid, FormSection, Toggle,
 ToggleGroup, ButtonGroup, InputGroup, Dropzone
 
 **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion,
 Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip,
-StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, Section, SectionHeader, DescriptionList,
+StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, ResizablePanels, Section, SectionHeader, DescriptionList, HoverCard,
 Timeline, Stepper, TreeView, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
 
 **Data**: LineChart, BarChart, DonutChart, Sparkline, DependencyGraph (CpDepGraph scene engine)
@@ -62,20 +62,6 @@ Built in layers, each shippable on its own:
 
 Explicitly not borrowed from cyberdesign: the isometric projection, hand-authored coordinates, and
 innerHTML-rebuild render loop — corpo's engine does automatic layout and incremental drawing.
-
-## Next: menus and interaction gaps
-
-Tabs share a roving-focus keyboard helper (`lib/roving.ts`); the remaining keyboard-less widgets and
-missing common components build on it, in two layers:
-
-1. **Menus** *(shipped)* — Dropdown gets the menu keyboard model (focus first item on open, arrows/Home/End,
-   Escape returns focus to the trigger); ToggleGroup gets roving focus; new ContextMenu
-   (right-click / Shift+F10, reuses the dropdown menu styling) and Menubar (APG menubar).
-2. **Inputs and layout** — HoverCard (preview-only content on hover/focus), OtpInput (segmented
-   one-time-code entry with paste-to-fill), ResizablePanels (`role="separator"` handle, arrow-key
-   and pointer resizing).
-
-Not planned: carousel (off-voice for corpo) and a navigation menu (SideNav and Topbar cover it).
 
 ## Next: dense data grid — DataTable that feels like a spreadsheet
 
@@ -135,13 +121,13 @@ and import wizard are recipes over existing components, not new components.
 Cyberdesign / shadcn-parity components that fit Corpo's brief (calm, light-first, business UI) but
 haven't been ported yet, roughly in value order:
 
-- **Resizable** split panes
-- **Overlays**: ContextMenu, HoverCard, a richer DropdownMenu (nested submenus, checkable items)
-- **App shell / navigation**: Menubar, NavigationMenu, Drawer, BottomNav (corpo has no mobile nav)
-- **Forms**: InputOTP
-- **Display**: Item (generic list-row primitive), Carousel, FeedItem
+- **Overlays**: a richer Dropdown (nested submenus, checkable items)
+- **App shell / navigation**: NavigationMenu, Drawer, BottomNav (corpo has no mobile nav)
+- **Display**: Item (generic list-row primitive), FeedItem
 - **Data**: Gauge (calm radial KPI meter — cyberdesign's core is neutral, its neon is all tokens),
   ActivityGrid (contribution-style heatmap)
+
+Not planned from this list: Carousel (off-voice for corpo).
 
 Have an opinion on priority, or a use case that needs one of these sooner? Open an issue — see
 [CONTRIBUTING.md](./CONTRIBUTING.md).

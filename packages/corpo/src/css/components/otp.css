@@ -1,0 +1,52 @@
+/* One real input sits invisibly over the slots; the slots only draw its value. */
+.cp-otp {
+  position: relative;
+  display: inline-flex;
+  gap: 8px;
+}
+.cp-otp__input {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  opacity: 0;
+  cursor: text;
+}
+.cp-otp__input:disabled {
+  cursor: not-allowed;
+}
+
+.cp-otp__slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: var(--corpo-control-h-lg);
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius);
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-lg);
+  font-variant-numeric: tabular-nums;
+  color: var(--corpo-text);
+  transition:
+    border-color var(--corpo-dur-fast) var(--corpo-ease),
+    box-shadow var(--corpo-dur-fast) var(--corpo-ease);
+}
+/* The focus indicator: the input itself is invisible, so the next slot to fill shows focus. */
+.cp-otp__slot--active {
+  border-color: var(--corpo-accent);
+  box-shadow: 0 0 0 1px var(--corpo-accent);
+}
+.cp-otp--error .cp-otp__slot {
+  border-color: var(--corpo-red);
+}
+.cp-otp--disabled .cp-otp__slot {
+  opacity: 0.45;
+}
