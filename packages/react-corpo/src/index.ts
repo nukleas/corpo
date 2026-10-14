@@ -101,6 +101,7 @@ export * from './components/Timeline';
 export * from './components/ActivityLog';
 export * from './components/Stepper';
 export * from './components/Dropzone';
+export * from './components/AttachmentList';
 export * from './components/TreeView';
 export * from './components/AppShell';
 export * from './components/SideNav';

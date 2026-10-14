@@ -1,5 +1,6 @@
 import { useRef, useState, type DragEvent, type HTMLAttributes, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
+import { formatFileSize } from '../lib/format';
 
 export type DropzoneFileStatus = 'uploading' | 'error';
 
@@ -31,16 +32,6 @@ export interface DropzoneProps extends HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   /** Muted hint under the title, e.g. accepted types and size. */
   hint?: ReactNode;
-}
-
-function formatFileSize(bytes: number): string {
-  const n = Math.max(0, bytes);
-  if (n < 1024) return `${n} B`;
-  const kb = n / 1024;
-  if (kb < 1024) return `${kb.toFixed(1)} KB`;
-  const mb = kb / 1024;
-  if (mb < 1024) return `${mb.toFixed(1)} MB`;
-  return `${(mb / 1024).toFixed(1)} GB`;
 }
 
 function toFileArray(list: FileList | null, multiple: boolean): File[] {
