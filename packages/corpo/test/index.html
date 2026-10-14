@@ -426,6 +426,20 @@
   </section>
 
   <section>
+    <h2>Split view</h2>
+    <div class="cp-split" style="height: 200px;">
+      <div class="cp-resizable">
+        <div class="cp-resizable__pane" id="demo-split-list" style="flex: 0 0 35%;"><div class="cp-split__pane">Invoice list</div></div>
+        <div class="cp-resizable__handle" role="separator" tabindex="0" aria-label="Resize invoices" aria-controls="demo-split-list" aria-orientation="vertical" aria-valuenow="35" aria-valuemin="20" aria-valuemax="60"></div>
+        <div class="cp-resizable__pane"><div class="cp-split__detail"><div class="cp-split__empty">Select an item to see its details.</div></div></div>
+      </div>
+    </div>
+    <div class="cp-split" style="height: 120px; max-width: 360px; margin-top: 16px;">
+      <div class="cp-split__pane"><div class="cp-split__back"><button class="cp-btn cp-btn--sm cp-btn--ghost">‹ Invoices</button></div>INV-2040 — phone layout, one pane with a back button.</div>
+    </div>
+  </section>
+
+  <section>
     <h2>Tree grid</h2>
     <div class="cp-table cp-table--grid" style="max-width: 480px;">
       <table class="cp-table__table" role="treegrid" aria-label="Chart of accounts">

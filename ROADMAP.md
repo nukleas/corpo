@@ -8,7 +8,7 @@ ToggleGroup, ButtonGroup, InputGroup, Dropzone
 
 **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion,
 Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip,
-StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, ResizablePanels, Section, SectionHeader, DescriptionList, HoverCard,
+StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, ResizablePanels, SplitView, Section, SectionHeader, DescriptionList, HoverCard,
 Timeline, ActivityLog, AttachmentList, Approvals, Stepper, TreeView, FilterBar, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
 
 **Data**: LineChart, BarChart, DonutChart, Sparkline, Gauge, ActivityGrid (sequential `--corpo-chart-seq-*` ramp), DependencyGraph (CpDepGraph scene engine)
@@ -115,8 +115,8 @@ The sales-order screen works (*Examples/Sales order*). Async entity lookup (Comb
 rich rows, "create new…") and multi-select / tag input (`MultiSelect`) have shipped, and so has a filter bar with saved views (`FilterBar` in the DataTable `toolbar`, pill
 Tabs as the view switcher). An activity log (`ActivityLog`: comments, field-change
 audit, events) has shipped too, and so has an attachment list (`AttachmentList`). Document approvals (`Approvals`, with
-`Stepper` as the lifecycle path) have shipped. So has the tree grid (`DataTableRow.children`). Next, as
-separate layers: master–detail split view, notification inbox. Module-specific and deferred: Kanban,
+`Stepper` as the lifecycle path) have shipped. So has the tree grid (`DataTableRow.children`). So has the
+master–detail split view (`SplitView`). Next: a notification inbox. Module-specific and deferred: Kanban,
 Gantt (over the depgraph engine), pivot report, resource scheduler, print layout. Permission matrix
 and import wizard are recipes over existing components, not new components.
 
