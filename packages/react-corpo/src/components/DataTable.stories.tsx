@@ -467,3 +467,47 @@ export const RangeAndCopy: Story = {
     await expect(grid.querySelectorAll('[aria-selected="true"]')).toHaveLength(6);
   },
 };
+
+function ResizableTable({ grid = false }: { grid?: boolean }) {
+  const [widths, setWidths] = useState<Record<string, number>>({ id: 120, client: 160, amount: 140 });
+  return (
+    <DataTable
+      grid={grid}
+      columns={COLUMNS.map((c) => ({ ...c, width: widths[c.key] }))}
+      rows={ROWS}
+      onColumnResize={(key, width) => setWidths({ ...widths, [key]: width })}
+      style={{ maxWidth: 720 }}
+    />
+  );
+}
+
+/**
+ * Drag a header's right edge to resize its column, or focus the handle and use the arrow keys. Widths are the
+ * caller's: `onColumnResize` reports them and `columns[].width` applies them.
+ */
+export const ResizableColumns: Story = {
+  render: () => <ResizableTable />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const handle = canvas.getByRole('separator', { name: 'Client' });
+    await expect(handle).toHaveAttribute('aria-valuenow', '160');
+    handle.focus();
+    await userEvent.keyboard('{ArrowRight}{ArrowRight}');
+    await expect(handle).toHaveAttribute('aria-valuenow', '192');
+    await expect(handle).toHaveAttribute('aria-valuetext', '192 pixels wide');
+    await expect(canvasElement.querySelectorAll('col')[1]).toHaveStyle({ width: '192px' });
+  },
+};
+
+/** In grid mode the handles leave the tab order; Alt+ArrowLeft/Right on a header cell resizes its column. */
+export const ResizableColumnsGrid: Story = {
+  render: () => <ResizableTable grid />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const handle = canvas.getByRole('separator', { name: 'Invoice' });
+    await expect(handle).toHaveAttribute('tabindex', '-1');
+    await userEvent.tab();
+    await userEvent.keyboard('{Alt>}{ArrowLeft}{/Alt}');
+    await expect(handle).toHaveAttribute('aria-valuenow', '104');
+  },
+};

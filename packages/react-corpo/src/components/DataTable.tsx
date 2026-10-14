@@ -1,4 +1,4 @@
-import { isValidElement, useEffect, useMemo, useRef, useState } from 'react';
+import { isValidElement, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { FocusEvent, HTMLAttributes, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import { Button } from './Button';
@@ -16,6 +16,8 @@ export interface DataTableColumn extends TableColumn {
    * `summary` adds a `<tfoot>` row; it sticks to the bottom of a `grid`.
    */
   summary?: (rows: DataTableRow[]) => TableCellShorthand;
+  /** Width in px. Set on any column, the table lays out at fixed widths (others share the rest). */
+  width?: number;
 }
 
 export interface DataTableRow {
@@ -74,7 +76,15 @@ export interface DataTableProps extends HTMLAttributes<HTMLDivElement> {
   onRowActivate?: (id: string) => void;
   /** Tree rows (`children`) expanded on first render. */
   defaultExpanded?: string[];
+  /**
+   * Shows a resize handle on each header; called with the column's new width
+   * (px). Widths are the caller's — store them in `columns[].width`.
+   */
+  onColumnResize?: (key: string, width: number) => void;
 }
+
+const MIN_COLUMN_WIDTH = 56;
+const RESIZE_STEP = 16;
 
 /** A row as rendered: rows flattened depth-first through the expanded parents. */
 interface ShownRow {
@@ -85,7 +95,7 @@ interface ShownRow {
   expanded: boolean;
 }
 
-const INTERACTIVE = 'a[href], button, input, select, textarea';
+const INTERACTIVE = 'a[href], button, input, select, textarea, [role="separator"]';
 
 /** The grid position of the cell an event happened in. */
 function cellAt(target: EventTarget | null) {
@@ -196,6 +206,7 @@ export function DataTable({
   bulkActions,
   onRowActivate,
   defaultExpanded = [],
+  onColumnResize,
   className,
   ...rest
 }: DataTableProps) {
@@ -208,6 +219,13 @@ export function DataTable({
   const [anchor, setAnchor] = useState<{ row: number; col: number } | null>(null);
   const dragging = useRef(false);
   const [copied, setCopied] = useState('');
+  const base = useId();
+  const fixedLayout = columns.some((c) => c.width != null);
+  const resizeBy = (ci: number, delta: number, from?: number) => {
+    const th = tableRef.current?.rows[0]?.cells[ci + firstDataCol];
+    const current = from ?? columns[ci].width ?? th?.getBoundingClientRect().width ?? MIN_COLUMN_WIDTH;
+    onColumnResize?.(columns[ci].key, Math.max(MIN_COLUMN_WIDTH, Math.round(current + delta)));
+  };
   const [expanded, setExpanded] = useState(() => new Set(defaultExpanded));
   const isTree = rows.some((r) => (r.children?.length ?? 0) > 0);
   const toggleExpanded = (id: string) =>
@@ -346,6 +364,18 @@ export function DataTable({
       moveTo(parent, at.col, false);
       return;
     }
+    // Alt+ArrowLeft/Right on a header resizes its column (its handle is out of the tab order).
+    if (
+      onColumnResize &&
+      at.row === 0 &&
+      at.col >= firstDataCol &&
+      e.altKey &&
+      (e.key === 'ArrowLeft' || e.key === 'ArrowRight')
+    ) {
+      e.preventDefault();
+      resizeBy(at.col - firstDataCol, e.key === 'ArrowRight' ? RESIZE_STEP : -RESIZE_STEP);
+      return;
+    }
     const ctrl = e.ctrlKey || e.metaKey;
     if (ctrl && e.key.toLowerCase() === 'c') {
       e.preventDefault();
@@ -413,7 +443,7 @@ export function DataTable({
       >
         <table
           ref={tableRef}
-          className="cp-table__table"
+          className={cn('cp-table__table', fixedLayout && 'cp-table__table--fixed')}
           {...(grid && {
             role: isTree ? 'treegrid' : 'grid',
             'aria-multiselectable': true,
@@ -446,6 +476,14 @@ export function DataTable({
             },
           })}
         >
+          {fixedLayout && (
+            <colgroup>
+              {selectable && <col className="cp-table__col-check" />}
+              {columns.map((c) => (
+                <col key={c.key} style={c.width != null ? { width: c.width } : undefined} />
+              ))}
+            </colgroup>
+          )}
           <thead>
             <tr>
               {selectable && (
@@ -465,17 +503,27 @@ export function DataTable({
                   key={c.key}
                   {...cellTab(0, ci + (selectable ? 1 : 0))}
                   data-numeric={c.numeric || undefined}
+                  className={cn(onColumnResize && 'cp-table__th--resizable')}
                   aria-sort={sort?.key === c.key ? (sort.dir === 'asc' ? 'ascending' : 'descending') : undefined}
                 >
                   {c.sortable ? (
                     <button type="button" className="cp-table__sort" onClick={() => cycleSort(c.key)}>
-                      {c.label}
+                      <span id={`${base}-col-${ci}`}>{c.label}</span>
                       <span className="cp-table__sort-icon" aria-hidden="true">
                         {sort?.key === c.key ? (sort.dir === 'asc' ? '▲' : '▼') : '↕'}
                       </span>
                     </button>
                   ) : (
-                    c.label
+                    <span id={`${base}-col-${ci}`}>{c.label}</span>
+                  )}
+                  {onColumnResize && (
+                    <ColumnResizeHandle
+                      inGrid={grid}
+                      labelledBy={`${base}-col-${ci}`}
+                      width={c.width}
+                      onKeyStep={(delta) => resizeBy(ci, delta)}
+                      onDrag={(delta, startWidth) => resizeBy(ci, delta, startWidth)}
+                    />
                   )}
                 </th>
               ))}
@@ -560,5 +608,68 @@ export function DataTable({
         </div>
       )}
     </div>
+  );
+}
+
+/**
+ * A column's resize handle: drag it, or focus it and use ArrowLeft/ArrowRight
+ * (in grid mode it leaves the tab order — Alt+arrows on the header instead).
+ */
+function ColumnResizeHandle({
+  inGrid,
+  labelledBy,
+  width,
+  onKeyStep,
+  onDrag,
+}: {
+  inGrid: boolean;
+  labelledBy: string;
+  width?: number;
+  onKeyStep: (delta: number) => void;
+  onDrag: (delta: number, startWidth: number) => void;
+}) {
+  const start = useRef<{ x: number; width: number } | null>(null);
+  const node = useRef<HTMLSpanElement>(null);
+  const [dragging, setDragging] = useState(false);
+  // A focusable separator needs a value; a column without an explicit width reports its laid-out width.
+  useLayoutEffect(() => {
+    const el = node.current;
+    const w = width ?? Math.round(el?.parentElement?.getBoundingClientRect().width ?? 0);
+    el?.setAttribute('aria-valuenow', String(w));
+    el?.setAttribute('aria-valuetext', `${w} pixels wide`);
+  });
+  return (
+    <span
+      ref={node}
+      role="separator"
+      tabIndex={inGrid ? -1 : 0}
+      aria-orientation="vertical"
+      aria-labelledby={labelledBy}
+      aria-valuemin={MIN_COLUMN_WIDTH}
+      className="cp-table__resize"
+      data-dragging={dragging || undefined}
+      onKeyDown={(e) => {
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        e.preventDefault();
+        e.stopPropagation();
+        onKeyStep(e.key === 'ArrowRight' ? RESIZE_STEP : -RESIZE_STEP);
+      }}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const th = e.currentTarget.parentElement;
+        start.current = { x: e.clientX, width: th?.getBoundingClientRect().width ?? MIN_COLUMN_WIDTH };
+        e.currentTarget.setPointerCapture(e.pointerId);
+        setDragging(true);
+      }}
+      onPointerMove={(e) => {
+        if (start.current) onDrag(e.clientX - start.current.x, start.current.width);
+      }}
+      onPointerUp={() => {
+        start.current = null;
+        setDragging(false);
+      }}
+      onClick={(e) => e.stopPropagation()}
+    />
   );
 }
