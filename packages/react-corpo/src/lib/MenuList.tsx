@@ -46,6 +46,9 @@ export function MenuList({
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const [sub, setSub] = useState<{ id: string; focus: 'first' | 'none' } | null>(null);
   const base = useId();
+  // In a menu with checkable items every label sits after the check slot, so the column lines up.
+  const checkable = items.some((item) => item.type === 'checkbox' || item.type === 'radio');
+  const slot = checkable && <span className="cp-dropdown__check" aria-hidden="true" />;
 
   useEffect(() => {
     if (initialFocus === 'none') return;
@@ -108,6 +111,7 @@ export function MenuList({
                 onKeyDown={onItemKeyDown}
                 onMouseEnter={onMouseEnter}
               >
+                {slot}
                 {item.label}
                 <span className="cp-dropdown__chevron" aria-hidden="true">
                   ›
@@ -170,6 +174,7 @@ export function MenuList({
             onKeyDown={onItemKeyDown}
             onMouseEnter={onMouseEnter}
           >
+            {slot}
             {item.label}
           </button>
         );

@@ -43,7 +43,7 @@
   text-anchor: middle;
 }
 .cp-gauge__label {
-  margin-top: -6px;
+  margin-top: 4px;
   font-size: var(--corpo-text-sm);
   color: var(--corpo-text-muted);
   text-align: center;
