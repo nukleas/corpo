@@ -1,0 +1,83 @@
+/* Approvals — sign-off steps on a document, with the signed-in approver's decide box. */
+.cp-approvals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: var(--corpo-font-sans);
+}
+.cp-approvals__summary {
+  margin: 0;
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+}
+.cp-approvals__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cp-approvals__item {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--corpo-border-dim);
+}
+.cp-approvals__item:first-child {
+  padding-top: 0;
+}
+.cp-approvals__item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.cp-approvals__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.cp-approvals__name {
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+  color: var(--corpo-text);
+}
+.cp-approvals__role {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+.cp-approvals__comment {
+  margin: 4px 0 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--corpo-border);
+  font-size: var(--corpo-text-sm);
+  line-height: var(--corpo-leading-normal);
+  color: var(--corpo-text-secondary);
+}
+.cp-approvals__decision {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.cp-approvals__time {
+  font-family: var(--corpo-font-mono);
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+  white-space: nowrap;
+}
+.cp-approvals__decide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--corpo-bg-inset);
+  border: 1px solid var(--corpo-border-dim);
+  border-radius: var(--corpo-radius-lg);
+}
+.cp-approvals__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
