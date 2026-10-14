@@ -8,7 +8,7 @@ ToggleGroup, ButtonGroup, InputGroup, Dropzone
 
 **Display**: Card, Badge, Table, Stat, Kbd, KbdGroup, Avatar, Skeleton, SkeletonRow, Accordion,
 Modal, AlertDialog, Sheet, Separator, Tooltip, Popover, Calendar, Spreadsheet, Collapsible, Chip,
-StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, SectionHeader, DescriptionList,
+StatusDot, StatusPill, StatusBar, Empty, AspectRatio, ScrollArea, Section, SectionHeader, DescriptionList,
 Timeline, Stepper, TreeView, ProfileCard, AssignmentSlots, LicenseCatalog, LicenseDetail
 
 **Data**: LineChart, BarChart, DonutChart, Sparkline, DependencyGraph (CpDepGraph scene engine)
@@ -29,7 +29,7 @@ the *Examples/Sales order* story builds a full list → record → lines → tot
 
 **Feedback**: Alert, Progress, Spinner, Toast
 
-**Navigation**: Tabs, Breadcrumb, Dropdown, Pagination, Command, AppShell, SideNav, Topbar
+**Navigation**: Tabs (with panels; WAI-ARIA keyboard model), Breadcrumb, Dropdown, Pagination, Command, AppShell, SideNav, Topbar
 
 **Quality gates** (CI): Prettier, oxlint (anti-slop, React, hooks, jsx-a11y), stylelint, a design-system
 contract check (classes, tokens, package parity, story coverage), and the Storybook test runner — every
@@ -62,6 +62,20 @@ Built in layers, each shippable on its own:
 
 Explicitly not borrowed from cyberdesign: the isometric projection, hand-authored coordinates, and
 innerHTML-rebuild render loop — corpo's engine does automatic layout and incremental drawing.
+
+## Next: menus and interaction gaps
+
+Tabs share a roving-focus keyboard helper (`lib/roving.ts`); the remaining keyboard-less widgets and
+missing common components build on it, in two layers:
+
+1. **Menus** — Dropdown gets the menu keyboard model (focus first item on open, arrows/Home/End,
+   Escape returns focus to the trigger); ToggleGroup gets roving focus; new ContextMenu
+   (right-click / Shift+F10, reuses the dropdown menu styling) and Menubar (APG menubar).
+2. **Inputs and layout** — HoverCard (preview-only content on hover/focus), OtpInput (segmented
+   one-time-code entry with paste-to-fill), ResizablePanels (`role="separator"` handle, arrow-key
+   and pointer resizing).
+
+Not planned: carousel (off-voice for corpo) and a navigation menu (SideNav and Topbar cover it).
 
 ## Next: dense data grid — DataTable that feels like a spreadsheet
 

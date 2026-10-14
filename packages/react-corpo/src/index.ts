@@ -74,6 +74,7 @@ export * from './components/Empty';
 export * from './components/AspectRatio';
 export * from './components/ScrollArea';
 export * from './components/SectionHeader';
+export * from './components/Section';
 export * from './components/DependencyGraph';
 export * from './components/RelationGraph';
 export * from './components/LineChart';

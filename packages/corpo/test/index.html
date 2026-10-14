@@ -270,10 +270,13 @@
 
   <section>
     <h2>Navigation</h2>
-    <div class="cp-tabs" role="tablist">
-      <button class="cp-tabs__tab" aria-selected="true">Open <span class="cp-tabs__count">12</span></button>
-      <button class="cp-tabs__tab">Paid <span class="cp-tabs__count">84</span></button>
-      <button class="cp-tabs__tab">Overdue <span class="cp-tabs__count">3</span></button>
+    <div class="cp-tabs" role="tablist" aria-label="Invoice status">
+      <button class="cp-tabs__tab" role="tab" id="demo-tab-open" aria-selected="true" aria-controls="demo-tab-panel" tabindex="0">Open <span class="cp-tabs__count">12</span></button>
+      <button class="cp-tabs__tab" role="tab" id="demo-tab-paid" aria-selected="false" aria-controls="demo-tab-panel" tabindex="-1">Paid <span class="cp-tabs__count">84</span></button>
+      <button class="cp-tabs__tab" role="tab" id="demo-tab-overdue" aria-selected="false" aria-controls="demo-tab-panel" tabindex="-1">Overdue <span class="cp-tabs__count">3</span></button>
+    </div>
+    <div class="cp-tabs__panel" role="tabpanel" id="demo-tab-panel" aria-labelledby="demo-tab-open" tabindex="0">
+      12 open invoices, 4 due this week.
     </div>
     <nav class="cp-breadcrumb" style="margin-top: 16px;" aria-label="Breadcrumb">
       <ol class="cp-breadcrumb__list">
@@ -320,6 +323,21 @@
       </div>
       <div class="cp-section-header__actions"><button class="cp-btn cp-btn--primary cp-btn--sm">New invoice</button></div>
     </div>
+    <section class="cp-section" aria-labelledby="demo-section-billing">
+      <div class="cp-section-header">
+        <div class="cp-section-header__heading">
+          <h3 class="cp-section-header__title" id="demo-section-billing">Billing</h3>
+          <p class="cp-section-header__description">Where invoices for this account are sent.</p>
+        </div>
+      </div>
+      <div class="cp-section__body"><p>Invoices go to billing@acme.com on the first business day of each month.</p></div>
+    </section>
+    <section class="cp-section" aria-labelledby="demo-section-security">
+      <div class="cp-section-header">
+        <div class="cp-section-header__heading"><h3 class="cp-section-header__title" id="demo-section-security">Security</h3></div>
+      </div>
+      <div class="cp-section__body"><p>Two-factor authentication is required for all members.</p></div>
+    </section>
     <div class="demo-row">
       <span class="cp-chip">Status: Overdue</span>
       <span class="cp-status-pill"><span class="cp-status-dot cp-status-dot--ok"></span>Operational</span>

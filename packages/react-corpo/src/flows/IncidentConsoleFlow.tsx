@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { FlowShell } from './FlowShell';
 import { Card } from '../components/Card';
+import { SectionHeader } from '../components/SectionHeader';
 import { Tabs } from '../components/Tabs';
 import { Table, type TableColumn } from '../components/Table';
 import { Sheet } from '../components/Sheet';
@@ -166,25 +167,28 @@ export function IncidentConsoleFlow() {
       title="Everything happening right now"
       subtitle="A live look across every Halcyon site. We like to think of these as team-building moments — anything above Medium gets a friendly heads-up straight to the Executive Board."
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Tabs
-          tabs={[
-            { id: 'active', label: 'Active', count: counts.active },
-            { id: 'resolved', label: 'Resolved', count: counts.resolved },
-            { id: 'archived', label: 'Archived', count: counts.archived },
-          ]}
-          active={activeTab}
-          onChange={(id) => {
-            if (id === 'active' || id === 'resolved' || id === 'archived') setActiveTab(id);
-          }}
-          pills
-        />
-        <Button onClick={() => setCommandOpen(true)}>⌘K Quick actions</Button>
-      </div>
+      <SectionHeader
+        title="Incidents"
+        actions={<Button onClick={() => setCommandOpen(true)}>⌘K Quick actions</Button>}
+      />
 
-      <Card flat>
-        <Table columns={COLUMNS} rows={tableRows} />
-      </Card>
+      <Tabs
+        aria-label="Incident status"
+        tabs={[
+          { id: 'active', label: 'Active', count: counts.active },
+          { id: 'resolved', label: 'Resolved', count: counts.resolved },
+          { id: 'archived', label: 'Archived', count: counts.archived },
+        ]}
+        active={activeTab}
+        onChange={(id) => {
+          if (id === 'active' || id === 'resolved' || id === 'archived') setActiveTab(id);
+        }}
+        pills
+      >
+        <Card flat>
+          <Table columns={COLUMNS} rows={tableRows} />
+        </Card>
+      </Tabs>
 
       <StatusBar
         items={[

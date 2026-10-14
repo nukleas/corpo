@@ -4,9 +4,13 @@ pnpm workspace with two publishable packages:
 
 ```
 packages/
-  corpo/           name: corpo          CSS + tokens + thin React wrappers
-  react-corpo/     name: react-corpo    Full React API + Storybook
+  corpo/           name: @nukleas/corpo          CSS + tokens + thin React wrappers
+  react-corpo/     name: @nukleas/react-corpo    Full React API + Storybook
 ```
+
+The unscoped `corpo` / `react-corpo` names on npm are stale early publishes — do not install them.
+The source of truth for what exists is `ROADMAP.md` and `packages/react-corpo/src/index.ts`, not an
+installed copy.
 
 Root is private (`corpo-monorepo`). Do not publish the root package.
 
@@ -18,7 +22,7 @@ are intentionally not ported.
 
 ## Engineering principles
 
-- Do not preserve backward compatibility inside the monorepo: remove obsolete classes, props, and tokens instead of aliasing or shimming them, and update both packages + demo harness + stories in the same change. Because `corpo`/`react-corpo` are published to npm, breaking changes ship as a semver bump with a changelog note — never as runtime compat layers.
+- Do not preserve backward compatibility inside the monorepo: remove obsolete classes, props, and tokens instead of aliasing or shimming them, and update both packages + demo harness + stories in the same change. Because `@nukleas/corpo`/`@nukleas/react-corpo` are published to npm, breaking changes ship as a semver bump with a changelog note — never as runtime compat layers.
 - Choose the simplest implementation that meets the current requirement. No speculative props, variants, or theme knobs for hypothetical futures.
 - Grow in layers: CSS source of truth first, thin React mapping second. Never leave a component half-migrated across the two packages.
 
