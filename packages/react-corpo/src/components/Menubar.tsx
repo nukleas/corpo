@@ -19,6 +19,11 @@ export interface MenubarProps extends HTMLAttributes<HTMLDivElement> {
  * One tab stop; ArrowLeft/ArrowRight move along the bar (and between open
  * menus), ArrowDown or Enter opens a menu, Escape closes it. Once a menu is
  * open, hovering another title switches to it. Give it an `aria-label`.
+ *
+ * Top-nav contract: the bar is `min-width: 0` and `max-width: 100%`. Triggers
+ * stay on one line and the bar scrolls inside itself, with an edge fade only
+ * when they overflow, so the row never widens the page. Menus flip and shift
+ * to stay inside the viewport.
  */
 export function Menubar({ menus, className, ...rest }: MenubarProps) {
   const [focusIndex, setFocusIndex] = useState(0);
@@ -94,6 +99,7 @@ export function Menubar({ menus, className, ...rest }: MenubarProps) {
                 labelledBy={`${base}-trigger-${i}`}
                 items={m.items}
                 initialFocus={open.focus}
+                place
                 onClose={close}
                 onKeyDown={onMenuKeyDown}
               />

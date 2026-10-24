@@ -1,5 +1,6 @@
-import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { cn } from './cn';
+import { placeElement, type PlaceAlign, type PlaceSide } from './place';
 import { moveRovingFocus } from './roving';
 import type { MenuItem } from './types';
 
@@ -22,6 +23,17 @@ export interface MenuListProps {
   onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void;
   /** A submenu: ArrowLeft closes it like Escape. */
   nested?: boolean;
+  /**
+   * Anchor the menu to its parent (the trigger's wrapper) and flip or shift
+   * it so it stays inside the viewport. Submenus do this on their own.
+   */
+  place?: boolean;
+  /** Cross-axis alignment against the anchor. @default 'start' */
+  placeAlign?: PlaceAlign;
+  /** Preferred side. Submenus open to the right and flip left. @default 'bottom' */
+  placeSide?: PlaceSide;
+  /** Gap between the anchor and the menu, in px. @default 4 */
+  placeGap?: number;
 }
 
 /**
@@ -42,8 +54,13 @@ export function MenuList({
   onClose,
   onKeyDown,
   nested = false,
+  place = false,
+  placeAlign = 'start',
+  placeSide = 'bottom',
+  placeGap = 4,
 }: MenuListProps) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
+  const menuRef = useRef<HTMLDivElement>(null);
   const [sub, setSub] = useState<{ id: string; focus: 'first' | 'none' } | null>(null);
   const base = useId();
   // In a menu with checkable items every label sits after the check slot, so the column lines up.
@@ -56,8 +73,26 @@ export function MenuList({
     (initialFocus === 'last' ? enabled[enabled.length - 1] : enabled[0])?.focus();
   }, [initialFocus]);
 
+  // Parent is the trigger wrapper: the menu itself is absolutely positioned, so it
+  // does not stretch that box. Fixed coordinates then escape overflow clipping.
+  useLayoutEffect(() => {
+    const menu = menuRef.current;
+    const anchor = menu?.parentElement;
+    if (!menu || !anchor || anchor === document.body || !(place || nested)) return;
+    const side = nested ? 'right' : placeSide;
+    const run = () => placeElement(menu, anchor.getBoundingClientRect(), side, placeAlign, placeGap);
+    run();
+    window.addEventListener('resize', run);
+    window.addEventListener('scroll', run, true);
+    return () => {
+      window.removeEventListener('resize', run);
+      window.removeEventListener('scroll', run, true);
+    };
+  }, [place, nested, placeAlign, placeSide, placeGap]);
+
   return (
     <div
+      ref={menuRef}
       id={id}
       role="menu"
       aria-labelledby={labelledBy}

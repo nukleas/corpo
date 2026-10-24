@@ -1,0 +1,111 @@
+/* Horizontal scrollers that must not widen the page.
+   The edge fade is a scroll-driven mask: when the row does not overflow, the
+   timeline is inactive and both fades stay 0, so fitted content is not clipped.
+   Browsers without scroll timelines still scroll; they just omit the fade. */
+
+@property --cp-fade-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --cp-fade-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes cp-fade-start {
+  from {
+    --cp-fade-start: 0px;
+  }
+  to {
+    --cp-fade-start: 24px;
+  }
+}
+@keyframes cp-fade-end {
+  from {
+    --cp-fade-end: 24px;
+  }
+  to {
+    --cp-fade-end: 0px;
+  }
+}
+
+.cp-status-bar,
+.cp-navmenu__list,
+.cp-menubar,
+.cp-topbar__nav {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* Beats the reduced-motion duration reset so a scroll timeline stays scroll-linked. */
+  animation-duration: auto !important;
+}
+
+.cp-status-bar::-webkit-scrollbar,
+.cp-navmenu__list::-webkit-scrollbar,
+.cp-menubar::-webkit-scrollbar,
+.cp-topbar__nav::-webkit-scrollbar {
+  display: none;
+  height: 0;
+}
+
+@supports (animation-timeline: scroll()) {
+  .cp-status-bar,
+  .cp-navmenu__list,
+  .cp-menubar,
+  .cp-topbar__nav {
+    --cp-fade-start: 0px;
+    --cp-fade-end: 0px;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black var(--cp-fade-start),
+      black calc(100% - var(--cp-fade-end)),
+      transparent 100%
+    );
+    animation-name: cp-fade-start, cp-fade-end;
+    animation-duration: auto, auto !important;
+    animation-timing-function: linear, linear;
+    animation-fill-mode: both, both;
+    animation-timeline: scroll(self inline), scroll(self inline);
+    animation-range:
+      0 24px,
+      calc(100% - 24px) 100%;
+  }
+}
+
+/* Coarse pointers (phones, tablets) get a 44px hit area. Fine pointers keep
+   the desktop 28/36 density. Visual size stays put only where a larger control
+   would collide with its neighbors; everything else grows with the tokens. */
+@media (pointer: coarse) {
+  :root {
+    --corpo-control-h: 44px;
+    --corpo-control-h-sm: 44px;
+  }
+
+  .cp-dropdown__item,
+  .cp-menubar__trigger,
+  .cp-navmenu__link,
+  .cp-navmenu__trigger,
+  .cp-navmenu__panel-link,
+  .cp-sidenav__item,
+  .cp-combobox__option,
+  .cp-command__item,
+  .cp-calendar__day,
+  .cp-checkbox,
+  .cp-radio,
+  .cp-switch {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .cp-chip {
+    height: auto;
+    min-height: 44px;
+  }
+  .cp-chip__remove {
+    width: 44px;
+    height: 44px;
+  }
+}

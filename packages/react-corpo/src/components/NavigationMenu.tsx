@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type ElementType, type HTMLAttributes, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
+import { usePlace } from '../lib/place';
 
 export interface NavigationMenuLink {
   id: string;
@@ -32,7 +33,64 @@ export interface NavigationMenuProps extends Omit<HTMLAttributes<HTMLElement>, '
  * or open a panel of links (WAI-ARIA disclosure navigation, not a `menu`:
  * Tab moves through the links). Click toggles a panel; Escape, a click
  * outside, or tabbing out closes it. Give it an `aria-label`.
+ *
+ * Top-nav contract: the link row (`.cp-navmenu__list`) never widens the page.
+ * It is `min-width: 0`, nowrap, and scrolls inside itself with an edge fade
+ * that appears only when the links overflow. Put tools (search, account,
+ * theme) outside this nav so they stay on screen. Panels flip and shift to
+ * stay inside the viewport.
  */
+function NavDisclosure({
+  item,
+  open,
+  panelId,
+  active,
+  onToggle,
+  link,
+}: {
+  item: NavigationMenuItem;
+  open: boolean;
+  panelId: string;
+  active: boolean;
+  onToggle: () => void;
+  link: (item: NavigationMenuLink, className: string, children: ReactNode) => ReactNode;
+}) {
+  const itemRef = useRef<HTMLLIElement>(null);
+  const panelRef = useRef<HTMLUListElement>(null);
+  const links = item.links ?? [];
+  usePlace(open, itemRef, panelRef, 'bottom', 'start', 6);
+  return (
+    <li ref={itemRef} className="cp-navmenu__item">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        className={cn('cp-navmenu__trigger', active && 'is-active')}
+        onClick={onToggle}
+      >
+        {item.label}
+        <span className="cp-navmenu__chevron" aria-hidden="true">
+          ▾
+        </span>
+      </button>
+      <ul ref={panelRef} id={panelId} className="cp-navmenu__panel" hidden={!open}>
+        {links.map((l) => (
+          <li key={l.id}>
+            {link(
+              l,
+              'cp-navmenu__panel-link',
+              <>
+                <span className="cp-navmenu__panel-title">{l.label}</span>
+                {l.description && <span className="cp-navmenu__panel-description">{l.description}</span>}
+              </>,
+            )}
+          </li>
+        ))}
+      </ul>
+    </li>
+  );
+}
+
 export function NavigationMenu({ items, activeId, onSelect, className, ...rest }: NavigationMenuProps) {
   const [open, setOpen] = useState<string | null>(null);
   const root = useRef<HTMLElement>(null);
@@ -94,34 +152,15 @@ export function NavigationMenu({ items, activeId, onSelect, className, ...rest }
           const isOpen = open === item.id;
           const panelId = `${base}-panel-${i}`;
           return (
-            <li key={item.id} className="cp-navmenu__item">
-              <button
-                type="button"
-                aria-expanded={isOpen}
-                aria-controls={panelId}
-                className={cn('cp-navmenu__trigger', item.links.some((l) => l.id === activeId) && 'is-active')}
-                onClick={() => setOpen(isOpen ? null : item.id)}
-              >
-                {item.label}
-                <span className="cp-navmenu__chevron" aria-hidden="true">
-                  ▾
-                </span>
-              </button>
-              <ul id={panelId} className="cp-navmenu__panel" hidden={!isOpen}>
-                {item.links.map((l) => (
-                  <li key={l.id}>
-                    {link(
-                      l,
-                      'cp-navmenu__panel-link',
-                      <>
-                        <span className="cp-navmenu__panel-title">{l.label}</span>
-                        {l.description && <span className="cp-navmenu__panel-description">{l.description}</span>}
-                      </>,
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </li>
+            <NavDisclosure
+              key={item.id}
+              item={item}
+              open={isOpen}
+              panelId={panelId}
+              active={item.links.some((l) => l.id === activeId)}
+              onToggle={() => setOpen(isOpen ? null : item.id)}
+              link={link}
+            />
           );
         })}
       </ul>

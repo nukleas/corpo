@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
+import { usePlace } from '../lib/place';
 
 export interface PopoverProps {
   /** Element that opens the panel on click. */
@@ -13,7 +14,10 @@ export interface PopoverProps {
   className?: string;
 }
 
-/** Corpo popover — freeform content panel, click-triggered, closes on outside click or Escape. */
+/**
+ * Corpo popover — freeform content panel, click-triggered, closes on outside
+ * click or Escape. The panel flips and shifts so it stays inside the viewport.
+ */
 export function Popover({
   trigger,
   children,
@@ -33,6 +37,8 @@ export function Popover({
     [onOpenChange],
   );
   const ref = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  usePlace(isOpen, ref, panelRef, side, align === 'right' ? 'end' : 'start', 6);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -56,6 +62,7 @@ export function Popover({
       <span onClick={() => setOpen(!isOpen)}>{trigger}</span>
       {isOpen && (
         <div
+          ref={panelRef}
           className={cn(
             'cp-popover__content',
             align === 'right' && 'cp-popover__content--right',

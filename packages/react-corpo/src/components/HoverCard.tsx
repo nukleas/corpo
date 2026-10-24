@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
+import { usePlace } from '../lib/place';
 
 const OPEN_DELAY = 500;
 const CLOSE_DELAY = 200;
@@ -26,6 +27,9 @@ export interface HoverCardProps {
 export function HoverCard({ content, children, align = 'left', side = 'bottom', className }: HoverCardProps) {
   const [open, setOpen] = useState(false);
   const timer = useRef<number | undefined>(undefined);
+  const rootRef = useRef<HTMLSpanElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  usePlace(open, rootRef, panelRef, side, align === 'right' ? 'end' : 'start', 6);
 
   const schedule = (next: boolean, delay: number) => {
     window.clearTimeout(timer.current);
@@ -45,6 +49,7 @@ export function HoverCard({ content, children, align = 'left', side = 'bottom', 
 
   return (
     <span
+      ref={rootRef}
       className={cn('cp-popover', className)}
       onMouseEnter={() => schedule(true, OPEN_DELAY)}
       onMouseLeave={() => schedule(false, CLOSE_DELAY)}
@@ -56,6 +61,7 @@ export function HoverCard({ content, children, align = 'left', side = 'bottom', 
       {children}
       {open && (
         <div
+          ref={panelRef}
           className={cn(
             'cp-popover__content',
             align === 'right' && 'cp-popover__content--right',

@@ -90,6 +90,12 @@ examples/console.html  composed admin-console example using every component fami
 3. Prefer `@media (max-width: ...)` (desktop-first), matching existing rules.
 4. Prefer fluid CSS (`flex-wrap`, `minmax()`/`auto-fit` grids, `max-width` caps) over a literal
    breakpoint wherever it's sufficient — only reach for a breakpoint for genuine structural changes.
+5. `@media (pointer: coarse)` may raise `--corpo-control-h` and `--corpo-control-h-sm` on `:root`
+   (literal `44px`, in `components/touch.css`). That is a token override, not a width breakpoint.
+   Fine pointers keep the 36px / 28px density.
+6. Container queries use the same `768px` and `480px` literals inside `@container`, on an ancestor
+   (`container-type: inline-size`). A grid does not query itself. Do not also keep a viewport rule
+   that repeats the same collapse.
 
 ## Dev workflow
 

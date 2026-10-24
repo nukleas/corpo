@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from '@storybook/test';
 import { DatePicker } from './DatePicker';
 import { Field } from './Field';
 import { FormGrid, FormSection } from './FormGrid';
@@ -19,8 +20,9 @@ export default meta;
 type Story = StoryObj<typeof FormSection>;
 
 /**
- * A record form in titled sections. Fields flow into columns; `span` widens one. Columns step down
- * to two below 768px and one below 480px — resize the canvas to see it.
+ * A record form in titled sections. Fields flow into columns; `span` widens one. Columns follow
+ * the form's width, not the viewport: three and four become two at 768px, and every grid becomes
+ * one column at 480px. Narrow the container, not the window.
  */
 export const Sections: Story = {
   render: () => {
@@ -86,4 +88,54 @@ export const Grid: Story = {
       </Field>
     </FormGrid>
   ),
+};
+
+function columnCount(root: Element | null): number {
+  const grid = root?.querySelector('.cp-form-grid');
+  if (!grid) return 0;
+  return getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length;
+}
+
+/** A 4-column grid stays four across a wide container and stacks in a narrow one. */
+export const Container: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <FormGrid columns={4} data-testid="wide" style={{ width: 880 }}>
+        <Field label="Wide one">
+          <Input defaultValue="A" />
+        </Field>
+        <Field label="Wide two">
+          <Input defaultValue="B" />
+        </Field>
+        <Field label="Wide three">
+          <Input defaultValue="C" />
+        </Field>
+        <Field label="Wide four">
+          <Input defaultValue="D" />
+        </Field>
+      </FormGrid>
+      <FormGrid columns={4} data-testid="narrow" style={{ width: 320 }}>
+        <Field label="Narrow one">
+          <Input defaultValue="A" />
+        </Field>
+        <Field label="Narrow two">
+          <Input defaultValue="B" />
+        </Field>
+        <Field label="Narrow three">
+          <Input defaultValue="C" />
+        </Field>
+        <Field label="Narrow four">
+          <Input defaultValue="D" />
+        </Field>
+      </FormGrid>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const wide = canvasElement.querySelector('[data-testid="wide"]');
+    const narrow = canvasElement.querySelector('[data-testid="narrow"]');
+    await expect(wide).toBeTruthy();
+    await expect(narrow).toBeTruthy();
+    await expect(columnCount(wide)).toBe(4);
+    await expect(columnCount(narrow)).toBe(1);
+  },
 };

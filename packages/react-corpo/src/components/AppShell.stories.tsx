@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { AppShell } from './AppShell';
+import { BottomNav } from './BottomNav';
 import { SideNav } from './SideNav';
 import { Topbar } from './Topbar';
 import { Avatar } from './Avatar';
@@ -45,6 +46,7 @@ function ShellDemo() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
+          aria-label="Sections"
           brand="Halcyon Group"
           sections={SECTIONS}
           activeId={activeId}
@@ -80,12 +82,26 @@ function ShellDemo() {
             <Stat label="Average days to pay" value="21" />
           </div>
         </AppShell.Content>
+        <BottomNav
+          aria-label="Primary"
+          activeId={activeId}
+          onSelect={(id) => {
+            setActiveId(id);
+            setNavOpen(false);
+          }}
+          items={[
+            { id: 'overview', label: 'Overview', icon: <span aria-hidden="true" /> },
+            { id: 'invoices', label: 'Invoices', icon: <span aria-hidden="true" /> },
+            { id: 'payments', label: 'Payments', icon: <span aria-hidden="true" /> },
+            { id: 'reports', label: 'Reports', icon: <span aria-hidden="true" /> },
+          ]}
+        />
       </AppShell.Main>
     </AppShell>
   );
 }
 
-/** Resize below 768px to see the off-canvas sidebar — the topbar toggle opens it, the scrim or an item click closes it. */
+/** Resize below 768px: the sidebar becomes a drawer, and the bottom nav is the phone bar. */
 export const Default: Story = {
   render: () => <ShellDemo />,
 };

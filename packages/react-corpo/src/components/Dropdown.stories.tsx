@@ -27,6 +27,37 @@ type Story = StoryObj<typeof Dropdown>;
 export const Default: Story = {};
 export const RightAligned: Story = { args: { align: 'right' } };
 
+/** A menu anchored at the bottom-right corner flips up and shifts left, staying inside the viewport. */
+export const StaysInView: Story = {
+  render: () => (
+    <div style={{ position: 'fixed', right: 8, bottom: 8 }}>
+      <Dropdown
+        trigger={<Button>Open menu</Button>}
+        items={[
+          { id: 'copy', label: 'Copy reference' },
+          { id: 'export', label: 'Export month' },
+          { id: 'archive', label: 'Archive year' },
+          { id: 'move', label: 'Move to entity' },
+        ]}
+      />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open menu' });
+    await userEvent.click(trigger);
+    const menu = canvas.getByRole('menu');
+    const box = menu.getBoundingClientRect();
+    const triggerBox = trigger.getBoundingClientRect();
+    await expect(box.left).toBeGreaterThanOrEqual(-1);
+    await expect(box.top).toBeGreaterThanOrEqual(-1);
+    await expect(box.right).toBeLessThanOrEqual(window.innerWidth + 1);
+    await expect(box.bottom).toBeLessThanOrEqual(window.innerHeight + 1);
+    await expect(box.bottom).toBeLessThanOrEqual(triggerBox.top + 1);
+    await userEvent.keyboard('{Escape}');
+  },
+};
+
 /** Keyboard: ArrowDown opens on the first item, arrows skip disabled items, Escape returns focus to the trigger. */
 export const Keyboard: Story = {
   args: {

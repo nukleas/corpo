@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { cx } from './cx';
+import { usePlace } from './place';
 
 export interface PopoverProps {
   trigger: ReactNode;
@@ -31,6 +32,8 @@ export function Popover({
     [onOpenChange],
   );
   const ref = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  usePlace(isOpen, ref, panelRef, side, align === 'right' ? 'end' : 'start', 6);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -54,6 +57,7 @@ export function Popover({
       <span onClick={() => setOpen(!isOpen)}>{trigger}</span>
       {isOpen && (
         <div
+          ref={panelRef}
           className={cx(
             'cp-popover__content',
             align === 'right' && 'cp-popover__content--right',

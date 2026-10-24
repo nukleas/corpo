@@ -9,12 +9,23 @@ export interface TopbarProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> 
    * wire it to {@link AppShell}'s `navOpen`.
    */
   onNavToggle?: () => void;
-  /** Right-aligned action row — buttons, search, an {@link Avatar}. */
+  /** Right-aligned action row — buttons, search, an {@link Avatar}. Stays on screen. */
   actions?: ReactNode;
+  /**
+   * Link row — a {@link NavigationMenu} or a row of links. It scrolls inside
+   * the bar instead of widening the page. Do not put tools here; use `actions`.
+   */
   children?: ReactNode;
 }
 
-/** Application topbar — mobile nav toggle, title, and right-aligned actions. */
+/**
+ * Application topbar — mobile nav toggle, title, link row, and right-aligned actions.
+ *
+ * Top-nav contract: the bar is `min-width: 0` and does not widen the page.
+ * Children render in `.cp-topbar__nav`, a nowrap row that scrolls horizontally
+ * with an edge fade only when the links overflow. `.cp-topbar__actions` does
+ * not shrink and stays visible. The bar does not wrap onto a second row.
+ */
 export function Topbar({ title, onNavToggle, actions, className, children, ...rest }: TopbarProps) {
   return (
     <header className={cn('cp-topbar', className)} {...rest}>
@@ -24,7 +35,7 @@ export function Topbar({ title, onNavToggle, actions, className, children, ...re
         </button>
       )}
       {title != null && <div className="cp-topbar__title">{title}</div>}
-      {children}
+      {children != null && <div className="cp-topbar__nav">{children}</div>}
       <div className="cp-topbar__spacer" />
       {actions != null && <div className="cp-topbar__actions">{actions}</div>}
     </header>

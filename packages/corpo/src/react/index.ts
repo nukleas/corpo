@@ -8,6 +8,7 @@ export * from './Switch';
 export * from './Label';
 export * from './Field';
 export * from './Card';
+export * from './CardGrid';
 export * from './Badge';
 export * from './Table';
 export * from './DataTable';

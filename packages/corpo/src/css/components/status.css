@@ -34,6 +34,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  min-width: 0;
+  max-width: 100%;
   padding: 8px 14px;
   background: var(--corpo-bg-inset);
   border: 1px solid var(--corpo-border-dim);
@@ -44,8 +46,10 @@
 }
 .cp-status-bar__item {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 .cp-status-bar__label {
   text-transform: uppercase;

@@ -13,7 +13,7 @@ export interface StatusBarProps extends HTMLAttributes<HTMLDivElement> {
 
 export function StatusBar({ items, className = '', ...rest }: StatusBarProps) {
   return (
-    <div className={cx('cp-status-bar', className)} {...rest}>
+    <div className={cx('cp-status-bar', className)} tabIndex={0} {...rest}>
       {items.map((item) => (
         <span key={item.id} className="cp-status-bar__item">
           <span className="cp-status-bar__label">{item.label}</span>
