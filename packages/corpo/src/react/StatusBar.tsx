@@ -13,6 +13,7 @@ export interface StatusBarProps extends HTMLAttributes<HTMLDivElement> {
 
 export function StatusBar({ items, className = '', ...rest }: StatusBarProps) {
   return (
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scroll container must be focusable for keyboard scrolling (WCAG 2.1.1)
     <div className={cx('cp-status-bar', className)} tabIndex={0} {...rest}>
       {items.map((item) => (
         <span key={item.id} className="cp-status-bar__item">
