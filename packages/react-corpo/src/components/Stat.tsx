@@ -2,7 +2,7 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 
 export interface StatProps extends HTMLAttributes<HTMLDivElement> {
-  /** Uppercase mono label. */
+  /** Sentence-case label. */
   label: ReactNode;
   /** Main value, rendered mono with tabular nums. */
   value: ReactNode;
@@ -14,7 +14,7 @@ export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   hint?: ReactNode;
 }
 
-/** Corpo KPI stat — mono label over a large tabular-nums value with an optional delta. */
+/** Corpo KPI stat — sentence-case label over a large tabular-nums value with an optional delta. */
 export function Stat({ label, value, delta, deltaTone = 'neutral', hint, className, ...rest }: StatProps) {
   return (
     <div className={cn('cp-stat', className)} {...rest}>

@@ -19,7 +19,7 @@
   bottom: 0;
   width: 100%;
   max-width: 400px;
-  border-left: 1px solid var(--corpo-border);
+  border-left: 1px solid var(--corpo-border-dim);
 }
 .cp-sheet--left {
   top: 0;
@@ -27,14 +27,14 @@
   bottom: 0;
   width: 100%;
   max-width: 400px;
-  border-right: 1px solid var(--corpo-border);
+  border-right: 1px solid var(--corpo-border-dim);
 }
 .cp-sheet--bottom {
   left: 0;
   right: 0;
   bottom: 0;
   max-height: 80vh;
-  border-top: 1px solid var(--corpo-border);
+  border-top: 1px solid var(--corpo-border-dim);
   border-radius: var(--corpo-radius-lg) var(--corpo-radius-lg) 0 0;
 }
 
@@ -48,11 +48,11 @@
 }
 .cp-sheet__title {
   margin: 0;
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-sm);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--corpo-text);
 }
 .cp-sheet__close {

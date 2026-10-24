@@ -8,7 +8,7 @@
   height: 36px;
   border-radius: 50%;
   background: var(--corpo-accent-subtle);
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
   font-family: var(--corpo-font-mono);
   font-weight: 700;
   font-size: var(--corpo-text-xs);

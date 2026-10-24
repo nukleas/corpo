@@ -2,7 +2,7 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 
 export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** Mono uppercase title in the header row. */
+  /** Sentence-case title in the header row. */
   title?: ReactNode;
   /** Muted description line under the title. */
   description?: ReactNode;

@@ -54,7 +54,7 @@
 }
 .cp-tree__row.is-selected {
   background: var(--corpo-accent-subtle);
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .cp-tree__row::before {
@@ -101,7 +101,7 @@
   transform: rotate(45deg);
 }
 .cp-tree__row.is-selected .cp-tree__chevron {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .cp-tree__item {

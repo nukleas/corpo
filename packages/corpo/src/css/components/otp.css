@@ -41,8 +41,8 @@
 }
 /* The focus indicator: the input itself is invisible, so the next slot to fill shows focus. */
 .cp-otp__slot--active {
-  border-color: var(--corpo-accent);
-  box-shadow: 0 0 0 1px var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+  box-shadow: 0 0 0 1px var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-otp--error .cp-otp__slot {
   border-color: var(--corpo-red);

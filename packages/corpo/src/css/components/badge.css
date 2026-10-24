@@ -7,11 +7,11 @@
   border-radius: var(--corpo-radius);
   background: var(--corpo-bg-inset);
   color: var(--corpo-text-muted);
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  text-transform: none;
+  letter-spacing: 0;
   white-space: nowrap;
   line-height: 1.6;
 }
@@ -23,7 +23,7 @@
 }
 
 .cp-badge--accent {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
   background: var(--corpo-accent-subtle);
   border-color: var(--corpo-accent-muted);
 }

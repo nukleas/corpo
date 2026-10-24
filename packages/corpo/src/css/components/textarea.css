@@ -19,17 +19,31 @@
 .cp-textarea:hover {
   border-color: var(--corpo-border-strong);
 }
-.cp-textarea:focus {
+.cp-textarea:focus,
+.cp-textarea:focus-visible {
   outline: none;
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-text, var(--corpo-accent));
+  box-shadow:
+    0 0 0 2px var(--corpo-bg-panel),
+    0 0 0 4px var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-textarea:disabled {
-  opacity: 0.45;
+  opacity: 1;
+  background: var(--corpo-bg-inset);
+  border-color: var(--corpo-border-dim);
+  color: var(--corpo-text-dim);
   cursor: not-allowed;
 }
 
 .cp-textarea--error,
-.cp-textarea--error:hover,
-.cp-textarea--error:focus {
+.cp-textarea--error:hover {
   border-color: var(--corpo-red);
+  box-shadow: none;
+}
+.cp-textarea--error:focus,
+.cp-textarea--error:focus-visible {
+  border-color: var(--corpo-red);
+  box-shadow:
+    0 0 0 2px var(--corpo-bg-panel),
+    0 0 0 4px var(--corpo-red);
 }

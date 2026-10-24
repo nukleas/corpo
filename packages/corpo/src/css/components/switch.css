@@ -69,6 +69,6 @@
 }
 
 .cp-switch__input:focus-visible ~ .cp-switch__track {
-  outline: 2px solid var(--corpo-accent);
+  outline: 2px solid var(--corpo-accent-text, var(--corpo-accent));
   outline-offset: 2px;
 }

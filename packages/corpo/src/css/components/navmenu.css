@@ -48,7 +48,7 @@
 }
 .cp-navmenu__link[aria-current='page'],
 .cp-navmenu__trigger.is-active {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-navmenu__chevron {
   font-size: 10px;
@@ -92,7 +92,7 @@
   font-weight: 600;
 }
 .cp-navmenu__panel-link[aria-current='page'] .cp-navmenu__panel-title {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-navmenu__panel-description {
   font-size: var(--corpo-text-xs);

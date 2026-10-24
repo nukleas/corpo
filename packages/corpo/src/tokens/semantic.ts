@@ -67,7 +67,7 @@ export const semanticTokens = {
   'accent-strong': '#0a5460',
   'accent-subtle': 'rgba(15, 111, 128, 0.09)',
   'accent-muted': 'rgba(15, 111, 128, 0.28)',
-  'accent-border': 'rgba(15, 111, 128, 0.35)', // accent @ 35% — card border treatment
+  'accent-border': 'rgba(15, 111, 128, 0.35)', // accent @ 35% — DataTable bulk bar only
   'on-accent': '#ffffff',
 
   // fonts
@@ -92,9 +92,9 @@ export const semanticTokens = {
   'control-h-sm': '28px',
   'control-h-lg': '44px',
 
-  // geometry — controls get 2px, surfaces 4px (the Switch pill is the single rounded exception)
-  radius: '2px',
-  'radius-lg': '4px',
+  // geometry — controls get 6px, surfaces 8px (the Switch pill is the single rounded exception)
+  radius: '6px',
+  'radius-lg': '8px',
 
   // shadows — quiet elevation, no neon glow
   'shadow-sm': '0 1px 2px rgba(16, 22, 35, 0.06)',
