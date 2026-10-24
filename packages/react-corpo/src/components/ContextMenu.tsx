@@ -1,6 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { MenuList, type MenuCloseReason } from '../lib/MenuList';
+import { placeElement } from '../lib/place';
 import type { MenuItem } from '../lib/types';
 
 export interface ContextMenuProps {
@@ -30,10 +31,8 @@ export function ContextMenu({ items, children, label = 'Actions' }: ContextMenuP
   useLayoutEffect(() => {
     if (!at) return;
     const el = document.getElementById(menuId);
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.left = `${Math.max(4, Math.min(at.x, window.innerWidth - r.width - 4))}px`;
-    el.style.top = `${Math.max(4, Math.min(at.y, window.innerHeight - r.height - 4))}px`;
+    if (!(el instanceof HTMLElement)) return;
+    placeElement(el, new DOMRect(at.x, at.y, 0, 0), 'bottom', 'start', 0);
   }, [at, menuId]);
 
   useEffect(() => {

@@ -33,7 +33,6 @@
 
   .console__page { display: none; flex-direction: column; gap: 16px; }
   .console__page[data-active="true"] { display: flex; }
-  .console__stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .console__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .console__form { display: flex; flex-direction: column; gap: 16px; max-width: 560px; }
 
@@ -100,12 +99,10 @@
     .console__header-actions .cp-kbd-group { display: none; }
     .console__search { width: auto; flex: 1 1 100px; min-width: 0; }
 
-    .console__stat-grid { grid-template-columns: repeat(2, 1fr); }
     .console__chart-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 480px) {
-    .console__stat-grid { grid-template-columns: 1fr; }
     .console__header .cp-breadcrumb__item:not(:last-child) { display: none; }
   }
 </style>
@@ -162,7 +159,7 @@
               <div class="cp-alert__body">The SAML signing certificate expires in 12 days. <a href="#">Rotate it now</a>.</div>
             </div>
           </div>
-          <div class="console__stat-grid">
+          <div class="cp-card-grid"><div class="cp-card-grid__track cp-card-grid__track--4">
             <div class="cp-card cp-card--flat"><div class="cp-card__body">
               <div class="cp-stat"><span class="cp-stat__label">Active members</span><span class="cp-stat__row"><span class="cp-stat__value">38</span><span class="cp-stat__delta cp-stat__delta--up">+3</span></span><span class="cp-stat__hint">of 50 seats</span></div>
             </div></div>
@@ -175,6 +172,7 @@
             <div class="cp-card cp-card--flat"><div class="cp-card__body">
               <div class="cp-stat"><span class="cp-stat__label">Uptime</span><span class="cp-stat__row"><span class="cp-stat__value">99.98%</span></span><span class="cp-stat__hint">rolling 90 days</span></div>
             </div></div>
+          </div>
           </div>
           <div class="cp-card">
             <div class="cp-card__header">
@@ -227,7 +225,7 @@
         </section>
 
         <section class="console__page" data-page="reports">
-          <div class="console__stat-grid">
+          <div class="cp-card-grid"><div class="cp-card-grid__track cp-card-grid__track--4">
             <div class="cp-card cp-card--flat"><div class="cp-card__body">
               <div class="cp-stat"><span class="cp-stat__label">Requests this month</span><span class="cp-stat__row"><span class="cp-stat__value">36</span><span class="cp-stat__delta cp-stat__delta--up">+9</span></span><span class="cp-stat__hint">vs. last month</span></div>
             </div></div>
@@ -240,6 +238,7 @@
             <div class="cp-card cp-card--flat"><div class="cp-card__body">
               <div class="cp-stat"><span class="cp-stat__label">SLA breaches</span><span class="cp-stat__row"><span class="cp-stat__value">2</span></span><span class="cp-stat__hint">last 30 days</span></div>
             </div></div>
+          </div>
           </div>
 
           <div class="console__chart-grid">

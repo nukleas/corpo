@@ -80,6 +80,7 @@ const preview: Preview = {
     (Story, context) => {
       const theme = String(context.globals.theme || 'teal');
       const dark = context.globals.dark === true || context.globals.dark === 'true';
+      const flush = context.parameters.corpoFlush === true;
       return (
         // @ts-expect-error decorator returns JSX; Storybook runtime handles this
         <div
@@ -88,8 +89,9 @@ const preview: Preview = {
             fontFamily: 'var(--corpo-font-sans)',
             color: 'var(--corpo-text)',
             background: 'var(--corpo-bg)',
-            padding: 24,
-            minWidth: 280,
+            padding: flush ? 0 : 24,
+            minWidth: flush ? 0 : 280,
+            minHeight: flush ? '100vh' : undefined,
           }}
         >
           <Story />

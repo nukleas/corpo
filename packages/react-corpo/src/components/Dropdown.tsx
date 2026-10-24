@@ -83,6 +83,8 @@ export function Dropdown({ trigger, items, align = 'left', className }: Dropdown
           items={items}
           initialFocus={open}
           className={cn(align === 'right' && 'cp-dropdown__menu--right')}
+          place
+          placeAlign={align === 'right' ? 'end' : 'start'}
           onClose={close}
         />
       )}

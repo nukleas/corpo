@@ -1,7 +1,10 @@
 .cp-menubar {
   display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 2px;
+  max-width: 100%;
+  min-width: 0;
   padding: 2px;
   background: var(--corpo-bg-panel);
   border: 1px solid var(--corpo-border);
@@ -9,6 +12,7 @@
 }
 .cp-menubar__menu {
   position: relative;
+  flex-shrink: 0;
 }
 .cp-menubar__trigger {
   height: 28px;

@@ -11,9 +11,13 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
 
 /**
  * Application page scaffold — compose with {@link AppShellSidebar} (hosting a
- * {@link SideNav}), and {@link AppShellMain} wrapping a {@link Topbar} plus
- * {@link AppShellContent}. The sidebar goes off-canvas below 768px; the host
- * owns `navOpen` (wire {@link Topbar}'s `onNavToggle` to it).
+ * {@link SideNav}), and {@link AppShellMain} wrapping a {@link Topbar}, an
+ * {@link AppShellContent}, and a {@link BottomNav}.
+ *
+ * Give the shell a height (the viewport). Below 768px the sidebar is an
+ * off-canvas drawer — the host owns `navOpen`, wired from {@link Topbar}'s
+ * `onNavToggle` — and {@link BottomNav} becomes the primary phone nav. The
+ * top bar stays. See Examples/Responsive app shell.
  */
 export function AppShell({ navOpen = false, onNavClose, className, children, ...rest }: AppShellProps) {
   return (

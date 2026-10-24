@@ -376,6 +376,9 @@ const bundle = [
   '/* Component: App shell (Shell + SideNav + Topbar) */\n',
   readCss('components/app-shell.css'),
   '\n',
+  '/* Touch targets + contained horizontal scroll */\n',
+  readCss('components/touch.css'),
+  '\n',
 ].join('');
 
 writeFileSync(join(DIST, 'corpo.css'), bundle);

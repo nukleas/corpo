@@ -1,5 +1,25 @@
 # Roadmap
 
+## Shipped — 0.5.0 responsive
+
+Minor bump. Three breaking changes, no compatibility shims:
+
+- **Form grids follow their container.** `.cp-form` and `.cp-form-section` are the inline-size
+  container. `.cp-form-grid--{2,3,4}` steps down to 2 columns at 768px and 1 column at 480px of
+  *that container*. `FormGrid` now wraps the grid in `.cp-form`. A standalone `.cp-form-grid`
+  without one of those ancestors no longer collapses with the viewport.
+- **Top bars no longer wrap at 480px.** Link rows (`.cp-topbar__nav`, `.cp-navmenu__list`,
+  `.cp-menubar`) stay on one line, scroll inside themselves, and fade at the edge only when they
+  overflow. `.cp-topbar__actions` stays on screen.
+- **Coarse pointers raise control height.** Under `@media (pointer: coarse)`, `--corpo-control-h`
+  and `--corpo-control-h-sm` are 44px. Fine pointers keep 36px / 28px.
+
+Also in this release: `CardGrid` (`.cp-card-grid`) collapses by its own container; the status bar
+scrolls inside itself instead of widening the page; menus, popovers, combobox lists, and nav panels
+flip and shift to stay in the viewport (no positioning dependency). The reference layout is the
+*Examples/Responsive app shell* story: top bar at every width, sidebar drawer below 768px, bottom
+nav on phones.
+
 ## Shipped — 80+ components
 
 **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Field, Label,

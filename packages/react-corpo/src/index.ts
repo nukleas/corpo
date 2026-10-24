@@ -20,6 +20,7 @@ export * from './components/Switch';
 export * from './components/Label';
 export * from './components/Field';
 export * from './components/Card';
+export * from './components/CardGrid';
 export * from './components/Badge';
 export * from './components/Table';
 export * from './components/DataTable';

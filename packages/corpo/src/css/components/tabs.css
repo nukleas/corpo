@@ -14,7 +14,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 36px;
+  height: var(--corpo-control-h);
   padding: 0 14px;
   background: none;
   border: none;

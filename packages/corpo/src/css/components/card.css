@@ -50,3 +50,40 @@
   padding: 10px 16px 14px;
   border-top: 1px solid var(--corpo-border-dim);
 }
+
+/* Card and stat grids. The outer element is the container, so the track
+   collapses by the grid's width — a narrow aside stacks even on a wide screen.
+   Same steps as the form grid: 3 and 4 become 2 at 768px, everything becomes
+   1 at 480px. */
+.cp-card-grid {
+  container-type: inline-size;
+  container-name: cp-card-grid;
+  min-width: 0;
+}
+.cp-card-grid__track {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+.cp-card-grid__track--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.cp-card-grid__track--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.cp-card-grid__track--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@container cp-card-grid (max-width: 768px) {
+  .cp-card-grid__track--3,
+  .cp-card-grid__track--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container cp-card-grid (max-width: 480px) {
+  .cp-card-grid__track--2,
+  .cp-card-grid__track--3,
+  .cp-card-grid__track--4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

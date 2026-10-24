@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { cx } from './cx';
+import { usePlace } from './place';
 
 export interface ComboboxOption {
   value: string;
@@ -35,6 +36,8 @@ export function useCombobox(config: UseComboboxConfig) {
   const [query, setQueryState] = useState('');
   const [active, setActive] = useState(0);
   const root = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  usePlace(open, root, listRef, 'bottom', 'start', 4, true);
   const listId = useId();
 
   const setQuery = (next: string) => {
@@ -110,7 +113,7 @@ export function useCombobox(config: UseComboboxConfig) {
   const message = loading ? 'Searching…' : count === 0 ? emptyText : null;
 
   const popup = open && (
-    <div className="cp-combobox__list">
+    <div ref={listRef} className="cp-combobox__list">
       <div id={listId} role="listbox" aria-multiselectable={multiselectable || undefined}>
         {matches.map((o, i) => {
           const selected = isSelected(o.value);

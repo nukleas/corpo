@@ -7,8 +7,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 28px;
-  height: 28px;
+  min-width: var(--corpo-control-h-sm);
+  height: var(--corpo-control-h-sm);
   padding: 0 6px;
   border: 1px solid var(--corpo-border);
   border-radius: var(--corpo-radius);

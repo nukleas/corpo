@@ -2,7 +2,11 @@ import type { FieldsetHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 
 export interface FormGridProps extends HTMLAttributes<HTMLDivElement> {
-  /** Column count; steps down to 2 below 768px and 1 below 480px. @default 2 */
+  /**
+   * Column count at a wide container. Steps down to 2 when the container is
+   * at most 768px and to 1 at most 480px. The container is this component,
+   * not the viewport. @default 2
+   */
   columns?: 1 | 2 | 3 | 4;
   children?: ReactNode;
 }
@@ -10,11 +14,15 @@ export interface FormGridProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Corpo form grid — lays {@link Field}s out in columns for dense record
  * forms. A field spans more columns with its `span` prop.
+ *
+ * The root is `.cp-form`, an inline-size container. `.cp-form-grid` inside it
+ * collapses by that container's width. A grid in a narrow aside stacks even
+ * on a wide screen.
  */
 export function FormGrid({ columns = 2, className, children, ...rest }: FormGridProps) {
   return (
-    <div className={cn('cp-form-grid', columns > 1 && `cp-form-grid--${columns}`, className)} {...rest}>
-      {children}
+    <div className={cn('cp-form', className)} {...rest}>
+      <div className={cn('cp-form-grid', columns > 1 && `cp-form-grid--${columns}`)}>{children}</div>
     </div>
   );
 }
