@@ -10,7 +10,7 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   children?: ReactNode;
 }
 
-/** Corpo badge — bordered mono uppercase chip at AA contrast. */
+/** Corpo badge — bordered sentence-case chip at AA contrast. */
 export function Badge({ color = 'neutral', dot = false, className, children, ...rest }: BadgeProps) {
   return (
     <span className={cn('cp-badge', color !== 'neutral' && `cp-badge--${color}`, className)} {...rest}>

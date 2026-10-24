@@ -1,4 +1,13 @@
-// Heritage dark scope (.corpo-dark) — desaturated Cyberdesign surfaces for dark-context consumers.
+// Dark scope (.corpo-dark). Surfaces stay the desaturated set. The accent is split
+// because one teal cannot be both a fill under white text and readable text on
+// these surfaces (WCAG 2.1 AA, measured):
+//   accent #0f6f80 — solid fills. White on it is 5.82:1. As text on #151b24 it is 2.97:1.
+//   accent-edge #1a7f90 — borders and other non-text edges. 3.69:1 on #151b24, 3.33:1 on
+//     #1c2431, 4.01:1 on #0e1218. White on it as a hover fill is 4.68:1.
+//   accent-text #62b0bb — links, selected labels, focus rings. 7.55:1 on #0e1218,
+//     6.96:1 on #151b24, 6.28:1 on #1c2431, 5.98:1 on the 18% subtle mix. Not used on light.
+// Light mode and the amber/green/red/steel themes do not set accent-text or accent-edge;
+// CSS falls back to accent.
 export const darkTheme = {
   bg: '#0e1218',
   'bg-panel': '#151b24',
@@ -11,11 +20,13 @@ export const darkTheme = {
   'text-secondary': '#b6c1d1',
   'text-muted': '#93a1b5',
   'text-dim': '#7c8ba1', // AA (≥4.5:1) on dark surfaces — was #6d7c92 (4.1:1, sub-AA)
-  accent: '#54c3d4',
-  'accent-strong': '#7fd6e3',
-  'accent-subtle': 'rgba(84, 195, 212, 0.12)',
-  'accent-muted': 'rgba(84, 195, 212, 0.34)',
-  'on-accent': '#0e1218',
+  accent: '#0f6f80',
+  'accent-strong': '#1a7f90',
+  'accent-edge': '#1a7f90',
+  'accent-text': '#62b0bb',
+  'accent-subtle': 'rgba(15, 111, 128, 0.18)',
+  'accent-muted': 'rgba(15, 111, 128, 0.40)',
+  'on-accent': '#ffffff',
   green: '#4cc088',
   red: '#f26d88',
   amber: '#d9a03c',

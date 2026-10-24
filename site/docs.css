@@ -17,7 +17,7 @@ body {
 }
 
 .docs-prose h1 {
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-xl);
   letter-spacing: -0.01em;
   margin: 0 0 8px;
@@ -51,7 +51,7 @@ body {
 }
 
 .docs-prose a {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .docs-prose code {

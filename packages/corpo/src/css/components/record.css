@@ -70,11 +70,11 @@
   min-width: 0;
 }
 .cp-record__fact-label {
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
-  letter-spacing: var(--corpo-label-tracking);
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--corpo-text-muted);
 }
 .cp-record__fact-value {

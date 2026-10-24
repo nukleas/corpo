@@ -1,4 +1,5 @@
 .cp-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -9,11 +10,11 @@
   border-radius: var(--corpo-radius);
   background: var(--corpo-bg-panel);
   color: var(--corpo-text-secondary);
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-sm);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  letter-spacing: 0;
+  text-transform: none;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
@@ -23,17 +24,26 @@
     border-color var(--corpo-dur-fast) var(--corpo-ease),
     background var(--corpo-dur-fast) var(--corpo-ease);
 }
+.cp-btn__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: 100%;
+}
 .cp-btn:hover {
-  background: var(--corpo-accent-subtle);
-  border-color: var(--corpo-accent);
-  color: var(--corpo-accent);
+  background: var(--corpo-bg-panel-hover);
+  border-color: var(--corpo-border-strong);
+  color: var(--corpo-text-secondary);
 }
 .cp-btn:active {
-  transform: translateY(1px);
+  background: var(--corpo-bg-inset);
 }
-.cp-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
+.cp-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--corpo-bg-panel),
+    0 0 0 4px var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .cp-btn--sm {
@@ -65,6 +75,16 @@
 .cp-btn--primary:hover,
 .cp-btn--primary:active {
   background: var(--corpo-accent-strong);
+  color: var(--corpo-on-accent);
+}
+.corpo-dark .cp-btn--primary {
+  border-color: var(--corpo-accent-edge);
+}
+.corpo-dark .cp-btn--primary:hover,
+.corpo-dark .cp-btn--primary:active {
+  background: var(--corpo-accent-strong);
+  border-color: var(--corpo-accent-edge);
+  color: var(--corpo-on-accent);
 }
 
 .cp-btn--ghost {
@@ -72,7 +92,8 @@
   border-color: transparent;
   color: var(--corpo-text-secondary);
 }
-.cp-btn--ghost:hover {
+.cp-btn--ghost:hover,
+.cp-btn--ghost:active {
   background: var(--corpo-bg-panel-hover);
   border-color: transparent;
   color: var(--corpo-text);
@@ -81,8 +102,69 @@
 .cp-btn--danger {
   color: var(--corpo-red);
 }
-.cp-btn--danger:hover {
+.cp-btn--danger:hover,
+.cp-btn--danger:active {
   background: var(--corpo-red-subtle);
   border-color: var(--corpo-red);
   color: var(--corpo-red);
+}
+
+.cp-btn:disabled,
+.cp-btn--primary:disabled,
+.cp-btn--ghost:disabled,
+.cp-btn--danger:disabled,
+.corpo-dark .cp-btn--primary:disabled {
+  opacity: 1;
+  background: var(--corpo-bg-inset);
+  border-color: var(--corpo-border-dim);
+  color: var(--corpo-text-dim);
+  cursor: not-allowed;
+}
+
+/* Loading keeps the idle colors. :disabled would otherwise paint the muted treatment. */
+.cp-btn--loading:disabled,
+.cp-btn[aria-busy='true']:disabled {
+  cursor: progress;
+  opacity: 1;
+  background: var(--corpo-bg-panel);
+  border-color: var(--corpo-border);
+  color: var(--corpo-text-secondary);
+}
+.cp-btn--primary.cp-btn--loading:disabled,
+.cp-btn--primary[aria-busy='true']:disabled {
+  background: var(--corpo-accent);
+  border-color: transparent;
+  color: var(--corpo-on-accent);
+}
+.corpo-dark .cp-btn--primary.cp-btn--loading:disabled,
+.corpo-dark .cp-btn--primary[aria-busy='true']:disabled {
+  border-color: var(--corpo-accent-edge);
+}
+.cp-btn--ghost.cp-btn--loading:disabled,
+.cp-btn--ghost[aria-busy='true']:disabled {
+  background: transparent;
+  border-color: transparent;
+  color: var(--corpo-text-secondary);
+}
+.cp-btn--danger.cp-btn--loading:disabled,
+.cp-btn--danger[aria-busy='true']:disabled {
+  background: var(--corpo-bg-panel);
+  border-color: var(--corpo-border);
+  color: var(--corpo-red);
+}
+.cp-btn--loading .cp-btn__label {
+  visibility: hidden;
+}
+.cp-btn__busy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cp-btn__busy .cp-spinner__ring {
+  width: 14px;
+  height: 14px;
+  border-color: transparent;
+  border-top-color: currentColor;
 }

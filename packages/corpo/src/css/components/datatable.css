@@ -63,7 +63,7 @@ th[aria-sort] .cp-table__sort {
   color: var(--corpo-text);
 }
 th[aria-sort] .cp-table__sort-icon {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 /* Selection column stays as narrow as its checkbox */

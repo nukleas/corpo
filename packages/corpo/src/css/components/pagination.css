@@ -24,8 +24,8 @@
     background var(--corpo-dur-fast) var(--corpo-ease);
 }
 .cp-pagination__btn:hover:not(:disabled):not([aria-disabled='true']) {
-  border-color: var(--corpo-accent);
-  color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+  color: var(--corpo-accent-text, var(--corpo-accent));
   background: var(--corpo-accent-subtle);
 }
 .cp-pagination__btn:disabled,

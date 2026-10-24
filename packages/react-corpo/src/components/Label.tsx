@@ -7,7 +7,7 @@ export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   children?: ReactNode;
 }
 
-/** Corpo form label — the uppercase mono micro-label. */
+/** Corpo form label — Public Sans, sentence case. */
 export function Label({ required = false, className, children, ...rest }: LabelProps) {
   return (
     <label className={cn('cp-label', className)} {...rest}>

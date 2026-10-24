@@ -12,7 +12,7 @@ export interface StatusBarProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Corpo status bar — a row of mono label/value readouts, e.g. a footer
+ * Corpo status bar — a row of sentence-case labels and mono values, e.g. a footer
  * system-status strip. The bar is `min-width: 0` and scrolls horizontally
  * inside itself. An edge fade appears only when the items overflow, so a long
  * strip never widens the page. The bar is a tab stop so a keyboard user can

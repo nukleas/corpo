@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   background: var(--corpo-bg-panel);
-  border: 1px solid var(--corpo-accent-border);
+  border: 1px solid var(--corpo-border-dim);
   border-radius: var(--corpo-radius-lg);
   box-shadow: var(--corpo-shadow-sm);
   color: var(--corpo-text);
@@ -26,11 +26,11 @@
 }
 .cp-card__title {
   margin: 0;
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--corpo-text-secondary);
 }
 .cp-card__description {

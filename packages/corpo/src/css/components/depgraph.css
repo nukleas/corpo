@@ -91,7 +91,7 @@
 }
 
 .cp-depgraph-edge.is-related {
-  stroke: var(--corpo-accent);
+  stroke: var(--corpo-accent-text, var(--corpo-accent));
   stroke-width: 2;
 }
 
@@ -172,7 +172,7 @@
 
 .cp-depgraph-node:focus-visible .cp-depgraph-node__frame,
 .cp-depgraph-node.is-selected .cp-depgraph-node__frame {
-  stroke: var(--corpo-accent);
+  stroke: var(--corpo-accent-text, var(--corpo-accent));
   stroke-width: 2;
 }
 

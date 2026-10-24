@@ -52,8 +52,10 @@
   white-space: nowrap;
 }
 .cp-status-bar__label {
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  font-family: var(--corpo-font-sans);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
 }
 .cp-status-bar__value {
   color: var(--corpo-text);

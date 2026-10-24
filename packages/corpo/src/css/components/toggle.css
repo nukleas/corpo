@@ -22,8 +22,8 @@
 }
 .cp-toggle[aria-pressed='true'] {
   background: var(--corpo-accent-subtle);
-  border-color: var(--corpo-accent);
-  color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-toggle:disabled {
   opacity: 0.45;

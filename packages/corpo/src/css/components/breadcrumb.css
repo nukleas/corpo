@@ -30,7 +30,7 @@ button.cp-breadcrumb__link {
   cursor: pointer;
 }
 .cp-breadcrumb__link:hover {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-breadcrumb__current {
   color: var(--corpo-text);
