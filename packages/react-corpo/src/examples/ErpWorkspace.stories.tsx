@@ -2,7 +2,11 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within } from '@storybook/test';
 import { ActionBar } from '../components/ActionBar';
+import { ActivityLog, type ActivityEntry } from '../components/ActivityLog';
+import { Amount } from '../components/Amount';
+import { Approvals, type Approver } from '../components/Approvals';
 import { AppShell } from '../components/AppShell';
+import { AttachmentList, type Attachment } from '../components/AttachmentList';
 import { Avatar } from '../components/Avatar';
 import { Badge } from '../components/Badge';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -13,14 +17,17 @@ import { EntitySwitcher, type Entity } from '../components/EntitySwitcher';
 import { Field } from '../components/Field';
 import { FormGrid } from '../components/FormGrid';
 import { Input } from '../components/Input';
+import { LineItems, lineItemTotals, type LineItem, type LineItemProduct } from '../components/LineItems';
 import { ModuleLauncher, type LauncherModule } from '../components/ModuleLauncher';
 import { RecordPage } from '../components/RecordPage';
 import { RecordPager } from '../components/RecordPager';
 import { ShortcutKeys, ShortcutsProvider, useShortcut } from '../components/Shortcuts';
 import { SideNav, type SideNavItem, type SideNavSection } from '../components/SideNav';
 import { SplitButton } from '../components/SplitButton';
+import { Stepper } from '../components/Stepper';
 import { StatusPill } from '../components/StatusPill';
-import { Tabs } from '../components/Tabs';
+import { Table } from '../components/Table';
+import { Tabs, type TabItem } from '../components/Tabs';
 import { Topbar } from '../components/Topbar';
 import { useMediaQuery } from '../lib/useMediaQuery';
 
@@ -122,14 +129,171 @@ const MODULE_HOME = new Map([
   ['settings', 'settings'],
 ]);
 
-const ORDERS = [
-  { id: 'SO-2208', client: 'Calder & Bright', total: '$12,400.00', status: 'Confirmed', tone: 'ok' },
-  { id: 'SO-2209', client: 'Keel Marine Supply', total: '$860.00', status: 'Draft', tone: 'idle' },
-  { id: 'SO-2210', client: 'Ostara Foods', total: '$4,180.00', status: 'Draft', tone: 'idle' },
-  { id: 'SO-2211', client: 'Northwind Traders', total: '$2,397.44', status: 'Awaiting approval', tone: 'warn' },
-] as const;
+const PRODUCTS: LineItemProduct[] = [
+  { value: 'OIL-500', label: 'OIL-500 Olive oil, 5 L', description: 'Extra virgin, tin', unitPrice: 42, taxRate: 5 },
+  { value: 'FLR-250', label: 'FLR-250 Bread flour, 25 kg', description: 'Strong white', unitPrice: 31.5, taxRate: 0 },
+  { value: 'SPC-012', label: 'SPC-012 Spice kit', description: '12 jars, assorted', unitPrice: 64, taxRate: 20 },
+  {
+    value: 'PAL-001',
+    label: 'PAL-001 Pallet delivery',
+    description: 'Per pallet, next day',
+    unitPrice: 85,
+    taxRate: 20,
+  },
+  { value: 'BOX-060', label: 'BOX-060 Shipping cartons', description: 'Pack of 60', unitPrice: 18, taxRate: 20 },
+];
 
-const TABS = ['Details', 'Lines', 'Invoices', 'Deliveries', 'Payments', 'Attachments', 'Approvals', 'Activity'];
+const line = (id: string, product: string, quantity: number, discount: number | null = null): LineItem => {
+  const p = PRODUCTS.find((x) => x.value === product);
+  return {
+    id,
+    item: product,
+    description: p?.description ?? '',
+    quantity,
+    unitPrice: p?.unitPrice ?? null,
+    discount,
+    taxRate: p?.taxRate ?? null,
+  };
+};
+
+type Tone = 'ok' | 'warn' | 'err' | 'idle';
+
+interface OrderRecord {
+  id: string;
+  client: string;
+  status: string;
+  tone: Tone;
+  /** 0 picked … 3 delivered. */
+  stage: number;
+  /** Share of the total invoiced, and share of that paid. */
+  invoiced: number;
+  paid: number;
+  lines: LineItem[];
+  attachments: Attachment[];
+  approvers: Approver[];
+  history: ActivityEntry[];
+}
+
+const approvers = (sales: Approver['decision'], finance: Approver['decision']): Approver[] => [
+  {
+    id: 'sales',
+    name: 'Priya Natarajan',
+    role: 'Sales manager',
+    decision: sales,
+    decidedAt: sales === 'pending' ? undefined : 'Nov 4, 9:12 AM',
+  },
+  {
+    id: 'me',
+    name: 'Ana Sørensen',
+    role: 'Finance controller',
+    decision: finance,
+    decidedAt: finance === 'pending' ? undefined : 'Nov 4, 2:40 PM',
+  },
+];
+
+const SEED: OrderRecord[] = [
+  {
+    id: 'SO-2208',
+    client: 'Calder & Bright',
+    status: 'Confirmed',
+    tone: 'ok',
+    stage: 3,
+    invoiced: 1,
+    paid: 1,
+    lines: [line('l1', 'OIL-500', 120, 5), line('l2', 'SPC-012', 60), line('l3', 'PAL-001', 6)],
+    attachments: [
+      { id: 'a1', name: 'PO-55102.pdf', size: 182_400, uploadedBy: 'Calder & Bright', uploadedAt: 'Oct 28' },
+      { id: 'a2', name: 'Proof of delivery.jpg', size: 1_204_000, uploadedBy: 'Driver app', uploadedAt: 'Nov 6' },
+    ],
+    approvers: approvers('approved', 'approved'),
+    history: [
+      {
+        id: 'h1',
+        type: 'event',
+        title: 'Delivered to Calder & Bright, Leeds',
+        timestamp: 'Nov 6, 11:02 AM',
+        tone: 'ok',
+      },
+      { id: 'h2', type: 'event', title: 'Invoice INV-1061 paid', timestamp: 'Nov 5, 4:18 PM', tone: 'ok' },
+      {
+        id: 'h3',
+        type: 'change',
+        author: 'Priya Natarajan',
+        initials: 'PN',
+        timestamp: 'Oct 29, 10:30 AM',
+        changes: [{ field: 'Status', from: 'Draft', to: 'Confirmed' }],
+      },
+    ],
+  },
+  {
+    id: 'SO-2209',
+    client: 'Keel Marine Supply',
+    status: 'Draft',
+    tone: 'idle',
+    stage: 0,
+    invoiced: 0,
+    paid: 0,
+    lines: [line('l1', 'BOX-060', 20), line('l2', 'PAL-001', 2)],
+    attachments: [],
+    approvers: approvers('pending', 'pending'),
+    history: [
+      { id: 'h1', type: 'event', title: 'Order created from quote Q-0912', timestamp: 'Nov 7, 3:05 PM', tone: 'idle' },
+    ],
+  },
+  {
+    id: 'SO-2210',
+    client: 'Ostara Foods',
+    status: 'Draft',
+    tone: 'idle',
+    stage: 1,
+    invoiced: 0.5,
+    paid: 1,
+    lines: [line('l1', 'OIL-500', 40), line('l2', 'FLR-250', 30, 10), line('l3', 'PAL-001', 2)],
+    attachments: [
+      { id: 'a1', name: 'Ostara PO-77120.pdf', size: 96_000, uploadedBy: 'Ostara Foods', uploadedAt: 'Nov 3' },
+    ],
+    approvers: approvers('approved', 'pending'),
+    history: [
+      {
+        id: 'h1',
+        type: 'comment',
+        author: 'Priya Natarajan',
+        initials: 'PN',
+        timestamp: 'Nov 4, 9:14 AM',
+        body: 'Approved at list price. Deposit invoice sent; balance on delivery.',
+      },
+      {
+        id: 'h2',
+        type: 'change',
+        author: 'Priya Natarajan',
+        initials: 'PN',
+        timestamp: 'Nov 3, 4:40 PM',
+        changes: [{ field: 'Flour discount', from: '0%', to: '10%' }],
+      },
+      { id: 'h3', type: 'event', title: 'Order created from quote Q-0907', timestamp: 'Nov 3, 4:02 PM', tone: 'idle' },
+    ],
+  },
+  {
+    id: 'SO-2211',
+    client: 'Northwind Traders',
+    status: 'Awaiting approval',
+    tone: 'warn',
+    stage: 0,
+    invoiced: 0,
+    paid: 0,
+    lines: [line('l1', 'SPC-012', 25), line('l2', 'OIL-500', 15), line('l3', 'PAL-001', 1)],
+    attachments: [
+      { id: 'a1', name: 'Credit check.pdf', size: 41_200, uploadedBy: 'Ana Sørensen', uploadedAt: 'Nov 8' },
+    ],
+    approvers: approvers('approved', 'pending'),
+    history: [
+      { id: 'h1', type: 'event', title: 'Sent for finance approval', timestamp: 'Nov 8, 10:20 AM', tone: 'warn' },
+    ],
+  },
+];
+
+const money = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+const STAGES = [{ label: 'Picked' }, { label: 'Packed' }, { label: 'Shipped' }, { label: 'Delivered' }];
 
 const holds = (item: SideNavItem, page: string): boolean =>
   item.id === page || (item.items ?? []).some((child) => holds(child, page));
@@ -138,6 +302,268 @@ const holds = (item: SideNavItem, page: string): boolean =>
 function moduleOf(page: string): LauncherModule | undefined {
   const section = NAV[1]?.items.find((m) => holds(m, page));
   return MODULES.find((m) => m.id === section?.id);
+}
+
+const note = { margin: 0, fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-muted)' } as const;
+const stack = { display: 'flex', flexDirection: 'column', gap: 16 } as const;
+const now = () => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+/** The order's tabs. Each edits the record through `update`, and notable changes are logged to Activity. */
+function orderTabs(
+  order: OrderRecord,
+  total: number,
+  company: string,
+  update: (next: Partial<OrderRecord>) => void,
+  log: (entry: ActivityEntry) => void,
+): TabItem[] {
+  const event = (title: string, tone: Tone | 'info' = 'info') =>
+    log({ id: `e${Date.now()}`, type: 'event', title, timestamp: `Today, ${now()}`, tone });
+  const invoicedAmount = total * order.invoiced;
+  const paidAmount = invoicedAmount * order.paid;
+  const pendingApprovals = order.approvers.filter((a) => a.decision === 'pending').length;
+
+  const invoices =
+    order.invoiced === 0
+      ? []
+      : order.invoiced < 1
+        ? [{ no: 'INV-1072', what: 'Deposit (50%)', amount: invoicedAmount, paid: order.paid === 1 }]
+        : [{ no: 'INV-1061', what: 'Full order', amount: invoicedAmount, paid: order.paid === 1 }];
+
+  return [
+    {
+      id: 'details',
+      label: 'Details',
+      panel: (
+        <FormGrid columns={2}>
+          <Field label="Client">
+            <Input defaultValue={order.client} />
+          </Field>
+          <Field label="Client PO">
+            <Input defaultValue="PO-77120" />
+          </Field>
+          <Field label="Delivery date">
+            <Input defaultValue="Nov 24, 2026" />
+          </Field>
+          <Field label="Payment terms">
+            <Input defaultValue="Net 30" />
+          </Field>
+          <Field label="Selling company" hint="Change it with the company switcher, top left.">
+            <Input value={company} readOnly />
+          </Field>
+          <Field label="Salesperson">
+            <Input defaultValue="Priya Natarajan" />
+          </Field>
+        </FormGrid>
+      ),
+    },
+    {
+      id: 'lines',
+      label: 'Lines',
+      count: order.lines.length,
+      panel: (
+        <div style={stack}>
+          <p style={note}>Edit quantities or add a line — the total in the header follows.</p>
+          <LineItems value={order.lines} onChange={(lines) => update({ lines })} products={PRODUCTS} currency="$" />
+        </div>
+      ),
+    },
+    {
+      id: 'invoices',
+      label: 'Invoices',
+      count: invoices.length,
+      panel:
+        invoices.length === 0 ? (
+          <Empty
+            title="No invoices yet"
+            description="Invoice the full order now, or after delivery."
+            action={
+              <Button
+                onClick={() => {
+                  update({ invoiced: 1, paid: 0 });
+                  event(`Invoice INV-1080 created for ${money(total)}`);
+                }}
+              >
+                Create invoice
+              </Button>
+            }
+          />
+        ) : (
+          <Table
+            columns={[
+              { key: 'no', label: 'Invoice', mono: true },
+              { key: 'what', label: 'Description' },
+              { key: 'amount', label: 'Amount (USD)', numeric: true },
+              { key: 'status', label: 'Status' },
+            ]}
+            rows={invoices.map((inv) => ({
+              no: inv.no,
+              what: inv.what,
+              amount: { content: <Amount value={inv.amount} /> },
+              status: inv.paid ? { content: 'Paid', status: 'ok' } : { content: 'Open', status: 'warn' },
+            }))}
+          />
+        ),
+    },
+    {
+      id: 'deliveries',
+      label: 'Deliveries',
+      panel: (
+        <div style={stack}>
+          <Stepper items={STAGES} current={order.stage} />
+          {order.stage >= 2 ? (
+            <Table
+              columns={[
+                { key: 'no', label: 'Shipment', mono: true },
+                { key: 'carrier', label: 'Carrier' },
+                { key: 'pallets', label: 'Pallets', numeric: true },
+                { key: 'status', label: 'Status' },
+              ]}
+              rows={[
+                {
+                  no: `SH-${order.id.slice(3)}-1`,
+                  carrier: 'Northline Freight',
+                  pallets: String(order.lines.find((l) => l.item === 'PAL-001')?.quantity ?? 1),
+                  status:
+                    order.stage === 3
+                      ? { content: 'Delivered', status: 'ok' }
+                      : { content: 'In transit', status: 'warn' },
+                },
+              ]}
+            />
+          ) : (
+            <p style={note}>Nothing has shipped yet.</p>
+          )}
+          {order.stage < 3 && (
+            <div>
+              <Button
+                onClick={() => {
+                  const stage = order.stage + 1;
+                  update({ stage });
+                  event(`Marked ${STAGES[stage]?.label.toLowerCase()}`, stage === 3 ? 'ok' : 'info');
+                }}
+              >
+                Mark {STAGES[order.stage + 1]?.label.toLowerCase()}
+              </Button>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      id: 'payments',
+      label: 'Payments',
+      panel: (
+        <div style={stack}>
+          <Table
+            columns={[
+              { key: 'what', label: '' },
+              { key: 'amount', label: 'Amount (USD)', numeric: true },
+            ]}
+            rows={[
+              { what: 'Order total', amount: { content: <Amount value={total} /> } },
+              { what: 'Invoiced', amount: { content: <Amount value={invoicedAmount} zeroDash /> } },
+              { what: 'Received', amount: { content: <Amount value={paidAmount} zeroDash /> } },
+              {
+                what: 'Balance due',
+                amount: {
+                  content: (
+                    <strong>
+                      <Amount value={total - paidAmount} zeroDash />
+                    </strong>
+                  ),
+                },
+              },
+            ]}
+          />
+          {invoicedAmount - paidAmount > 0 && (
+            <div>
+              <Button
+                onClick={() => {
+                  update({ paid: 1 });
+                  event(`Payment of ${money(invoicedAmount - paidAmount)} received`, 'ok');
+                }}
+              >
+                Record payment
+              </Button>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      id: 'attachments',
+      label: 'Attachments',
+      count: order.attachments.length,
+      panel: (
+        <AttachmentList
+          attachments={order.attachments}
+          onRemove={(id) => update({ attachments: order.attachments.filter((a) => a.id !== id) })}
+          onAdd={(files) =>
+            update({
+              attachments: [
+                ...order.attachments,
+                ...files.map((f, n) => ({
+                  id: `up${Date.now()}${n}`,
+                  name: f.name,
+                  size: f.size,
+                  uploadedBy: 'Ana Sørensen',
+                  uploadedAt: 'Just now',
+                })),
+              ],
+            })
+          }
+        />
+      ),
+    },
+    {
+      id: 'approvals',
+      label: 'Approvals',
+      count: pendingApprovals || undefined,
+      panel: (
+        <Approvals
+          approvers={order.approvers}
+          actorId="me"
+          onDecide={(decision, comment) => {
+            const next = order.approvers.map((a) =>
+              a.id === 'me' ? { ...a, decision, comment: comment || undefined, decidedAt: `Today, ${now()}` } : a,
+            );
+            const approved = next.every((a) => a.decision === 'approved');
+            const outcome: Partial<OrderRecord> =
+              decision === 'rejected'
+                ? { status: 'Rejected', tone: 'err' }
+                : approved
+                  ? { status: 'Approved', tone: 'ok' }
+                  : {};
+            update({ approvers: next, ...outcome });
+            event(
+              decision === 'approved' ? 'Approved by finance' : 'Rejected by finance',
+              decision === 'approved' ? 'ok' : 'err',
+            );
+          }}
+        />
+      ),
+    },
+    {
+      id: 'activity',
+      label: 'Activity',
+      count: order.history.length,
+      panel: (
+        <ActivityLog
+          entries={order.history}
+          onComment={(body) =>
+            log({
+              id: `c${Date.now()}`,
+              type: 'comment',
+              author: 'Ana Sørensen',
+              initials: 'AS',
+              timestamp: `Today, ${now()}`,
+              body,
+            })
+          }
+        />
+      ),
+    },
+  ];
 }
 
 function Workspace() {
@@ -150,13 +576,18 @@ function Workspace() {
   const [palette, setPalette] = useState(false);
   const [notice, setNotice] = useState('');
 
-  const order = ORDERS[at];
+  const [records, setRecords] = useState(SEED);
+  const order = records[at] ?? records[0];
+  const total = lineItemTotals(order.lines).total;
+  const update = (next: Partial<OrderRecord>) =>
+    setRecords((all) => all.map((r) => (r.id === order.id ? { ...r, ...next } : r)));
+  const log = (entry: ActivityEntry) => update({ history: [entry, ...order.history] });
   const go = (id: string) => {
     setPage(id);
     setNavOpen(false);
   };
   const run = (label: string) => () => setNotice(`${label} — ${order.id}`);
-  const step = (by: number) => setAt((i) => Math.min(Math.max(i + by, 0), ORDERS.length - 1));
+  const step = (by: number) => setAt((i) => Math.min(Math.max(i + by, 0), records.length - 1));
 
   useShortcut({ keys: 'mod+k', description: 'Search and run commands', onTrigger: () => setPalette(true) });
   useShortcut({ keys: '[', description: 'Collapse or expand the sidebar', onTrigger: () => setRail((r) => !r) });
@@ -183,10 +614,10 @@ function Workspace() {
     {
       id: 'records',
       label: 'Sales orders',
-      items: ORDERS.map((o, i) => ({
+      items: records.map((o, i) => ({
         id: o.id,
         label: o.id,
-        description: `${o.client} · ${o.total}`,
+        description: `${o.client} · ${money(lineItemTotals(o.lines).total)}`,
         keywords: [o.client],
         onSelect: () => {
           setAt(i);
@@ -351,7 +782,7 @@ function Workspace() {
               pager={
                 <RecordPager
                   position={at + 1}
-                  total={ORDERS.length}
+                  total={records.length}
                   onPrevious={() => step(-1)}
                   onNext={() => step(1)}
                   title="Previous and next order (K and J)"
@@ -360,38 +791,14 @@ function Workspace() {
               facts={[
                 { label: 'Client', value: order.client },
                 { label: 'Company', value: entityName },
-                { label: 'Total', value: order.total },
+                { label: 'Total', value: money(total) },
               ]}
             >
               <Tabs
                 key={order.id}
                 aria-label="Order sections"
                 overflow="menu"
-                tabs={TABS.map((label) => ({
-                  id: label.toLowerCase(),
-                  label,
-                  panel:
-                    label === 'Details' ? (
-                      <FormGrid columns={2}>
-                        <Field label="Client">
-                          <Input defaultValue={order.client} />
-                        </Field>
-                        <Field label="Client PO">
-                          <Input defaultValue="PO-77120" />
-                        </Field>
-                        <Field label="Delivery date">
-                          <Input defaultValue="Nov 24, 2026" />
-                        </Field>
-                        <Field label="Payment terms">
-                          <Input defaultValue="Net 30" />
-                        </Field>
-                      </FormGrid>
-                    ) : (
-                      <p style={{ margin: 0, color: 'var(--corpo-text-secondary)' }}>
-                        {label} for {order.id}.
-                      </p>
-                    ),
-                }))}
+                tabs={orderTabs(order, total, entityName, update, log)}
               />
               <div style={{ marginTop: 20 }}>
                 <SplitButton
