@@ -870,8 +870,19 @@
             </div>
           </div>
           <div class="cp-record__actions">
-            <button type="button" class="cp-btn cp-btn--sm">Save draft</button>
-            <button type="button" class="cp-btn cp-btn--primary cp-btn--sm">Confirm order</button>
+            <div class="cp-action-bar" role="toolbar" aria-label="Record actions">
+              <div class="cp-button-group cp-split-button" role="group">
+                <button type="button" class="cp-btn cp-btn--primary" tabindex="0">Confirm order</button>
+                <div class="cp-dropdown"><button type="button" class="cp-btn cp-btn--primary cp-btn--icon" aria-label="More options" aria-haspopup="menu" aria-expanded="false" tabindex="-1"><span class="cp-split-button__caret" aria-hidden="true"></span></button></div>
+              </div>
+              <button type="button" class="cp-btn" tabindex="-1">Save draft</button>
+              <div class="cp-dropdown"><button type="button" class="cp-btn" aria-haspopup="menu" aria-expanded="false" tabindex="-1">More</button></div>
+            </div>
+            <div class="cp-record-pager" role="group" aria-label="Record navigation">
+              <span class="cp-record-pager__position">3 of 120</span>
+              <button type="button" class="cp-btn cp-btn--sm cp-btn--icon" aria-label="Previous record">‹</button>
+              <button type="button" class="cp-btn cp-btn--sm cp-btn--icon" aria-label="Next record">›</button>
+            </div>
           </div>
         </div>
         <dl class="cp-record__facts">

@@ -1,0 +1,33 @@
+/* ActionBar — a record's actions as one toolbar. The React layer measures the
+   hidden copy in .cp-action-bar__measure and moves what does not fit into a
+   trailing "More" dropdown. It grows to fill a flex row (e.g. .cp-record__actions).
+
+   Structure:
+     div.cp-action-bar[role=toolbar]
+       .cp-btn …
+       .cp-dropdown > .cp-btn            (More)
+       .cp-action-bar__measure[aria-hidden] > .cp-btn …
+*/
+.cp-action-bar {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+.cp-action-bar > .cp-btn,
+.cp-action-bar > .cp-dropdown {
+  flex-shrink: 0;
+}
+.cp-action-bar__measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  gap: 8px;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+}

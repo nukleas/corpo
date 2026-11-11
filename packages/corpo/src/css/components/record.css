@@ -51,9 +51,12 @@
 }
 .cp-record__actions {
   display: flex;
+  flex: 1 1 auto;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
+  min-width: 0;
 }
 
 /* Key facts — label over value, wrapping into as many columns as fit. */
@@ -111,4 +114,29 @@
   .cp-record--with-aside .cp-record__body {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* With an ActionBar the row never wraps: the bar overflows into "More" and the pager stays beside it. */
+.cp-record__actions:has(> .cp-action-bar) {
+  flex-wrap: nowrap;
+}
+
+/* Record pager — "3 of 120" with previous / next, after the actions. */
+.cp-record-pager {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+}
+.cp-record__actions > * + .cp-record-pager {
+  margin-left: 4px;
+  padding-left: 12px;
+  border-left: 1px solid var(--corpo-border-dim);
+}
+.cp-record-pager__position {
+  margin-right: 4px;
+  font-size: var(--corpo-text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--corpo-text-muted);
+  white-space: nowrap;
 }
