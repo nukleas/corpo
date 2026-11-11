@@ -6,8 +6,9 @@ import { SideNav } from './SideNav';
 import { Topbar } from './Topbar';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
+import { Amount } from './Amount';
 import { Button } from './Button';
-import { Stat } from './Stat';
+import { Table } from './Table';
 
 const meta = {
   title: 'Layout/AppShell',
@@ -25,7 +26,7 @@ const SECTIONS = [
   {
     title: 'Billing',
     items: [
-      { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">3</Badge> },
+      { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">4</Badge> },
       { id: 'payments', label: 'Payments' },
       { id: 'reports', label: 'Reports' },
     ],
@@ -76,11 +77,47 @@ function ShellDemo() {
           }
         />
         <AppShell.Content>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-            <Stat label="Outstanding" value="$12,480" delta="+3 overdue" deltaTone="down" />
-            <Stat label="Paid this month" value="$48,120" delta="+4.2%" deltaTone="up" />
-            <Stat label="Average days to pay" value="21" />
-          </div>
+          <Table
+            grid
+            striped
+            columns={[
+              { key: 'id', label: 'Invoice', mono: true },
+              { key: 'client', label: 'Client' },
+              { key: 'due', label: 'Due', mono: true },
+              { key: 'total', label: 'Total', numeric: true },
+              { key: 'status', label: 'Status' },
+            ]}
+            rows={[
+              {
+                id: 'INV-1048',
+                client: 'Ostara Foods',
+                due: '2026-10-12',
+                total: { content: <Amount value={1180} />, numeric: true },
+                status: { content: 'Pending', status: 'warn' },
+              },
+              {
+                id: 'INV-1039',
+                client: 'Keel Marine Supply',
+                due: '2026-08-01',
+                total: { content: <Amount value={860} />, numeric: true },
+                status: { content: 'Overdue', status: 'err' },
+              },
+              {
+                id: 'INV-1051',
+                client: 'Sable Clinic Group',
+                due: '2026-10-18',
+                total: { content: <Amount value={2460} />, numeric: true },
+                status: { content: 'Pending', status: 'warn' },
+              },
+              {
+                id: 'INV-1054',
+                client: 'Veld Instruments',
+                due: '2026-09-19',
+                total: { content: <Amount value={3150} />, numeric: true },
+                status: { content: 'Overdue', status: 'err' },
+              },
+            ]}
+          />
         </AppShell.Content>
         <BottomNav
           aria-label="Primary"

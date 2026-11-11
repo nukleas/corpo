@@ -4,15 +4,12 @@ import { AppShell } from '../components/AppShell';
 import { Avatar } from '../components/Avatar';
 import { Badge } from '../components/Badge';
 import { BottomNav } from '../components/BottomNav';
+import { Amount } from '../components/Amount';
 import { Button } from '../components/Button';
-import { CardGrid } from '../components/CardGrid';
-import { Field } from '../components/Field';
-import { FormGrid } from '../components/FormGrid';
-import { Input } from '../components/Input';
 import { NavigationMenu } from '../components/NavigationMenu';
 import { SideNav } from '../components/SideNav';
-import { Stat } from '../components/Stat';
 import { StatusBar } from '../components/StatusBar';
+import { Table } from '../components/Table';
 import { Topbar } from '../components/Topbar';
 
 const meta = {
@@ -72,7 +69,7 @@ export const Pattern: Story = {
               {
                 title: 'Billing',
                 items: [
-                  { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">3</Badge> },
+                  { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">4</Badge> },
                   { id: 'payments', label: 'Payments' },
                   { id: 'orders', label: 'Sales orders' },
                 ],
@@ -123,23 +120,76 @@ export const Pattern: Story = {
           </Topbar>
           <AppShell.Content>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              <CardGrid columns={4}>
-                <Stat label="Outstanding" value="$12,480" delta="+3 overdue" deltaTone="down" />
-                <Stat label="Paid this month" value="$48,120" delta="+4.2%" deltaTone="up" />
-                <Stat label="Average days" value="21" />
-                <Stat label="Open orders" value="36" delta="+9" deltaTone="up" />
-              </CardGrid>
-              <FormGrid columns={3}>
-                <Field label="Customer">
-                  <Input defaultValue="Northwind Traders" />
-                </Field>
-                <Field label="Contact">
-                  <Input defaultValue="Maria Anders" />
-                </Field>
-                <Field label="Customer PO">
-                  <Input defaultValue="PO-88231" />
-                </Field>
-              </FormGrid>
+              <Table
+                grid
+                striped
+                pinFirstColumn
+                columns={[
+                  { key: 'id', label: 'Invoice', mono: true },
+                  { key: 'client', label: 'Client' },
+                  { key: 'region', label: 'Region' },
+                  { key: 'issued', label: 'Issued', mono: true },
+                  { key: 'due', label: 'Due', mono: true },
+                  { key: 'total', label: 'Total', numeric: true },
+                  { key: 'status', label: 'Status' },
+                ]}
+                rows={[
+                  {
+                    id: 'INV-1042',
+                    client: 'Calder & Bright',
+                    region: 'North America',
+                    issued: '2026-09-04',
+                    due: '2026-10-04',
+                    total: { content: <Amount value={4200} />, numeric: true },
+                    status: { content: 'Paid', status: 'ok' },
+                  },
+                  {
+                    id: 'INV-1048',
+                    client: 'Ostara Foods',
+                    region: 'EMEA',
+                    issued: '2026-09-12',
+                    due: '2026-10-12',
+                    total: { content: <Amount value={1180} />, numeric: true },
+                    status: { content: 'Pending', status: 'warn' },
+                  },
+                  {
+                    id: 'INV-1039',
+                    client: 'Keel Marine Supply',
+                    region: 'APAC',
+                    issued: '2026-07-02',
+                    due: '2026-08-01',
+                    total: { content: <Amount value={860} />, numeric: true },
+                    status: { content: 'Overdue', status: 'err' },
+                  },
+                  {
+                    id: 'INV-1051',
+                    client: 'Sable Clinic Group',
+                    region: 'North America',
+                    issued: '2026-09-18',
+                    due: '2026-10-18',
+                    total: { content: <Amount value={2460} />, numeric: true },
+                    status: { content: 'Pending', status: 'warn' },
+                  },
+                  {
+                    id: 'INV-1054',
+                    client: 'Veld Instruments',
+                    region: 'EMEA',
+                    issued: '2026-08-20',
+                    due: '2026-09-19',
+                    total: { content: <Amount value={3150} />, numeric: true },
+                    status: { content: 'Overdue', status: 'err' },
+                  },
+                  {
+                    id: 'INV-1056',
+                    client: 'Pine Street Printers',
+                    region: 'North America',
+                    issued: '2026-10-02',
+                    due: '2026-11-01',
+                    total: { content: <Amount value={640} />, numeric: true },
+                    status: { content: 'Paid', status: 'ok' },
+                  },
+                ]}
+              />
               <StatusBar
                 items={[
                   { id: 'books', label: 'Books', value: 'Open' },

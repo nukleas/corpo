@@ -17,10 +17,10 @@ export const Stats: Story = {
   args: { columns: 4 },
   render: (args) => (
     <CardGrid {...args}>
-      <Stat label="Outstanding" value="$12,480" delta="+3 overdue" deltaTone="down" />
-      <Stat label="Paid this month" value="$48,120" delta="+4.2%" deltaTone="up" />
-      <Stat label="Average days" value="21" />
-      <Stat label="Open orders" value="36" delta="+9" deltaTone="up" />
+      <Stat label="Outstanding" value="$7,650.00" />
+      <Stat label="Overdue" value="$4,010.00" delta="2 invoices" deltaTone="down" />
+      <Stat label="Collected in October" value="$4,840.00" delta="2 invoices" deltaTone="up" />
+      <Stat label="Open invoices" value="4" />
     </CardGrid>
   ),
 };

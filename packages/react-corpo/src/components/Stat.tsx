@@ -6,7 +6,7 @@ export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   label: ReactNode;
   /** Main value, rendered mono with tabular nums. */
   value: ReactNode;
-  /** Delta string, e.g. "+4.2%". */
+  /** Delta string, e.g. "2 invoices". */
   delta?: ReactNode;
   /** Delta color. @default 'neutral' */
   deltaTone?: 'up' | 'down' | 'neutral';

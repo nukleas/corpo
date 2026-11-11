@@ -6,13 +6,10 @@ import { Topbar } from '../components/Topbar';
 import { Avatar } from '../components/Avatar';
 import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
+import { Amount } from '../components/Amount';
 import { DescriptionList } from '../components/DescriptionList';
-import { DonutChart } from '../components/DonutChart';
-import { LineChart } from '../components/LineChart';
 import { SectionHeader } from '../components/SectionHeader';
 import { Sheet } from '../components/Sheet';
-import { Sparkline } from '../components/Sparkline';
-import { Stat } from '../components/Stat';
 import { Table } from '../components/Table';
 import { Timeline } from '../components/Timeline';
 
@@ -23,12 +20,13 @@ const meta = {
 } satisfies Meta;
 export default meta;
 
-const money = (v: number) => `$${v.toLocaleString('en-US')}`;
+const money = (v: number) => v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 interface Invoice {
   id: string;
   client: string;
-  amount: string;
+  region: string;
+  total: number;
   status: 'Paid' | 'Pending' | 'Overdue';
   tone: 'ok' | 'warn' | 'err';
   issued: string;
@@ -39,68 +37,141 @@ interface Invoice {
 
 const INVOICES: Invoice[] = [
   {
-    id: 'INV-2041',
-    client: 'Acme Inc.',
-    amount: '$4,200.00',
+    id: 'INV-1042',
+    client: 'Calder & Bright',
+    region: 'North America',
+    total: 4200,
     status: 'Paid',
     tone: 'ok',
-    issued: 'Aug 4, 2026',
-    due: 'Sep 3, 2026',
+    issued: '2026-09-04',
+    due: '2026-10-04',
     terms: 'Net 30',
     history: [
-      { title: 'Invoice created', timestamp: 'Aug 4, 9:14 AM', tone: 'idle' },
-      { title: 'Invoice sent', timestamp: 'Aug 4, 9:16 AM', description: 'Sent to billing@acme.com', tone: 'ok' },
+      { title: 'Invoice created', timestamp: 'Sep 4, 9:14 AM', tone: 'idle' },
+      {
+        title: 'Invoice sent',
+        timestamp: 'Sep 4, 9:18 AM',
+        description: 'Sent to accounts@calderbright.com',
+        tone: 'ok',
+      },
       {
         title: 'Payment received',
-        timestamp: 'Aug 15, 10:41 AM',
-        description: '$4,200.00 posted to the ledger',
+        timestamp: 'Oct 2, 10:41 AM',
+        description: '4,200.00 posted to cash',
         tone: 'ok',
       },
     ],
   },
   {
-    id: 'INV-2042',
-    client: 'Northwind',
-    amount: '$1,180.00',
+    id: 'INV-1048',
+    client: 'Ostara Foods',
+    region: 'EMEA',
+    total: 1180,
     status: 'Pending',
     tone: 'warn',
-    issued: 'Aug 12, 2026',
-    due: 'Sep 11, 2026',
+    issued: '2026-09-12',
+    due: '2026-10-12',
     terms: 'Net 30',
     history: [
-      { title: 'Invoice created', timestamp: 'Aug 12, 2:03 PM', tone: 'idle' },
-      { title: 'Invoice sent', timestamp: 'Aug 12, 2:05 PM', tone: 'ok' },
+      { title: 'Invoice created', timestamp: 'Sep 12, 2:03 PM', tone: 'idle' },
+      { title: 'Invoice sent', timestamp: 'Sep 12, 2:06 PM', description: 'Sent to ap@ostarafoods.com', tone: 'ok' },
     ],
   },
   {
-    id: 'INV-2043',
-    client: 'Globex',
-    amount: '$860.00',
+    id: 'INV-1039',
+    client: 'Keel Marine Supply',
+    region: 'APAC',
+    total: 860,
     status: 'Overdue',
     tone: 'err',
-    issued: 'Jul 2, 2026',
-    due: 'Aug 1, 2026',
+    issued: '2026-07-02',
+    due: '2026-08-01',
     terms: 'Net 30',
     history: [
       { title: 'Invoice created', timestamp: 'Jul 2, 11:20 AM', tone: 'idle' },
-      { title: 'Invoice sent', timestamp: 'Jul 2, 11:22 AM', tone: 'ok' },
       {
-        title: 'Reminder sent',
-        timestamp: 'Aug 5, 8:00 AM',
-        description: 'Second notice to accounts@globex.com',
-        tone: 'warn',
+        title: 'Invoice sent',
+        timestamp: 'Jul 2, 11:22 AM',
+        description: 'Sent to accounts@keelmarine.com',
+        tone: 'ok',
       },
+      { title: 'Reminder sent', timestamp: 'Aug 5, 8:00 AM', description: 'Second notice', tone: 'warn' },
       { title: 'Payment overdue', timestamp: 'Aug 15, 12:00 AM', description: '14 days past due', tone: 'err' },
     ],
   },
+  {
+    id: 'INV-1051',
+    client: 'Sable Clinic Group',
+    region: 'North America',
+    total: 2460,
+    status: 'Pending',
+    tone: 'warn',
+    issued: '2026-09-18',
+    due: '2026-10-18',
+    terms: 'Net 30',
+    history: [
+      { title: 'Invoice created', timestamp: 'Sep 18, 8:40 AM', tone: 'idle' },
+      {
+        title: 'Invoice sent',
+        timestamp: 'Sep 18, 8:44 AM',
+        description: 'Sent to billing@sableclinic.com',
+        tone: 'ok',
+      },
+    ],
+  },
+  {
+    id: 'INV-1054',
+    client: 'Veld Instruments',
+    region: 'EMEA',
+    total: 3150,
+    status: 'Overdue',
+    tone: 'err',
+    issued: '2026-08-20',
+    due: '2026-09-19',
+    terms: 'Net 30',
+    history: [
+      { title: 'Invoice created', timestamp: 'Aug 20, 3:12 PM', tone: 'idle' },
+      {
+        title: 'Invoice sent',
+        timestamp: 'Aug 20, 3:15 PM',
+        description: 'Sent to finance@veldinstruments.com',
+        tone: 'ok',
+      },
+      { title: 'Payment overdue', timestamp: 'Sep 20, 12:00 AM', description: '1 day past due', tone: 'err' },
+    ],
+  },
+  {
+    id: 'INV-1056',
+    client: 'Pine Street Printers',
+    region: 'North America',
+    total: 640,
+    status: 'Paid',
+    tone: 'ok',
+    issued: '2026-10-02',
+    due: '2026-11-01',
+    terms: 'Net 30',
+    history: [
+      { title: 'Invoice created', timestamp: 'Oct 2, 11:02 AM', tone: 'idle' },
+      { title: 'Invoice sent', timestamp: 'Oct 2, 11:05 AM', description: 'Sent to ap@pinestreet.press', tone: 'ok' },
+      {
+        title: 'Payment received',
+        timestamp: 'Oct 9, 4:22 PM',
+        description: '640.00 posted to cash',
+        tone: 'ok',
+      },
+    ],
+  },
 ];
+
+const openInvoices = INVOICES.filter((inv) => inv.status !== 'Paid');
+const outstanding = openInvoices.reduce((sum, inv) => sum + inv.total, 0);
 
 const SECTIONS = [
   { items: [{ id: 'overview', label: 'Overview' }] },
   {
     title: 'Billing',
     items: [
-      { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">3</Badge> },
+      { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">{openInvoices.length}</Badge> },
       { id: 'payments', label: 'Payments' },
       { id: 'reports', label: 'Reports' },
     ],
@@ -146,74 +217,48 @@ function BillingWorkspaceExample() {
           }
         />
         <AppShell.Content>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}>
-              <Stat label="Outstanding" value="$12,480" delta="3 overdue" deltaTone="down" />
-              <Stat label="Collected this month" value="$48,120" delta="+4.2%" deltaTone="up" />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Stat label="Weekly active seats" value="1,284" />
-                <Sparkline data={[1180, 1195, 1170, 1224, 1231, 1219, 1256, 1284]} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              <div style={{ flex: '3 1 320px', minWidth: 0, height: 280 }}>
-                <LineChart
-                  labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']}
-                  series={[
-                    { label: 'Revenue', data: [128000, 132500, 141200, 138900, 149800, 155200, 161700, 168400] },
-                    { label: 'Operating cost', data: [94000, 96200, 99800, 103500, 104100, 108900, 110300, 114600] },
-                  ]}
-                  yFormat={money}
-                />
-              </div>
-              <div style={{ flex: '2 1 260px', minWidth: 0, height: 280 }}>
-                <DonutChart
-                  data={[
-                    { label: 'Payroll', value: 182000 },
-                    { label: 'Cloud infrastructure', value: 64500 },
-                    { label: 'Licenses', value: 28900 },
-                    { label: 'Facilities', value: 21300 },
-                    { label: 'Other', value: 9800 },
-                  ]}
-                  format={money}
-                  centerLabel="Monthly spend"
-                />
-              </div>
-            </div>
-            <div>
-              <SectionHeader title="Open invoices" description="Click an invoice to see its detail and history." />
-              <Table
-                columns={[
-                  { key: 'id', label: 'Invoice', mono: true },
-                  { key: 'client', label: 'Client' },
-                  { key: 'amount', label: 'Amount', numeric: true },
-                  { key: 'status', label: 'Status' },
-                ]}
-                rows={INVOICES.map((inv) => ({
-                  id: {
-                    content: (
-                      <button
-                        type="button"
-                        onClick={() => setSelectedId(inv.id)}
-                        style={{
-                          all: 'unset',
-                          cursor: 'pointer',
-                          color: 'var(--corpo-accent)',
-                          fontFamily: 'var(--corpo-font-mono)',
-                          fontSize: 'var(--corpo-text-xs)',
-                        }}
-                      >
-                        {inv.id}
-                      </button>
-                    ),
-                  },
-                  client: inv.client,
-                  amount: inv.amount,
-                  status: { content: inv.status, status: inv.tone },
-                }))}
-              />
-            </div>
-          </div>
+          <SectionHeader
+            title="October 2026"
+            description={`${openInvoices.length} open, ${money(outstanding)} outstanding. Select an invoice for its history.`}
+          />
+          <Table
+            grid
+            striped
+            columns={[
+              { key: 'id', label: 'Invoice', mono: true },
+              { key: 'client', label: 'Client' },
+              { key: 'region', label: 'Region' },
+              { key: 'issued', label: 'Issued', mono: true },
+              { key: 'due', label: 'Due', mono: true },
+              { key: 'total', label: 'Total', numeric: true },
+              { key: 'status', label: 'Status' },
+            ]}
+            rows={INVOICES.map((inv) => ({
+              id: {
+                content: (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedId(inv.id)}
+                    style={{
+                      all: 'unset',
+                      cursor: 'pointer',
+                      color: 'var(--corpo-accent)',
+                      fontFamily: 'var(--corpo-font-mono)',
+                      fontSize: 'var(--corpo-text-xs)',
+                    }}
+                  >
+                    {inv.id}
+                  </button>
+                ),
+              },
+              client: inv.client,
+              region: inv.region,
+              issued: inv.issued,
+              due: inv.due,
+              total: { content: <Amount value={inv.total} />, numeric: true },
+              status: { content: inv.status, status: inv.tone },
+            }))}
+          />
         </AppShell.Content>
       </AppShell.Main>
       <Sheet
@@ -225,9 +270,11 @@ function BillingWorkspaceExample() {
             <Button size="sm" onClick={() => setSelectedId(null)}>
               Close
             </Button>
-            <Button size="sm" variant="primary">
-              Send reminder
-            </Button>
+            {selected?.status !== 'Paid' && (
+              <Button size="sm" variant="primary">
+                Send reminder
+              </Button>
+            )}
           </>
         }
       >
@@ -237,7 +284,7 @@ function BillingWorkspaceExample() {
               compact
               items={[
                 { label: 'Client', value: selected.client },
-                { label: 'Amount', value: selected.amount },
+                { label: 'Amount', value: <Amount value={selected.total} currency="$" /> },
                 { label: 'Status', value: selected.status },
                 { label: 'Issued', value: selected.issued },
                 { label: 'Due', value: selected.due },
@@ -255,7 +302,7 @@ function BillingWorkspaceExample() {
   );
 }
 
-/** A full billing app screen — AppShell + SideNav + Topbar hosting stats with sparklines, the line and donut charts, a shorthand-cell invoice table, and a Sheet detail with DescriptionList + Timeline. */
+/** Invoice list first. The open balance in the header is the sum of the unpaid rows. A row opens a Sheet with DescriptionList and Timeline. */
 export const Default: StoryObj = {
   render: () => <BillingWorkspaceExample />,
 };

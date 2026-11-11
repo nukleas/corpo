@@ -198,8 +198,8 @@
       <span class="cp-badge cp-badge--green"><span class="cp-badge__dot"></span>Paid</span>
       <span class="cp-badge cp-badge--red"><span class="cp-badge__dot"></span>Overdue</span>
       <div class="cp-stat">
-        <span class="cp-stat__label">Monthly recurring revenue</span>
-        <span class="cp-stat__row"><span class="cp-stat__value">$48,120</span><span class="cp-stat__delta cp-stat__delta--up">+4.2%</span></span>
+        <span class="cp-stat__label">Collected in October</span>
+        <span class="cp-stat__row"><span class="cp-stat__value">$4,840.00</span><span class="cp-stat__delta cp-stat__delta--up">2 invoices</span></span>
       </div>
       <kbd class="cp-kbd">Esc</kbd>
       <span class="cp-kbd-group"><kbd class="cp-kbd">Cmd</kbd><span class="cp-kbd-group__sep">+</span><kbd class="cp-kbd">K</kbd></span>
@@ -214,9 +214,9 @@
         <table class="cp-table__table">
           <thead><tr><th>Invoice</th><th>Client</th><th data-numeric="true">Amount</th><th>Status</th></tr></thead>
           <tbody>
-            <tr><td>INV-2041</td><td>Acme Inc.</td><td data-numeric="true">$4,200.00</td><td><span class="cp-table__status cp-table__status--ok"></span>Paid</td></tr>
-            <tr><td>INV-2042</td><td>Northwind</td><td data-numeric="true">$1,180.00</td><td><span class="cp-table__status cp-table__status--warn"></span>Pending</td></tr>
-            <tr><td>INV-2043</td><td>Globex</td><td data-numeric="true">$860.00</td><td><span class="cp-table__status cp-table__status--err"></span>Overdue</td></tr>
+            <tr><td data-mono="true">INV-1042</td><td>Calder & Bright</td><td data-numeric="true">4,200.00</td><td><span class="cp-table__status cp-table__status--ok"></span>Paid</td></tr>
+            <tr><td data-mono="true">INV-1048</td><td>Ostara Foods</td><td data-numeric="true">1,180.00</td><td><span class="cp-table__status cp-table__status--warn"></span>Pending</td></tr>
+            <tr><td data-mono="true">INV-1039</td><td>Keel Marine Supply</td><td data-numeric="true">860.00</td><td><span class="cp-table__status cp-table__status--err"></span>Overdue</td></tr>
           </tbody>
         </table>
       </div>
@@ -1383,8 +1383,8 @@
     </div>
     <div class="demo-row" style="margin-top: 16px;">
       <div class="cp-stat">
-        <span class="cp-stat__label">Weekly active seats</span>
-        <span class="cp-stat__row"><span class="cp-stat__value">1,284</span><span id="sparkline-demo" class="cp-sparkline"></span></span>
+        <span class="cp-stat__label">Collected this week</span>
+        <span class="cp-stat__row"><span class="cp-stat__value">2,460.00</span><span id="sparkline-demo" class="cp-sparkline"></span></span>
       </div>
     </div>
     <p style="margin: 8px 0 0; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">
@@ -1404,7 +1404,7 @@
             </div>
             <div class="cp-sidenav__section">
               <div class="cp-sidenav__section-title">Billing</div>
-              <button type="button" class="cp-sidenav__item is-active" aria-current="page"><span class="cp-sidenav__item-label">Invoices</span><span class="cp-badge cp-badge--amber">3</span></button>
+              <button type="button" class="cp-sidenav__item is-active" aria-current="page"><span class="cp-sidenav__item-label">Invoices</span><span class="cp-badge cp-badge--amber">4</span></button>
               <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Payments</span></button>
               <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Reports</span></button>
             </div>
@@ -1431,9 +1431,16 @@
           </div>
         </header>
         <main class="cp-shell__content">
-          <div class="cp-stat">
-            <span class="cp-stat__label">Outstanding</span>
-            <span class="cp-stat__row"><span class="cp-stat__value">$12,480</span><span class="cp-stat__delta cp-stat__delta--down">3 overdue</span></span>
+          <div class="cp-table cp-table--grid cp-table--striped">
+            <table class="cp-table__table">
+              <thead><tr><th>Invoice</th><th>Client</th><th>Due</th><th data-numeric="true">Total</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td data-mono="true">INV-1048</td><td>Ostara Foods</td><td data-mono="true">2026-10-12</td><td data-numeric="true">1,180.00</td><td><span class="cp-table__status cp-table__status--warn"></span>Pending</td></tr>
+                <tr><td data-mono="true">INV-1039</td><td>Keel Marine Supply</td><td data-mono="true">2026-08-01</td><td data-numeric="true">860.00</td><td><span class="cp-table__status cp-table__status--err"></span>Overdue</td></tr>
+                <tr><td data-mono="true">INV-1051</td><td>Sable Clinic Group</td><td data-mono="true">2026-10-18</td><td data-numeric="true">2,460.00</td><td><span class="cp-table__status cp-table__status--warn"></span>Pending</td></tr>
+                <tr><td data-mono="true">INV-1054</td><td>Veld Instruments</td><td data-mono="true">2026-09-19</td><td data-numeric="true">3,150.00</td><td><span class="cp-table__status cp-table__status--err"></span>Overdue</td></tr>
+              </tbody>
+            </table>
           </div>
         </main>
       </div>
@@ -1564,7 +1571,7 @@
       }
       const spark = document.getElementById('sparkline-demo');
       if (spark) {
-        CpSparkline(spark, { data: [1180, 1195, 1170, 1224, 1231, 1219, 1256, 1284] });
+        CpSparkline(spark, { data: [1840, 960, 4200, 640, 2100, 1180, 3150, 2460] });
       }
     }).catch(() => {});
   </script>

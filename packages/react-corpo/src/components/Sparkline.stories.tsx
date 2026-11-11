@@ -10,18 +10,19 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const SEATS = [1180, 1195, 1170, 1224, 1231, 1219, 1256, 1284];
+/** Weekly cash collected, ending with the current week. */
+const COLLECTED = [1840, 960, 4200, 640, 2100, 1180, 3150, 2460];
 
 export const Default: Story = {
-  args: { data: SEATS },
+  args: { data: COLLECTED },
 };
 
 /** Inline beside a Stat value — its natural habitat. */
 export const InAStatTile: Story = {
-  args: { data: SEATS },
+  args: { data: COLLECTED },
   render: (args) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-      <Stat label="Weekly active seats" value="1,284" delta="+2.2%" deltaTone="up" />
+      <Stat label="Collected this week" value="2,460.00" delta="−690.00" deltaTone="down" />
       <Sparkline {...args} />
     </div>
   ),
