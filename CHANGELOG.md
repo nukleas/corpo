@@ -1,17 +1,27 @@
 # Changelog
 
-Visual breaks for the published packages. The publish workflow bumps both package
-versions, tags the release, and writes the GitHub notes. This file is the in-repo
-record. It does not bump `package.json`.
+Visual and API breaks for the published packages, newest first. The GitHub release
+notes for each tag carry the same list.
 
-## Unreleased — 0.6.0 calm chrome
+## 0.5.0 — responsive, calm chrome
 
-Breaking visual changes. No compatibility shims.
+Breaking changes. No compatibility shims.
+
+### Responsive
+
+- A standalone `.cp-form-grid` no longer collapses by viewport. Form grids collapse by
+  their `.cp-form` or `.cp-form-section` container, and `FormGrid` renders that wrapper.
+- Top bars no longer wrap at 480px. Link rows scroll inside themselves.
+- Under `pointer: coarse`, `--corpo-control-h` and `--corpo-control-h-sm` are 44px.
+
+### Calm chrome
+
 
 - Control labels that were uppercase mono are Public Sans, sentence case, weight 600,
   tracking 0: buttons, tabs, badges, field labels (`.cp-label`), card titles, modal
   and sheet titles, record fact labels, sidenav group titles, stat labels, the donut
-  caption, and status-bar labels. Status-bar values stay mono. `.corpo-label`, the
+  caption, status-bar labels, alert and toast titles, progress and spinner labels,
+  breadcrumbs, description-list labels, and profile section titles. Status-bar values stay mono. `.corpo-label`, the
   record eyebrow, and table headers stay uppercase mono. Figures, ids, kbd,
   timestamps, and numeric inputs stay mono.
 - `--corpo-radius` is 6px (was 2px). `--corpo-radius-lg` is 8px (was 4px). The switch
@@ -40,10 +50,7 @@ Breaking visual changes. No compatibility shims.
   `#54c3d4` onto `rgba(15, 111, 128, 0.18)` and `0.40`.
 - `.cp-empty__icon` no longer draws a 40px circle. The icon stays.
 - Docs: homepage and prose h1 use Public Sans. The version badge matches the package
-  manifest (`v0.4.0` until publish; the publish workflow does not rewrite the badge).
+  manifest; bump it in the release commit.
   `./dist/corpo.css` is unchanged so GitHub Pages keeps resolving `pages_dist/dist`.
   The CSS build also copies that file to `site/dist/corpo.css`, which is gitignored,
   so the same href resolves in a built checkout.
-
-Responsive behavior from 0.5.0 is unchanged: container form grids, top-bar scroll
-fade, coarse-pointer 44px controls, and popover collision.

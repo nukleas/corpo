@@ -12,8 +12,9 @@
   color: var(--corpo-text-muted);
 }
 .cp-progress__label {
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  font-family: var(--corpo-font-sans);
+  text-transform: none;
+  letter-spacing: 0;
   font-weight: 600;
 }
 

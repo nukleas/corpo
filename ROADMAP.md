@@ -1,34 +1,8 @@
 # Roadmap
 
-## Shipped — 0.6.0 calm chrome
+## Shipped — 0.5.0 responsive and calm chrome
 
-Minor bump. Visual breaks, no compatibility shims. Package versions stay at the
-current manifest until the publish workflow bumps them.
-
-- **Control voice is Public Sans, sentence case, weight 600, tracking 0.** Buttons,
-  tabs, badges, field labels, card titles, modal and sheet titles, record fact labels,
-  sidenav group titles, stat labels, the donut caption, and status-bar labels.
-  Uppercase mono remains on `.corpo-label`, the record eyebrow, and table headers.
-  Figures, ids, kbd, timestamps, and numeric inputs stay mono.
-- **Radius is 6px on controls and 8px on surfaces.** The switch pill is unchanged.
-- **Cards, profile cards, and sheet edges use `border-dim`.** `accent-border` remains
-  on the DataTable bulk bar only. The selected feed edge stays a solid accent stroke
-  (`accent-edge`, falling back to `accent`). Record sections are cards, so they
-  follow the card stroke. There is no separate record-section border.
-- **Buttons and fields.** Neutral default hover, a fill press instead of a 1px nudge,
-  disabled colors at full opacity, and a 2px focus ring. `Button` takes `loading`
-  (`aria-busy`, stable width). Textarea and select follow the input treatment.
-- **Dark accent is split so it passes WCAG 2.1 AA.** Fill `#0f6f80` with white text,
-  edge `#1a7f90`, text and focus `#62b0bb`. One token cannot be all three. Light accent
-  stays `#0f6f80`. Amber, green, red, and steel are unchanged.
-- **Empty icons have no circle.** The docs h1 is Public Sans, the version badge matches
-  the package manifest (`v0.4.0` until publish), and `pnpm build` writes
-  `site/dist/corpo.css` so the existing `./dist/corpo.css` href resolves in the repo.
-  Pages still copies the built CSS to `pages_dist/dist`.
-
-## Shipped — 0.5.0 responsive
-
-Minor bump. Three breaking changes, no compatibility shims:
+Minor bump. Breaking changes, no compatibility shims. Responsive:
 
 - **Form grids follow their container.** `.cp-form` and `.cp-form-section` are the inline-size
   container. `.cp-form-grid--{2,3,4}` steps down to 2 columns at 768px and 1 column at 480px of
@@ -45,6 +19,31 @@ scrolls inside itself instead of widening the page; menus, popovers, combobox li
 flip and shift to stay in the viewport (no positioning dependency). The reference layout is the
 *Examples/Responsive app shell* story: top bar at every width, sidebar drawer below 768px, bottom
 nav on phones.
+
+Calm chrome, in the same release:
+
+- **Control voice is Public Sans, sentence case, weight 600, tracking 0.** Buttons,
+  tabs, badges, field labels, card titles, modal and sheet titles, record fact labels,
+  sidenav group titles, stat labels, the donut caption, status-bar labels, alert and
+  toast titles, progress and spinner labels, breadcrumbs, description-list labels, and
+  profile section titles.
+  Uppercase mono remains on `.corpo-label`, the record eyebrow, and table headers.
+  Figures, ids, kbd, timestamps, and numeric inputs stay mono.
+- **Radius is 6px on controls and 8px on surfaces.** The switch pill is unchanged.
+- **Cards, profile cards, and sheet edges use `border-dim`.** `accent-border` remains
+  on the DataTable bulk bar only. The selected feed edge stays a solid accent stroke
+  (`accent-edge`, falling back to `accent`). Record sections are cards, so they
+  follow the card stroke. There is no separate record-section border.
+- **Buttons and fields.** Neutral default hover, a fill press instead of a 1px nudge,
+  disabled colors at full opacity, and a 2px focus ring. `Button` takes `loading`
+  (`aria-busy`, stable width). Textarea and select follow the input treatment.
+- **Dark accent is split so it passes WCAG 2.1 AA.** Fill `#0f6f80` with white text,
+  edge `#1a7f90`, text and focus `#62b0bb`. One token cannot be all three. Light accent
+  stays `#0f6f80`. Amber, green, red, and steel are unchanged.
+- **Empty icons have no circle.** The docs h1 is Public Sans, the version badge matches
+  the package manifest, and `pnpm build` writes
+  `site/dist/corpo.css` so the existing `./dist/corpo.css` href resolves in the repo.
+  Pages still copies the built CSS to `pages_dist/dist`.
 
 ## Shipped — 80+ components
 
