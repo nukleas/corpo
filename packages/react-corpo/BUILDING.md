@@ -75,6 +75,12 @@ color. Fix it by removing whatever doesn't help someone do the job.
    breadcrumb overflow into their menus.
 3. If you used `style={...}` for anything but layout, replace it with a component or prop.
 
+## Lint
+
+Rules 1, 2 and 8 are checkable: enable the `@nukleas/react-corpo/oxlint` plugin
+([`lint/README.md`](./lint/README.md)) to flag nested cards, cards around tables, `.map()` lists of
+cards and extra primary buttons. The rest stay judgment calls; the lint doesn't replace this guide.
+
 ## Reference screens
 
 Copy the structure of these Storybook examples, not their data:

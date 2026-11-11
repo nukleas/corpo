@@ -19,6 +19,7 @@
     "build-storybook": "pnpm --filter @nukleas/react-corpo run build-storybook",
     "typecheck": "pnpm -r --filter @nukleas/corpo --filter @nukleas/react-corpo run typecheck",
     "lint": "oxlint --type-aware --deny-warnings --report-unused-disable-directives",
+    "test:lint": "pnpm --filter @nukleas/react-corpo run test:lint",
     "demo": "pnpm --filter @nukleas/corpo run demo",
     "check:contract": "tsx tools/check-contract.ts",
     "lint:css": "stylelint \"packages/corpo/src/css/**/*.css\"",

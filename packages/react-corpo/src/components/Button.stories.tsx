@@ -37,6 +37,7 @@ export const Loading: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 8 }}>
       <Button variant="primary">Save changes</Button>
+      {/* oxlint-disable-next-line corpo/one-primary-action -- compares the idle and loading states of one primary button */}
       <Button variant="primary" loading>
         Save changes
       </Button>
