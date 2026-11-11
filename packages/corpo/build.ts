@@ -290,6 +290,7 @@ const bundle = [
   readCss('components/action-bar.css'),
   readCss('components/brand.css'),
   readCss('components/launcher.css'),
+  readCss('components/shortcuts.css'),
   '\n',
   '/* Component: Sheet */\n',
   readCss('components/sheet.css'),

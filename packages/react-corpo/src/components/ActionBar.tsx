@@ -30,7 +30,8 @@ export interface ActionBarProps {
 /**
  * Corpo action bar — a record's actions as one toolbar (a single tab stop;
  * ArrowLeft/ArrowRight/Home/End move between buttons). Actions that do not
- * fit move into a "More" menu from the end, so put the primary action first.
+ * fit move into a "More" menu from the end; the first action never does, so
+ * put the primary action first.
  */
 export function ActionBar({
   actions,
@@ -57,13 +58,20 @@ export function ActionBar({
       const width = (n: number) => widths.slice(0, n).reduce((sum, w) => sum + w + gap, 0);
       let n = widths.length;
       const needsMore = (count: number) => count < widths.length || menu.length > 0;
-      while (n > 0 && width(n) + (needsMore(n) ? more : -gap) > room) n -= 1;
+      // The first action is the primary one: it stays on the bar even when nothing else fits.
+      while (n > 1 && width(n) + (needsMore(n) ? more : -gap) > room) n -= 1;
       setFit(n);
     };
     run();
+    // Web fonts change button widths without resizing the bar, so measure again once they load.
+    let live = true;
+    void document.fonts.ready.then(() => live && run());
     const observer = new ResizeObserver(run);
     observer.observe(bar);
-    return () => observer.disconnect();
+    return () => {
+      live = false;
+      observer.disconnect();
+    };
   }, [actions, menu.length]);
 
   const shown = actions.slice(0, fit);

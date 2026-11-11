@@ -1,0 +1,71 @@
+/* Keyboard shortcuts — keycaps for a shortcut string (.cp-shortcut-keys) and the
+   help overlay's grouped list (.cp-shortcuts), shown inside a .cp-modal. */
+.cp-shortcut-keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.cp-shortcut-keys__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.cp-shortcut-keys__then,
+.cp-shortcuts__or {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}
+
+.cp-shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: min(480px, 100%);
+}
+.cp-shortcuts__group {
+  min-width: 0;
+}
+.cp-shortcuts__title {
+  margin: 0 0 6px;
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  color: var(--corpo-text-dim);
+}
+.cp-shortcuts__list {
+  margin: 0;
+}
+.cp-shortcuts__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--corpo-border-dim);
+}
+.cp-shortcuts__description {
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text);
+}
+.cp-shortcuts__keys {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0;
+}
+.cp-shortcuts__alt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.cp-shortcuts__setting {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cp-shortcuts__hint {
+  margin: 0;
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}

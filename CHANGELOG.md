@@ -5,6 +5,12 @@ notes for each tag carry the same list.
 
 ## Unreleased
 
+- New `ShortcutsProvider` and `useShortcut`: one keydown listener and a registry of
+  shortcuts (`'mod+k'`, `'?'`, `'g i'` sequences; `mod` is ⌘ on Apple, Ctrl elsewhere).
+  Shortcuts without a modifier are ignored while typing and can be turned off from the
+  help overlay (WCAG 2.1.4), which lists every registered shortcut by group and opens
+  with `?` or `mod+/`. New `ShortcutKeys` renders a shortcut string as keycaps.
+- `Modal` moves focus into the dialog on open and returns it to the opener on close.
 - New `Brand`: a mark (logo, or initials on the accent), the name and a detail line, for
   `SideNav`'s `brand` slot; the collapsed rail shows the mark only. New `EntitySwitcher`:
   the brand row as a menu button that switches company or entity (radio items, closes on

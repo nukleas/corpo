@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 export interface ModalProps {
@@ -11,8 +11,25 @@ export interface ModalProps {
   children?: ReactNode;
 }
 
-/** Corpo modal — centered dialog over a dimmed backdrop, closes on Escape or backdrop click. */
+/**
+ * Corpo modal — centered dialog over a dimmed backdrop, closes on Escape or
+ * backdrop click. Opening moves focus into the dialog; closing returns it to
+ * where it was.
+ */
 export function Modal({ open, onClose, title, footer, children }: ModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const dialog = dialogRef.current;
+    const first = dialog?.querySelector<HTMLElement>(
+      'input:not([disabled]), select, textarea, button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+    );
+    (first ?? dialog)?.focus();
+    return () => opener?.focus();
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -30,7 +47,7 @@ export function Modal({ open, onClose, title, footer, children }: ModalProps) {
   return createPortal(
     // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop click is a pointer convenience; keyboard users close with Escape
     <div className="cp-modal-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="cp-modal" role="dialog" aria-modal="true" aria-label={ariaLabel}>
+      <div ref={dialogRef} className="cp-modal" role="dialog" aria-modal="true" aria-label={ariaLabel} tabIndex={-1}>
         {title && (
           <div className="cp-modal__header">
             <h2 className="cp-modal__title">{title}</h2>

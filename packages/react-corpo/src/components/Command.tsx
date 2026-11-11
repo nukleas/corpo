@@ -185,7 +185,7 @@ export interface CommandDialogProps extends Omit<CommandProps, 'onEscape' | 'aut
 /**
  * Corpo command palette as a modal overlay — the ⌘K pattern. Closes on Escape,
  * a backdrop click, or after a result runs, and returns focus to where it was.
- * Wiring the shortcut is the app's call: open it from a keydown listener.
+ * Open it with `useShortcut({ keys: 'mod+k', … })` under a {@link ShortcutsProvider}.
  */
 export function CommandDialog({ open, onClose, title = 'Command palette', onSelect, ...rest }: CommandDialogProps) {
   const panel = useRef<HTMLDivElement>(null);

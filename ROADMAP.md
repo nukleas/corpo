@@ -176,8 +176,73 @@ Layered PRs, in order:
 3. **Record action bar** *(done, #59)* — split button, a toolbar that moves actions into "More" when it runs
    out of room, and a record pager ("3 of 120") on `RecordPage`.
 4. **Overflow** *(done, #62)* — Tabs that don't fit go into a "More" menu; long breadcrumbs collapse the middle.
-5. **App-level switchers** *(in progress)* — module launcher grid, company/entity switcher.
-6. **Keyboard shortcuts** — a shortcut registry and a "?" help overlay.
+5. **App-level switchers** *(done, #63)* — module launcher grid, company/entity switcher.
+6. **Keyboard shortcuts** *(done, #64)* — a shortcut registry and a "?" help overlay.
+
+## Next: no slop — functional density by default
+
+Density is fine; corpo is for dense business screens. The problem is decorative noise that
+agents add, and that corpo's own components and examples invite:
+
+- an eyebrow above every title that repeats the breadcrumb;
+- badges on everything, such as counts on every tab and nav item;
+- colored uppercase tier or category labels;
+- description lines that restate the heading;
+- KPI stat rows on pages that aren't dashboards;
+- profile and summary cards;
+- record lists drawn as card grids where a tight table is clearer and denser.
+
+The 2026-11-11 audit found it in our own examples:
+
+- Admin console: the licenses are a grid of cards with colored tier labels, where they should be a
+  compact table.
+- ERP demo:
+  - a "SALES ORDER" eyebrow above the title repeats the breadcrumb;
+  - count badges on every tab;
+  - a "Company" fact repeats the switcher.
+- Every example: teal SectionHeader titles with a description and a rule under them.
+
+Layered PRs, in order:
+
+1. **The rules, written down and shipped.**
+   - Add a "Building with corpo" guide plus `llms.txt` inside the npm package, as short "never…"
+     rules with do/don't pairs. The npm package currently ships only `dist`.
+   - Rules:
+     - A list of records is a `Table`/`DataTable` (compact), never a card grid.
+     - Cards only for genuinely separate objects, never around a table, never nested.
+     - No eyebrow when the breadcrumb or title already names the type.
+     - Badges only for counts that ask for action (unread, overdue), never for totals.
+     - Status is one `StatusPill`, not color on labels.
+     - No description that restates the title.
+     - Stat rows only on dashboards.
+     - Mono only for figures and ids.
+     - 1 primary action, at most 3 visible actions, the rest in "More".
+2. **Defaults that don't invite slop.**
+   - `SectionHeader`: neutral title, and no rule unless asked for.
+   - `RecordPage`: the eyebrow is documented as rare.
+   - `Tabs`: counts are documented for actionable counts only.
+   - `ActionBar`: primary plus 2 others visible.
+   - `DataTable`/`Table`: compact, horizontal rules only.
+3. **Rebuild the examples as clean reference screens**, dense and table-first, so agents copy
+   the right thing.
+   - Admin console licenses become a table.
+   - The ERP demo drops the eyebrow, the tab counts and the duplicate facts.
+4. **Composition lint for apps.** An oxlint JS plugin consumers enable:
+   - `Card` inside `Card`;
+   - `Card` wrapping a lone table;
+   - `CardGrid` or `Card` mapped over a data array (use a table);
+   - more than one primary `Button` per region;
+   - an eyebrow next to a `Breadcrumb`;
+   - `Badge` inside a `Tab` label or `SideNav` item without a count prop.
+5. **Spacing tokens and `Stack`/`Inline`**, lower priority.
+   - Component CSS uses 11 ad-hoc gaps.
+   - The examples carry about 60 inline layout styles.
+   - It's worth fixing for consistency, but it isn't what makes screens look like slop.
+
+Sources: Carbon and Primer button rules, SAP Fiori action placement, ServiceTitan Anvil and
+Forge card rules (no card around a lone table, no nesting), GOV.UK and GC table guidance,
+Anthropic's frontend-design skill (no all-caps eyebrows, no "SaaS card kit"), and the
+hvpandya, Tessera and reopt writeups on rule files and lint for LLM agents.
 
 ## Not ported from the parity list
 

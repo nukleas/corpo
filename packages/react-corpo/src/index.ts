@@ -117,4 +117,5 @@ export * from './components/SideNav';
 export * from './components/Brand';
 export * from './components/EntitySwitcher';
 export * from './components/ModuleLauncher';
+export * from './components/Shortcuts';
 export * from './components/Topbar';
