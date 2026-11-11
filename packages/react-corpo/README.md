@@ -12,6 +12,12 @@ Visual styles come from corpo CSS (`cp-*` classes, `--corpo-*` tokens). This pac
 - **Storybook autodocs** — prop tables from JSDoc
 - **Zero style reinvention** — thin bindings over corpo CSS
 
+## Building screens
+
+Read [BUILDING.md](./BUILDING.md) before composing a screen. It's the short rule set we follow:
+keep screens dense, use tables over card grids, and add no decoration that repeats context.
+`dist/llms.txt` indexes every component for coding agents.
+
 ## Install
 
 ```bash

@@ -31,7 +31,8 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "BUILDING.md"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -43,10 +44,12 @@
       "require": "./dist/index.cjs"
     },
     "./styles.css": "./dist/styles.css",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./BUILDING.md": "./BUILDING.md",
+    "./llms.txt": "./dist/llms.txt"
   },
   "scripts": {
-    "build": "tsup && node scripts/copy-styles.mjs",
+    "build": "tsup && node scripts/copy-styles.mjs && node scripts/build-llms.mjs",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006 --ci",

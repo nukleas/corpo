@@ -22,6 +22,11 @@ react-corpo/
   .storybook/            Storybook 8 (Vite) + autodocs
 ```
 
+## Composing screens
+
+Stories and `src/examples/` follow [`BUILDING.md`](./BUILDING.md), the guide this package ships to
+app developers and their agents. Examples are what agents copy, so keep them free of decoration.
+
 ## Hard rules
 
 1. **Never invent styling.** Only emit `cp-*` classes that exist in corpo
