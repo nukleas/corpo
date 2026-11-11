@@ -181,7 +181,10 @@ export function MenuList({
               aria-checked={item.checked}
               disabled={item.disabled}
               className="cp-dropdown__item"
-              onClick={() => item.onCheckedChange(item.type === 'radio' ? true : !item.checked)}
+              onClick={() => {
+                item.onCheckedChange(item.type === 'radio' ? true : !item.checked);
+                if (item.type === 'radio' && item.closeOnSelect) onClose('select');
+              }}
               onKeyDown={onItemKeyDown}
               onMouseEnter={onMouseEnter}
             >

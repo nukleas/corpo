@@ -288,6 +288,8 @@ const bundle = [
   '/* Component: RecordPage */\n',
   readCss('components/record.css'),
   readCss('components/action-bar.css'),
+  readCss('components/brand.css'),
+  readCss('components/launcher.css'),
   '\n',
   '/* Component: Sheet */\n',
   readCss('components/sheet.css'),

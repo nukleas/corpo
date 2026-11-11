@@ -5,6 +5,11 @@ notes for each tag carry the same list.
 
 ## Unreleased
 
+- New `Brand`: a mark (logo, or initials on the accent), the name and a detail line, for
+  `SideNav`'s `brand` slot; the collapsed rail shows the mark only. New `EntitySwitcher`:
+  the brand row as a menu button that switches company or entity (radio items, closes on
+  choice). New `ModuleLauncher`: a grid button that opens a panel of module links, with
+  arrow keys across the grid. Radio menu items take `closeOnSelect`.
 - `Tabs` takes `overflow="menu"`: tabs that don't fit go into a "More tabs" menu (an icon
   button outside the tablist), and the selected tab always stays in the row. The default
   stays `scroll`, which now scrolls the selected tab into view. Tabs no longer set

@@ -22,7 +22,8 @@ interface MenuEntryBase {
 /**
  * One entry in a {@link Dropdown}, {@link ContextMenu} or {@link Menubar}
  * menu: an action (the default), a checkbox or radio item, a submenu, or a
- * separator. Checkbox and radio items are controlled and keep the menu open.
+ * separator. Checkbox and radio items are controlled and keep the menu open (a radio item with
+ * `closeOnSelect` closes it).
  */
 export type MenuItem =
   | (MenuEntryBase & {
@@ -32,6 +33,12 @@ export type MenuItem =
       danger?: boolean;
     })
   | (MenuEntryBase & { type: 'checkbox'; checked: boolean; onCheckedChange: (checked: boolean) => void })
-  | (MenuEntryBase & { type: 'radio'; checked: boolean; onCheckedChange: (checked: boolean) => void })
+  | (MenuEntryBase & {
+      type: 'radio';
+      checked: boolean;
+      onCheckedChange: (checked: boolean) => void;
+      /** Close the menu after choosing — for a choice that changes the whole view, like the company. */
+      closeOnSelect?: boolean;
+    })
   | (MenuEntryBase & { type: 'submenu'; items: MenuItem[] })
   | { type: 'separator'; id: string };

@@ -1,0 +1,121 @@
+/* ModuleLauncher — a grid button in the top bar that opens a panel of the app's
+   modules. The panel is navigation (links you Tab or arrow through), not a menu.
+
+   Structure:
+     .cp-launcher
+       button.cp-launcher__toggle[aria-expanded] > .cp-launcher__icon
+       nav.cp-launcher__panel > ul.cp-launcher__grid > li > a.cp-launcher__item
+         .cp-launcher__item-icon, .cp-launcher__item-label, .cp-launcher__item-description
+*/
+.cp-launcher {
+  position: relative;
+  display: inline-flex;
+}
+.cp-launcher__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--corpo-control-h);
+  height: var(--corpo-control-h);
+  border: 1px solid transparent;
+  border-radius: var(--corpo-radius);
+  background: none;
+  color: var(--corpo-text-secondary);
+  cursor: pointer;
+}
+.cp-launcher__toggle:hover,
+.cp-launcher__toggle[aria-expanded='true'] {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+/* CSS-drawn 3×3 dot grid. */
+.cp-launcher__icon {
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  background: currentColor;
+  box-shadow:
+    -6px -6px 0 currentColor,
+    0 -6px 0 currentColor,
+    6px -6px 0 currentColor,
+    -6px 0 0 currentColor,
+    6px 0 0 currentColor,
+    -6px 6px 0 currentColor,
+    0 6px 0 currentColor,
+    6px 6px 0 currentColor;
+}
+@media (forced-colors: active) {
+  .cp-launcher__icon {
+    forced-color-adjust: none;
+    background: ButtonText;
+    color: ButtonText;
+  }
+}
+.cp-launcher__panel {
+  position: absolute;
+  z-index: 40;
+  width: min(440px, calc(100vw - 16px));
+  padding: 12px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-lg);
+}
+.cp-launcher__title {
+  margin: 0 0 8px;
+  padding: 0 8px;
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  color: var(--corpo-text-dim);
+}
+.cp-launcher__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cp-launcher__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: var(--corpo-radius);
+  background: none;
+  color: var(--corpo-text);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cp-launcher__item:hover {
+  background: var(--corpo-bg-panel-hover);
+}
+.cp-launcher__item[aria-current='page'] {
+  background: var(--corpo-accent-subtle);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+}
+.cp-launcher__item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  border-radius: var(--corpo-radius);
+  background: var(--corpo-accent-subtle);
+  color: var(--corpo-accent-text, var(--corpo-accent));
+}
+.cp-launcher__item-label {
+  font-size: var(--corpo-text-sm);
+  font-weight: 600;
+}
+.cp-launcher__item-description {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
+}

@@ -14,6 +14,7 @@ import { SideNav } from '../components/SideNav';
 import { Stat } from '../components/Stat';
 import { StatusBar } from '../components/StatusBar';
 import { Topbar } from '../components/Topbar';
+import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/Responsive app shell',
@@ -64,7 +65,7 @@ export const Pattern: Story = {
         <AppShell.Sidebar>
           <SideNav
             aria-label="Sections"
-            brand="Halcyon Group"
+            brand={<Brand name="Halcyon Group" detail="Billing" />}
             activeId={active}
             onSelect={choose}
             sections={[

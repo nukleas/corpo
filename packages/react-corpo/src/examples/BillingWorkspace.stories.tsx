@@ -15,6 +15,7 @@ import { Sparkline } from '../components/Sparkline';
 import { Stat } from '../components/Stat';
 import { Table } from '../components/Table';
 import { Timeline } from '../components/Timeline';
+import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/Billing workspace',
@@ -117,7 +118,7 @@ function BillingWorkspaceExample() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
-          brand="Halcyon Group"
+          brand={<Brand name="Halcyon Group" detail="Billing" />}
           sections={SECTIONS}
           activeId={activeId}
           onSelect={(id) => {

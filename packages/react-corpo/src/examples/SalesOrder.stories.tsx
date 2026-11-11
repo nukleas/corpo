@@ -28,6 +28,7 @@ import { Stepper } from '../components/Stepper';
 import { Tabs } from '../components/Tabs';
 import { Textarea } from '../components/Textarea';
 import { Topbar } from '../components/Topbar';
+import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/Sales order',
@@ -400,7 +401,7 @@ function SalesOrderExample() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
-          brand="Halcyon Group"
+          brand={<Brand name="Halcyon Group" detail="Sales" />}
           activeId="orders"
           onSelect={() => setOpenId(null)}
           sections={[
