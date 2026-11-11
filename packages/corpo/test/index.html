@@ -516,6 +516,23 @@
       <button class="cp-bottom-nav__item"><span class="cp-bottom-nav__icon" aria-hidden="true">✓</span><span>Approvals</span><span class="cp-bottom-nav__badge"><span class="cp-badge cp-badge--red">3</span></span></button>
       <button class="cp-bottom-nav__item"><span class="cp-bottom-nav__icon" aria-hidden="true">≡</span><span>Expenses</span></button>
     </nav>
+    <div class="cp-command" style="margin-top: 16px;">
+      <div class="cp-command__input-row">
+        <input class="cp-command__input" role="combobox" aria-label="Search commands" aria-expanded="true" aria-controls="demo-command-list" aria-activedescendant="demo-command-1" value="ostara">
+      </div>
+      <div class="cp-command__list" id="demo-command-list" role="listbox" aria-label="Search commands">
+        <div role="group" aria-labelledby="demo-command-records">
+          <div class="cp-command__group-label" id="demo-command-records">Records</div>
+          <div class="cp-command__item cp-command__item--active" id="demo-command-1" role="option" aria-selected="true"><span class="cp-command__item-text"><span class="cp-command__item-label">INV-1048</span><span class="cp-command__item-description">Ostara Foods · 1,180.00 · Pending</span></span></div>
+          <div class="cp-command__item" id="demo-command-2" role="option" aria-selected="false"><span class="cp-command__item-text"><span class="cp-command__item-label">SO-2210</span><span class="cp-command__item-description">Ostara Foods · Sales order</span></span></div>
+        </div>
+        <div role="group" aria-labelledby="demo-command-create">
+          <div class="cp-command__group-label" id="demo-command-create">Create</div>
+          <div class="cp-command__item" id="demo-command-3" role="option" aria-selected="false"><span class="cp-command__item-text"><span class="cp-command__item-label">New invoice</span></span><span class="cp-kbd-group"><kbd class="cp-kbd">Cmd</kbd><span class="cp-kbd-group__sep">+</span><kbd class="cp-kbd">N</kbd></span></div>
+          <div class="cp-command__item" id="demo-command-4" role="option" aria-selected="false" aria-disabled="true"><span class="cp-command__item-text"><span class="cp-command__item-label">New journal entry</span><span class="cp-command__item-description">Period 10 is closed</span></span></div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section>

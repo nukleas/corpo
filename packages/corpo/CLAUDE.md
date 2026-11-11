@@ -54,7 +54,7 @@ examples/console.html  composed admin-console example using every component fami
 - CSS variables are all `--corpo-*`. Never use raw hex values in component CSS — always reference a token.
 - `--corpo-accent` is the semantic accent; it resolves to the active theme's accent color (teal by
   default, no class needed). Use this instead of `--corpo-teal` directly in component CSS.
-- Geometry is soft, not sharp: `--corpo-radius` (2px, controls) and `--corpo-radius-lg` (4px, surfaces) —
+- Geometry is soft, not sharp: `--corpo-radius` (6px, controls) and `--corpo-radius-lg` (8px, surfaces) —
   never `border-radius: 0`. The Switch pill is the one fully-rounded exception.
 - No neon glow, scanlines, or CRT effects — elevation comes from `--corpo-shadow-sm/md/lg` only.
 - `_*/` directories are gitignored and for internal reference only. Never commit them.
@@ -121,8 +121,8 @@ pnpm storybook           # React Storybook (packages/react-corpo)
 | `--corpo-accent` | theme accent (teal by default) |
 | `--corpo-accent-strong` | darker accent for hover/press |
 | `--corpo-border` / `--corpo-border-dim` / `--corpo-border-strong` | border weights |
-| `--corpo-radius` / `--corpo-radius-lg` | 2px controls / 4px surfaces |
+| `--corpo-radius` / `--corpo-radius-lg` | 6px controls / 8px surfaces |
 | `--corpo-shadow-sm` / `-md` / `-lg` | quiet elevation, no glow |
 | `--corpo-font-sans` | Public Sans — body/headings |
-| `--corpo-font-mono` | JetBrains Mono — labels, data, code |
+| `--corpo-font-mono` | JetBrains Mono — data, ids, code, eyebrows and table headers |
 | `--corpo-text-xs` … `--corpo-text-2xl` | rem-based type scale |
