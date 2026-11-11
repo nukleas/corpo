@@ -45,7 +45,7 @@ export function ActionBar({
 }: ActionBarProps) {
   const barRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
-  const [fit, setFit] = useState(actions.length);
+  const [fit, setFit] = useState(Math.min(actions.length, MAX_VISIBLE));
   const [focus, setFocus] = useState(0);
 
   // Measure every button off-screen once, then fit as many as the bar's width allows.

@@ -6,7 +6,7 @@ notes for each tag carry the same list.
 ## Unreleased
 
 - **Breaking:** `SectionHeader` (and so `Section`) titles are `--corpo-text`, not the accent,
-  and the header has no bottom rule or padding. Its margin below is 12px (was 16px).
+  and the header has no bottom rule or padding. The gap below it is 12px (was 28px with the rule).
 - **Breaking:** `ActionBar` shows the primary action and at most two others, even when
   more would fit. The rest go into "More", ahead of `menu` items.
 - Words that were mono are Public Sans (case and tracking unchanged): the record
