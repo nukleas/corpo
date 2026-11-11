@@ -146,7 +146,7 @@ const MODULES: SideNavSection[] = [
  */
 export const ModuleTree: Story = {
   args: { brand: 'Halcyon Group', sections: MODULES },
-  render: (args) => {
+  render: function Render(args) {
     const [activeId, setActiveId] = useState('trial-balance');
     return (
       <div style={{ width: 240, height: 520, border: '1px solid var(--corpo-border-dim)' }}>
@@ -159,33 +159,33 @@ export const ModuleTree: Story = {
     // The active page's groups start open.
     const finance = canvas.getByRole('button', { name: 'Finance' });
     const ledger = canvas.getByRole('button', { name: 'General ledger' });
-    expect(finance).toHaveAttribute('aria-expanded', 'true');
-    expect(ledger).toHaveAttribute('aria-expanded', 'true');
-    expect(canvas.getByRole('button', { name: 'Trial balance' })).toHaveAttribute('aria-current', 'page');
+    await expect(finance).toHaveAttribute('aria-expanded', 'true');
+    await expect(ledger).toHaveAttribute('aria-expanded', 'true');
+    await expect(canvas.getByRole('button', { name: 'Trial balance' })).toHaveAttribute('aria-current', 'page');
     const sales = canvas.getByRole('button', { name: 'Sales' });
-    expect(sales).toHaveAttribute('aria-expanded', 'false');
+    await expect(sales).toHaveAttribute('aria-expanded', 'false');
 
     // ArrowRight opens Sales, again steps into it; ArrowLeft steps back out, again closes it.
     sales.focus();
     await userEvent.keyboard('{ArrowRight}');
-    expect(sales).toHaveAttribute('aria-expanded', 'true');
+    await expect(sales).toHaveAttribute('aria-expanded', 'true');
     await userEvent.keyboard('{ArrowRight}');
-    expect(canvas.getByRole('button', { name: 'Quotes' })).toHaveFocus();
+    await expect(canvas.getByRole('button', { name: 'Quotes' })).toHaveFocus();
     await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
-    expect(canvas.getByRole('button', { name: /Invoices/ })).toHaveAttribute('aria-current', 'page');
+    await expect(canvas.getByRole('button', { name: /Invoices/ })).toHaveAttribute('aria-current', 'page');
     await userEvent.keyboard('{ArrowLeft}');
-    expect(sales).toHaveFocus();
+    await expect(sales).toHaveFocus();
     await userEvent.keyboard('{ArrowLeft}');
-    expect(sales).toHaveAttribute('aria-expanded', 'false');
+    await expect(sales).toHaveAttribute('aria-expanded', 'false');
     // A closed group that holds the active page is marked.
-    expect(sales).toHaveClass('is-active-parent');
+    await expect(sales).toHaveClass('is-active-parent');
 
     // ArrowDown skips the items of closed groups.
     await userEvent.keyboard('{ArrowDown}');
-    expect(finance).toHaveFocus();
+    await expect(finance).toHaveFocus();
     await userEvent.click(ledger);
-    expect(ledger).toHaveAttribute('aria-expanded', 'false');
-    expect(canvas.queryByRole('button', { name: 'Journal entries' })).not.toBeInTheDocument();
+    await expect(ledger).toHaveAttribute('aria-expanded', 'false');
+    await expect(canvas.queryByRole('button', { name: 'Journal entries' })).not.toBeInTheDocument();
   },
 };
 
@@ -196,7 +196,7 @@ export const ModuleTree: Story = {
  */
 export const CollapsedRail: Story = {
   args: { sections: MODULES },
-  render: (args) => {
+  render: function Render(args) {
     const [activeId, setActiveId] = useState('invoices');
     const [collapsed, setCollapsed] = useState(true);
     return (
@@ -232,26 +232,26 @@ export const CollapsedRail: Story = {
     const body = within(document.body);
     // Labels stay in the accessible name.
     const sales = canvas.getByRole('button', { name: 'Sales' });
-    expect(sales).toHaveClass('is-active-parent');
+    await expect(sales).toHaveClass('is-active-parent');
 
     await userEvent.hover(canvas.getByRole('button', { name: 'Home' }));
-    expect(canvasElement.querySelector('.cp-sidenav__tip')).toHaveTextContent('Home');
+    await expect(canvasElement.querySelector('.cp-sidenav__tip')).toHaveTextContent('Home');
 
     await userEvent.click(sales);
     const flyout = body.getByRole('group', { name: 'Sales' });
     await waitFor(() => expect(within(flyout).getByRole('button', { name: 'Quotes' })).toHaveFocus());
     await userEvent.keyboard('{ArrowUp}');
-    expect(within(flyout).getByRole('button', { name: /Invoices/ })).toHaveFocus();
+    await expect(within(flyout).getByRole('button', { name: /Invoices/ })).toHaveFocus();
     await userEvent.keyboard('{Escape}');
-    expect(body.queryByRole('group', { name: 'Sales' })).not.toBeInTheDocument();
-    expect(sales).toHaveFocus();
+    await expect(body.queryByRole('group', { name: 'Sales' })).not.toBeInTheDocument();
+    await expect(sales).toHaveFocus();
 
     // Nested groups expand inside the flyout; running an item closes it.
     await userEvent.keyboard('{ArrowDown}{Enter}');
     const finance = body.getByRole('group', { name: 'Finance' });
     await userEvent.click(within(finance).getByRole('button', { name: 'General ledger' }));
     await userEvent.click(within(finance).getByRole('button', { name: 'Journal entries' }));
-    expect(body.queryByRole('group', { name: 'Finance' })).not.toBeInTheDocument();
-    expect(canvas.getByRole('button', { name: 'Finance' })).toHaveClass('is-active-parent');
+    await expect(body.queryByRole('group', { name: 'Finance' })).not.toBeInTheDocument();
+    await expect(canvas.getByRole('button', { name: 'Finance' })).toHaveClass('is-active-parent');
   },
 };

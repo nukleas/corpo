@@ -14,7 +14,7 @@ type Story = StoryObj<typeof SplitButton>;
 
 /** The main action runs on click; the arrow opens related actions. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [ran, setRan] = useState('');
     return (
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
@@ -46,9 +46,9 @@ export const Default: Story = {
 
     const arrow = canvas.getByRole('button', { name: 'More options' });
     await userEvent.click(arrow);
-    expect(arrow).toHaveAttribute('aria-expanded', 'true');
+    await expect(arrow).toHaveAttribute('aria-expanded', 'true');
     await userEvent.keyboard('{ArrowDown}{Enter}');
     await expect(canvas.getByText('Last run: Save as draft')).toBeInTheDocument();
-    expect(arrow).toHaveFocus();
+    await expect(arrow).toHaveFocus();
   },
 };
