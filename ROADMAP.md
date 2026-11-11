@@ -204,7 +204,7 @@ The 2026-11-11 audit found it in our own examples:
 
 Layered PRs, in order:
 
-1. **The rules, written down and shipped.**
+1. **The rules, written down and shipped.** *(done)*
    - Add a "Building with corpo" guide plus `llms.txt` inside the npm package, as short "never…"
      rules with do/don't pairs. The npm package currently ships only `dist`.
    - Rules:
@@ -217,17 +217,17 @@ Layered PRs, in order:
      - Stat rows only on dashboards.
      - Mono only for figures and ids.
      - 1 primary action, at most 3 visible actions, the rest in "More".
-2. **Defaults that don't invite slop.**
+2. **Defaults that don't invite slop.** *(done)*
    - `SectionHeader`: neutral title, and no rule unless asked for.
    - `RecordPage`: the eyebrow is documented as rare.
    - `Tabs`: counts are documented for actionable counts only.
    - `ActionBar`: primary plus 2 others visible.
    - `DataTable`/`Table`: compact, horizontal rules only.
-3. **Rebuild the examples as clean reference screens**, dense and table-first, so agents copy
+3. **Rebuild the examples as clean reference screens** *(done; flows too)*, dense and table-first, so agents copy
    the right thing.
    - Admin console licenses become a table.
    - The ERP demo drops the eyebrow, the tab counts and the duplicate facts.
-4. **Composition lint for apps.** An oxlint JS plugin consumers enable:
+4. **Composition lint for apps.** *(done: `@nukleas/react-corpo/oxlint`; eyebrow and badge rules stay guide-only)* An oxlint JS plugin consumers enable:
    - `Card` inside `Card`;
    - `Card` wrapping a lone table;
    - `CardGrid` or `Card` mapped over a data array (use a table);

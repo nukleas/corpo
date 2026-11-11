@@ -18,7 +18,10 @@ color. Fix it by removing whatever doesn't help someone do the job.
    says it's a sales order, `RecordPage` gets no `eyebrow`. An eyebrow is only for a type the
    page doesn't otherwise name.
 4. **Never add a badge for a total.** Badges and tab or nav counts are for numbers that ask for
-   action: unread, overdue, waiting on you. "Lines 3", "Activity 12", "Files 2": no.
+   action: unread, overdue, waiting on you, failed. The test is whether the number makes someone
+   act now. "Lines 3", "Activity 12", "Files 2": no. Counts on filter tabs over a table ("Open 12",
+   "Paid 84") are fine, because they say what each filter will show. Work in progress (uploading)
+   shows where it happens, not as a nav badge.
 5. **Never color a label for decoration.** Color means status, and status is one `StatusPill` or
    a table cell's `status`. Categories and tiers ("Enterprise", "Standard") are plain text.
 6. **Never write a description that restates the title.** "Sales orders: a list of sales orders"
@@ -28,7 +31,8 @@ color. Fix it by removing whatever doesn't help someone do the job.
 8. **Never show more than one primary action** per page or dialog, and never more than three
    visible actions in a row. Use `ActionBar` (it moves the rest into "More") or `SplitButton`.
 9. **Never use mono for words.** `--corpo-font-mono` is for figures, ids, codes and keys. Dates,
-   names, tiers and labels use the sans font.
+   names, tiers and labels use the sans font. Table headers and the accounting registers (`Ledger`,
+   `TAccount`, `TrialBalance`, `JournalEntry`) set their own type; leave them as they are.
 10. **Never repeat a value.** If the company is in the switcher, it isn't also a fact. If the total
     is in the header, it isn't also a stat.
 11. **Never invent styling.** Use corpo components and their props. If something is missing, say
@@ -48,7 +52,8 @@ color. Fix it by removing whatever doesn't help someone do the job.
   people would get it wrong without it. Mark optional fields, not required ones, when most are
   required.
 - **Navigation:** `AppShell` + `SideNav` (module tree) + `Topbar` with a `Breadcrumb`. The breadcrumb
-  names where you are, so the topbar `title` and the record eyebrow don't also need to.
+  names where you are, so the topbar `title` and the record eyebrow don't also need to. On a list
+  page whose last breadcrumb is the page name, leave out both the topbar title and a page heading.
 - **Feedback:** inline `Alert` for problems on the page, `Toast` for "done", `AlertDialog` only for
   destructive or irreversible actions.
 - **Copy:** sentence case, verb-first buttons ("Create invoice"), no exclamation marks, no
@@ -63,7 +68,9 @@ color. Fix it by removing whatever doesn't help someone do the job.
 | Money in a ledger or statement | `Ledger`, `Statement`, `TrialBalance`, `Amount` | hand-formatted strings |
 | Editable lines on a document | `LineItems` | a `DataTable` with inputs |
 | Steps a document goes through | `Stepper` | badges per step |
-| History of a record | `ActivityLog` | a `Timeline` of cards |
+| History people comment on | `ActivityLog` | a `Timeline` of cards |
+| Read-only history or a sequence of events | `Timeline` | cards, badges per event |
+| A wizard or checklist | `Stepper` plus plain step content, or a compact `Table` of steps | a `Card` per step |
 | Separate objects someone picks one of | `Card` (or `Item`) | — this is what cards are for |
 | A dashboard's headline numbers | `CardGrid` of `Stat` | stats on a list page |
 
