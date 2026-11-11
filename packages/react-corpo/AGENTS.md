@@ -24,7 +24,7 @@ react-corpo/
 
 ## Composing screens
 
-Stories and `src/examples/` follow [`BUILDING.md`](./BUILDING.md), the guide this package ships to
+Stories, `src/examples/` and `src/flows/` follow [`BUILDING.md`](./BUILDING.md), the guide this package ships to
 app developers and their agents. Examples are what agents copy, so keep them free of decoration.
 
 ## Hard rules

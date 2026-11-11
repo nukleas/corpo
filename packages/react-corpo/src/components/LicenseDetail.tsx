@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
-import type { LicenseItem } from './LicenseCatalog';
+import { LICENSE_TIER_LABEL, type LicenseItem } from './LicenseCatalog';
 
 export interface LicenseDetailProps extends HTMLAttributes<HTMLDivElement> {
   /** License to describe; renders a muted placeholder when absent. */
@@ -9,7 +9,7 @@ export interface LicenseDetailProps extends HTMLAttributes<HTMLDivElement> {
   actions?: ReactNode;
 }
 
-/** Selected-license detail panel — tier-tinted header, cost/renewal rows, description. */
+/** Selected-license detail panel: name, tier and category, cost/renewal rows, description. */
 export function LicenseDetail({ item, actions, className = '', ...rest }: LicenseDetailProps) {
   if (!item) {
     return (
@@ -21,11 +21,12 @@ export function LicenseDetail({ item, actions, className = '', ...rest }: Licens
     );
   }
   return (
-    <div className={cn('cp-license-detail', `cp-tier--${item.tier}`, className)} {...rest}>
+    <div className={cn('cp-license-detail', className)} {...rest}>
       <div className="cp-license-detail__header">
-        <span className="cp-license-detail__tier">{item.tier}</span>
         <span className="cp-license-detail__name">{item.name}</span>
-        {item.category != null && <span className="cp-license-detail__category">{item.category}</span>}
+        <span className="cp-license-detail__category">
+          {[LICENSE_TIER_LABEL[item.tier], item.category].filter(Boolean).join(' · ')}
+        </span>
       </div>
       {item.details != null && item.details.length > 0 && (
         <div className="cp-license-detail__rows">

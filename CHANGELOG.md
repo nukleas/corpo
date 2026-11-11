@@ -5,6 +5,12 @@ notes for each tag carry the same list.
 
 ## Unreleased
 
+- **Breaking:** `LicenseCatalog` is a compact row list (name, tier, seats), not a card grid:
+  `cp-license-grid`/`cp-license-card*` are now `cp-license-list`/`cp-license-row*`, and the
+  `minCells` prop and empty padding cells are gone. `AssignmentSlots` rows and the
+  `LicenseDetail` panel lose their per-tier tint, and the `cp-tier--*` modifiers and the
+  `__tier` parts are removed: tiers are plain sentence-case text (`LICENSE_TIER_LABEL`),
+  shown in `LicenseDetail` on the category line.
 - **Breaking:** `SectionHeader` (and so `Section`) titles are `--corpo-text`, not the accent,
   and the header has no bottom rule or padding. The gap below it is 12px (was 28px with the rule).
 - **Breaking:** `ActionBar` shows the primary action and at most two others, even when

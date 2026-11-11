@@ -1130,50 +1130,50 @@
     <h2>License assignment</h2>
     <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
       <div style="flex: 2 1 280px; display: flex; flex-direction: column; gap: 16px; min-width: 0;">
-        <div class="cp-license-grid">
-          <button type="button" class="cp-license-card cp-tier--enterprise is-selected is-assigned">
-            <span class="cp-license-card__name">Datadog</span>
-            <span class="cp-license-card__tier">Enterprise</span>
-            <span class="cp-license-card__seats">12 seats</span>
+        <div class="cp-license-list">
+          <button type="button" class="cp-license-row is-selected is-assigned">
+            <span class="cp-license-row__name">Datadog</span>
+            <span>Enterprise</span>
+            <span class="cp-license-row__seats">12 seats</span>
           </button>
-          <button type="button" class="cp-license-card cp-tier--professional">
-            <span class="cp-license-card__name">Figma</span>
-            <span class="cp-license-card__tier">Professional</span>
-            <span class="cp-license-card__seats">4 seats</span>
+          <button type="button" class="cp-license-row">
+            <span class="cp-license-row__name">Figma</span>
+            <span>Professional</span>
+            <span class="cp-license-row__seats">4 seats</span>
           </button>
-          <button type="button" class="cp-license-card cp-tier--standard is-assigned">
-            <span class="cp-license-card__name">Linear</span>
-            <span class="cp-license-card__tier">Standard</span>
-            <span class="cp-license-card__seats">30 seats</span>
+          <button type="button" class="cp-license-row is-assigned">
+            <span class="cp-license-row__name">Linear</span>
+            <span>Standard</span>
+            <span class="cp-license-row__seats">30 seats</span>
           </button>
-          <button type="button" class="cp-license-card cp-tier--free">
-            <span class="cp-license-card__name">VS Code</span>
-            <span class="cp-license-card__tier">Free</span>
+          <button type="button" class="cp-license-row">
+            <span class="cp-license-row__name">VS Code</span>
+            <span>Free</span>
+            <span class="cp-license-row__seats">–</span>
           </button>
-          <div class="cp-license-card is-empty"></div>
         </div>
         <div class="cp-assign-slots" style="max-width: 360px;">
-          <button type="button" class="cp-assign-slot cp-tier--enterprise">
+          <button type="button" class="cp-assign-slot">
             <span class="cp-assign-slot__label">Observability</span>
             <span class="cp-assign-slot__name">Datadog</span>
-            <span class="cp-assign-slot__tier">Enterprise</span>
+            <span>Enterprise</span>
           </button>
-          <button type="button" class="cp-assign-slot cp-tier--standard is-selected">
+          <button type="button" class="cp-assign-slot is-selected">
             <span class="cp-assign-slot__label">Tracking</span>
             <span class="cp-assign-slot__name">Linear</span>
-            <span class="cp-assign-slot__tier">Standard</span>
+            <span>Standard</span>
           </button>
           <button type="button" class="cp-assign-slot is-empty">
             <span class="cp-assign-slot__label">Design</span>
             <span class="cp-assign-slot__name">Unassigned</span>
+            <span>–</span>
           </button>
         </div>
       </div>
-      <div class="cp-license-detail cp-tier--enterprise" style="flex: 1 1 240px; min-width: 0;">
+      <div class="cp-license-detail" style="flex: 1 1 240px; min-width: 0;">
         <div class="cp-license-detail__header">
-          <span class="cp-license-detail__tier">Enterprise</span>
           <span class="cp-license-detail__name">Datadog</span>
-          <span class="cp-license-detail__category">Observability · Annual contract</span>
+          <span class="cp-license-detail__category">Enterprise · Observability · Annual contract</span>
         </div>
         <div class="cp-license-detail__rows">
           <div class="cp-license-detail__row"><span class="cp-license-detail__row-label">Cost per seat</span><span class="cp-license-detail__row-value">$28/mo</span></div>

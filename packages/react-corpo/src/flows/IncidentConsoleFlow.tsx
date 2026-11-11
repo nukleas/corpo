@@ -1,13 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { FlowShell } from './FlowShell';
-import { Card } from '../components/Card';
+import { DescriptionList } from '../components/DescriptionList';
 import { SectionHeader } from '../components/SectionHeader';
 import { Tabs } from '../components/Tabs';
 import { Table, type TableColumn } from '../components/Table';
+import { Timeline } from '../components/Timeline';
 import { Sheet } from '../components/Sheet';
-import { Avatar } from '../components/Avatar';
 import { StatusPill } from '../components/StatusPill';
-import { StatusBar } from '../components/StatusBar';
 import { Button } from '../components/Button';
 import { AlertDialog } from '../components/AlertDialog';
 import { Toast, Toaster } from '../components/Toast';
@@ -99,22 +98,12 @@ const INITIAL_INCIDENTS: Incident[] = [
 ];
 
 const COLUMNS: TableColumn[] = [
-  { key: 'id', label: 'Incident' },
+  { key: 'id', label: 'Incident', mono: true },
   { key: 'title', label: 'Description' },
   { key: 'severity', label: 'Severity' },
   { key: 'assignee', label: 'Assignee' },
   { key: 'updated', label: 'Updated' },
 ];
-
-function initialsFor(name: string): string {
-  if (name === 'Unassigned') return '?';
-  return name
-    .split(/[\s.]+/)
-    .filter(Boolean)
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase();
-}
 
 export function IncidentConsoleFlow() {
   const [incidents, setIncidents] = useState(INITIAL_INCIDENTS);
@@ -126,31 +115,14 @@ export function IncidentConsoleFlow() {
 
   const selected = incidents.find((inc) => inc.id === selectedId) ?? null;
 
-  const counts = useMemo(
-    () => ({
-      active: incidents.filter((i) => i.status === 'active').length,
-      resolved: incidents.filter((i) => i.status === 'resolved').length,
-      archived: incidents.filter((i) => i.status === 'archived').length,
-    }),
-    [incidents],
-  );
+  const activeCount = incidents.filter((i) => i.status === 'active').length;
 
   const filtered = incidents.filter((i) => i.status === activeTab);
 
   const tableRows = filtered.map((inc) => ({
     id: {
       content: (
-        <button
-          type="button"
-          onClick={() => setSelectedId(inc.id)}
-          style={{
-            all: 'unset',
-            cursor: 'pointer',
-            color: 'var(--corpo-accent)',
-            fontFamily: 'var(--corpo-font-mono)',
-            fontSize: 'var(--corpo-text-xs)',
-          }}
-        >
+        <button type="button" className="cp-table__link" onClick={() => setSelectedId(inc.id)}>
           {inc.id}
         </button>
       ),
@@ -163,40 +135,32 @@ export function IncidentConsoleFlow() {
 
   return (
     <FlowShell
-      eyebrow="Halcyon Group — Trust & Safety"
       title="Everything happening right now"
       subtitle="A live look across every Halcyon site. We like to think of these as team-building moments — anything above Medium gets a friendly heads-up straight to the Executive Board."
     >
       <SectionHeader
         title="Incidents"
-        actions={<Button onClick={() => setCommandOpen(true)}>⌘K Quick actions</Button>}
+        actions={
+          <Button size="sm" onClick={() => setCommandOpen(true)}>
+            Quick actions
+          </Button>
+        }
       />
 
       <Tabs
         aria-label="Incident status"
         tabs={[
-          { id: 'active', label: 'Active', count: counts.active },
-          { id: 'resolved', label: 'Resolved', count: counts.resolved },
-          { id: 'archived', label: 'Archived', count: counts.archived },
+          { id: 'active', label: 'Active', count: activeCount || undefined },
+          { id: 'resolved', label: 'Resolved' },
+          { id: 'archived', label: 'Archived' },
         ]}
         active={activeTab}
         onChange={(id) => {
           if (id === 'active' || id === 'resolved' || id === 'archived') setActiveTab(id);
         }}
-        pills
       >
-        <Card flat>
-          <Table columns={COLUMNS} rows={tableRows} />
-        </Card>
+        <Table compact columns={COLUMNS} rows={tableRows} />
       </Tabs>
-
-      <StatusBar
-        items={[
-          { id: 'open', label: 'Open incidents', value: counts.active },
-          { id: 'sla', label: 'SLA breach risk', value: '2' },
-          { id: 'shift', label: 'Personnel on shift', value: '14' },
-        ]}
-      />
 
       <Sheet
         open={!!selected}
@@ -204,55 +168,35 @@ export function IncidentConsoleFlow() {
         title={selected?.id}
         footer={
           selected && (
-            <div style={{ display: 'flex', gap: 8 }}>
-              <Button onClick={() => setSelectedId(null)}>Loop in leadership</Button>
-              <Button variant="primary" disabled={selected.status === 'resolved'} onClick={() => setResolveOpen(true)}>
-                {selected.status === 'resolved' ? 'All wrapped up' : 'Mark resolved'}
+            <>
+              <Button size="sm" onClick={() => setSelectedId(null)}>
+                Loop in leadership
               </Button>
-            </div>
+              {selected.status === 'active' && (
+                <Button size="sm" variant="primary" onClick={() => setResolveOpen(true)}>
+                  Mark resolved
+                </Button>
+              )}
+            </>
           )
         }
       >
         {selected && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Avatar initials={initialsFor(selected.assignee)} />
-              <div>
-                <div style={{ fontWeight: 600 }}>{selected.assignee}</div>
-                <StatusPill tone={selected.severityStatus}>{selected.severity}</StatusPill>
-              </div>
-            </div>
-            <p style={{ fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-secondary)' }}>{selected.title}</p>
-            <div>
-              <div className="corpo-label" style={{ marginBottom: 8 }}>
-                Timeline
-              </div>
-              <ul
-                style={{
-                  margin: 0,
-                  padding: 0,
-                  listStyle: 'none',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 6,
-                }}
-              >
-                {selected.timeline.map((entry, i) => (
-                  <li key={i} style={{ fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-secondary)' }}>
-                    <span
-                      style={{
-                        fontFamily: 'var(--corpo-font-mono)',
-                        color: 'var(--corpo-text-dim)',
-                        marginRight: 8,
-                      }}
-                    >
-                      {entry.time}
-                    </span>
-                    {entry.note}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <p style={{ margin: 0 }}>{selected.title}</p>
+            <DescriptionList
+              compact
+              items={[
+                {
+                  label: 'Severity',
+                  value: <StatusPill tone={selected.severityStatus}>{selected.severity}</StatusPill>,
+                },
+                { label: 'Assignee', value: selected.assignee },
+                { label: 'Opened', value: selected.opened },
+                { label: 'Updated', value: selected.updated },
+              ]}
+            />
+            <Timeline items={selected.timeline.map((entry) => ({ title: entry.note, timestamp: entry.time }))} />
           </div>
         )}
       </Sheet>

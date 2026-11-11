@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { FlowShell } from './FlowShell';
-import { Card } from '../components/Card';
-import { Collapsible } from '../components/Collapsible';
+import { Alert } from '../components/Alert';
 import { Checkbox } from '../components/Checkbox';
 import { Progress } from '../components/Progress';
 import { Button } from '../components/Button';
 import { AlertDialog } from '../components/AlertDialog';
+import { Table } from '../components/Table';
 import { Toast, Toaster } from '../components/Toast';
-import { StatusPill } from '../components/StatusPill';
 
 interface Department {
   id: string;
@@ -18,7 +17,7 @@ interface Department {
 const DEPARTMENTS: Department[] = [
   {
     id: 'it',
-    label: 'Tech handoff',
+    label: 'IT',
     items: [
       'Company laptop returned (thanks for taking care of it!)',
       'Badge access wrapped up',
@@ -27,17 +26,17 @@ const DEPARTMENTS: Department[] = [
   },
   {
     id: 'facilities',
-    label: 'Workspace wrap-up',
+    label: 'Facilities',
     items: ['Desk tidied up for the next person', 'Keys handed back'],
   },
   {
     id: 'finance',
-    label: 'Money matters',
+    label: 'Finance',
     items: ['Final paycheck processed, per your agreement', 'Last expenses squared away'],
   },
   {
     id: 'hr',
-    label: 'Paperwork & farewells',
+    label: 'People Success',
     items: ['Quick chat with People Success completed', 'NDA reminder acknowledged'],
   },
 ];
@@ -58,11 +57,8 @@ export function DecommissioningFlow() {
     setChecked((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const countForDept = (dept: Department) => dept.items.filter((_, i) => checked[`${dept.id}-${i}`]).length;
-
   return (
     <FlowShell
-      eyebrow="Halcyon Group — People Success"
       title="Your next chapter"
       subtitle="We're so grateful for everything you've brought to the Halcyon family. Let's make this transition smooth — just a few quick checkpoints below."
     >
@@ -75,33 +71,22 @@ export function DecommissioningFlow() {
 
       {!decommissioned ? (
         <>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {DEPARTMENTS.map((dept) => (
-              <Card key={dept.id} flat>
-                <Collapsible
-                  trigger={
-                    <span
-                      className="corpo-label"
-                      style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
-                    >
-                      <span>{dept.label}</span>
-                      <span style={{ color: 'var(--corpo-text-muted)' }}>
-                        {countForDept(dept)}/{dept.items.length}
-                      </span>
-                    </span>
-                  }
-                  defaultOpen={dept.id === 'it'}
-                >
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 8 }}>
-                    {dept.items.map((item, i) => {
-                      const key = `${dept.id}-${i}`;
-                      return <Checkbox key={key} label={item} checked={!!checked[key]} onChange={() => toggle(key)} />;
-                    })}
-                  </div>
-                </Collapsible>
-              </Card>
-            ))}
-          </div>
+          <Table
+            compact
+            columns={[
+              { key: 'step', label: 'Step' },
+              { key: 'team', label: 'Team' },
+            ]}
+            rows={DEPARTMENTS.flatMap((dept) =>
+              dept.items.map((item, i) => {
+                const key = `${dept.id}-${i}`;
+                return {
+                  step: { content: <Checkbox label={item} checked={!!checked[key]} onChange={() => toggle(key)} /> },
+                  team: dept.label,
+                };
+              }),
+            )}
+          />
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant="danger" disabled={!allChecked} onClick={() => setConfirmOpen(true)}>
@@ -110,19 +95,10 @@ export function DecommissioningFlow() {
           </div>
         </>
       ) : (
-        <Card title="You're on to bigger things">
-          <StatusPill tone="err">Access ended</StatusPill>
-          <p
-            style={{
-              marginTop: 12,
-              color: 'var(--corpo-text-secondary)',
-              fontSize: 'var(--corpo-text-sm)',
-            }}
-          >
-            Thanks for everything. Your final pay will process per your agreement, and we've loved having you as part of
-            the Halcyon family. Reversing this needs Director sign-off.
-          </p>
-        </Card>
+        <Alert tone="info" title="Access ended">
+          Thanks for everything. Your final pay will process per your agreement, and we've loved having you as part of
+          the Halcyon family. Reversing this needs Director sign-off.
+        </Alert>
       )}
 
       <AlertDialog

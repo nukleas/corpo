@@ -15,10 +15,6 @@ export const Default: Story = {
   args: { items: LICENSES, selectedId: 'datadog', assignedIds: ['datadog', 'linear'] },
 };
 
-export const PaddedGrid: Story = {
-  args: { items: LICENSES.slice(0, 3), minCells: 6 },
-};
-
 /** Click to select; double-click (or Enter) fires the assign intent. */
 export const Interactive: Story = {
   args: { items: LICENSES },

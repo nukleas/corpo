@@ -8,7 +8,6 @@ import { Amount } from '../components/Amount';
 import { Avatar } from '../components/Avatar';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Button } from '../components/Button';
-import { Card } from '../components/Card';
 import { DataTable, sumColumn } from '../components/DataTable';
 import type { DataTableColumn, DataTableRow } from '../components/DataTable';
 import { DatePicker } from '../components/DatePicker';
@@ -20,6 +19,7 @@ import { Input } from '../components/Input';
 import { LineItems, lineItemTotals } from '../components/LineItems';
 import type { LineItem, LineItemProduct } from '../components/LineItems';
 import { RecordPage } from '../components/RecordPage';
+import { Section } from '../components/Section';
 import { SectionHeader } from '../components/SectionHeader';
 import { Select } from '../components/Select';
 import { SideNav } from '../components/SideNav';
@@ -33,7 +33,7 @@ import { Brand } from '../components/Brand';
 const meta = {
   title: 'Examples/Sales order',
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', corpoFlush: true },
 } satisfies Meta;
 export default meta;
 
@@ -159,10 +159,10 @@ const shortDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', d
 const COLUMNS: DataTableColumn[] = [
   { key: 'id', label: 'Order', mono: true, sortable: true, summary: (rows) => `${rows.length} orders` },
   { key: 'customer', label: 'Customer', sortable: true },
-  { key: 'ordered', label: 'Ordered', mono: true, sortable: true },
+  { key: 'ordered', label: 'Ordered', sortable: true },
   {
     key: 'total',
-    label: 'Total',
+    label: 'Total (USD)',
     numeric: true,
     sortable: true,
     summary: (rows) => ({ content: <Amount value={sumColumn(rows, 'total')} /> }),
@@ -200,20 +200,17 @@ function OrderList({ orders, onOpen }: { orders: Order[]; onOpen: (id: string) =
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <SectionHeader
-        title="Sales orders"
-        description="Orders placed in the selected period."
-        actions={
+      <SectionHeader title="Sales orders" />
+      <DataTable
+        columns={COLUMNS}
+        rows={rows}
+        compact
+        searchable
+        toolbar={
           <div style={{ width: 240 }}>
             <DateRangePicker value={period} onChange={setPeriod} size="sm" />
           </div>
         }
-      />
-      <DataTable
-        columns={COLUMNS}
-        rows={rows}
-        grid
-        searchable
         selectable
         selected={selected}
         onSelectedChange={setSelected}
@@ -223,15 +220,7 @@ function OrderList({ orders, onOpen }: { orders: Order[]; onOpen: (id: string) =
   );
 }
 
-function OrderRecord({
-  order,
-  onChange,
-  onBack,
-}: {
-  order: Order;
-  onChange: (next: Order) => void;
-  onBack: () => void;
-}) {
+function OrderRecord({ order, onChange }: { order: Order; onChange: (next: Order) => void }) {
   const totals = lineItemTotals(order.lines);
   const editable = order.status === 'Draft';
   const confirm = () =>
@@ -245,149 +234,135 @@ function OrderRecord({
     });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <Breadcrumb
-        items={[
-          { label: 'Sales orders', as: 'button', linkProps: { type: 'button', onClick: onBack } },
-          { label: order.id },
+    <RecordPage
+      title={order.id}
+      status={<StatusPill tone={TONE[order.status]}>{order.status}</StatusPill>}
+      actions={
+        editable ? (
+          <>
+            <Button size="sm">Save draft</Button>
+            <Button size="sm" variant="primary" onClick={confirm}>
+              Confirm order
+            </Button>
+          </>
+        ) : (
+          <Button size="sm">Print</Button>
+        )
+      }
+      facts={[
+        { label: 'Customer', value: order.customer },
+        { label: 'Ordered', value: shortDate(order.ordered) },
+        { label: 'Due', value: shortDate(order.due) },
+        { label: 'Total', value: <Amount value={totals.total} /> },
+      ]}
+      aside={
+        <>
+          <Section title="Activity">
+            <ActivityLog
+              entries={order.history}
+              onComment={(body) =>
+                onChange({
+                  ...order,
+                  history: [
+                    {
+                      id: `h${order.history.length + 100}`,
+                      type: 'comment',
+                      author: 'Ana Sørensen',
+                      timestamp: 'Just now',
+                      body,
+                    },
+                    ...order.history,
+                  ],
+                })
+              }
+            />
+          </Section>
+          <Section title="Attachments">
+            <AttachmentList
+              attachments={order.attachments}
+              onRemove={(id) => onChange({ ...order, attachments: order.attachments.filter((a) => a.id !== id) })}
+              onAdd={(files) =>
+                onChange({
+                  ...order,
+                  attachments: [
+                    ...order.attachments,
+                    ...files.map((f, n) => ({
+                      id: `f${order.attachments.length + n + 1}`,
+                      name: f.name,
+                      size: f.size,
+                      uploadedBy: 'Ana Sørensen',
+                      uploadedAt: 'Just now',
+                    })),
+                  ],
+                })
+              }
+            />
+          </Section>
+        </>
+      }
+    >
+      <Stepper
+        aria-label="Order lifecycle"
+        items={[{ label: 'Draft' }, { label: 'Confirmed' }, { label: 'Shipped' }, { label: 'Invoiced' }]}
+        current={['Draft', 'Confirmed', 'Shipped'].indexOf(order.status)}
+      />
+      <Tabs
+        aria-label="Order sections"
+        tabs={[
+          {
+            id: 'details',
+            label: 'Details',
+            panel: (
+              <div>
+                <FormSection title="Customer" columns={3} disabled={!editable}>
+                  <Field label="Customer" required>
+                    <Input value={order.customer} onChange={(e) => onChange({ ...order, customer: e.target.value })} />
+                  </Field>
+                  <Field label="Contact">
+                    <Input value={order.contact} onChange={(e) => onChange({ ...order, contact: e.target.value })} />
+                  </Field>
+                  <Field label="Customer PO">
+                    <Input value={order.po} onChange={(e) => onChange({ ...order, po: e.target.value })} />
+                  </Field>
+                </FormSection>
+                <FormSection title="Terms" columns={3} disabled={!editable}>
+                  <Field label="Payment terms">
+                    <Select value={order.terms} onChange={(e) => onChange({ ...order, terms: e.target.value })}>
+                      <option value="net15">Net 15</option>
+                      <option value="net30">Net 30</option>
+                      <option value="net60">Net 60</option>
+                    </Select>
+                  </Field>
+                  <Field label="Due date">
+                    <DatePicker value={order.due} onChange={(due) => onChange({ ...order, due })} />
+                  </Field>
+                  <Field label="Notes" span="full">
+                    <Textarea
+                      rows={2}
+                      value={order.notes}
+                      onChange={(e) => onChange({ ...order, notes: e.target.value })}
+                    />
+                  </Field>
+                </FormSection>
+              </div>
+            ),
+          },
+          {
+            id: 'lines',
+            label: 'Lines',
+            panel: (
+              <LineItems
+                value={order.lines}
+                onChange={(lines) => onChange({ ...order, lines })}
+                products={PRODUCTS}
+                currency="$"
+                readOnly={!editable}
+              />
+            ),
+          },
         ]}
       />
-      <RecordPage
-        eyebrow="Sales order"
-        title={order.id}
-        status={<StatusPill tone={TONE[order.status]}>{order.status}</StatusPill>}
-        actions={
-          editable ? (
-            <>
-              <Button size="sm">Save draft</Button>
-              <Button size="sm" variant="primary" onClick={confirm}>
-                Confirm order
-              </Button>
-            </>
-          ) : (
-            <Button size="sm">Print</Button>
-          )
-        }
-        facts={[
-          { label: 'Customer', value: order.customer },
-          { label: 'Ordered', value: shortDate(order.ordered) },
-          { label: 'Due', value: shortDate(order.due) },
-          { label: 'Lines', value: order.lines.length },
-          { label: 'Total', value: <Amount value={totals.total} /> },
-        ]}
-        aside={
-          <>
-            <Card title="Activity">
-              <ActivityLog
-                entries={order.history}
-                onComment={(body) =>
-                  onChange({
-                    ...order,
-                    history: [
-                      {
-                        id: `h${order.history.length + 100}`,
-                        type: 'comment',
-                        author: 'Ana Sørensen',
-                        timestamp: 'Just now',
-                        body,
-                      },
-                      ...order.history,
-                    ],
-                  })
-                }
-              />
-            </Card>
-            <Card title="Attachments">
-              <AttachmentList
-                attachments={order.attachments}
-                onRemove={(id) => onChange({ ...order, attachments: order.attachments.filter((a) => a.id !== id) })}
-                onAdd={(files) =>
-                  onChange({
-                    ...order,
-                    attachments: [
-                      ...order.attachments,
-                      ...files.map((f, n) => ({
-                        id: `f${order.attachments.length + n + 1}`,
-                        name: f.name,
-                        size: f.size,
-                        uploadedBy: 'Ana Sørensen',
-                        uploadedAt: 'Just now',
-                      })),
-                    ],
-                  })
-                }
-              />
-            </Card>
-          </>
-        }
-      >
-        <Stepper
-          aria-label="Order lifecycle"
-          items={[{ label: 'Draft' }, { label: 'Confirmed' }, { label: 'Shipped' }, { label: 'Invoiced' }]}
-          current={['Draft', 'Confirmed', 'Shipped'].indexOf(order.status)}
-        />
-        <Tabs
-          aria-label="Order sections"
-          tabs={[
-            {
-              id: 'details',
-              label: 'Details',
-              panel: (
-                <div>
-                  <FormSection title="Customer" columns={3} disabled={!editable}>
-                    <Field label="Customer" required>
-                      <Input
-                        value={order.customer}
-                        onChange={(e) => onChange({ ...order, customer: e.target.value })}
-                      />
-                    </Field>
-                    <Field label="Contact">
-                      <Input value={order.contact} onChange={(e) => onChange({ ...order, contact: e.target.value })} />
-                    </Field>
-                    <Field label="Customer PO">
-                      <Input value={order.po} onChange={(e) => onChange({ ...order, po: e.target.value })} />
-                    </Field>
-                  </FormSection>
-                  <FormSection title="Terms" columns={3} disabled={!editable}>
-                    <Field label="Payment terms">
-                      <Select value={order.terms} onChange={(e) => onChange({ ...order, terms: e.target.value })}>
-                        <option value="net15">Net 15</option>
-                        <option value="net30">Net 30</option>
-                        <option value="net60">Net 60</option>
-                      </Select>
-                    </Field>
-                    <Field label="Due date">
-                      <DatePicker value={order.due} onChange={(due) => onChange({ ...order, due })} />
-                    </Field>
-                    <Field label="Notes" span="full">
-                      <Textarea
-                        rows={2}
-                        value={order.notes}
-                        onChange={(e) => onChange({ ...order, notes: e.target.value })}
-                      />
-                    </Field>
-                  </FormSection>
-                </div>
-              ),
-            },
-            {
-              id: 'lines',
-              label: 'Lines',
-              count: order.lines.length,
-              panel: (
-                <LineItems
-                  value={order.lines}
-                  onChange={(lines) => onChange({ ...order, lines })}
-                  products={PRODUCTS}
-                  currency="$"
-                  readOnly={!editable}
-                />
-              ),
-            },
-          ]}
-        />
-      </RecordPage>
-    </div>
+    </RecordPage>
   );
 }
 
@@ -401,7 +376,7 @@ function SalesOrderExample() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
-          brand={<Brand name="Halcyon Group" detail="Sales" />}
+          brand={<Brand name="Halcyon Group" />}
           activeId="orders"
           onSelect={() => setOpenId(null)}
           sections={[
@@ -418,23 +393,36 @@ function SalesOrderExample() {
       </AppShell.Sidebar>
       <AppShell.Main>
         <Topbar
-          title="Sales"
           onNavToggle={() => setNavOpen(true)}
           actions={
             <>
-              <Button size="sm" variant="primary">
-                New order
-              </Button>
+              {!open && (
+                <Button size="sm" variant="primary">
+                  New order
+                </Button>
+              )}
               <Avatar size="sm" initials="AS" />
             </>
           }
-        />
+        >
+          {open && (
+            <Breadcrumb
+              items={[
+                {
+                  label: 'Sales orders',
+                  as: 'button',
+                  linkProps: { type: 'button', onClick: () => setOpenId(null) },
+                },
+                { label: open.id },
+              ]}
+            />
+          )}
+        </Topbar>
         <AppShell.Content>
           {open ? (
             <OrderRecord
               order={open}
               onChange={(next) => setOrders((all) => all.map((o) => (o.id === next.id ? next : o)))}
-              onBack={() => setOpenId(null)}
             />
           ) : (
             <OrderList orders={orders} onOpen={setOpenId} />
@@ -446,9 +434,9 @@ function SalesOrderExample() {
 }
 
 /**
- * The ERP proof point, built only from corpo components: an order list (DataTable grid with totals,
- * bulk actions, and a DateRangePicker period) opens a RecordPage with Details and Lines tabs
- * (FormSections, LineItems) and an activity aside. Confirming the draft locks the form and lines.
+ * The ERP proof point, built only from corpo components: an order list (compact DataTable with a
+ * totals row, bulk actions, and a DateRangePicker period) opens a RecordPage with Details and Lines
+ * tabs (FormSections, LineItems) and an activity aside. Confirming the draft locks the form and lines.
  */
 export const Workspace: StoryObj = {
   render: () => <SalesOrderExample />,

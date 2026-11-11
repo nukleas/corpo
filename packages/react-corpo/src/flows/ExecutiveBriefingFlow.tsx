@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { FlowShell } from './FlowShell';
-import { Card } from '../components/Card';
+import { CardGrid } from '../components/CardGrid';
 import { Stat } from '../components/Stat';
 import { Alert } from '../components/Alert';
 import { Accordion } from '../components/Accordion';
-import { Avatar, AvatarGroup } from '../components/Avatar';
+import { Section } from '../components/Section';
 
 const DIRECTIVES = [
   {
@@ -32,7 +32,6 @@ export function ExecutiveBriefingFlow() {
 
   return (
     <FlowShell
-      eyebrow="Halcyon Group — People Success"
       title="Quarterly wins briefing"
       subtitle="A celebration of everything we accomplished together this quarter, prepared with care for the Executive Board."
     >
@@ -43,56 +42,15 @@ export function ExecutiveBriefingFlow() {
         </Alert>
       )}
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: 16,
-        }}
-      >
+      <CardGrid columns={3}>
         <Stat label="Quarterly revenue" value="$482M" delta="+6.1%" deltaTone="up" />
         <Stat label="Compliance score" value="97.4" delta="+0.8" deltaTone="up" />
-        <Stat label="Active directives" value="12" delta="0" deltaTone="neutral" />
         <Stat label="Personnel retention" value="91%" delta="-2.3%" deltaTone="down" />
-      </div>
+      </CardGrid>
 
-      <Card
-        title="Our leadership family"
-        description="Signatories on this cycle's directives."
-        footer={
-          <span
-            style={{
-              fontFamily: 'var(--corpo-font-mono)',
-              fontSize: 'var(--corpo-text-xs)',
-              color: 'var(--corpo-text-dim)',
-            }}
-          >
-            Prepared warmly by People Success — for our Executive Board family only.
-          </span>
-        }
-      >
-        <AvatarGroup>
-          <Avatar initials="RK" status="online" />
-          <Avatar initials="MI" status="online" />
-          <Avatar initials="AN" status="away" />
-          <Avatar initials="TV" status="offline" />
-          <Avatar initials="+2" />
-        </AvatarGroup>
-      </Card>
-
-      <div>
-        <div
-          className="corpo-label corpo-label--wide"
-          style={{
-            margin: '0 0 12px',
-            paddingBottom: 8,
-            borderBottom: '1px solid var(--corpo-border-dim)',
-          }}
-        >
-          Active directives
-        </div>
+      <Section title="Active directives">
         <Accordion items={DIRECTIVES} defaultOpen={['directive-12']} />
-      </div>
+      </Section>
     </FlowShell>
   );
 }
