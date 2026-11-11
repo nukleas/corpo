@@ -6,6 +6,6 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src/react/**/*", "src/tokens/**/*"],
+  "include": ["src/tokens/**/*"],
   "exclude": ["node_modules", "dist", "src/tokens/breakpoints.ts"]
 }

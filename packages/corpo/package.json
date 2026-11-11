@@ -1,7 +1,7 @@
 {
   "name": "@nukleas/corpo",
   "version": "0.5.0",
-  "description": "Corpo design system — calm, light-first, WCAG-AA corporate UI tokens and CSS component primitives",
+  "description": "Corpo design system \u2014 calm, light-first, WCAG-AA corporate UI tokens and CSS component primitives",
   "license": "MIT",
   "author": "Nader Heidari <nukleas2001@gmail.com>",
   "repository": {
@@ -36,10 +36,6 @@
     "./css": "./dist/corpo.css",
     "./vars": "./dist/corpo-vars-only.css",
     "./tailwind": "./dist/tailwind-theme.css",
-    "./react": {
-      "types": "./dist/react/index.d.ts",
-      "default": "./dist/react/index.js"
-    },
     "./tokens": {
       "types": "./dist/tokens/index.d.ts",
       "default": "./dist/tokens/index.js"
@@ -65,21 +61,13 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "react": "19.2.7",
-    "react-dom": "19.2.7",
     "tsx": "^4",
     "typescript": "^5"
   },
   "peerDependencies": {
-    "react": ">=18",
     "tailwindcss": ">=4"
   },
   "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
     "tailwindcss": {
       "optional": true
     }

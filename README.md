@@ -12,7 +12,7 @@ Public Sans body copy, quiet elevation instead of neon glow, sentence-case conte
 
 | Package | Path | Publish name | What it is |
 | --- | --- | --- | --- |
-| CSS core | [`packages/corpo`](./packages/corpo) | [`@nukleas/corpo`](https://www.npmjs.com/package/@nukleas/corpo) | Tokens, CSS (`cp-*`), thin React class bindings |
+| CSS core | [`packages/corpo`](./packages/corpo) | [`@nukleas/corpo`](https://www.npmjs.com/package/@nukleas/corpo) | Tokens, CSS (`cp-*`), vanilla JS engines |
 | React + Storybook | [`packages/react-corpo`](./packages/react-corpo) | [`@nukleas/react-corpo`](https://www.npmjs.com/package/@nukleas/react-corpo) | Full React API, semantic props, Storybook |
 
 ## Components

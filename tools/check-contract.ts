@@ -8,16 +8,13 @@
 //    A line containing `contract-ignore` is skipped — use it for `cp-` ids.
 // 2. Every `var(--corpo-*)` reference resolves to a token (semantic or theme)
 //    or a custom property declared in corpo CSS.
-// 3. Every export of the thin `corpo/react` wrappers is also exported by
-//    react-corpo — a component never lives half-migrated in one package.
-// 4. Every react-corpo component module is rendered by at least one story.
+// 3. Every react-corpo component module is rendered by at least one story.
 //
 // Run: pnpm check:contract
 
 import { readFileSync, readdirSync } from 'node:fs';
 import { basename, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import ts from 'typescript';
 
 import { semanticTokens } from '../packages/corpo/src/tokens/semantic.js';
 import { amberTheme } from '../packages/corpo/src/tokens/themes/amber.js';
@@ -63,7 +60,6 @@ const tokenProps = new Set(
 
 const emitters = [
   ...walk(join(REACT, 'src'), (f) => f.endsWith('.tsx') || f.endsWith('.ts')),
-  ...walk(join(CORPO, 'src/react'), (f) => f.endsWith('.tsx') || f.endsWith('.ts')),
   ...walk(join(CORPO, 'src/js'), (f) => f.endsWith('.js')),
   ...walk(join(CORPO, 'test'), (f) => f.endsWith('.html')),
   ...walk(join(CORPO, 'examples'), (f) => f.endsWith('.html')),
@@ -104,31 +100,7 @@ for (const file of tokenUsers) {
   }
 }
 
-// ---------------------------------------------------------------- 3. export parity
-
-function exportsOf(entry: string): Set<string> {
-  const program = ts.createProgram([entry], {
-    jsx: ts.JsxEmit.ReactJSX,
-    module: ts.ModuleKind.ESNext,
-    moduleResolution: ts.ModuleResolutionKind.Bundler,
-    target: ts.ScriptTarget.ES2022,
-    skipLibCheck: true,
-    noEmit: true,
-  });
-  const checker = program.getTypeChecker();
-  const source = program.getSourceFile(entry);
-  const symbol = source && checker.getSymbolAtLocation(source);
-  if (!symbol) throw new Error(`cannot resolve module ${entry}`);
-  return new Set(checker.getExportsOfModule(symbol).map((sym) => sym.getName()));
-}
-
-const thinExports = exportsOf(join(CORPO, 'src/react/index.ts'));
-const fullExports = exportsOf(join(REACT, 'src/index.ts'));
-for (const name of thinExports) {
-  if (!fullExports.has(name)) fail(`corpo/react exports "${name}" but react-corpo does not`);
-}
-
-// ---------------------------------------------------------------- 4. stories
+// ---------------------------------------------------------------- 3. stories
 
 const componentDir = join(REACT, 'src/components');
 const storyText = walk(join(REACT, 'src'), (f) => f.endsWith('.stories.tsx'))
@@ -149,5 +121,5 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `Contract check passed — ${emitters.length} files, ${cssClasses.size} CSS classes, ${tokenProps.size} tokens, ${thinExports.size} corpo/react exports.`,
+  `Contract check passed — ${emitters.length} files, ${cssClasses.size} CSS classes, ${tokenProps.size} tokens.`,
 );

@@ -5,6 +5,9 @@ notes for each tag carry the same list.
 
 ## Unreleased
 
+- **Breaking:** `@nukleas/corpo/react` is removed. Its 81 thin wrappers were a hand-kept
+  second copy of `@nukleas/react-corpo` that had drifted from it. Import components from
+  `@nukleas/react-corpo` instead. `@nukleas/corpo` no longer has a `react` peer dependency.
 - `Command` items take a string `label` (it is the searched text), plus optional
   `description`, `keywords` and `disabled`. Results are `role="option"` elements driven
   from the input with `aria-activedescendant`, not buttons. New `CommandDialog` is the

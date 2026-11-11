@@ -4,7 +4,7 @@ pnpm workspace with two publishable packages:
 
 ```
 packages/
-  corpo/           name: @nukleas/corpo          CSS + tokens + thin React wrappers
+  corpo/           name: @nukleas/corpo          CSS + tokens + vanilla JS engines
   react-corpo/     name: @nukleas/react-corpo    Full React API + Storybook
 ```
 
@@ -24,7 +24,7 @@ are intentionally not ported.
 
 - Do not preserve backward compatibility inside the monorepo: remove obsolete classes, props, and tokens instead of aliasing or shimming them, and update both packages + demo harness + stories in the same change. Because `@nukleas/corpo`/`@nukleas/react-corpo` are published to npm, breaking changes ship as a semver bump with a changelog note — never as runtime compat layers.
 - Choose the simplest implementation that meets the current requirement. No speculative props, variants, or theme knobs for hypothetical futures.
-- Grow in layers: CSS source of truth first, thin React mapping second. Never leave a component half-migrated across the two packages.
+- Grow in layers: CSS source of truth first, the React component second. Never ship a React component whose classes the CSS does not define.
 
 ## Package roles
 
@@ -33,7 +33,7 @@ are intentionally not ported.
 | `corpo` | Source of visual truth: tokens, CSS (`cp-*` / `--corpo-*`), HTML demo harness |
 | `react-corpo` | Official React API: semantic props, ThemeProvider, Storybook docs |
 
-`packages/corpo/src/react/` holds **thin** class wrappers (design-sync / lightweight `corpo/react` export). Prefer `react-corpo` for real app UI.
+React lives only in `react-corpo`; `corpo` has no React code.
 
 ## Commands (from repo root)
 
@@ -44,7 +44,7 @@ pnpm build:css          # packages/corpo only
 pnpm build:react        # packages/react-corpo (needs CSS dist)
 pnpm storybook          # http://localhost:6006
 pnpm demo               # CSS harness on :4980 → /test/
-pnpm typecheck          # both packages (corpo: tokens, build.ts, thin wrappers)
+pnpm typecheck          # both packages (corpo: tokens, build.ts)
 ```
 
 ## Quality gates (all run in CI)
@@ -55,7 +55,7 @@ pnpm lint               # oxlint --type-aware: anti-slop, react, rules-of-hooks 
                         # jsx-a11y, no-floating-promises; warnings fail
 pnpm lint:css           # stylelint: cp-* classes, kebab custom props, no raw colors
 pnpm check:contract     # emitted cp-* classes exist, --corpo-* tokens resolve,
-                        # corpo/react ⊂ react-corpo exports, every component has a story
+                        # every component has a story
 pnpm build-storybook && pnpm test
                         # every story renders, play functions pass, axe finds no WCAG 2.1 AA issues
 ```
