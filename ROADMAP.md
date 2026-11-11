@@ -177,7 +177,82 @@ Layered PRs, in order:
    out of room, and a record pager ("3 of 120") on `RecordPage`.
 4. **Overflow** *(done, #62)* — Tabs that don't fit go into a "More" menu; long breadcrumbs collapse the middle.
 5. **App-level switchers** *(done, #63)* — module launcher grid, company/entity switcher.
-6. **Keyboard shortcuts** *(in progress)* — a shortcut registry and a "?" help overlay.
+6. **Keyboard shortcuts** *(done, #64)* — a shortcut registry and a "?" help overlay.
+
+## Next: clean composition — make the calm result the default for agents
+
+Agents building with corpo produce crowded screens: too many visible buttons, cards in cards,
+borders everywhere, competing teal headings, walls of uppercase mono. Root causes found in the
+2026-11-11 audit:
+
+- **No spacing scale.** There are no `--corpo-space-*` tokens. Component CSS uses 11 different
+  gaps (2–24px) and paddings like `16px 18px`, and apps have nothing to reach for, so the examples
+  carry about 60 inline `style={{ gap }}` blocks.
+- **No layout primitives or page templates.** There's no Stack, Inline or page width, so every
+  screen is hand-laid out.
+- **Loud defaults.**
+  - `SectionHeader` renders a teal title plus a divider, so every section reads as a heading
+    with a rule under it, often doubled by the table border just below.
+  - Uppercase mono is used for dates, tier labels and eyebrows as well as figures.
+  - Color is used decoratively, for example amber or purple tier labels.
+  - DataTable's full grid lines are the habit.
+- **No guidance for building *with* corpo.** AGENTS.md and the docs explain how to build the
+  library, not how to compose a screen. The npm package ships only `dist`.
+
+Layered PRs, in order:
+
+1. **Spacing tokens.**
+   - Add `--corpo-space-*` on a 4px scale: 2, 4, 8, 12, 16, 24, 32, 48, 64.
+   - Migrate component CSS onto the scale.
+   - Make `lint:css` and `check:contract` reject raw px for gap, padding and margin.
+2. **Layout primitives.**
+   - `Stack` and `Inline`, with a gap from the scale only. The parent owns spacing; children set
+     no outer margin.
+   - A page container with a max width: about 1280px for apps, a 2/3 column for reading.
+   - Replace the inline layout styles in the examples.
+3. **Calm the defaults.**
+   - `SectionHeader`: neutral color, and no divider unless asked for.
+   - Keep mono for figures, ids and code only: dates and tier labels go sans.
+   - DataTable keeps horizontal rules only by default.
+   - `ActionBar` shows the primary action plus at most 2 others, with the rest in "More", even when
+     more would fit.
+4. **Page templates.**
+   - `ListPage`: header, filter bar, table.
+   - `RecordPage`: no more than 5 facts, sections or tabs, footer workflow actions.
+   - `FormPage`: one column, narrow width.
+   - `Dashboard`: 2–3 equal columns.
+   - Agents fill slots instead of choosing a layout. Rebuild the examples on them as the reference
+     screens.
+5. **Agent guide in the package.**
+   - Ship `llms.txt` and a "Building with corpo" guide inside the published package:
+     - a short list of rules phrased as "never…";
+     - a recipe per page type;
+     - do/don't pairs for each component;
+     - a pointer to the reference screens.
+   - Write the rules from the research below.
+6. **Composition lint for apps.** An oxlint JS plugin consumers can enable:
+   - no `Card` inside `Card`;
+   - no `Card` wrapping a lone table;
+   - at most 1 primary `Button` per page region;
+   - no inline spacing styles;
+   - toolbars capped at 3 visible actions.
+
+   Plus a screenshot review script at 1440, 768 and 390px.
+
+Rules to encode, from Carbon, Primer, Atlassian, SAP Fiori, Polaris, GOV.UK and others:
+
+- 1 primary action per page.
+- At most 3 visible actions per group, the rest in "More".
+- One container level, never a card in a card.
+- Separate sections with headings and space before using borders.
+- No card around a lone table.
+- Forms are single column by default.
+- Field width matches the expected value.
+- Labels of 1–3 words, no colons, no helper text that repeats the label.
+- Tables: text left, numbers right, units in the header, "–" for empty cells, one row menu.
+- At most 5 header facts on a record.
+- Secondary content goes in tabs, drawers or a 1/3 column.
+- Fixed max content width.
 
 ## Not ported from the parity list
 
