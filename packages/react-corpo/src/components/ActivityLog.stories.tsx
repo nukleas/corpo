@@ -37,7 +37,7 @@ type Story = StoryObj<typeof ActivityLog>;
 
 /** Comments, field-change audit entries and system events in one feed; Ctrl/⌘+Enter posts a comment. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [entries, setEntries] = useState(ENTRIES);
     return (
       <div style={{ maxWidth: 380 }}>

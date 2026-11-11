@@ -35,7 +35,7 @@ type Story = StoryObj<typeof AttachmentList>;
 
 /** Files on a record: type, a download link, size and who added it, with attach and remove. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [files, setFiles] = useState(FILES);
     return (
       <div style={{ maxWidth: 360 }}>

@@ -20,7 +20,7 @@ export default meta;
 type Story = StoryObj<typeof ToggleGroup>;
 
 export const SingleSelect: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [value, setValue] = useState('week');
     return (
       <ToggleGroup

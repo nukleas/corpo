@@ -107,7 +107,7 @@ export const Filterable: Story = {
  * themselves. The header checkbox toggles the visible (filtered) rows.
  */
 export const Selectable: Story = {
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = useState<string[]>(['INV-1043']);
     return (
       <DataTable
@@ -237,7 +237,7 @@ const GRID_ROWS: DataTableRow[] = Array.from({ length: 200 }, (_, i) => {
  * selecting rows brings up the bulk action bar. `virtualize` renders only the rows in view.
  */
 export const Grid: Story = {
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = useState<string[]>([]);
     return (
       <DataTable
@@ -266,7 +266,7 @@ const onOpen = fn();
  * and opens a row (`onRowActivate`) from the body; Space selects the row.
  */
 export const KeyboardGrid: Story = {
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = useState<string[]>([]);
     return (
       <DataTable
@@ -393,7 +393,7 @@ export const TreeGrid: Story = {
 
 /** Tree rows with a selection column: Space on a row selects it, and the select-all box covers the rows shown. */
 export const TreeGridSelectable: Story = {
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = useState<string[]>([]);
     return (
       <DataTable

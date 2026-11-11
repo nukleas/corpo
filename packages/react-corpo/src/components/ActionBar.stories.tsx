@@ -18,7 +18,7 @@ type Story = StoryObj<typeof ActionBar>;
  * `menu` items always live there. One tab stop — arrows move between buttons.
  */
 export const Overflow: Story = {
-  render: () => {
+  render: function Render() {
     const [width, setWidth] = useState(320);
     const [ran, setRan] = useState('');
     const run = (label: string) => () => setRan(label);
@@ -57,13 +57,13 @@ export const Overflow: Story = {
     await waitFor(() => expect(toolbar.queryByRole('button', { name: 'Print' })).not.toBeInTheDocument());
     const confirm = toolbar.getByRole('button', { name: 'Confirm order' });
     const more = toolbar.getByRole('button', { name: 'More' });
-    expect(confirm).toHaveAttribute('tabindex', '0');
-    expect(more).toHaveAttribute('tabindex', '-1');
+    await expect(confirm).toHaveAttribute('tabindex', '0');
+    await expect(more).toHaveAttribute('tabindex', '-1');
 
     // Arrows rove; the overflowed action runs from the menu.
     confirm.focus();
     await userEvent.keyboard('{End}');
-    expect(more).toHaveFocus();
+    await expect(more).toHaveFocus();
     await userEvent.keyboard('{Enter}');
     const menu = within(document.body).getByRole('menu');
     await userEvent.click(within(menu).getByRole('menuitem', { name: 'Print' }));
@@ -74,6 +74,6 @@ export const Overflow: Story = {
     await waitFor(() => expect(toolbar.getByRole('button', { name: 'Print' })).toBeInTheDocument());
     await userEvent.click(toolbar.getByRole('button', { name: 'More' }));
     const items = within(within(document.body).getByRole('menu')).getAllByRole('menuitem');
-    expect(items.map((el) => el.textContent)).toEqual(['Duplicate', 'Cancel order']);
+    await expect(items.map((el) => el.textContent)).toEqual(['Duplicate', 'Cancel order']);
   },
 };

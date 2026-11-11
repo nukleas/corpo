@@ -22,7 +22,7 @@ type Story = StoryObj<typeof MultiSelect>;
 
 /** Picks keep the list open; chips remove with their × or with Backspace in an empty search. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<string[]>(['cc-100']);
     return (
       <div style={{ width: 360 }}>
@@ -53,7 +53,7 @@ export const Default: Story = {
 
 /** Free-form tags: `onCreate` adds whatever was typed. */
 export const Tags: Story = {
-  render: () => {
+  render: function Render() {
     const [tags, setTags] = useState([
       { value: 'urgent', label: 'urgent' },
       { value: 'q4', label: 'q4' },

@@ -14,7 +14,7 @@ export default meta;
 type Story = StoryObj<typeof Spreadsheet>;
 
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [rows, setRows] = useState<SpreadsheetCellShorthand[][]>([
       ['Q1', '12,400', '9,100'],
       ['Q2', '13,750', '9,800'],
@@ -51,7 +51,7 @@ export const Default: Story = {
 
 /** Editable assumptions with read-only computed cells in the same sheet — number shorthand right-aligns, `tone` marks derived and negative values. */
 export const MixedProjection: Story = {
-  render: () => {
+  render: function Render() {
     const [growth, setGrowth] = useState(['4.0', '5.5']);
     const q1 = 12_400;
     const q2 = Math.round(q1 * (1 + (parseFloat(growth[0]) || 0) / 100));
@@ -80,7 +80,7 @@ export const MixedProjection: Story = {
 
 /** Ledger sheet: Dr/Cr `columnLabels` plus computed `balance` cells — right-aligned, bold, inset, read-only by default. */
 export const LedgerMode: Story = {
-  render: () => {
+  render: function Render() {
     const [drCr, setDrCr] = useState([
       ['12,400', ''],
       ['', '3,800'],

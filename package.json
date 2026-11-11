@@ -17,8 +17,8 @@
     "dev": "pnpm --filter @nukleas/corpo run dev",
     "storybook": "pnpm --filter @nukleas/react-corpo run storybook",
     "build-storybook": "pnpm --filter @nukleas/react-corpo run build-storybook",
-    "typecheck": "pnpm --filter @nukleas/react-corpo run typecheck",
-    "lint": "oxlint --deny-warnings --report-unused-disable-directives",
+    "typecheck": "pnpm -r --filter @nukleas/corpo --filter @nukleas/react-corpo run typecheck",
+    "lint": "oxlint --type-aware --deny-warnings --report-unused-disable-directives",
     "demo": "pnpm --filter @nukleas/corpo run demo",
     "check:contract": "tsx tools/check-contract.ts",
     "lint:css": "stylelint \"packages/corpo/src/css/**/*.css\"",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@oxlint/plugins": "1.79.0",
     "oxlint": "1.79.0",
+    "oxlint-tsgolint": "^7.0.2006",
     "prettier": "^3.9.9",
     "stylelint": "^17.16.0",
     "stylelint-config-recommended": "^18.0.0",

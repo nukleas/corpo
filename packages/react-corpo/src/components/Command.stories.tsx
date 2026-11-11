@@ -43,7 +43,7 @@ type Story = StoryObj<typeof Command>;
  * move the active result (disabled ones are skipped), Enter runs it.
  */
 export const Default: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [ran, setRan] = useState('');
     return (
       <div style={{ width: 480 }}>
@@ -59,7 +59,7 @@ export const Default: Story = {
 
     // Hidden keywords match: "customer" finds "New client".
     await userEvent.type(input, 'customer');
-    expect(canvas.getAllByRole('option')).toHaveLength(1);
+    await expect(canvas.getAllByRole('option')).toHaveLength(1);
     await userEvent.keyboard('{Enter}');
     await expect(canvas.getByText('Last run: New client')).toBeInTheDocument();
 
@@ -67,10 +67,10 @@ export const Default: Story = {
     await userEvent.clear(input);
     await userEvent.type(input, 'new');
     const options = canvas.getAllByRole('option');
-    expect(options).toHaveLength(4);
-    expect(input).toHaveAttribute('aria-activedescendant', options[0].id);
+    await expect(options).toHaveLength(4);
+    await expect(input).toHaveAttribute('aria-activedescendant', options[0].id);
     await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}');
-    expect(input).toHaveAttribute('aria-activedescendant', options[0].id);
+    await expect(input).toHaveAttribute('aria-activedescendant', options[0].id);
     await userEvent.keyboard('{ArrowUp}{Enter}');
     await expect(canvas.getByText('Last run: New client')).toBeInTheDocument();
 
@@ -101,7 +101,7 @@ const recent: CommandGroup = {
  * records by client name even though the label is the document number.
  */
 export const RecordSearch: Story = {
-  render: () => {
+  render: function Render() {
     const [query, setQuery] = useState('');
     const [found, setFound] = useState<CommandItem[]>([]);
     const [loading, setLoading] = useState(false);
@@ -145,14 +145,14 @@ export const RecordSearch: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByRole('group', { name: 'Recent' })).toBeInTheDocument();
+    await expect(canvas.getByRole('group', { name: 'Recent' })).toBeInTheDocument();
 
     const input = canvas.getByRole('combobox');
     await userEvent.type(input, 'ostara');
     await expect(canvas.getByRole('status')).toHaveTextContent('Searching…');
     const recordsGroup = await canvas.findByRole('group', { name: 'Records' });
-    expect(within(recordsGroup).getAllByRole('option')).toHaveLength(2);
-    expect(canvas.queryByRole('group', { name: 'Recent' })).not.toBeInTheDocument();
+    await expect(within(recordsGroup).getAllByRole('option')).toHaveLength(2);
+    await expect(canvas.queryByRole('group', { name: 'Recent' })).not.toBeInTheDocument();
 
     await userEvent.keyboard('{ArrowDown}{Enter}');
     await expect(canvas.getByText('Opened: SO-2210')).toBeInTheDocument();
@@ -164,7 +164,7 @@ export const RecordSearch: Story = {
  * a backdrop click, or running a result closes it and returns focus.
  */
 export const Dialog: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     const [ran, setRan] = useState('');
     useEffect(() => {
@@ -202,16 +202,16 @@ export const Dialog: Story = {
     const input = within(dialog).getByRole('combobox');
     await waitFor(() => expect(input).toHaveFocus());
     await userEvent.tab();
-    expect(input).toHaveFocus();
+    await expect(input).toHaveFocus();
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-    expect(trigger).toHaveFocus();
+    await expect(trigger).toHaveFocus();
 
     await userEvent.keyboard('{Control>}k{/Control}');
     await body.findByRole('dialog');
     await userEvent.keyboard('trial{Enter}');
     await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
     await expect(canvas.getByText('Last run: Trial balance')).toBeInTheDocument();
-    expect(trigger).toHaveFocus();
+    await expect(trigger).toHaveFocus();
   },
 };

@@ -43,7 +43,7 @@ type Story = StoryObj<typeof FeedItem>;
 
 /** A master list: the open row is `selected` (aria-current) and marked with the accent edge. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState<string>('AP-309');
     return (
       <div style={{ maxWidth: 380, border: '1px solid var(--corpo-border)', borderRadius: 4 }}>

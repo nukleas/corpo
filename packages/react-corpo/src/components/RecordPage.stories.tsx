@@ -90,7 +90,7 @@ const ORDERS = ['SO-2208', 'SO-2209', 'SO-2210', 'SO-2211'];
  */
 export const ActionsAndPager: Story = {
   parameters: { layout: 'padded' },
-  render: () => {
+  render: function Render() {
     const [at, setAt] = useState(2);
     return (
       <RecordPage
@@ -131,9 +131,9 @@ export const ActionsAndPager: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByRole('heading', { level: 1 })).toHaveTextContent('SO-2210');
+    await expect(canvas.getByRole('heading', { level: 1 })).toHaveTextContent('SO-2210');
     await userEvent.click(canvas.getByRole('button', { name: 'Next record' }));
-    expect(canvas.getByRole('heading', { level: 1 })).toHaveTextContent('SO-2211');
-    expect(canvas.getByText('4 of 4')).toBeInTheDocument();
+    await expect(canvas.getByRole('heading', { level: 1 })).toHaveTextContent('SO-2211');
+    await expect(canvas.getByText('4 of 4')).toBeInTheDocument();
   },
 };

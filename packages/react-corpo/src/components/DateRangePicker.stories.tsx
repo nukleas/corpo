@@ -19,7 +19,7 @@ const iso = (d: Date) =>
 
 /** Pick two days in either order, or a preset. The range is inclusive. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<DateRange | undefined>({
       start: new Date(2026, 8, 1),
       end: new Date(2026, 8, 30),
@@ -54,7 +54,7 @@ const FISCAL_PRESETS: DateRangePreset[] = [
 
 /** Fiscal calendars differ per company, so fiscal periods are presets the page supplies. */
 export const FiscalPresets: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<DateRange | undefined>();
     return (
       <div style={{ width: 260 }}>

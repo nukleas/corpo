@@ -74,7 +74,7 @@ const totalText = (el: HTMLElement) => el.querySelector('.cp-foot--grand [data-n
  * tax rate. Amounts are net of discount; tax is rounded per line, then summed.
  */
 export const SalesOrder: Story = {
-  render: () => {
+  render: function Render() {
     const [lines, setLines] = useState(LINES);
     return <LineItems value={lines} onChange={setLines} products={PRODUCTS} currency="$" />;
   },
@@ -104,7 +104,7 @@ export const SalesOrder: Story = {
 
 /** Without a catalog the item cell is free text — quotes and one-off bills. */
 export const FreeText: Story = {
-  render: () => {
+  render: function Render() {
     const [lines, setLines] = useState<LineItem[]>([
       {
         id: 'f1',

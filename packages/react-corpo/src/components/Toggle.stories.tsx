@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof Toggle>;
 
 export const Default: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [pressed, setPressed] = useState(false);
     return <Toggle {...args} pressed={pressed} onPressedChange={setPressed} />;
   },

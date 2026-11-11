@@ -14,7 +14,7 @@ type Story = StoryObj<typeof RecordPager>;
 
 /** Steps through the list a record was opened from. The ends disable their button. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [position, setPosition] = useState(1);
     return (
       <RecordPager
@@ -29,12 +29,12 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     const previous = canvas.getByRole('button', { name: 'Previous record' });
     const next = canvas.getByRole('button', { name: 'Next record' });
-    expect(canvas.getByText('1 of 3')).toBeInTheDocument();
-    expect(previous).toBeDisabled();
+    await expect(canvas.getByText('1 of 3')).toBeInTheDocument();
+    await expect(previous).toBeDisabled();
     await userEvent.click(next);
     await userEvent.click(next);
-    expect(canvas.getByText('3 of 3')).toBeInTheDocument();
-    expect(next).toBeDisabled();
-    expect(previous).toBeEnabled();
+    await expect(canvas.getByText('3 of 3')).toBeInTheDocument();
+    await expect(next).toBeDisabled();
+    await expect(previous).toBeEnabled();
   },
 };

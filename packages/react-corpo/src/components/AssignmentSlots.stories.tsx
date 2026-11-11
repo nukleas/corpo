@@ -26,7 +26,7 @@ export const Default: Story = {
 
 export const Interactive: Story = {
   args: { slots: SLOTS },
-  render: (args) => {
+  render: function Render(args) {
     const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
     return (
       <AssignmentSlots
