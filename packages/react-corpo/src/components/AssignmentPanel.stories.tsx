@@ -24,7 +24,7 @@ const SLOT_DEFS: { id: string; label: string; initial?: string }[] = [
 
 /**
  * Full allocation flow: pick a license from the catalog, pick a slot, then
- * use "Assign to slot" (or double-click a card) to place it. Clicking an
+ * use "Assign to slot" (or double-click a row) to place it. Clicking an
  * assigned slot clears it with "Remove".
  */
 function AssignmentScreen() {
@@ -51,7 +51,7 @@ function AssignmentScreen() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
       <div style={{ flex: '2 1 320px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <SectionHeader title="License catalog" description="Double-click a card to assign it to the selected slot." />
+        <SectionHeader title="Licenses" />
         <LicenseCatalog
           items={LICENSES}
           selectedId={selectedId}
@@ -59,7 +59,7 @@ function AssignmentScreen() {
           onSelect={(item) => setSelectedId(item.id)}
           onActivate={assign}
         />
-        <SectionHeader title="Ana Sørensen — allocation" />
+        <SectionHeader title="Assigned to Ana Sørensen" />
         <AssignmentSlots
           slots={slots}
           selectedSlotId={selectedSlotId}

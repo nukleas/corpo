@@ -49,10 +49,14 @@
     "anti-slop/no-widen-then-assert": "error",
     "anti-slop/require-safety-comment-for-type-assertion": "error"
   },
-  // BUILDING.md composition rules (packages/react-corpo/lint), enforced on what agents copy: stories and examples.
+  // BUILDING.md composition rules (packages/react-corpo/lint), enforced on what agents copy: stories, examples and flows.
   "overrides": [
     {
-      "files": ["packages/react-corpo/src/**/*.stories.tsx", "packages/react-corpo/src/examples/**"],
+      "files": [
+        "packages/react-corpo/src/**/*.stories.tsx",
+        "packages/react-corpo/src/examples/**",
+        "packages/react-corpo/src/flows/**"
+      ],
       "rules": {
         "corpo/no-card-around-table": "error",
         "corpo/no-card-list": "error",
