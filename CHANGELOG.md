@@ -5,6 +5,14 @@ notes for each tag carry the same list.
 
 ## Unreleased
 
+- `Tabs` takes `overflow="menu"`: tabs that don't fit go into a "More tabs" menu (an icon
+  button outside the tablist), and the selected tab always stays in the row. The default
+  stays `scroll`, which now scrolls the selected tab into view. Tabs no longer set
+  `aria-controls`, and the selected underline is a border on `::after` instead of a
+  box-shadow, so it survives forced-colors mode.
+- `Breadcrumb` collapses a trail of more than three items that doesn't fit: it keeps the
+  first item and the last two, and lists the middle from a "…" button. Breadcrumb items
+  no longer wrap.
 - **Breaking:** `@nukleas/corpo/react` is removed. Its 81 thin wrappers were a hand-kept
   second copy of `@nukleas/react-corpo` that had drifted from it. Import components from
   `@nukleas/react-corpo` instead. `@nukleas/corpo` no longer has a `react` peer dependency.
