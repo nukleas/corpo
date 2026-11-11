@@ -15,7 +15,12 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
   children?: ReactNode;
 }
 
-/** Corpo card — white panel, 1px border, 4px radius, quiet elevation. */
+/**
+ * Corpo card — a framed panel for one separate object, such as a plan or a
+ * module someone picks; never put one around a table, and never use cards for
+ * a list of records (that is a `DataTable`). White, 1px border, 8px radius,
+ * quiet elevation.
+ */
 export function Card({
   title,
   description,

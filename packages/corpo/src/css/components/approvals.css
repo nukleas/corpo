@@ -62,7 +62,6 @@
   gap: 4px;
 }
 .cp-approvals__time {
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   color: var(--corpo-text-muted);
   white-space: nowrap;

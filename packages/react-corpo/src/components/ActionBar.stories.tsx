@@ -14,8 +14,9 @@ export default meta;
 type Story = StoryObj<typeof ActionBar>;
 
 /**
- * A sales order's actions. Narrow the bar and the last ones move into "More";
- * `menu` items always live there. One tab stop — arrows move between buttons.
+ * A sales order's actions. At most three show; "Print" lives in "More" even on
+ * a wide bar. Narrow the bar and more move there; `menu` items always live
+ * there. One tab stop — arrows move between buttons.
  */
 export const Overflow: Story = {
   render: function Render() {
@@ -69,11 +70,13 @@ export const Overflow: Story = {
     await userEvent.click(within(menu).getByRole('menuitem', { name: 'Print' }));
     await expect(canvas.getByText('Last run: Print')).toBeInTheDocument();
 
-    // Widening brings every action back; the menu keeps only `menu` items.
+    // Widening shows three actions, no more: the fourth stays in "More", ahead of `menu` items.
     await userEvent.click(canvas.getByRole('button', { name: 'Widen bar' }));
-    await waitFor(() => expect(toolbar.getByRole('button', { name: 'Print' })).toBeInTheDocument());
+    await waitFor(() => expect(toolbar.getByRole('button', { name: 'Send by email' })).toBeInTheDocument());
+    await expect(toolbar.getByRole('button', { name: 'Create invoice' })).toBeInTheDocument();
+    await expect(toolbar.queryByRole('button', { name: 'Print' })).not.toBeInTheDocument();
     await userEvent.click(toolbar.getByRole('button', { name: 'More' }));
     const items = within(within(document.body).getByRole('menu')).getAllByRole('menuitem');
-    await expect(items.map((el) => el.textContent)).toEqual(['Duplicate', 'Cancel order']);
+    await expect(items.map((el) => el.textContent)).toEqual(['Print', 'Duplicate', 'Cancel order']);
   },
 };

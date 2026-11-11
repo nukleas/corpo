@@ -7,7 +7,7 @@ import { Dropdown } from './Dropdown';
 export interface TabItem {
   id: string;
   label: ReactNode;
-  /** Optional count chip. */
+  /** Count chip, only for a number that asks for action (unread, overdue, waiting on you), never a total. */
   count?: number;
   /** This tab's panel. Inactive panels stay mounted (hidden), so form state survives a tab switch. */
   panel?: ReactNode;
