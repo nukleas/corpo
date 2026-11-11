@@ -12,9 +12,10 @@ export interface CardGridProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Corpo card grid — a row of {@link Card}s or {@link Stat}s that collapses by
- * its own width. Use it for dashboard tiles. A narrow column stacks the cards
- * even when the viewport is wide.
+ * Corpo card grid — a dashboard's headline {@link Stat}s, or a few separate
+ * {@link Card}s, never a list of records (use a `DataTable`). It collapses by
+ * its own width: a narrow column stacks the cards even when the viewport is
+ * wide.
  */
 export function CardGrid({ columns = 3, className, children, ...rest }: CardGridProps) {
   return (

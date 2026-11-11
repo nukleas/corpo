@@ -24,7 +24,6 @@
   color: var(--corpo-text);
 }
 .cp-statement__doc-title {
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-lg);
   font-weight: 600;
   text-transform: uppercase;
@@ -45,7 +44,6 @@
   color: var(--corpo-text-secondary);
 }
 .cp-statement__billto-label {
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -57,7 +55,6 @@
   margin-inline-start: auto;
   width: min(320px, 100%);
   border-collapse: collapse;
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-sm);
   font-variant-numeric: tabular-nums;
 }

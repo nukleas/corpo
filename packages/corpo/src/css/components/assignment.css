@@ -59,7 +59,6 @@
 .cp-assign-slot__label {
   flex-shrink: 0;
   max-width: 40%;
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -85,7 +84,6 @@
 
 .cp-assign-slot__tier {
   flex-shrink: 0;
-  font-family: var(--corpo-font-mono);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -163,7 +161,6 @@
 }
 
 .cp-license-card__tier {
-  font-family: var(--corpo-font-mono);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -200,7 +197,6 @@
 }
 
 .cp-license-detail__tier {
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
   text-transform: uppercase;

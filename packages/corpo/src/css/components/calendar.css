@@ -9,7 +9,6 @@
   margin-bottom: 10px;
 }
 .cp-calendar__label {
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -42,7 +41,6 @@
 .cp-calendar__weekday {
   text-align: center;
   padding: 4px 0;
-  font-family: var(--corpo-font-mono);
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;

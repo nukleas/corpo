@@ -9,11 +9,11 @@ const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'));
 const barrel = readFileSync(resolve(root, 'src/index.ts'), 'utf8');
 const modules = [...barrel.matchAll(/export \* from '\.\/components\/(\w+)'/g)].map((m) => m[1]);
 
-/** First sentence of the JSDoc directly above `export function <name>` (or the module's main export). */
+/** First sentence of the JSDoc directly above `export function|const <name>` (or the module's main export). */
 function summary(name) {
   const source = readFileSync(resolve(root, `src/components/${name}.tsx`), 'utf8');
-  const at = source.search(new RegExp(`export function ${name}\\b`));
-  const before = source.slice(0, at < 0 ? source.search(/export function /) : at);
+  const at = source.search(new RegExp(`export (function|const) ${name}\\b`));
+  const before = source.slice(0, at < 0 ? source.search(/export (function|const) /) : at);
   const close = before.lastIndexOf('*/');
   if (close < 0 || before.slice(close + 2).trim() !== '') return '';
   const text = before

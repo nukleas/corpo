@@ -91,6 +91,11 @@ function NavDisclosure({
   );
 }
 
+/**
+ * Corpo navigation menu — a horizontal row of top-level links, where an item
+ * with `links` opens a dropdown panel of links with optional descriptions. For
+ * an app's module tree use {@link SideNav}.
+ */
 export function NavigationMenu({ items, activeId, onSelect, className, ...rest }: NavigationMenuProps) {
   const [open, setOpen] = useState<string | null>(null);
   const root = useRef<HTMLElement>(null);

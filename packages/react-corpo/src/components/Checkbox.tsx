@@ -9,7 +9,11 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   description?: ReactNode;
 }
 
-/** Corpo checkbox — 18px square, solid accent fill when checked. The ref reaches the `<input>`, e.g. to set `indeterminate`. */
+/**
+ * Corpo checkbox — a native checkbox with a label and optional description;
+ * 18px square, solid accent fill when checked. The ref reaches the `<input>`,
+ * e.g. to set `indeterminate`.
+ */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
   { label, description, className, disabled, ...rest },
   ref,

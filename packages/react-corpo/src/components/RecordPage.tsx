@@ -9,7 +9,7 @@ export interface RecordFact {
 export interface RecordPageProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
   /** The record's name or number — the page's `h1`. */
   title: ReactNode;
-  /** Record type above the title, e.g. "Sales order". */
+  /** Record type above the title, e.g. "Sales order" — only when nothing else on the page (breadcrumb, nav, title) names the type. */
   eyebrow?: ReactNode;
   /** Beside the title — typically a {@link StatusPill}. */
   status?: ReactNode;

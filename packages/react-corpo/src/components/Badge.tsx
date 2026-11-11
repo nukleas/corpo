@@ -10,7 +10,11 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   children?: ReactNode;
 }
 
-/** Corpo badge — bordered sentence-case chip at AA contrast. */
+/**
+ * Corpo badge — a short status or a count that asks for action (unread,
+ * overdue), never a total or decoration. Bordered sentence-case chip at AA
+ * contrast.
+ */
 export function Badge({ color = 'neutral', dot = false, className, children, ...rest }: BadgeProps) {
   return (
     <span className={cn('cp-badge', color !== 'neutral' && `cp-badge--${color}`, className)} {...rest}>

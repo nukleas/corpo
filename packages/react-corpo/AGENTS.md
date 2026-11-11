@@ -39,7 +39,7 @@ app developers and their agents. Examples are what agents copy, so keep them fre
 5. **Use `cn` from `../lib/cn`** — do not paste a local class helper.
 6. **Shared types** — import `CpColor` / `CpTheme` / `CpSize` from `../lib/types`.
 7. **Named function exports**, no `React.FC`. `import type` for types.
-8. **Voice**: sentence case everywhere except micro-labels (uppercase mono by style, not typing);
+8. **Voice**: sentence case everywhere except micro-labels (uppercase by style, not typing);
    verb-first button copy ("Save changes", not "Submit"); no exclamation marks, no emoji.
 9. **Theme is optional for accents** — teal resolves without any class; other themes need
    `theme-{name}` (or `<ThemeProvider theme="...">`) on an ancestor.

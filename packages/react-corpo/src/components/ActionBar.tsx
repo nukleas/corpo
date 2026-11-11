@@ -5,6 +5,9 @@ import type { MenuItem } from '../lib/types';
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
 
+/** The primary action plus two others; the rest live in "More" even when they would fit. */
+const MAX_VISIBLE = 3;
+
 export interface ActionBarAction {
   id: string;
   /** Button text, and the menu item text once it overflows. Verb-first. */
@@ -28,10 +31,10 @@ export interface ActionBarProps {
 }
 
 /**
- * Corpo action bar — a record's actions as one toolbar (a single tab stop;
- * ArrowLeft/ArrowRight/Home/End move between buttons). Actions that do not
- * fit move into a "More" menu from the end; the first action never does, so
- * put the primary action first.
+ * Corpo action bar — a record's actions as one toolbar, showing the primary
+ * (first) action and at most two others; the rest, and any that do not fit,
+ * move into a "More" menu from the end. Put the primary action first: it never
+ * moves. A single tab stop; ArrowLeft/ArrowRight/Home/End move between buttons.
  */
 export function ActionBar({
   actions,
@@ -42,7 +45,7 @@ export function ActionBar({
 }: ActionBarProps) {
   const barRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
-  const [fit, setFit] = useState(actions.length);
+  const [fit, setFit] = useState(Math.min(actions.length, MAX_VISIBLE));
   const [focus, setFocus] = useState(0);
 
   // Measure every button off-screen once, then fit as many as the bar's width allows.
@@ -56,7 +59,7 @@ export function ActionBar({
       const gap = parseFloat(getComputedStyle(bar).columnGap) || 0;
       const room = bar.clientWidth;
       const width = (n: number) => widths.slice(0, n).reduce((sum, w) => sum + w + gap, 0);
-      let n = widths.length;
+      let n = Math.min(widths.length, MAX_VISIBLE);
       const needsMore = (count: number) => count < widths.length || menu.length > 0;
       // The first action is the primary one: it stays on the bar even when nothing else fits.
       while (n > 1 && width(n) + (needsMore(n) ? more : -gap) > room) n -= 1;

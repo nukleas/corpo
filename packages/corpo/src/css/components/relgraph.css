@@ -41,7 +41,6 @@
 }
 .cp-relgraph__tip-kind {
   align-self: flex-start;
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
   text-transform: uppercase;

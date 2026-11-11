@@ -5,6 +5,20 @@ notes for each tag carry the same list.
 
 ## Unreleased
 
+- **Breaking:** `SectionHeader` (and so `Section`) titles are `--corpo-text`, not the accent,
+  and the header has no bottom rule or padding. The gap below it is 12px (was 28px with the rule).
+- **Breaking:** `ActionBar` shows the primary action and at most two others, even when
+  more would fit. The rest go into "More", ahead of `menu` items.
+- Words that were mono are Public Sans (case and tracking unchanged): the record
+  eyebrow, license tier and assignment slot labels, calendar month and weekday labels,
+  command group labels, depgraph phase labels, relgraph tooltip kind, profile team,
+  labeled separators, the statement title, "Bill to" label and totals labels, the trial
+  balance title and proof line, and prose timestamps in activity logs, approvals,
+  inboxes, feeds and timelines. Figures, ids, codes, kbd and table headers stay mono.
+- `llms.txt` and component docs say when to use `Card`, `CardGrid`, `Badge`, `Stat`,
+  the `RecordPage` eyebrow and `Tabs` counts, and `Checkbox` and `NavigationMenu` have
+  summaries.
+
 - New `ShortcutsProvider` and `useShortcut`: one keydown listener and a registry of
   shortcuts (`'mod+k'`, `'?'`, `'g i'` sequences; `mod` is ⌘ on Apple, Ctrl elsewhere).
   Shortcuts without a modifier are ignored while typing and can be turned off from the
