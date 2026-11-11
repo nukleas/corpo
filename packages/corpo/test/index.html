@@ -1410,6 +1410,68 @@
   </section>
 
   <section>
+    <h2>SideNav module tree</h2>
+    <p style="margin: 0 0 12px; font-size: var(--corpo-text-sm); color: var(--corpo-text-muted);">
+      Groups are <code>button[aria-expanded]</code> followed by a <code>.cp-sidenav__group</code>. The collapsed rail
+      (<code>.cp-sidenav--collapsed</code>, 56px) shows icons only and marks the group holding the active page.
+    </p>
+    <div style="display: flex; gap: 16px; align-items: flex-start;">
+      <div class="cp-shell" style="width: auto; height: 340px; border: 1px solid var(--corpo-border-dim); border-radius: var(--corpo-radius-lg); overflow: hidden;">
+        <aside class="cp-shell__sidebar">
+          <nav class="cp-sidenav" aria-label="Modules">
+            <div class="cp-sidenav__sections">
+              <div class="cp-sidenav__section">
+                <div class="cp-sidenav__section-title">Modules</div>
+                <div class="cp-sidenav__node">
+                  <button type="button" class="cp-sidenav__item" aria-expanded="false"><span class="cp-sidenav__item-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cp-sidenav__item-label">Sales</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                </div>
+                <div class="cp-sidenav__node">
+                  <button type="button" class="cp-sidenav__item is-active-parent" id="demo-tree-fin" aria-expanded="true"><span class="cp-sidenav__item-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3v18M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cp-sidenav__item-label">Finance</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                <div class="cp-sidenav__group" role="group" aria-labelledby="demo-tree-fin">
+                  <div class="cp-sidenav__node">
+                    <button type="button" class="cp-sidenav__item" aria-expanded="false"><span class="cp-sidenav__item-label">Receivables</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                  </div>
+                  <div class="cp-sidenav__node">
+                    <button type="button" class="cp-sidenav__item is-active-parent" id="demo-tree-gl" aria-expanded="true"><span class="cp-sidenav__item-label">General ledger</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                    <div class="cp-sidenav__group" role="group" aria-labelledby="demo-tree-gl">
+                      <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Journal entries</span></button>
+                      <button type="button" class="cp-sidenav__item is-active" aria-current="page"><span class="cp-sidenav__item-label">Trial balance</span></button>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="cp-sidenav__node">
+                  <button type="button" class="cp-sidenav__item" aria-expanded="false"><span class="cp-sidenav__item-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cp-sidenav__item-label">Inventory</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </aside>
+      </div>
+      <div class="cp-shell" style="width: auto; height: 340px; border: 1px solid var(--corpo-border-dim); border-radius: var(--corpo-radius-lg); overflow: hidden;">
+        <aside class="cp-shell__sidebar">
+          <nav class="cp-sidenav cp-sidenav--collapsed" aria-label="Modules rail">
+            <div class="cp-sidenav__sections">
+              <div class="cp-sidenav__section">
+                <div class="cp-sidenav__section-title">Modules</div>
+                <div class="cp-sidenav__node">
+                  <button type="button" class="cp-sidenav__item" aria-expanded="false"><span class="cp-sidenav__item-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cp-sidenav__item-label">Sales</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                </div>
+                <div class="cp-sidenav__node">
+                  <button type="button" class="cp-sidenav__item is-active-parent" aria-expanded="false"><span class="cp-sidenav__item-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3v18M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cp-sidenav__item-label">Finance</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                </div>
+                <div class="cp-sidenav__node">
+                  <button type="button" class="cp-sidenav__item" aria-expanded="false"><span class="cp-sidenav__item-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cp-sidenav__item-label">Inventory</span><span class="cp-sidenav__chevron" aria-hidden="true">›</span></button>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <h2>App shell</h2>
     <div class="cp-shell" id="demo-shell" style="height: 420px; border: 1px solid var(--corpo-border-dim); border-radius: var(--corpo-radius-lg); overflow: hidden;">
       <aside class="cp-shell__sidebar">

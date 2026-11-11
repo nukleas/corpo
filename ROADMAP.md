@@ -169,9 +169,9 @@ and import wizard are recipes over existing components, not new components.
 
 Layered PRs, in order:
 
-1. **Command palette** *(in progress)* — keyboard model, `CommandDialog` (⌘K overlay), server
+1. **Command palette** *(done, #57)* — keyboard model, `CommandDialog` (⌘K overlay), server
    record search as a `filtered` group, recent items while the query is empty.
-2. **SideNav module trees** — nested collapsible groups, icons, a collapsed icon rail with
+2. **SideNav module trees** *(in progress)* — nested collapsible groups, icons, a collapsed icon rail with
    tooltips, arrow-key navigation.
 3. **Record action bar** — split button, a toolbar that moves actions into "More" when it runs
    out of room, and a record pager ("3 of 120") on `RecordPage`.
