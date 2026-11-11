@@ -271,9 +271,9 @@
   <section>
     <h2>Navigation</h2>
     <div class="cp-tabs" role="tablist" aria-label="Invoice status">
-      <button class="cp-tabs__tab" role="tab" id="demo-tab-open" aria-selected="true" aria-controls="demo-tab-panel" tabindex="0">Open <span class="cp-tabs__count">12</span></button>
-      <button class="cp-tabs__tab" role="tab" id="demo-tab-paid" aria-selected="false" aria-controls="demo-tab-panel" tabindex="-1">Paid <span class="cp-tabs__count">84</span></button>
-      <button class="cp-tabs__tab" role="tab" id="demo-tab-overdue" aria-selected="false" aria-controls="demo-tab-panel" tabindex="-1">Overdue <span class="cp-tabs__count">3</span></button>
+      <button class="cp-tabs__tab" role="tab" id="demo-tab-open" aria-selected="true" tabindex="0">Open <span class="cp-tabs__count">12</span></button>
+      <button class="cp-tabs__tab" role="tab" id="demo-tab-paid" aria-selected="false" tabindex="-1">Paid <span class="cp-tabs__count">84</span></button>
+      <button class="cp-tabs__tab" role="tab" id="demo-tab-overdue" aria-selected="false" tabindex="-1">Overdue <span class="cp-tabs__count">3</span></button>
     </div>
     <div class="cp-tabs__panel" role="tabpanel" id="demo-tab-panel" aria-labelledby="demo-tab-open" tabindex="0">
       12 open invoices, 4 due this week.
@@ -283,6 +283,20 @@
         <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Invoices</a><span class="cp-breadcrumb__sep">/</span></li>
         <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Acme Inc.</a><span class="cp-breadcrumb__sep">/</span></li>
         <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current" aria-current="page">INV-2041</span></li>
+      </ol>
+    </nav>
+    <p style="margin: 16px 0 6px; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">Overflow menu (<code>.cp-tabs-bar</code> + <code>.cp-tabs--menu</code>): clipped tabs hide; "More tabs" sits outside the tablist.</p>
+    <div class="cp-tabs-bar" style="max-width: 340px;">
+      <div class="cp-tabs cp-tabs--menu" role="tablist" aria-label="Sales order"><button class="cp-tabs__tab" role="tab" aria-selected="true" tabindex="0">Details</button><button class="cp-tabs__tab" role="tab" aria-selected="false" tabindex="-1">Lines</button><button class="cp-tabs__tab" role="tab" aria-selected="false" tabindex="-1">Invoices</button><button class="cp-tabs__tab is-clipped" role="tab" aria-selected="false" tabindex="-1">Deliveries</button><button class="cp-tabs__tab is-clipped" role="tab" aria-selected="false" tabindex="-1">Payments</button></div>
+      <div class="cp-dropdown"><button type="button" class="cp-btn cp-btn--ghost cp-btn--sm cp-btn--icon" aria-label="More tabs" aria-haspopup="menu" aria-expanded="false">⋯</button></div>
+    </div>
+    <p style="margin: 16px 0 6px; font-size: var(--corpo-text-xs); color: var(--corpo-text-muted);">Collapsed trail: first item, a "…" toggle for the middle, the last two.</p>
+    <nav class="cp-breadcrumb" aria-label="Breadcrumb, collapsed">
+      <ol class="cp-breadcrumb__list">
+        <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Home</a><span class="cp-breadcrumb__sep" aria-hidden="true">/</span></li>
+        <li class="cp-breadcrumb__item"><button type="button" class="cp-breadcrumb__more" aria-label="Show 3 more" aria-expanded="false">…</button><span class="cp-breadcrumb__sep" aria-hidden="true">/</span></li>
+        <li class="cp-breadcrumb__item"><a class="cp-breadcrumb__link" href="#">Period 10</a><span class="cp-breadcrumb__sep" aria-hidden="true">/</span></li>
+        <li class="cp-breadcrumb__item"><span class="cp-breadcrumb__current">JE-00412</span></li>
       </ol>
     </nav>
     <div class="demo-row" style="margin-top: 16px;">

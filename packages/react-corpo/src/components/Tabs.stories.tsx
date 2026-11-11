@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from '@storybook/test';
+import { expect, userEvent, waitFor, within } from '@storybook/test';
 import { Tabs } from './Tabs';
 import { Field } from './Field';
 import { Input } from './Input';
@@ -87,4 +87,52 @@ export const FilterStrip: Story = {
       />
     </Tabs>
   ),
+};
+
+const recordTabs = [
+  'Details',
+  'Lines',
+  'Invoices',
+  'Deliveries',
+  'Payments',
+  'Attachments',
+  'Approvals',
+  'Activity',
+  'Audit log',
+].map((label) => ({ id: label.toLowerCase().replace(' ', '-'), label, panel: <p>{label} for SO-2210.</p> }));
+
+/**
+ * `overflow="menu"`: tabs that don't fit go into a "More tabs" menu after the
+ * tablist. The selected tab always stays in the row; picking one from the menu
+ * selects and focuses it. Arrow keys still reach every tab.
+ */
+export const OverflowMenu: Story = {
+  args: { tabs: recordTabs, overflow: 'menu', 'aria-label': 'Sales order' },
+  render: (args) => (
+    <div style={{ width: 420 }}>
+      <Tabs {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const more = await canvas.findByRole('button', { name: 'More tabs' });
+
+    await userEvent.click(more);
+    const menu = body.getByRole('menu');
+    await expect(within(menu).queryByRole('menuitem', { name: 'Details' })).not.toBeInTheDocument();
+    await userEvent.click(within(menu).getByRole('menuitem', { name: 'Audit log' }));
+
+    const audit = canvas.getByRole('tab', { name: 'Audit log' });
+    await waitFor(() => expect(audit).toHaveFocus());
+    await expect(audit).toHaveAttribute('aria-selected', 'true');
+    await expect(audit).toBeVisible();
+    await expect(canvas.getByText('Audit log for SO-2210.')).toBeVisible();
+
+    // The first tabs stay in the row; Home goes back to the start.
+    await userEvent.keyboard('{Home}');
+    const details = canvas.getByRole('tab', { name: 'Details' });
+    await waitFor(() => expect(details).toHaveFocus());
+    await expect(details).toHaveAttribute('aria-selected', 'true');
+  },
 };

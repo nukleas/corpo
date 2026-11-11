@@ -1,4 +1,6 @@
 .cp-breadcrumb {
+  position: relative;
+  min-width: 0;
   font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-xs);
   text-transform: none;
@@ -14,6 +16,8 @@
 }
 .cp-breadcrumb__item {
   display: flex;
+  flex: none;
+  white-space: nowrap;
   align-items: center;
   gap: 8px;
 }
@@ -38,4 +42,54 @@ button.cp-breadcrumb__link {
 }
 .cp-breadcrumb__sep {
   color: var(--corpo-text-dim);
+}
+
+/* Collapsed trail — the first item, a "…" toggle for the middle, then the last two.
+   The React layer compares .cp-breadcrumb__measure (the full trail, off-screen) with the room. */
+.cp-breadcrumb__measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.cp-breadcrumb__more {
+  padding: 0 4px;
+  border: none;
+  border-radius: var(--corpo-radius);
+  background: none;
+  font: inherit;
+  color: var(--corpo-text-muted);
+  cursor: pointer;
+}
+.cp-breadcrumb__more:hover,
+.cp-breadcrumb__more[aria-expanded='true'] {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
+}
+.cp-breadcrumb__menu {
+  position: absolute;
+  z-index: 40;
+  min-width: 180px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-md);
+}
+.cp-breadcrumb__menu-link {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: var(--corpo-radius);
+  font-size: var(--corpo-text-sm);
+  color: var(--corpo-text-secondary);
+  text-decoration: none;
+}
+.cp-breadcrumb__menu-link:hover {
+  background: var(--corpo-bg-panel-hover);
+  color: var(--corpo-text);
 }

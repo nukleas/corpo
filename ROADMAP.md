@@ -173,9 +173,9 @@ Layered PRs, in order:
    record search as a `filtered` group, recent items while the query is empty.
 2. **SideNav module trees** *(done, #58)* — nested collapsible groups, icons, a collapsed icon rail with
    tooltips, arrow-key navigation.
-3. **Record action bar** *(in progress)* — split button, a toolbar that moves actions into "More" when it runs
+3. **Record action bar** *(done, #59)* — split button, a toolbar that moves actions into "More" when it runs
    out of room, and a record pager ("3 of 120") on `RecordPage`.
-4. **Overflow** — Tabs that don't fit go into a "More" menu; long breadcrumbs collapse the middle.
+4. **Overflow** *(in progress)* — Tabs that don't fit go into a "More" menu; long breadcrumbs collapse the middle.
 5. **App-level switchers** — module launcher grid, company/entity switcher.
 6. **Keyboard shortcuts** — a shortcut registry and a "?" help overlay.
 
