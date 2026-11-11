@@ -1,4 +1,4 @@
-import { copyFileSync, writeFileSync, readFileSync, mkdirSync } from 'node:fs';
+import { copyFileSync, writeFileSync, readFileSync, mkdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -18,6 +18,8 @@ const require = createRequire(import.meta.url);
 // SAFETY: this reads the package's own manifest, which always carries a string version.
 const { version: PKG_VERSION } = require(join(ROOT, 'package.json')) as { version: string };
 
+// Start empty so files from removed outputs never ship in a local publish.
+rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
 function block(selector: string, tokens: Record<string, string>): string {

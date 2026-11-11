@@ -81,8 +81,8 @@ the *Examples/Sales order* story builds a full list → record → lines → tot
 contract check (classes, tokens, package parity, story coverage), and the Storybook test runner — every
 story renders and passes axe WCAG 2.1 AA, with play functions for interactive components.
 
-Each ships as CSS (`cp-*` classes) + a thin React wrapper (`corpo/react`) + a full documented React
-component with a Storybook story (`react-corpo`).
+Each ships as CSS (`cp-*` classes) + a documented React component with a Storybook story
+(`react-corpo`).
 
 ## Next: CpRelGraph — large interactive relationship graphs
 

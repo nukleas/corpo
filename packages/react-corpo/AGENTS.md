@@ -88,7 +88,6 @@ blanket prop on every component.
 
 1. Read `../corpo/src/css/components/<x>.css` for modifiers (`.cp-x--*`) and parts (`.cp-x__*`).
 2. Read the matching section in `../corpo/test/index.html` for canonical DOM.
-3. Thin wrappers in `../corpo/src/react/` are a useful reference for prop names.
 
 ## Commands
 

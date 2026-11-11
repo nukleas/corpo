@@ -2,8 +2,8 @@
 
 CSS package in the corpo monorepo (`packages/corpo`). Calm, light-first, WCAG-AA corporate design
 system — the company-friendly sibling of [cyberdesign](https://github.com/nukleas/cyberdesign).
-Pure CSS + TypeScript tokens + thin React class bindings under `src/react/`. Full React API +
-Storybook live in `../react-corpo`.
+Pure CSS + TypeScript tokens + zero-dep vanilla JS engines. The React API and Storybook live
+in `../react-corpo`.
 
 ## Architecture
 
@@ -28,8 +28,6 @@ src/css/
                       Toast/Toaster, Toggle/ToggleGroup, ButtonGroup/RadioGroup,
                       StatusDot/StatusPill/StatusBar, Calendar also backs DatePicker,
                       Modal CSS also backs AlertDialog)
-
-src/react/           thin class wrappers, one per component (design-sync / lightweight export)
 
 src/js/              zero-dep vanilla scene engines, shipped from src via package exports
   depgraph.js        CpDepGraph — milestone dependency graph (exports `corpo/depgraph`)

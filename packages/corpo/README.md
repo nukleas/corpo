@@ -34,5 +34,4 @@ pnpm demo   # http://localhost:4980/test/
 | `@nukleas/corpo` / `@nukleas/corpo/css` | Full CSS bundle |
 | `@nukleas/corpo/vars` | CSS variables only |
 | `@nukleas/corpo/tailwind` | Variables + Tailwind v4 `@theme` |
-| `@nukleas/corpo/react` | Thin React class wrappers (prefer `@nukleas/react-corpo` for apps) |
 | `@nukleas/corpo/tokens` | TypeScript token constants |

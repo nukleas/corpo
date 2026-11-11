@@ -6,8 +6,7 @@
     "moduleResolution": "bundler",
     "strict": true,
     "noEmit": true,
-    "skipLibCheck": true,
-    "jsx": "react-jsx"
+    "skipLibCheck": true
   },
   "include": ["src/**/*", "build.ts"],
   "exclude": ["node_modules", "dist"]
