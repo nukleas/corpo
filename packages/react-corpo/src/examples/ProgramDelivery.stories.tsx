@@ -14,6 +14,7 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Stepper } from '../components/Stepper';
 import { StatusPill } from '../components/StatusPill';
 import { Timeline } from '../components/Timeline';
+import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/Program delivery console',
@@ -144,7 +145,7 @@ function ProgramDeliveryExample() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
-          brand="Halcyon PMO"
+          brand={<Brand name="Halcyon PMO" detail="Program delivery" />}
           sections={[
             {
               title: 'Programs',

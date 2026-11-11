@@ -13,6 +13,7 @@ import { Badge } from '../components/Badge';
 import { Avatar } from '../components/Avatar';
 import { SectionHeader } from '../components/SectionHeader';
 import { LICENSES } from '../components/LicenseCatalog.fixtures';
+import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/IT admin console',
@@ -207,7 +208,7 @@ function AdminConsoleExample() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
-          brand="Halcyon IT"
+          brand={<Brand name="Halcyon IT" detail="Admin console" />}
           sections={sections}
           activeId={activeId}
           onSelect={(id) => {

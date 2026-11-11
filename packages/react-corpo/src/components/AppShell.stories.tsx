@@ -8,6 +8,7 @@ import { Avatar } from './Avatar';
 import { Badge } from './Badge';
 import { Button } from './Button';
 import { Stat } from './Stat';
+import { Brand } from './Brand';
 
 const meta = {
   title: 'Layout/AppShell',
@@ -47,7 +48,7 @@ function ShellDemo() {
       <AppShell.Sidebar>
         <SideNav
           aria-label="Sections"
-          brand="Halcyon Group"
+          brand={<Brand name="Halcyon Group" detail="Billing" />}
           sections={SECTIONS}
           activeId={activeId}
           onSelect={(id) => {

@@ -13,6 +13,7 @@ import { Sheet } from '../components/Sheet';
 import { Stat } from '../components/Stat';
 import { TAccount } from '../components/TAccount';
 import { TrialBalance } from '../components/TrialBalance';
+import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/Accounting workspace',
@@ -98,7 +99,7 @@ function AccountingWorkspaceExample() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
-          brand="Meridian Books"
+          brand={<Brand name="Meridian Books" detail="FY 2026" />}
           sections={SECTIONS}
           activeId={activeId}
           onSelect={(id) => {

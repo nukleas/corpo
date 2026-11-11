@@ -1435,6 +1435,22 @@
   </section>
 
   <section>
+    <h2>Brand, entity switcher and module launcher</h2>
+    <div style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;">
+      <div style="width: 240px; padding: 12px 16px; border: 1px solid var(--corpo-border-dim); border-radius: var(--corpo-radius-lg); background: var(--corpo-bg-panel);">
+        <button type="button" class="cp-brand cp-brand--switch" aria-label="Switch company: Halcyon UK Ltd" aria-haspopup="menu" aria-expanded="false"><span class="cp-brand__mark" aria-hidden="true">HU</span><span class="cp-brand__text"><span class="cp-brand__name">Halcyon UK Ltd</span><span class="cp-brand__detail">GBP · London</span></span><span class="cp-brand__chevron" aria-hidden="true"></span></button>
+      </div>
+      <div class="cp-launcher">
+        <button type="button" class="cp-launcher__toggle" aria-label="Modules" aria-expanded="true"><span class="cp-launcher__icon" aria-hidden="true"></span></button>
+        <nav class="cp-launcher__panel" aria-label="Modules" style="position: static; margin-left: 8px;">
+          <p class="cp-launcher__title">Modules</p>
+          <ul class="cp-launcher__grid"><li><a class="cp-launcher__item" href="#"><span class="cp-launcher__item-label">Sales</span><span class="cp-launcher__item-description">Quotes, orders</span></a></li><li><a class="cp-launcher__item" href="#" aria-current="page"><span class="cp-launcher__item-label">Finance</span><span class="cp-launcher__item-description">Ledger, AR, AP</span></a></li><li><a class="cp-launcher__item" href="#"><span class="cp-launcher__item-label">Inventory</span><span class="cp-launcher__item-description">Items, stock</span></a></li><li><a class="cp-launcher__item" href="#"><span class="cp-launcher__item-label">People</span><span class="cp-launcher__item-description">Staff, payroll</span></a></li></ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <h2>SideNav module tree</h2>
     <p style="margin: 0 0 12px; font-size: var(--corpo-text-sm); color: var(--corpo-text-muted);">
       Groups are <code>button[aria-expanded]</code> followed by a <code>.cp-sidenav__group</code>. The collapsed rail
@@ -1501,7 +1517,7 @@
     <div class="cp-shell" id="demo-shell" style="height: 420px; border: 1px solid var(--corpo-border-dim); border-radius: var(--corpo-radius-lg); overflow: hidden;">
       <aside class="cp-shell__sidebar">
         <nav class="cp-sidenav">
-          <div class="cp-sidenav__brand">Halcyon Group</div>
+          <div class="cp-sidenav__brand"><div class="cp-brand"><span class="cp-brand__mark" aria-hidden="true">HG</span><span class="cp-brand__text"><span class="cp-brand__name">Halcyon Group</span><span class="cp-brand__detail">Billing</span></span></div></div>
           <div class="cp-sidenav__sections">
             <div class="cp-sidenav__section">
               <button type="button" class="cp-sidenav__item"><span class="cp-sidenav__item-label">Overview</span></button>

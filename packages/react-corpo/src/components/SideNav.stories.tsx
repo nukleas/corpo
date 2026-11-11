@@ -4,6 +4,7 @@ import { expect, userEvent, waitFor, within } from '@storybook/test';
 import { SideNav, type SideNavSection } from './SideNav';
 import { Badge } from './Badge';
 import { Button } from './Button';
+import { Brand } from './Brand';
 
 const meta = {
   title: 'Navigation/SideNav',
@@ -38,7 +39,7 @@ const SECTIONS = [
 ];
 
 export const Default: Story = {
-  args: { brand: 'Halcyon Group', sections: SECTIONS },
+  args: { brand: <Brand name="Halcyon Group" detail="Halcyon UK Ltd" />, sections: SECTIONS },
   render: function Render(args) {
     const [activeId, setActiveId] = useState('invoices');
     return (
@@ -52,7 +53,7 @@ export const Default: Story = {
 /** Items render as router links via the `as` + `linkProps` pattern. */
 export const RouterLinks: Story = {
   args: {
-    brand: 'Halcyon Group',
+    brand: <Brand name="Halcyon Group" detail="Halcyon UK Ltd" />,
     activeId: 'invoices',
     sections: [
       {
@@ -145,7 +146,7 @@ const MODULES: SideNavSection[] = [
  * steps into it, ArrowLeft closes it or steps back out to its parent.
  */
 export const ModuleTree: Story = {
-  args: { brand: 'Halcyon Group', sections: MODULES },
+  args: { brand: <Brand name="Halcyon Group" detail="Halcyon UK Ltd" />, sections: MODULES },
   render: function Render(args) {
     const [activeId, setActiveId] = useState('trial-balance');
     return (
