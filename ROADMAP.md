@@ -176,8 +176,8 @@ Layered PRs, in order:
 3. **Record action bar** *(done, #59)* — split button, a toolbar that moves actions into "More" when it runs
    out of room, and a record pager ("3 of 120") on `RecordPage`.
 4. **Overflow** *(done, #62)* — Tabs that don't fit go into a "More" menu; long breadcrumbs collapse the middle.
-5. **App-level switchers** *(in progress)* — module launcher grid, company/entity switcher.
-6. **Keyboard shortcuts** — a shortcut registry and a "?" help overlay.
+5. **App-level switchers** *(done, #63)* — module launcher grid, company/entity switcher.
+6. **Keyboard shortcuts** *(in progress)* — a shortcut registry and a "?" help overlay.
 
 ## Not ported from the parity list
 
