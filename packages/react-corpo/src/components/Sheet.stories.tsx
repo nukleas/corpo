@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj<typeof Sheet>;
 
 export const Right: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     return (
       <>
@@ -40,7 +40,7 @@ export const Right: Story = {
 };
 
 export const Bottom: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     return (
       <>

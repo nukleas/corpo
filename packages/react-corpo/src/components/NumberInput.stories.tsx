@@ -15,7 +15,7 @@ type Story = StoryObj<typeof NumberInput>;
 
 /** Money: grouped with fixed cents while idle, raw while editing. Rounds on blur. */
 export const Currency: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<number | null>(12_400);
     return (
       <div style={{ width: 240 }}>
@@ -47,7 +47,7 @@ export const Currency: Story = {
 
 /** Quantities: whole numbers, clamped to `min`/`max`, arrow keys step (Shift ×10). */
 export const Quantity: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<number | null>(4);
     return (
       <div style={{ width: 180 }}>
@@ -71,7 +71,7 @@ export const Quantity: Story = {
 
 /** Rates read best with a `%` suffix; any precision is allowed when `decimals` is omitted. */
 export const Percent: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<number | null>(7.75);
     return (
       <div style={{ width: 160 }}>
@@ -85,7 +85,7 @@ export const Percent: Story = {
 
 /** Empty is `null`, not zero — required fields can tell the difference. */
 export const Empty: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<number | null>(null);
     return (
       <div style={{ width: 240 }}>

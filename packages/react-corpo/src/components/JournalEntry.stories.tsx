@@ -14,7 +14,7 @@ type Story = StoryObj<typeof JournalEntry>;
 
 /** Starts out of balance — type until Σ Dr = Σ Cr and the totals row takes the proved double rule. */
 export const Basic: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<JournalEntryValue>({
       date: '2026-01-31',
       memo: 'Record January rent',
@@ -29,7 +29,7 @@ export const Basic: Story = {
 
 /** `accounts` swaps the free-text account cells for Combobox pickers over the chart of accounts. */
 export const WithAccountPicker: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<JournalEntryValue>({
       date: '2026-02-01',
       memo: 'Record February rent',
@@ -57,7 +57,7 @@ export const WithAccountPicker: Story = {
 
 /** N postings, remove buttons past two lines, lenient amount parsing (`$`, commas, spaces). */
 export const MultiPosting: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<JournalEntryValue>({
       date: '2026-01-31',
       memo: 'Payroll run — January',

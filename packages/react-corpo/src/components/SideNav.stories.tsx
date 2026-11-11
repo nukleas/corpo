@@ -37,7 +37,7 @@ const SECTIONS = [
 
 export const Default: Story = {
   args: { brand: 'Halcyon Group', sections: SECTIONS },
-  render: (args) => {
+  render: function Render(args) {
     const [activeId, setActiveId] = useState('invoices');
     return (
       <div style={{ width: 240, height: 420, border: '1px solid var(--corpo-border-dim)' }}>

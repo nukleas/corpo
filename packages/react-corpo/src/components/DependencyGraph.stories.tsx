@@ -95,7 +95,7 @@ export const TopToBottom: Story = {
 /** Click a node to select it, then click it again (or press Enter) to advance it — ready → in progress → done. Blocked work becomes ready once every dependency is done. */
 export const Interactive: Story = {
   args: { nodes: NODES },
-  render: () => {
+  render: function Render() {
     const [nodes, setNodes] = useState(NODES);
     return (
       <DependencyGraph

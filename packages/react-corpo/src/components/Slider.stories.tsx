@@ -12,7 +12,7 @@ export default meta;
 type Story = StoryObj<typeof Slider>;
 
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState(40);
     return (
       <div style={{ width: 260 }}>

@@ -47,7 +47,7 @@ type Story = StoryObj<typeof NavigationMenu>;
 
 /** Module navigation for a multi-area app; the item holding the current page is marked active. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState('payables');
     return (
       <div style={{ minHeight: 280 }}>

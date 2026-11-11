@@ -44,7 +44,7 @@ export const Horizontal: Story = {
 
 /** Controlled, stacked panes — the size is reported back to the page. */
 export const Vertical: Story = {
-  render: () => {
+  render: function Render() {
     const [size, setSize] = useState(60);
     return (
       <div style={{ height: 320, border: '1px solid var(--corpo-border)' }}>

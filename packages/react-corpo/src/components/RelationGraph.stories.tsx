@@ -102,7 +102,7 @@ const DEMO = makeGraph(6, 20);
 /** Selection is reported via `onSelect` and can be synced back through `selectedId`. */
 export const ControlledSelection: Story = {
   args: { nodes: [], edges: [] },
-  render: () => {
+  render: function Render() {
     const graph = DEMO;
     const [selected, setSelected] = useState<string | null>('c0-hub');
     return (
@@ -117,7 +117,7 @@ export const ControlledSelection: Story = {
 /** Kind inclusion filter; edges hide when either end is filtered out. */
 export const Filters: Story = {
   args: { nodes: [], edges: [] },
-  render: () => {
+  render: function Render() {
     const graph = DEMO;
     const [kinds, setKinds] = useState<string[]>([]);
     return (
@@ -137,7 +137,7 @@ export const Filters: Story = {
 /** Double-click a gateway to drill into its cluster; Escape or double-click empty to leave. */
 export const ScopeDrilldown: Story = {
   args: { nodes: [], edges: [] },
-  render: () => {
+  render: function Render() {
     const graph = DEMO;
     const [scope, setScope] = useState<string | null>(null);
     return (
@@ -165,7 +165,7 @@ export const ScopeDrilldown: Story = {
 /** Type a label fragment and press Enter to jump; ] and [ cycle matches. */
 export const SearchJump: Story = {
   args: { nodes: [], edges: [] },
-  render: () => {
+  render: function Render() {
     const graph = DEMO;
     const [draft, setDraft] = useState('queue');
     const [query, setQuery] = useState('queue');

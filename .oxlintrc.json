@@ -18,6 +18,9 @@
     }
   ],
   "rules": {
+    // Hooks: called unconditionally, effects list what they read.
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "error",
     // Corpo styles ARIA-role divs on purpose (role="dialog", "group", "separator", "progressbar"…);
     // native-tag substitution is a design decision, not a lint fix.
     "jsx-a11y/prefer-tag-over-role": "off",

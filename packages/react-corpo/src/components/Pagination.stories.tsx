@@ -12,7 +12,7 @@ export default meta;
 type Story = StoryObj<typeof Pagination>;
 
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [page, setPage] = useState(4);
     return <Pagination page={page} totalPages={12} onChange={setPage} showInfo />;
   },

@@ -25,7 +25,7 @@ type Story = StoryObj<typeof FormSection>;
  * one column at 480px. Narrow the container, not the window.
  */
 export const Sections: Story = {
-  render: () => {
+  render: function Render() {
     const [due, setDue] = useState<Date | undefined>(new Date(2026, 9, 30));
     const [limit, setLimit] = useState<number | null>(25_000);
     return (

@@ -52,7 +52,7 @@ const bell = (
 
 /** In the Topbar: a bell opens the inbox in a Popover; opening a notification marks it read. */
 export const InTopbar: Story = {
-  render: () => {
+  render: function Render() {
     const [items, setItems] = useState(NOTIFICATIONS);
     const unread = items.filter((n) => n.unread).length;
     return (

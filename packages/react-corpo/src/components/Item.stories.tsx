@@ -29,7 +29,7 @@ export const Default: Story = {
 
 /** A settings list: rows as `<li>` in an ItemGroup, each with a trailing control. */
 export const SettingsList: Story = {
-  render: () => {
+  render: function Render() {
     const [digest, setDigest] = useState(true);
     const [approvals, setApprovals] = useState(false);
     return (

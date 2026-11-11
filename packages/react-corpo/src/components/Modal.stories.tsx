@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof Modal>;
 
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(false);
     return (
       <>

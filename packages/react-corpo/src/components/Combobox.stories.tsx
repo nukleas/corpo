@@ -23,7 +23,7 @@ type Story = StoryObj<typeof Combobox>;
 
 /** Type to filter; ArrowDown/ArrowUp move through the options, Enter picks, Escape closes. */
 export const Default: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [value, setValue] = useState<string | undefined>();
     return (
       <div style={{ width: 280 }}>

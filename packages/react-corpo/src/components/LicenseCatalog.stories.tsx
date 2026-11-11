@@ -22,7 +22,7 @@ export const PaddedGrid: Story = {
 /** Click to select; double-click (or Enter) fires the assign intent. */
 export const Interactive: Story = {
   args: { items: LICENSES },
-  render: (args) => {
+  render: function Render(args) {
     const [selectedId, setSelectedId] = useState<string | null>('linear');
     const [assignedIds, setAssignedIds] = useState<string[]>(['linear']);
     return (

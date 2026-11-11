@@ -15,7 +15,7 @@ type Story = StoryObj<typeof DatePicker>;
 
 /** Inside a Field, the label names the trigger; picking a day closes the calendar. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [value, setValue] = useState<Date | undefined>();
     return (
       <div style={{ width: 220 }}>

@@ -34,7 +34,7 @@ type Story = StoryObj<typeof BottomNav>;
 
 /** A phone tab bar. Inside AppShell it shows only below 768px; standalone, as here, it always shows. */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [active, setActive] = useState('home');
     return (
       <div style={{ maxWidth: 400, border: '1px solid var(--corpo-border)' }}>
