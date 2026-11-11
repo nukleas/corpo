@@ -13,8 +13,10 @@ export interface RecordPageProps extends Omit<HTMLAttributes<HTMLElement>, 'titl
   eyebrow?: ReactNode;
   /** Beside the title — typically a {@link StatusPill}. */
   status?: ReactNode;
-  /** Primary actions, right-aligned. Verb-first copy. */
+  /** Primary actions, right-aligned — an {@link ActionBar}, or buttons. Verb-first copy. */
   actions?: ReactNode;
+  /** After the actions — a {@link RecordPager} for stepping through the list this record came from. */
+  pager?: ReactNode;
   /** Key fields in a strip under the title: customer, dates, owner, total. */
   facts?: RecordFact[];
   /** Side column (300px, stacks below 768px) for activity, attachments, related records. */
@@ -33,6 +35,7 @@ export function RecordPage({
   eyebrow,
   status,
   actions,
+  pager,
   facts,
   aside,
   className,
@@ -50,7 +53,12 @@ export function RecordPage({
               {status}
             </div>
           </div>
-          {actions && <div className="cp-record__actions">{actions}</div>}
+          {(actions || pager) && (
+            <div className="cp-record__actions">
+              {actions}
+              {pager}
+            </div>
+          )}
         </div>
         {facts && facts.length > 0 && (
           <dl className="cp-record__facts">

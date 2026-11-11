@@ -17,6 +17,22 @@
   z-index: 1;
 }
 
+/* Split button — main action + menu arrow. Primary halves part on a panel-colored seam. */
+.cp-split-button .cp-btn--primary + .cp-dropdown .cp-btn--primary {
+  border-left-color: var(--corpo-bg-panel);
+}
+.cp-split-button > .cp-dropdown > .cp-btn {
+  border-radius: 0 var(--corpo-radius) var(--corpo-radius) 0;
+  margin-left: -1px;
+}
+.cp-split-button__caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+}
+
 .cp-radio-group {
   display: flex;
   flex-direction: column;
