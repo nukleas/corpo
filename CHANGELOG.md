@@ -9,6 +9,10 @@ notes for each tag carry the same list.
   `description`, `keywords` and `disabled`. Results are `role="option"` elements driven
   from the input with `aria-activedescendant`, not buttons. New `CommandDialog` is the
   ⌘K overlay.
+- `SideNav` items take `icon` and nested `items`. An item with `items` is a group toggle
+  (`aria-expanded`) that opens in place; the active page's groups open on their own.
+  Arrow keys move through visible items and open, close, enter and leave groups.
+  `collapsed` turns the nav into a 56px icon rail with label tooltips and group flyouts.
 
 ## 0.5.0 — responsive, calm chrome
 
