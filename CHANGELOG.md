@@ -3,6 +3,13 @@
 Visual and API breaks for the published packages, newest first. The GitHub release
 notes for each tag carry the same list.
 
+## Unreleased
+
+- `Command` items take a string `label` (it is the searched text), plus optional
+  `description`, `keywords` and `disabled`. Results are `role="option"` elements driven
+  from the input with `aria-activedescendant`, not buttons. New `CommandDialog` is the
+  ⌘K overlay.
+
 ## 0.5.0 — responsive, calm chrome
 
 Breaking changes. No compatibility shims.

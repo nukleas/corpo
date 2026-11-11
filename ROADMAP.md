@@ -165,6 +165,20 @@ screen list is done. Module-specific and deferred: Kanban,
 Gantt (over the depgraph engine), pivot report, resource scheduler, print layout. Permission matrix
 and import wizard are recipes over existing components, not new components.
 
+## Next: ERP navigation — menus and wayfinding for large module trees
+
+Layered PRs, in order:
+
+1. **Command palette** *(in progress)* — keyboard model, `CommandDialog` (⌘K overlay), server
+   record search as a `filtered` group, recent items while the query is empty.
+2. **SideNav module trees** — nested collapsible groups, icons, a collapsed icon rail with
+   tooltips, arrow-key navigation.
+3. **Record action bar** — split button, a toolbar that moves actions into "More" when it runs
+   out of room, and a record pager ("3 of 120") on `RecordPage`.
+4. **Overflow** — Tabs that don't fit go into a "More" menu; long breadcrumbs collapse the middle.
+5. **App-level switchers** — module launcher grid, company/entity switcher.
+6. **Keyboard shortcuts** — a shortcut registry and a "?" help overlay.
+
 ## Not ported from the parity list
 
 Carousel (off-voice for corpo), and a separate Drawer — `Sheet side="bottom"` is the drawer.

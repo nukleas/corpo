@@ -50,24 +50,52 @@
   justify-content: space-between;
   gap: 8px;
   width: 100%;
-  height: 34px;
-  padding: 0 10px;
-  border: none;
+  min-height: 34px;
+  padding: 6px 10px;
   border-radius: var(--corpo-radius);
-  background: none;
   cursor: pointer;
-  text-align: left;
   font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-sm);
   color: var(--corpo-text-secondary);
 }
-.cp-command__item:hover {
+.cp-command__item--active {
   background: var(--corpo-bg-panel-hover);
   color: var(--corpo-text);
+}
+.cp-command__item[aria-disabled='true'] {
+  cursor: not-allowed;
+  color: var(--corpo-text-dim);
+}
+.cp-command__item-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cp-command__item-label,
+.cp-command__item-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cp-command__item-description {
+  font-size: var(--corpo-text-xs);
+  color: var(--corpo-text-muted);
 }
 .cp-command__empty {
   padding: 20px;
   text-align: center;
   font-size: var(--corpo-text-sm);
   color: var(--corpo-text-dim);
+}
+
+/* Palette as a dialog: anchored near the top so results grow downward without moving the input. */
+.cp-command-dialog {
+  align-items: flex-start;
+  padding-top: 12vh;
+}
+.cp-command-dialog .cp-command {
+  max-width: 560px;
+}
+.cp-command-dialog .cp-command__list {
+  max-height: min(400px, 60vh);
 }
