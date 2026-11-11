@@ -25,7 +25,7 @@
 }
 .cp-lines__cell .cp-input:focus,
 .cp-lines__cell .cp-input:focus-visible {
-  outline: 2px solid var(--corpo-accent);
+  outline: 2px solid var(--corpo-accent-text, var(--corpo-accent));
   outline-offset: -2px;
 }
 .cp-lines__cell .cp-input[aria-invalid='true'] {

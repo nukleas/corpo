@@ -91,7 +91,7 @@
   background: var(--corpo-bg-panel-hover);
 }
 .cp-feed-item[aria-current='true'] {
-  border-left-color: var(--corpo-accent);
+  border-left-color: var(--corpo-accent-edge, var(--corpo-accent));
   background: var(--corpo-accent-subtle);
 }
 .cp-feed-item:focus-visible {

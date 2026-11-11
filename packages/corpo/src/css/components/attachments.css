@@ -55,7 +55,7 @@
   white-space: nowrap;
 }
 a.cp-attachments__name {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 a.cp-attachments__name:hover {
   text-decoration: underline;

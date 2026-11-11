@@ -1,8 +1,8 @@
 .cp-breadcrumb {
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  text-transform: none;
+  letter-spacing: 0;
 }
 .cp-breadcrumb__list {
   display: flex;
@@ -30,7 +30,7 @@ button.cp-breadcrumb__link {
   cursor: pointer;
 }
 .cp-breadcrumb__link:hover {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-breadcrumb__current {
   color: var(--corpo-text);

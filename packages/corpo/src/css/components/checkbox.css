@@ -77,7 +77,7 @@
 
 .cp-checkbox__input:checked + .cp-checkbox__box {
   background: var(--corpo-accent);
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
 }
 .cp-checkbox__input:checked + .cp-checkbox__box::after {
   opacity: 1;
@@ -86,7 +86,7 @@
 /* Partial selection (set via the DOM `indeterminate` property) — accent box with a dash */
 .cp-checkbox__input:indeterminate + .cp-checkbox__box {
   background: var(--corpo-accent);
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
 }
 .cp-checkbox__input:indeterminate + .cp-checkbox__box::after {
   opacity: 1;
@@ -94,7 +94,7 @@
 }
 
 .cp-radio__input:checked + .cp-radio__box {
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
   background: var(--corpo-accent);
 }
 .cp-radio__input:checked + .cp-radio__box::after {
@@ -103,7 +103,7 @@
 
 .cp-checkbox__input:focus-visible + .cp-checkbox__box,
 .cp-radio__input:focus-visible + .cp-radio__box {
-  outline: 2px solid var(--corpo-accent);
+  outline: 2px solid var(--corpo-accent-text, var(--corpo-accent));
   outline-offset: 2px;
 }
 .cp-checkbox__input:disabled + .cp-checkbox__box,

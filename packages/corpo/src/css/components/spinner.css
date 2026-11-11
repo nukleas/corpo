@@ -7,16 +7,16 @@
   width: 16px;
   height: 16px;
   border: 2px solid var(--corpo-gray-200);
-  border-top-color: var(--corpo-accent);
+  border-top-color: var(--corpo-accent-edge, var(--corpo-accent));
   border-radius: 50%;
   animation: cp-spin 0.8s linear infinite;
   flex-shrink: 0;
 }
 .cp-spinner__label {
-  font-family: var(--corpo-font-mono);
+  font-family: var(--corpo-font-sans);
   font-size: var(--corpo-text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--corpo-label-tracking);
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--corpo-text-muted);
 }
 .cp-spinner__sr-only {

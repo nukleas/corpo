@@ -22,7 +22,7 @@ export interface FieldProps {
   children?: ReactNode;
 }
 
-/** Corpo field wrapper — mono uppercase label + control + hint/error line. */
+/** Corpo field wrapper — sentence-case label + control + hint/error line. */
 export function Field({ label, hint, error, required = false, htmlFor, span, className, style, children }: FieldProps) {
   const autoId = useId();
   const id = htmlFor ?? autoId;

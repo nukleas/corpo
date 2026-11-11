@@ -24,12 +24,19 @@
 .cp-select__control:hover {
   border-color: var(--corpo-border-strong);
 }
-.cp-select__control:focus {
+.cp-select__control:focus,
+.cp-select__control:focus-visible {
   outline: none;
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-text, var(--corpo-accent));
+  box-shadow:
+    0 0 0 2px var(--corpo-bg-panel),
+    0 0 0 4px var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-select__control:disabled {
-  opacity: 0.45;
+  opacity: 1;
+  background: var(--corpo-bg-inset);
+  border-color: var(--corpo-border-dim);
+  color: var(--corpo-text-dim);
   cursor: not-allowed;
 }
 
@@ -41,8 +48,16 @@
   height: var(--corpo-control-h-lg);
 }
 .cp-select--error .cp-select__control,
-.cp-select--error .cp-select__control:focus {
+.cp-select--error .cp-select__control:hover {
   border-color: var(--corpo-red);
+  box-shadow: none;
+}
+.cp-select--error .cp-select__control:focus,
+.cp-select--error .cp-select__control:focus-visible {
+  border-color: var(--corpo-red);
+  box-shadow:
+    0 0 0 2px var(--corpo-bg-panel),
+    0 0 0 4px var(--corpo-red);
 }
 
 .cp-select__chevron {
@@ -58,5 +73,5 @@
   border-top: 5px solid var(--corpo-text-muted);
 }
 .cp-select__control:focus ~ .cp-select__chevron {
-  border-top-color: var(--corpo-accent);
+  border-top-color: var(--corpo-accent-text, var(--corpo-accent));
 }

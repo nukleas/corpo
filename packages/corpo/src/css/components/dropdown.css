@@ -97,5 +97,5 @@
   justify-content: center;
   width: 14px;
   margin-right: 8px;
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }

@@ -46,7 +46,7 @@
   border-color: var(--corpo-border-strong);
 }
 .cp-dropzone__area.is-dragover {
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
   background: var(--corpo-accent-subtle);
 }
 
@@ -76,7 +76,7 @@
   background: none;
   font: inherit;
   font-weight: 600;
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
   cursor: pointer;
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -84,6 +84,9 @@
 }
 .cp-dropzone__browse:hover {
   color: var(--corpo-accent-strong);
+}
+.corpo-dark .cp-dropzone__browse:hover {
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-dropzone__browse:disabled {
   cursor: not-allowed;

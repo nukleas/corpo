@@ -28,7 +28,7 @@ export interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChang
 }
 
 /**
- * Corpo tabs — mono uppercase triggers, 2px accent underline (or pills), and
+ * Corpo tabs — Public Sans sentence-case triggers, accent underline (or pills), and
  * their panels. Follows the WAI-ARIA tabs pattern: one tab stop, arrow keys
  * and Home/End move between tabs and activate them. `className` and other
  * props go to the tablist.

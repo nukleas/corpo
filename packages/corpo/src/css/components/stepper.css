@@ -51,14 +51,14 @@
 
 .cp-stepper__step--complete .cp-stepper__marker {
   background: var(--corpo-accent);
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
   color: var(--corpo-on-accent);
 }
 
 .cp-stepper__step--current .cp-stepper__marker {
   background: var(--corpo-accent-subtle);
-  border-color: var(--corpo-accent);
-  color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .cp-stepper__step--upcoming .cp-stepper__marker {

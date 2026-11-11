@@ -22,7 +22,7 @@
   color: var(--corpo-text);
 }
 .cp-accordion__trigger:hover {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .cp-accordion__chevron {

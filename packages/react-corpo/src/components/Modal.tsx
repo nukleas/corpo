@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 export interface ModalProps {
   open: boolean;
   onClose: () => void;
-  /** Mono uppercase title in the header row. */
+  /** Sentence-case title in the header row. */
   title?: ReactNode;
   /** Right-aligned action row. */
   footer?: ReactNode;

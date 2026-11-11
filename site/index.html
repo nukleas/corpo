@@ -12,7 +12,7 @@
   header.hero { padding: 56px 0 40px; }
   header.hero .cp-badge { margin-bottom: 16px; }
   h1 {
-    font-family: var(--corpo-font-mono);
+    font-family: var(--corpo-font-sans);
     font-size: var(--corpo-text-2xl);
     letter-spacing: -0.01em;
     margin: 0 0 12px;
@@ -33,7 +33,7 @@
   }
   .grid .cp-card { height: 100%; }
   .grid a.cp-card { text-decoration: none; color: inherit; transition: border-color 120ms var(--corpo-ease); }
-  .grid a.cp-card:hover { border-color: var(--corpo-accent); }
+  .grid a.cp-card:hover { border-color: var(--corpo-accent-edge, var(--corpo-accent)); }
   .grid .cp-card__title { font-size: var(--corpo-text-base); text-transform: none; letter-spacing: normal; }
   section h2 {
     margin: 0 0 12px;
@@ -45,7 +45,7 @@
 </head>
 <body>
   <header class="hero">
-    <a class="cp-badge cp-badge--accent" href="https://github.com/nukleas/corpo/releases" style="text-decoration: none;">v0.2.0</a>
+    <a class="cp-badge cp-badge--accent" href="https://github.com/nukleas/corpo/releases" style="text-decoration: none;">v0.4.0</a>
     <h1>Corpo</h1>
     <p>
       A calm, light-first, WCAG-AA design system for business software — the company-friendly

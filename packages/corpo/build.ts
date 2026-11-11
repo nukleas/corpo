@@ -1,4 +1,4 @@
-import { writeFileSync, readFileSync, mkdirSync } from 'node:fs';
+import { copyFileSync, writeFileSync, readFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -383,5 +383,12 @@ const bundle = [
 
 writeFileSync(join(DIST, 'corpo.css'), bundle);
 console.log('✓ dist/corpo.css');
+
+// The docs site links ./dist/corpo.css. Pages copies this file to pages_dist/dist;
+// a repo checkout needs the same relative file under site/ so the href resolves there too.
+const SITE_DIST = join(ROOT, '../../site/dist');
+mkdirSync(SITE_DIST, { recursive: true });
+copyFileSync(join(DIST, 'corpo.css'), join(SITE_DIST, 'corpo.css'));
+console.log('✓ site/dist/corpo.css');
 
 console.log('\ncorpo build complete.');

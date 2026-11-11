@@ -38,7 +38,7 @@
   color: var(--corpo-text);
 }
 .cp-combobox__option--selected {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
   font-weight: 600;
 }
 .cp-combobox__empty {
@@ -54,7 +54,7 @@
   color: var(--corpo-text-muted);
 }
 .cp-combobox__option--create {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 /* MultiSelect: chips and the search input share one input-styled box. */
@@ -74,7 +74,7 @@
   border-color: var(--corpo-border-strong);
 }
 .cp-multiselect:focus-within {
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
 }
 .cp-multiselect__input {
   flex: 1 0 80px;

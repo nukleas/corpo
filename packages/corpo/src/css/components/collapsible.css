@@ -13,7 +13,7 @@
   color: var(--corpo-text);
 }
 .cp-collapsible__trigger:hover {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .cp-collapsible__chevron {

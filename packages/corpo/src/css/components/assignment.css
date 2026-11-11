@@ -46,8 +46,8 @@
 }
 
 .cp-assign-slot.is-selected {
-  border-color: var(--corpo-accent);
-  box-shadow: 0 0 0 1px var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+  box-shadow: 0 0 0 1px var(--corpo-accent-edge, var(--corpo-accent));
 }
 
 .cp-assign-slot.is-empty {
@@ -129,8 +129,8 @@
 }
 
 .cp-license-card.is-selected {
-  border-color: var(--corpo-accent);
-  box-shadow: 0 0 0 1px var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+  box-shadow: 0 0 0 1px var(--corpo-accent-edge, var(--corpo-accent));
 }
 
 .cp-license-card.is-empty {

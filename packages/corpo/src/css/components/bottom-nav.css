@@ -34,7 +34,7 @@
   text-decoration: none;
 }
 .cp-bottom-nav__item[aria-current='page'] {
-  color: var(--corpo-accent);
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-bottom-nav__item:focus-visible {
   outline-offset: -2px;

@@ -30,8 +30,8 @@
   font-size: 12px;
 }
 .cp-calendar__nav:hover {
-  border-color: var(--corpo-accent);
-  color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 
 .cp-calendar__grid {
@@ -72,7 +72,7 @@
   color: var(--corpo-text-dim);
 }
 .cp-calendar__day--today {
-  border-color: var(--corpo-accent);
+  border-color: var(--corpo-accent-edge, var(--corpo-accent));
 }
 .cp-calendar__day--selected {
   background: var(--corpo-accent);
@@ -124,6 +124,9 @@
   background: var(--corpo-accent-subtle);
   color: var(--corpo-accent-strong);
   font-weight: 600;
+}
+.corpo-dark .cp-daterange__preset[aria-pressed='true'] {
+  color: var(--corpo-accent-text, var(--corpo-accent));
 }
 .cp-daterange__hint {
   margin-top: 8px;
