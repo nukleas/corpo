@@ -9,6 +9,17 @@ notes for each tag carry the same list.
   `description`, `keywords` and `disabled`. Results are `role="option"` elements driven
   from the input with `aria-activedescendant`, not buttons. New `CommandDialog` is the
   ⌘K overlay.
+- `SideNav` items take `icon` and nested `items`. An item with `items` is a group toggle
+  (`aria-expanded`) that opens in place; the active page's groups open on their own.
+  Arrow keys move through visible items and open, close, enter and leave groups.
+  `collapsed` turns the nav into a 56px icon rail with label tooltips and group flyouts.
+- New `ActionBar`: a record's actions as one toolbar (single tab stop, arrow keys).
+  Actions that do not fit move into a trailing "More" menu from the end; `menu` items
+  always live there. New `SplitButton` (main action + menu arrow) and `RecordPager`
+  ("3 of 120" with previous / next).
+- `RecordPage` takes `pager`, rendered after the actions. `.cp-record__actions` now grows
+  into the room beside the heading and right-aligns its contents, including when it
+  wraps below the heading; with an ActionBar inside it does not wrap.
 
 ## 0.5.0 — responsive, calm chrome
 

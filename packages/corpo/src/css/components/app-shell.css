@@ -36,6 +36,10 @@
   border-right: 1px solid var(--corpo-border-dim);
 }
 
+.cp-shell__sidebar:has(> .cp-sidenav--collapsed) {
+  width: 56px;
+}
+
 .cp-shell__scrim {
   display: none;
 }
@@ -187,6 +191,132 @@
   flex-shrink: 0;
   border-top: 1px solid var(--corpo-border-dim);
   padding: 12px 16px;
+}
+
+.cp-sidenav__item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--corpo-text-muted);
+}
+
+.cp-sidenav__item:hover .cp-sidenav__item-icon,
+.cp-sidenav__item.is-active .cp-sidenav__item-icon,
+.cp-sidenav__item.is-active-parent .cp-sidenav__item-icon {
+  color: inherit;
+}
+
+/* ── Module trees ── a group toggle (button[aria-expanded]) followed by its items */
+
+.cp-sidenav__chevron {
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+  color: var(--corpo-text-dim);
+  transition: transform var(--corpo-dur-fast) var(--corpo-ease);
+}
+
+.cp-sidenav__item[aria-expanded='true'] .cp-sidenav__chevron {
+  transform: rotate(90deg);
+}
+
+/* A closed group that holds the active page. */
+.cp-sidenav__item.is-active-parent {
+  color: var(--corpo-text);
+  font-weight: 600;
+}
+
+.cp-sidenav__group {
+  margin: 2px 0 2px 17px;
+  padding-left: 8px;
+  border-left: 1px solid var(--corpo-border-dim);
+}
+
+/* ── Collapsed rail ── icon-only top level; labels stay for screen readers */
+
+.cp-sidenav--collapsed .cp-sidenav__brand {
+  justify-content: center;
+  padding: 0;
+}
+
+.cp-sidenav--collapsed .cp-sidenav__sections {
+  padding: 12px 8px;
+}
+
+.cp-sidenav--collapsed .cp-sidenav__section-title {
+  display: none;
+}
+
+.cp-sidenav--collapsed .cp-sidenav__section + .cp-sidenav__section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--corpo-border-dim);
+}
+
+.cp-sidenav--collapsed .cp-sidenav__section > .cp-sidenav__item,
+.cp-sidenav--collapsed .cp-sidenav__section > .cp-sidenav__node > .cp-sidenav__item {
+  position: relative;
+  justify-content: center;
+  gap: 0;
+  padding: 7px 0;
+}
+
+.cp-sidenav--collapsed .cp-sidenav__section > .cp-sidenav__item > :not(.cp-sidenav__item-icon),
+.cp-sidenav--collapsed .cp-sidenav__section > .cp-sidenav__node > .cp-sidenav__item > :not(.cp-sidenav__item-icon) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The rail hides the tree, so the module holding the active page carries the active tint. */
+.cp-sidenav--collapsed .cp-sidenav__section > .cp-sidenav__node > .cp-sidenav__item.is-active-parent {
+  background: var(--corpo-accent-subtle);
+  color: var(--corpo-accent-text, var(--corpo-accent));
+}
+
+.cp-sidenav--collapsed .cp-sidenav__footer {
+  padding: 12px 8px;
+}
+
+/* Rail group menu — positioned (fixed) beside its toggle by the React layer. */
+.cp-sidenav__flyout {
+  position: absolute;
+  z-index: 40;
+  min-width: 200px;
+  max-width: 280px;
+  padding: 6px;
+  background: var(--corpo-bg-panel);
+  border: 1px solid var(--corpo-border);
+  border-radius: var(--corpo-radius-lg);
+  box-shadow: var(--corpo-shadow-md);
+}
+
+.cp-sidenav__flyout-title {
+  padding: 4px 10px 6px;
+  font-size: var(--corpo-text-xs);
+  font-weight: 600;
+  color: var(--corpo-text-dim);
+}
+
+/* Rail label tooltip — same look as .cp-tooltip__content, but fixed so the scrolling rail cannot clip it. */
+.cp-sidenav__tip {
+  position: fixed;
+  z-index: 40;
+  padding: 5px 8px;
+  background: var(--corpo-gray-900);
+  color: var(--corpo-white);
+  border-radius: var(--corpo-radius);
+  font-size: var(--corpo-text-xs);
+  line-height: 1.4;
+  white-space: nowrap;
+  box-shadow: var(--corpo-shadow-md);
+  pointer-events: none;
 }
 
 /* ── Topbar ──────────────────────────────────────────────────────────────── */
