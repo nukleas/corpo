@@ -113,6 +113,8 @@ branch of a conditional (`a ? <x/> : <y/>`, `a && <x/>`) is its own scope, since
   fragment around the card is not caught.
 - `one-primary-action` counts literal `variant="primary"` only. `variant={tone}` and `ActionBar`
   `actions` arrays (data, not JSX) are not counted.
+- Tested against oxlint 1.79. oxlint's JS plugin API is still alpha; if a later oxlint breaks
+  it, upgrade `@nukleas/react-corpo`.
 - **The other rules stay guide-only.** Eyebrows that repeat context, badges for totals,
   descriptions that restate the title, decorative color, icons and mono text need judgment about
   content, so there is no lint for them. Read `BUILDING.md`.
