@@ -1,0 +1,10 @@
+{
+  "plugins": [],
+  "jsPlugins": [{ "name": "corpo", "specifier": "../index.ts" }],
+  "rules": {
+    "corpo/no-card-around-table": "error",
+    "corpo/no-card-list": "error",
+    "corpo/no-nested-card": "error",
+    "corpo/one-primary-action": "error"
+  }
+}

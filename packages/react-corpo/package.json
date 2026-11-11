@@ -32,7 +32,8 @@
   ],
   "files": [
     "dist",
-    "BUILDING.md"
+    "BUILDING.md",
+    "lint/README.md"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -46,12 +47,17 @@
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json",
     "./BUILDING.md": "./BUILDING.md",
-    "./llms.txt": "./dist/llms.txt"
+    "./llms.txt": "./dist/llms.txt",
+    "./oxlint": {
+      "import": "./dist/lint/index.js",
+      "require": "./dist/lint/index.cjs"
+    }
   },
   "scripts": {
     "build": "tsup && node scripts/copy-styles.mjs && node scripts/build-llms.mjs",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "test:lint": "node lint/composition/test.mjs",
     "storybook": "storybook dev -p 6006 --ci",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook --url http://127.0.0.1:6010",
@@ -66,6 +72,7 @@
     "@tanstack/react-virtual": "^3.14.17"
   },
   "devDependencies": {
+    "@oxlint/plugins": "1.79.0",
     "@storybook/addon-a11y": "^8.6.14",
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-interactions": "^8.6.14",
@@ -83,6 +90,7 @@
     "axe-playwright": "^2.2.2",
     "concurrently": "^10.0.5",
     "http-server": "^14.1.1",
+    "oxlint": "1.79.0",
     "playwright": "1.63.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

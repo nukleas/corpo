@@ -17,8 +17,9 @@
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["src", ".storybook", "tsup.config.ts"],
-  "exclude": ["node_modules", "dist", "storybook-static"]
+  "include": ["src", "lint", ".storybook", "tsup.config.ts"],
+  "exclude": ["node_modules", "dist", "storybook-static", "lint/**/fixtures"]
 }

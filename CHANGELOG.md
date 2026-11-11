@@ -18,7 +18,9 @@ notes for each tag carry the same list.
 - `llms.txt` and component docs say when to use `Card`, `CardGrid`, `Badge`, `Stat`,
   the `RecordPage` eyebrow and `Tabs` counts, and `Checkbox` and `NavigationMenu` have
   summaries.
-
+- New `@nukleas/react-corpo/oxlint`: an oxlint plugin for the checkable `BUILDING.md` rules
+  (`corpo/no-nested-card`, `no-card-around-table`, `no-card-list`, `one-primary-action`).
+  See `lint/README.md` in the package.
 - New `ShortcutsProvider` and `useShortcut`: one keydown listener and a registry of
   shortcuts (`'mod+k'`, `'?'`, `'g i'` sequences; `mod` is ⌘ on Apple, Ctrl elsewhere).
   Shortcuts without a modifier are ignored while typing and can be turned off from the
