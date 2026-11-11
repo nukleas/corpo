@@ -52,9 +52,15 @@ export function Breadcrumb({ items, className, ...rest }: BreadcrumbProps) {
     if (!collapsible || !nav || !full) return;
     const run = () => setCollapsed(full.scrollWidth > nav.clientWidth);
     run();
+    // Web fonts change the trail's width without resizing the nav, so measure again once they load.
+    let live = true;
+    void document.fonts.ready.then(() => live && run());
     const observer = new ResizeObserver(run);
     observer.observe(nav);
-    return () => observer.disconnect();
+    return () => {
+      live = false;
+      observer.disconnect();
+    };
   }, [collapsible, items]);
 
   useLayoutEffect(() => {
