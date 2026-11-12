@@ -5,6 +5,28 @@ notes for each tag carry the same list.
 
 ## Unreleased
 
+- **Breaking:** `LicenseCatalog` is a compact row list (name, tier, seats), not a card grid:
+  `cp-license-grid`/`cp-license-card*` are now `cp-license-list`/`cp-license-row*`, and the
+  `minCells` prop and empty padding cells are gone. `AssignmentSlots` rows and the
+  `LicenseDetail` panel lose their per-tier tint, and the `cp-tier--*` modifiers and the
+  `__tier` parts are removed: tiers are plain sentence-case text (`LICENSE_TIER_LABEL`),
+  shown in `LicenseDetail` on the category line.
+- **Breaking:** `SectionHeader` (and so `Section`) titles are `--corpo-text`, not the accent,
+  and the header has no bottom rule or padding. The gap below it is 12px (was 28px with the rule).
+- **Breaking:** `ActionBar` shows the primary action and at most two others, even when
+  more would fit. The rest go into "More", ahead of `menu` items.
+- Words that were mono are Public Sans (case and tracking unchanged): the record
+  eyebrow, license tier and assignment slot labels, calendar month and weekday labels,
+  command group labels, depgraph phase labels, relgraph tooltip kind, profile team,
+  labeled separators, the statement title, "Bill to" label and totals labels, the trial
+  balance title and proof line, and prose timestamps in activity logs, approvals,
+  inboxes, feeds and timelines. Figures, ids, codes, kbd and table headers stay mono.
+- `llms.txt` and component docs say when to use `Card`, `CardGrid`, `Badge`, `Stat`,
+  the `RecordPage` eyebrow and `Tabs` counts, and `Checkbox` and `NavigationMenu` have
+  summaries.
+- New `@nukleas/react-corpo/oxlint`: an oxlint plugin for the checkable `BUILDING.md` rules
+  (`corpo/no-nested-card`, `no-card-around-table`, `no-card-list`, `one-primary-action`).
+  See `lint/README.md` in the package.
 - New `ShortcutsProvider` and `useShortcut`: one keydown listener and a registry of
   shortcuts (`'mod+k'`, `'?'`, `'g i'` sequences; `mod` is ⌘ on Apple, Ctrl elsewhere).
   Shortcuts without a modifier are ignored while typing and can be turned off from the

@@ -4,13 +4,12 @@ import { AppShell } from '../components/AppShell';
 import { SideNav } from '../components/SideNav';
 import { Topbar } from '../components/Topbar';
 import { Avatar } from '../components/Avatar';
-import { BarChart } from '../components/BarChart';
 import { Button } from '../components/Button';
-import { Chip } from '../components/Chip';
 import { DependencyGraph } from '../components/DependencyGraph';
 import type { DepGraphNode } from '../components/DependencyGraph';
-import { ProfileCard } from '../components/ProfileCard';
-import { SectionHeader } from '../components/SectionHeader';
+import { DescriptionList } from '../components/DescriptionList';
+import { Empty } from '../components/Empty';
+import { Section } from '../components/Section';
 import { Stepper } from '../components/Stepper';
 import { StatusPill } from '../components/StatusPill';
 import { Timeline } from '../components/Timeline';
@@ -19,7 +18,7 @@ import { Brand } from '../components/Brand';
 const meta = {
   title: 'Examples/Program delivery console',
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', corpoFlush: true },
 } satisfies Meta;
 export default meta;
 
@@ -85,26 +84,18 @@ const INITIAL_NODES: DepGraphNode[] = [
 ];
 
 const OWNERS = {
-  'Priya N.': {
-    initials: 'PN',
-    role: 'Program manager',
-    team: 'Platform PMO',
-    skills: ['Vendor management', 'Rollout planning'],
-  },
-  'Marcus T.': { initials: 'MT', role: 'Data engineer', team: 'Billing platform', skills: ['ETL', 'Reconciliation'] },
-  'Ana S.': {
-    initials: 'AS',
-    role: 'Staff engineer',
-    team: 'Payments platform',
-    skills: ['Kotlin', 'Postgres', 'Payments'],
-  },
-  'Devon K.': {
-    initials: 'DK',
-    role: 'Analytics engineer',
-    team: 'Business intelligence',
-    skills: ['dbt', 'Reporting'],
-  },
-} satisfies Record<string, { initials: string; role: string; team: string; skills: string[] }>;
+  'Priya N.': { role: 'Program manager', team: 'Platform PMO' },
+  'Marcus T.': { role: 'Data engineer', team: 'Billing platform' },
+  'Ana S.': { role: 'Staff engineer', team: 'Payments platform' },
+  'Devon K.': { role: 'Analytics engineer', team: 'Business intelligence' },
+} satisfies Record<string, { role: string; team: string }>;
+
+const STATE = {
+  done: { label: 'Done', tone: 'ok' },
+  'in-progress': { label: 'In progress', tone: 'info' },
+  ready: { label: 'Ready', tone: 'warn' },
+  blocked: { label: 'Blocked', tone: 'idle' },
+} as const;
 
 const ownerFor = (name: string) =>
   // SAFETY: guarded by the `in` check against the literal-keyed map.
@@ -173,7 +164,6 @@ function ProgramDeliveryExample() {
           onNavToggle={() => setNavOpen(true)}
           actions={
             <>
-              <StatusPill tone="warn">Phase 2 of 4</StatusPill>
               <Button size="sm">Export status report</Button>
               <Avatar size="sm" initials="PN" />
             </>
@@ -182,19 +172,8 @@ function ProgramDeliveryExample() {
         <AppShell.Content>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <Stepper items={PHASES} current={phaseFor(nodes)} />
-            <div>
-              <SectionHeader
-                title="Milestone plan"
-                description="Click a milestone to see its owner; click a ready or in-progress milestone again to advance it."
-              />
-              <div
-                style={{
-                  height: 360,
-                  border: '1px solid var(--corpo-border-dim)',
-                  borderRadius: 'var(--corpo-radius-lg)',
-                  overflow: 'hidden',
-                }}
-              >
+            <Section title="Milestones" description="Click a ready or in-progress milestone twice to advance it.">
+              <div style={{ height: 360 }}>
                 <DependencyGraph
                   nodes={nodes}
                   onSelect={(id) => setSelectedId(id)}
@@ -213,45 +192,44 @@ function ProgramDeliveryExample() {
                   }}
                 />
               </div>
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'stretch' }}>
-              <div style={{ flex: '3 1 320px', minWidth: 0, height: 300 }}>
-                <BarChart
-                  stacked
-                  labels={['Q1', 'Q2', 'Q3', 'Q4']}
-                  series={[
-                    { label: 'Migration work', data: [12, 18, 26, 20] },
-                    { label: 'Run the business', data: [30, 26, 20, 24] },
-                    { label: 'Support', data: [8, 8, 8, 8] },
-                  ]}
-                  yFormat={(v) => `${v} eng-wk`}
-                />
+            </Section>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-start' }}>
+              <div style={{ flex: '1 1 320px', minWidth: 0 }}>
+                <Section title={selected?.label ?? 'Milestone'}>
+                  {selected ? (
+                    <DescriptionList
+                      compact
+                      items={[
+                        {
+                          label: 'Status',
+                          value: (
+                            <StatusPill tone={STATE[selected.state ?? 'ready'].tone}>
+                              {STATE[selected.state ?? 'ready'].label}
+                            </StatusPill>
+                          ),
+                        },
+                        { label: 'Owner', value: selected.owner ?? '–' },
+                        { label: 'Role', value: owner ? `${owner.role}, ${owner.team}` : '–' },
+                        { label: 'Estimate', value: selected.estimate ?? '–' },
+                        {
+                          label: 'Depends on',
+                          value:
+                            (selected.dependsOn ?? [])
+                              .map((id) => nodes.find((n) => n.id === id)?.label)
+                              .filter(Boolean)
+                              .join(', ') || '–',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <Empty title="No milestone selected" description="Click a milestone in the plan." />
+                  )}
+                </Section>
               </div>
-              <div style={{ flex: '2 1 300px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {selected && owner ? (
-                  <ProfileCard compact>
-                    <ProfileCard.Portrait>
-                      <Avatar size="lg" initials={owner.initials} status="online" />
-                      <StatusPill
-                        tone={selected.state === 'done' ? 'ok' : selected.state === 'blocked' ? 'idle' : 'warn'}
-                      >
-                        {selected.label}
-                      </StatusPill>
-                    </ProfileCard.Portrait>
-                    <ProfileCard.Identity name={selected.owner} role={owner.role} team={owner.team} />
-                    <ProfileCard.Skills>
-                      {owner.skills.map((s) => (
-                        <Chip key={s}>{s}</Chip>
-                      ))}
-                    </ProfileCard.Skills>
-                  </ProfileCard>
-                ) : (
-                  <SectionHeader title="No milestone selected" description="Click a node in the plan above." />
-                )}
-                <div>
-                  <SectionHeader title="Recent activity" />
+              <div style={{ flex: '1 1 320px', minWidth: 0 }}>
+                <Section title="Recent activity">
                   <Timeline items={ACTIVITY} />
-                </div>
+                </Section>
               </div>
             </div>
           </div>
@@ -261,7 +239,7 @@ function ProgramDeliveryExample() {
   );
 }
 
-/** The operations trio in a real screen — Stepper phase, the interactive DependencyGraph driving a ProfileCard owner panel, stacked capacity bars, and a Timeline feed. */
+/** A program status screen: the phase Stepper, the interactive DependencyGraph driving the selected milestone's facts (DescriptionList), and a Timeline feed. */
 export const Default: StoryObj = {
   render: () => <ProgramDeliveryExample />,
 };

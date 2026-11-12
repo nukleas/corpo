@@ -3,24 +3,23 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AppShell } from '../components/AppShell';
 import { SideNav } from '../components/SideNav';
 import { Topbar } from '../components/Topbar';
+import { Amount } from '../components/Amount';
 import { Avatar } from '../components/Avatar';
-import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
+import { CardGrid } from '../components/CardGrid';
+import { DataTable, sumColumn, type DataTableColumn } from '../components/DataTable';
 import { DescriptionList } from '../components/DescriptionList';
-import { DonutChart } from '../components/DonutChart';
 import { LineChart } from '../components/LineChart';
-import { SectionHeader } from '../components/SectionHeader';
+import { Section } from '../components/Section';
 import { Sheet } from '../components/Sheet';
-import { Sparkline } from '../components/Sparkline';
 import { Stat } from '../components/Stat';
-import { Table } from '../components/Table';
 import { Timeline } from '../components/Timeline';
 import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/Billing workspace',
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', corpoFlush: true },
 } satisfies Meta;
 export default meta;
 
@@ -29,7 +28,7 @@ const money = (v: number) => `$${v.toLocaleString('en-US')}`;
 interface Invoice {
   id: string;
   client: string;
-  amount: string;
+  amount: number;
   status: 'Paid' | 'Pending' | 'Overdue';
   tone: 'ok' | 'warn' | 'err';
   issued: string;
@@ -42,7 +41,7 @@ const INVOICES: Invoice[] = [
   {
     id: 'INV-2041',
     client: 'Acme Inc.',
-    amount: '$4,200.00',
+    amount: 4200,
     status: 'Paid',
     tone: 'ok',
     issued: 'Aug 4, 2026',
@@ -62,7 +61,7 @@ const INVOICES: Invoice[] = [
   {
     id: 'INV-2042',
     client: 'Northwind',
-    amount: '$1,180.00',
+    amount: 1180,
     status: 'Pending',
     tone: 'warn',
     issued: 'Aug 12, 2026',
@@ -76,7 +75,7 @@ const INVOICES: Invoice[] = [
   {
     id: 'INV-2043',
     client: 'Globex',
-    amount: '$860.00',
+    amount: 860,
     status: 'Overdue',
     tone: 'err',
     issued: 'Jul 2, 2026',
@@ -96,12 +95,27 @@ const INVOICES: Invoice[] = [
   },
 ];
 
+const COLUMNS: DataTableColumn[] = [
+  { key: 'id', label: 'Invoice', mono: true, sortable: true, summary: (rows) => `${rows.length} invoices` },
+  { key: 'client', label: 'Client', sortable: true },
+  { key: 'issued', label: 'Issued' },
+  { key: 'due', label: 'Due' },
+  {
+    key: 'amount',
+    label: 'Amount (USD)',
+    numeric: true,
+    sortable: true,
+    summary: (rows) => ({ content: <Amount value={sumColumn(rows, 'amount')} /> }),
+  },
+  { key: 'status', label: 'Status', sortable: true },
+];
+
 const SECTIONS = [
   { items: [{ id: 'overview', label: 'Overview' }] },
   {
     title: 'Billing',
     items: [
-      { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">3</Badge> },
+      { id: 'invoices', label: 'Invoices' },
       { id: 'payments', label: 'Payments' },
       { id: 'reports', label: 'Reports' },
     ],
@@ -118,103 +132,73 @@ function BillingWorkspaceExample() {
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
       <AppShell.Sidebar>
         <SideNav
-          brand={<Brand name="Halcyon Group" detail="Billing" />}
+          brand={<Brand name="Halcyon Group" />}
           sections={SECTIONS}
           activeId={activeId}
           onSelect={(id) => {
             setActiveId(id);
             setNavOpen(false);
           }}
-          footer={
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Avatar size="sm" initials="AS" status="online" />
-              <span style={{ fontSize: 'var(--corpo-text-sm)' }}>Ana Sørensen</span>
-            </div>
-          }
         />
       </AppShell.Sidebar>
       <AppShell.Main>
         <Topbar
-          title="Invoices"
+          title={activeId === 'overview' ? 'Overview' : 'Invoices'}
           onNavToggle={() => setNavOpen(true)}
           actions={
             <>
-              <Button size="sm" variant="primary">
-                New invoice
-              </Button>
+              {activeId === 'invoices' && (
+                <Button size="sm" variant="primary">
+                  New invoice
+                </Button>
+              )}
               <Avatar size="sm" initials="AS" />
             </>
           }
         />
         <AppShell.Content>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}>
-              <Stat label="Outstanding" value="$12,480" delta="3 overdue" deltaTone="down" />
-              <Stat label="Collected this month" value="$48,120" delta="+4.2%" deltaTone="up" />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Stat label="Weekly active seats" value="1,284" />
-                <Sparkline data={[1180, 1195, 1170, 1224, 1231, 1219, 1256, 1284]} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              <div style={{ flex: '3 1 320px', minWidth: 0, height: 280 }}>
+          {activeId === 'overview' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <CardGrid columns={2}>
+                <Stat label="Outstanding" value="$2,040" delta="1 overdue" deltaTone="down" />
+                <Stat label="Collected this month" value="$48,120" delta="+4.2%" deltaTone="up" />
+              </CardGrid>
+              <div style={{ height: 280 }}>
                 <LineChart
                   labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']}
                   series={[
-                    { label: 'Revenue', data: [128000, 132500, 141200, 138900, 149800, 155200, 161700, 168400] },
-                    { label: 'Operating cost', data: [94000, 96200, 99800, 103500, 104100, 108900, 110300, 114600] },
+                    { label: 'Invoiced', data: [128000, 132500, 141200, 138900, 149800, 155200, 161700, 168400] },
+                    { label: 'Collected', data: [121000, 129800, 133100, 137400, 141900, 150300, 154800, 160200] },
                   ]}
                   yFormat={money}
                 />
               </div>
-              <div style={{ flex: '2 1 260px', minWidth: 0, height: 280 }}>
-                <DonutChart
-                  data={[
-                    { label: 'Payroll', value: 182000 },
-                    { label: 'Cloud infrastructure', value: 64500 },
-                    { label: 'Licenses', value: 28900 },
-                    { label: 'Facilities', value: 21300 },
-                    { label: 'Other', value: 9800 },
-                  ]}
-                  format={money}
-                  centerLabel="Monthly spend"
-                />
-              </div>
             </div>
-            <div>
-              <SectionHeader title="Open invoices" description="Click an invoice to see its detail and history." />
-              <Table
-                columns={[
-                  { key: 'id', label: 'Invoice', mono: true },
-                  { key: 'client', label: 'Client' },
-                  { key: 'amount', label: 'Amount', numeric: true },
-                  { key: 'status', label: 'Status' },
-                ]}
-                rows={INVOICES.map((inv) => ({
+          ) : (
+            <DataTable
+              compact
+              searchable
+              columns={COLUMNS}
+              rows={INVOICES.map((inv) => ({
+                id: inv.id,
+                cells: {
                   id: {
                     content: (
-                      <button
-                        type="button"
-                        onClick={() => setSelectedId(inv.id)}
-                        style={{
-                          all: 'unset',
-                          cursor: 'pointer',
-                          color: 'var(--corpo-accent)',
-                          fontFamily: 'var(--corpo-font-mono)',
-                          fontSize: 'var(--corpo-text-xs)',
-                        }}
-                      >
+                      <button type="button" className="cp-table__link" onClick={() => setSelectedId(inv.id)}>
                         {inv.id}
                       </button>
                     ),
                   },
                   client: inv.client,
-                  amount: inv.amount,
+                  issued: inv.issued,
+                  due: inv.due,
+                  amount: { content: <Amount value={inv.amount} /> },
                   status: { content: inv.status, status: inv.tone },
-                }))}
-              />
-            </div>
-          </div>
+                },
+                values: { id: inv.id, amount: inv.amount, status: inv.status },
+              }))}
+            />
+          )}
         </AppShell.Content>
       </AppShell.Main>
       <Sheet
@@ -226,29 +210,30 @@ function BillingWorkspaceExample() {
             <Button size="sm" onClick={() => setSelectedId(null)}>
               Close
             </Button>
-            <Button size="sm" variant="primary">
-              Send reminder
-            </Button>
+            {selected?.status === 'Overdue' && (
+              <Button size="sm" variant="primary">
+                Send reminder
+              </Button>
+            )}
           </>
         }
       >
         {selected && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <DescriptionList
               compact
               items={[
                 { label: 'Client', value: selected.client },
-                { label: 'Amount', value: selected.amount },
+                { label: 'Amount (USD)', value: <Amount value={selected.amount} /> },
                 { label: 'Status', value: selected.status },
                 { label: 'Issued', value: selected.issued },
                 { label: 'Due', value: selected.due },
                 { label: 'Payment terms', value: selected.terms },
               ]}
             />
-            <div>
-              <SectionHeader title="History" />
+            <Section title="History" level={3}>
               <Timeline items={selected.history} />
-            </div>
+            </Section>
           </div>
         )}
       </Sheet>
@@ -256,7 +241,7 @@ function BillingWorkspaceExample() {
   );
 }
 
-/** A full billing app screen — AppShell + SideNav + Topbar hosting stats with sparklines, the line and donut charts, a shorthand-cell invoice table, and a Sheet detail with DescriptionList + Timeline. */
+/** A billing app: a compact invoice DataTable with a totals row that opens a Sheet (DescriptionList + Timeline), and an Overview dashboard, the one page that carries Stat tiles and a chart. */
 export const Default: StoryObj = {
   render: () => <BillingWorkspaceExample />,
 };

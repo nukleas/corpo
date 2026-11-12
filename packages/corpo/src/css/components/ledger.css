@@ -133,7 +133,6 @@
   color: var(--corpo-text);
 }
 .cp-trial__title {
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -148,7 +147,6 @@
   margin-top: 8px;
   padding: 8px 12px;
   border-radius: var(--corpo-radius-lg);
-  font-family: var(--corpo-font-mono);
   font-size: var(--corpo-text-xs);
   font-weight: 600;
 }

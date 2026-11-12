@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Amount } from '../components/Amount';
 import { AppShell } from '../components/AppShell';
 import { Avatar } from '../components/Avatar';
-import { Badge } from '../components/Badge';
 import { BottomNav } from '../components/BottomNav';
 import { Button } from '../components/Button';
-import { CardGrid } from '../components/CardGrid';
-import { Field } from '../components/Field';
-import { FormGrid } from '../components/FormGrid';
-import { Input } from '../components/Input';
-import { NavigationMenu } from '../components/NavigationMenu';
+import { DataTable, sumColumn, type DataTableColumn } from '../components/DataTable';
 import { SideNav } from '../components/SideNav';
-import { Stat } from '../components/Stat';
-import { StatusBar } from '../components/StatusBar';
 import { Topbar } from '../components/Topbar';
 import { Brand } from '../components/Brand';
 
@@ -45,6 +39,27 @@ const PRIMARY = [
   { id: 'reports', label: 'Reports', icon: icon('M4 19V5M4 19h16M8 15v-4M12 15V8M16 15v-6') },
 ];
 
+const COLUMNS: DataTableColumn[] = [
+  { key: 'id', label: 'Invoice', mono: true, sortable: true, summary: (rows) => `${rows.length} invoices` },
+  { key: 'client', label: 'Client', sortable: true },
+  { key: 'due', label: 'Due', sortable: true },
+  {
+    key: 'amount',
+    label: 'Amount (USD)',
+    numeric: true,
+    sortable: true,
+    summary: (rows) => ({ content: <Amount value={sumColumn(rows, 'amount')} /> }),
+  },
+  { key: 'status', label: 'Status', sortable: true },
+];
+
+const INVOICES = [
+  { id: 'INV-2041', client: 'Acme Inc.', due: 'Sep 3, 2026', amount: 4200, status: 'Paid', tone: 'ok' },
+  { id: 'INV-2042', client: 'Northwind Traders', due: 'Sep 11, 2026', amount: 1180, status: 'Open', tone: 'idle' },
+  { id: 'INV-2043', client: 'Globex', due: 'Aug 1, 2026', amount: 860, status: 'Overdue', tone: 'err' },
+  { id: 'INV-2044', client: 'Initech', due: 'Sep 18, 2026', amount: 2315.5, status: 'Open', tone: 'idle' },
+] as const;
+
 /**
  * The reference shell for an app: a top bar on every width, a sidebar on
  * desktop, and — below 768px — a bottom nav for primary destinations plus an
@@ -65,7 +80,7 @@ export const Pattern: Story = {
         <AppShell.Sidebar>
           <SideNav
             aria-label="Sections"
-            brand={<Brand name="Halcyon Group" detail="Billing" />}
+            brand={<Brand name="Halcyon Group" />}
             activeId={active}
             onSelect={choose}
             sections={[
@@ -73,7 +88,7 @@ export const Pattern: Story = {
               {
                 title: 'Billing',
                 items: [
-                  { id: 'invoices', label: 'Invoices', badge: <Badge color="amber">3</Badge> },
+                  { id: 'invoices', label: 'Invoices' },
                   { id: 'payments', label: 'Payments' },
                   { id: 'orders', label: 'Sales orders' },
                 ],
@@ -87,12 +102,6 @@ export const Pattern: Story = {
                 ],
               },
             ]}
-            footer={
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Avatar size="sm" initials="AS" status="online" />
-                <span style={{ fontSize: 'var(--corpo-text-sm)' }}>Ana Sørensen</span>
-              </div>
-            }
           />
         </AppShell.Sidebar>
         <AppShell.Main>
@@ -107,50 +116,23 @@ export const Pattern: Story = {
                 <Avatar size="sm" initials="AS" />
               </>
             }
-          >
-            <NavigationMenu
-              aria-label="Pages"
-              activeId={active}
-              onSelect={choose}
-              items={[
-                { id: 'overview', label: 'Overview', href: '#overview' },
-                { id: 'invoices', label: 'Invoices', href: '#invoices' },
-                { id: 'payments', label: 'Payments', href: '#payments' },
-                { id: 'orders', label: 'Orders', href: '#orders' },
-                { id: 'customers', label: 'Customers', href: '#customers' },
-                { id: 'reports', label: 'Reports', href: '#reports' },
-              ]}
-            />
-          </Topbar>
+          />
           <AppShell.Content>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              <CardGrid columns={4}>
-                <Stat label="Outstanding" value="$12,480" delta="+3 overdue" deltaTone="down" />
-                <Stat label="Paid this month" value="$48,120" delta="+4.2%" deltaTone="up" />
-                <Stat label="Average days" value="21" />
-                <Stat label="Open orders" value="36" delta="+9" deltaTone="up" />
-              </CardGrid>
-              <FormGrid columns={3}>
-                <Field label="Customer">
-                  <Input defaultValue="Northwind Traders" />
-                </Field>
-                <Field label="Contact">
-                  <Input defaultValue="Maria Anders" />
-                </Field>
-                <Field label="Customer PO">
-                  <Input defaultValue="PO-88231" />
-                </Field>
-              </FormGrid>
-              <StatusBar
-                items={[
-                  { id: 'books', label: 'Books', value: 'Open' },
-                  { id: 'period', label: 'Period', value: 'Oct 2026' },
-                  { id: 'entity', label: 'Entity', value: 'Halcyon US' },
-                  { id: 'source', label: 'Source', value: 'Regulations.gov (EPA, OSHA, PHMSA)' },
-                  { id: 'sync', label: 'Sync', value: '2 minutes ago' },
-                ]}
-              />
-            </div>
+            <DataTable
+              compact
+              columns={COLUMNS}
+              rows={INVOICES.map((inv) => ({
+                id: inv.id,
+                cells: {
+                  id: inv.id,
+                  client: inv.client,
+                  due: inv.due,
+                  amount: { content: <Amount value={inv.amount} /> },
+                  status: { content: inv.status, status: inv.tone },
+                },
+                values: { amount: inv.amount },
+              }))}
+            />
           </AppShell.Content>
           <BottomNav aria-label="Primary" items={PRIMARY} activeId={active} onSelect={choose} />
         </AppShell.Main>

@@ -54,7 +54,6 @@
 
 .cp-depgraph__tier-label {
   fill: var(--corpo-text-dim);
-  font-family: var(--corpo-font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: var(--corpo-label-tracking);

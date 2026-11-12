@@ -8,9 +8,7 @@ import { Button } from '../components/Button';
 import { JournalEntry } from '../components/JournalEntry';
 import type { JournalEntryValue, JournalPosting } from '../components/JournalEntry';
 import { Ledger } from '../components/Ledger';
-import { SectionHeader } from '../components/SectionHeader';
 import { Sheet } from '../components/Sheet';
-import { Stat } from '../components/Stat';
 import { TAccount } from '../components/TAccount';
 import { TrialBalance } from '../components/TrialBalance';
 import { Brand } from '../components/Brand';
@@ -18,7 +16,7 @@ import { Brand } from '../components/Brand';
 const meta = {
   title: 'Examples/Accounting workspace',
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', corpoFlush: true },
 } satisfies Meta;
 export default meta;
 
@@ -62,7 +60,6 @@ const EMPTY_JOURNAL: JournalEntryValue = {
 };
 
 const parse = (s: string) => Number(s.replace(/[,$\s]/g, '')) || 0;
-const money = (v: number) => `$${v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 function AccountingWorkspaceExample() {
   const [navOpen, setNavOpen] = useState(false);
@@ -106,39 +103,24 @@ function AccountingWorkspaceExample() {
             setActiveId(id);
             setNavOpen(false);
           }}
-          footer={
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Avatar size="sm" initials="NH" status="online" />
-              <span style={{ fontSize: 'var(--corpo-text-sm)' }}>Controller</span>
-            </div>
-          }
         />
       </AppShell.Sidebar>
       <AppShell.Main>
         <Topbar
-          title="Cash — January 2026"
+          title="Cash register — January 2026"
           onNavToggle={() => setNavOpen(true)}
           actions={
-            <Button size="sm" variant="primary" onClick={() => setJournalOpen(true)}>
-              New journal entry
-            </Button>
+            <>
+              <Button size="sm" variant="primary" onClick={() => setJournalOpen(true)}>
+                New journal entry
+              </Button>
+              <Avatar size="sm" initials="NH" />
+            </>
           }
         />
         <AppShell.Content>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}>
-              <Stat label="Opening" value={money(OPENING)} />
-              <Stat label="Total Dr" value={money(totalDr)} delta="period" deltaTone="up" />
-              <Stat label="Total Cr" value={money(totalCr)} delta="period" deltaTone="down" />
-              <Stat label="Closing" value={money(closing)} />
-            </div>
-            <div>
-              <SectionHeader
-                title="Cash register"
-                description="Running balance, green-bar row tracking; post new activity from the journal."
-              />
-              <Ledger opening={OPENING} entries={entries} bar />
-            </div>
+            <Ledger opening={OPENING} entries={entries} bar />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'start' }}>
               <div style={{ flex: '3 1 360px', minWidth: 0 }}>
                 <TrialBalance
@@ -157,7 +139,6 @@ function AccountingWorkspaceExample() {
                 />
               </div>
               <div style={{ flex: '2 1 280px', minWidth: 0 }}>
-                <SectionHeader title="Cash T-account" />
                 <TAccount
                   title="Cash"
                   debits={[
@@ -195,7 +176,7 @@ function AccountingWorkspaceExample() {
   );
 }
 
-/** The full accounting flow — Stat strip (opening / Σ Dr / Σ Cr / closing) over a green-bar cash register, a live trial balance and T-account, and a Sheet-hosted JournalEntry that must prove before it can post. */
+/** The full accounting flow: a green-bar cash register (opening, totals and closing in the ledger itself), a live trial balance and T-account, and a Sheet-hosted JournalEntry that must prove before it can post. */
 export const Default: StoryObj = {
   render: () => <AccountingWorkspaceExample />,
 };

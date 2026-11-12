@@ -20,6 +20,12 @@ cyber/terminal design system — same token-and-component skeleton, reworked for
 no emoji). Cyberdesign's cyber-only families (Terminal, HUD, Scanner, Gauge, GlowCard, Ticker, etc.)
 are intentionally not ported.
 
+## Building screens with corpo
+
+[`packages/react-corpo/BUILDING.md`](./packages/react-corpo/BUILDING.md) is the composition guide, and it ships in the npm
+package. Follow it for every story, example, and harness demo too: dense is fine, decoration is not.
+That means tables over card grids, no eyebrows or badges that repeat context, and one primary action.
+
 ## Engineering principles
 
 - Do not preserve backward compatibility inside the monorepo: remove obsolete classes, props, and tokens instead of aliasing or shimming them, and update both packages + demo harness + stories in the same change. Because `@nukleas/corpo`/`@nukleas/react-corpo` are published to npm, breaking changes ship as a semver bump with a changelog note — never as runtime compat layers.

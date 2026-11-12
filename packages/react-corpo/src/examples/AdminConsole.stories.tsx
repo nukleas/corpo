@@ -9,16 +9,16 @@ import { LicenseCatalog, type LicenseItem } from '../components/LicenseCatalog';
 import { AssignmentSlots, type AssignmentSlot } from '../components/AssignmentSlots';
 import { LicenseDetail } from '../components/LicenseDetail';
 import { Button } from '../components/Button';
-import { Badge } from '../components/Badge';
 import { Avatar } from '../components/Avatar';
-import { SectionHeader } from '../components/SectionHeader';
+import { DataTable, type DataTableColumn } from '../components/DataTable';
+import { Section } from '../components/Section';
 import { LICENSES } from '../components/LicenseCatalog.fixtures';
 import { Brand } from '../components/Brand';
 
 const meta = {
   title: 'Examples/IT admin console',
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', corpoFlush: true },
 } satisfies Meta;
 export default meta;
 
@@ -82,6 +82,18 @@ interface Person {
   onLeave?: boolean;
 }
 
+const PEOPLE_COLUMNS: DataTableColumn[] = [
+  { key: 'name', label: 'Name', sortable: true, summary: (rows) => `${rows.length} people` },
+  { key: 'role', label: 'Role', sortable: true },
+  { key: 'team', label: 'Team', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+];
+
+const TEAM_COLUMNS: DataTableColumn[] = [
+  { key: 'team', label: 'Team', sortable: true },
+  { key: 'people', label: 'People', numeric: true, sortable: true },
+];
+
 const PEOPLE: Person[] = [
   { id: 'ps', name: 'Priya Shah', initials: 'PS', role: 'Finance controller', teamId: 'finance' },
   { id: 'dw', name: 'Daniel Wu', initials: 'DW', role: 'Staff accountant', teamId: 'ap' },
@@ -101,23 +113,6 @@ const PEOPLE: Person[] = [
   { id: 'er', name: 'Elena Ruiz', initials: 'ER', role: 'General counsel', teamId: 'legal' },
   { id: 'nk', name: 'Noah Kim', initials: 'NK', role: 'Contracts attorney', teamId: 'contracts' },
 ];
-
-const TEAM_COPY = {
-  acme: 'Parent company for the US operating units. License pools are owned here and assigned down to each function.',
-  finance: 'Controller organization covering payables, payroll, and treasury. Most seats are annual-contract SaaS.',
-  ap: 'Vendor invoices and payment runs for the US entities.',
-  payroll: 'Semi-monthly payroll for salaried staff and weekly for hourly contractors.',
-  treasury: 'Cash position, banking access, and wire approvals.',
-  people: 'People partner team for recruiting, benefits, and employee relations.',
-  recruiting: 'Open-role hiring for corporate functions. Greenhouse seats are pooled at this level.',
-  benefits: 'Medical, 401(k), and leave administration for US employees.',
-  legal: 'In-house counsel for commercial, employment, and privacy work.',
-  contracts: 'Vendor and customer paper. DocuSign seats are assigned from the legal pool.',
-} satisfies Record<string, string>;
-
-const teamCopy = (id: string): string =>
-  // SAFETY: guarded by the `in` check against the literal-keyed map.
-  id in TEAM_COPY ? TEAM_COPY[id as keyof typeof TEAM_COPY] : 'Reporting line for this unit.';
 
 const INITIAL_FILES: DropzoneFile[] = [
   {
@@ -164,7 +159,6 @@ function AdminConsoleExample() {
   const selectedOrg = findNode(ORG, selectedOrgId);
   const contextLabel = selectedOrg?.label ?? 'Acme Holdings';
   const pageLabel = navLabel(activeId);
-  const uploadingCount = importFiles.filter((file) => file.status === 'uploading').length;
 
   const byId = (id?: string | null): LicenseItem | null => LICENSES.find((license) => license.id === id) ?? null;
   const slots: AssignmentSlot[] = SLOT_DEFS.map((slot) => ({
@@ -192,17 +186,13 @@ function AdminConsoleExample() {
       title: 'Provisioning',
       items: [
         { id: 'licenses', label: 'Licenses' },
-        {
-          id: 'imports',
-          label: 'Imports',
-          badge: uploadingCount > 0 ? <Badge color="amber">{uploadingCount}</Badge> : undefined,
-        },
+        { id: 'imports', label: 'Imports' },
       ],
     },
   ];
 
   const people = peopleInScope(selectedOrgId);
-  const childTeams = selectedOrg?.children ?? [];
+  const teams = selectedOrg?.children?.length ? selectedOrg.children : selectedOrg ? [selectedOrg] : [];
 
   return (
     <AppShell navOpen={navOpen} onNavClose={() => setNavOpen(false)} style={{ height: '100vh' }}>
@@ -215,23 +205,9 @@ function AdminConsoleExample() {
             setActiveId(id);
             setNavOpen(false);
           }}
-          footer={
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Avatar size="sm" initials="JH" status="online" />
-              <span style={{ fontSize: 'var(--corpo-text-sm)' }}>Jordan Hale</span>
-            </div>
-          }
           style={{ flex: '1 1 0', minHeight: 0 }}
         />
-        <div
-          style={{
-            flex: '1 1 0',
-            minHeight: 0,
-            overflow: 'auto',
-            padding: '8px 4px 12px',
-            borderTop: '1px solid var(--corpo-border-dim)',
-          }}
-        >
+        <div style={{ flex: '1 1 0', minHeight: 0, overflow: 'auto' }}>
           <TreeView
             aria-label="Organization"
             items={ORG}
@@ -267,36 +243,26 @@ function AdminConsoleExample() {
         <AppShell.Content>
           {activeId === 'licenses' && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
-              <div
-                style={{
-                  flex: '2 1 320px',
-                  minWidth: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 16,
-                }}
-              >
-                <SectionHeader
-                  title="License catalog"
-                  description="Select a license, pick a slot, then assign. Double-click a card to assign it to the selected slot."
-                />
-                <LicenseCatalog
-                  items={LICENSES}
-                  selectedId={selectedLicenseId}
-                  assignedIds={assignedIds}
-                  onSelect={(item) => setSelectedLicenseId(item.id)}
-                  onActivate={assign}
-                />
-                <SectionHeader title={`${contextLabel} — allocation`} />
-                <AssignmentSlots
-                  slots={slots}
-                  selectedSlotId={selectedSlotId}
-                  onSelectSlot={(slot) => {
-                    setSelectedSlotId(slot.id);
-                    if (slot.item) setSelectedLicenseId(slot.item.id);
-                  }}
-                  style={{ maxWidth: 400 }}
-                />
+              <div style={{ flex: '2 1 320px', minWidth: 0 }}>
+                <Section title="Assignments" description="Select a slot, then assign the selected license to it.">
+                  <AssignmentSlots
+                    slots={slots}
+                    selectedSlotId={selectedSlotId}
+                    onSelectSlot={(slot) => {
+                      setSelectedSlotId(slot.id);
+                      if (slot.item) setSelectedLicenseId(slot.item.id);
+                    }}
+                  />
+                </Section>
+                <Section title="Catalog">
+                  <LicenseCatalog
+                    items={LICENSES}
+                    selectedId={selectedLicenseId}
+                    assignedIds={assignedIds}
+                    onSelect={(item) => setSelectedLicenseId(item.id)}
+                    onActivate={assign}
+                  />
+                </Section>
               </div>
               <LicenseDetail
                 item={selectedLicense}
@@ -328,11 +294,7 @@ function AdminConsoleExample() {
           )}
 
           {activeId === 'imports' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 560 }}>
-              <SectionHeader
-                title="Seat assignment imports"
-                description={`Upload a CSV of seat assignments for ${contextLabel}. Files can be removed before processing.`}
-              />
+            <div style={{ maxWidth: 560 }}>
               <Dropzone
                 accept=".csv"
                 hint="Drop a CSV of seat assignments or browse"
@@ -355,52 +317,34 @@ function AdminConsoleExample() {
           )}
 
           {activeId === 'people' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <SectionHeader
-                title="Directory"
-                description={`${people.length} people in ${contextLabel}. Seats are provisioned from the licenses page.`}
-              />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {people.map((person) => (
-                  <div key={person.id} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 44 }}>
-                    <Avatar size="sm" initials={person.initials} />
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div>{person.name}</div>
-                      <div
-                        style={{
-                          fontSize: 'var(--corpo-text-sm)',
-                          color: 'var(--corpo-text-secondary)',
-                        }}
-                      >
-                        {person.role}
-                      </div>
-                    </div>
-                    <Badge color={person.onLeave ? 'amber' : 'green'}>{person.onLeave ? 'On leave' : 'Active'}</Badge>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <DataTable
+              compact
+              searchable
+              columns={PEOPLE_COLUMNS}
+              rows={people.map((person) => ({
+                id: person.id,
+                cells: {
+                  name: person.name,
+                  role: person.role,
+                  team: findNode(ORG, person.teamId)?.label ?? '–',
+                  status: person.onLeave
+                    ? { content: 'On leave', status: 'warn' }
+                    : { content: 'Active', status: 'ok' },
+                },
+                values: { status: person.onLeave ? 'On leave' : 'Active' },
+              }))}
+            />
           )}
 
-          {activeId === 'teams' && selectedOrg && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <SectionHeader title={selectedOrg.label} description={teamCopy(selectedOrg.id)} />
-              {childTeams.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {childTeams.map((team) => (
-                    <div key={team.id} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
-                      <span style={{ flex: 1, minWidth: 0 }}>{team.label}</span>
-                      <Badge>{peopleInScope(team.id).length}</Badge>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span>No nested teams. People on this team:</span>
-                  <Badge>{people.length}</Badge>
-                </div>
-              )}
-            </div>
+          {activeId === 'teams' && (
+            <DataTable
+              compact
+              columns={TEAM_COLUMNS}
+              rows={teams.map((team) => ({
+                id: team.id,
+                cells: { team: team.label, people: peopleInScope(team.id).length },
+              }))}
+            />
           )}
         </AppShell.Content>
       </AppShell.Main>

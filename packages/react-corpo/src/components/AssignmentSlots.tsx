@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
-import type { LicenseItem } from './LicenseCatalog';
+import { LICENSE_TIER_LABEL, type LicenseItem } from './LicenseCatalog';
 
 export interface AssignmentSlot {
   id: string;
@@ -18,7 +18,7 @@ export interface AssignmentSlotsProps extends HTMLAttributes<HTMLDivElement> {
   emptyLabel?: ReactNode;
 }
 
-/** Per-person assignment slot list — tier-tinted rows with click-to-select. */
+/** Per-person assignment slots: one compact row per slot (slot, license, tier), click to select. */
 export function AssignmentSlots({
   slots,
   selectedSlotId,
@@ -33,17 +33,12 @@ export function AssignmentSlots({
         <button
           key={slot.id}
           type="button"
-          className={cn(
-            'cp-assign-slot',
-            slot.item && `cp-tier--${slot.item.tier}`,
-            !slot.item && 'is-empty',
-            selectedSlotId === slot.id && 'is-selected',
-          )}
+          className={cn('cp-assign-slot', !slot.item && 'is-empty', selectedSlotId === slot.id && 'is-selected')}
           onClick={() => onSelectSlot?.(slot)}
         >
           <span className="cp-assign-slot__label">{slot.label}</span>
           <span className="cp-assign-slot__name">{slot.item?.name ?? emptyLabel}</span>
-          {slot.item && <span className="cp-assign-slot__tier">{slot.item.tier}</span>}
+          <span>{slot.item ? LICENSE_TIER_LABEL[slot.item.tier] : '–'}</span>
         </button>
       ))}
     </div>

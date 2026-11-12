@@ -14,7 +14,11 @@ export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   hint?: ReactNode;
 }
 
-/** Corpo KPI stat — sentence-case label over a large tabular-nums value with an optional delta. */
+/**
+ * Corpo KPI stat — a dashboard's headline number, as a sentence-case label over a
+ * large tabular-nums value with an optional delta. On list and record pages the
+ * numbers go in a table's summary row or the record's facts instead.
+ */
 export function Stat({ label, value, delta, deltaTone = 'neutral', hint, className, ...rest }: StatProps) {
   return (
     <div className={cn('cp-stat', className)} {...rest}>

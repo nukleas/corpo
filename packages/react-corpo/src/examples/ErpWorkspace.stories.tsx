@@ -8,7 +8,6 @@ import { Approvals, type Approver } from '../components/Approvals';
 import { AppShell } from '../components/AppShell';
 import { AttachmentList, type Attachment } from '../components/AttachmentList';
 import { Avatar } from '../components/Avatar';
-import { Badge } from '../components/Badge';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Button } from '../components/Button';
 import { CommandDialog, type CommandGroup } from '../components/Command';
@@ -28,6 +27,7 @@ import { Stepper } from '../components/Stepper';
 import { StatusPill } from '../components/StatusPill';
 import { Table } from '../components/Table';
 import { Tabs, type TabItem } from '../components/Tabs';
+import { Toast, Toaster } from '../components/Toast';
 import { Topbar } from '../components/Topbar';
 import { useMediaQuery } from '../lib/useMediaQuery';
 
@@ -71,7 +71,7 @@ const NAV: SideNavSection[] = [
         icon: ICONS.sales,
         items: [
           { id: 'quotes', label: 'Quotes' },
-          { id: 'orders', label: 'Sales orders', badge: <Badge color="amber">4</Badge> },
+          { id: 'orders', label: 'Sales orders' },
           { id: 'invoices', label: 'Invoices' },
         ],
       },
@@ -304,7 +304,6 @@ function moduleOf(page: string): LauncherModule | undefined {
   return MODULES.find((m) => m.id === section?.id);
 }
 
-const note = { margin: 0, fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-muted)' } as const;
 const stack = { display: 'flex', flexDirection: 'column', gap: 16 } as const;
 const now = () => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
@@ -312,7 +311,6 @@ const now = () => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minu
 function orderTabs(
   order: OrderRecord,
   total: number,
-  company: string,
   update: (next: Partial<OrderRecord>) => void,
   log: (entry: ActivityEntry) => void,
 ): TabItem[] {
@@ -347,9 +345,6 @@ function orderTabs(
           <Field label="Payment terms">
             <Input defaultValue="Net 30" />
           </Field>
-          <Field label="Selling company" hint="Change it with the company switcher, top left.">
-            <Input value={company} readOnly />
-          </Field>
           <Field label="Salesperson">
             <Input defaultValue="Priya Natarajan" />
           </Field>
@@ -359,18 +354,11 @@ function orderTabs(
     {
       id: 'lines',
       label: 'Lines',
-      count: order.lines.length,
-      panel: (
-        <div style={stack}>
-          <p style={note}>Edit quantities or add a line — the total in the header follows.</p>
-          <LineItems value={order.lines} onChange={(lines) => update({ lines })} products={PRODUCTS} currency="$" />
-        </div>
-      ),
+      panel: <LineItems value={order.lines} onChange={(lines) => update({ lines })} products={PRODUCTS} currency="$" />,
     },
     {
       id: 'invoices',
       label: 'Invoices',
-      count: invoices.length,
       panel:
         invoices.length === 0 ? (
           <Empty
@@ -431,7 +419,7 @@ function orderTabs(
               ]}
             />
           ) : (
-            <p style={note}>Nothing has shipped yet.</p>
+            <p>Nothing has shipped yet.</p>
           )}
           {order.stage < 3 && (
             <div>
@@ -493,7 +481,6 @@ function orderTabs(
     {
       id: 'attachments',
       label: 'Attachments',
-      count: order.attachments.length,
       panel: (
         <AttachmentList
           attachments={order.attachments}
@@ -546,7 +533,6 @@ function orderTabs(
     {
       id: 'activity',
       label: 'Activity',
-      count: order.history.length,
       panel: (
         <ActivityLog
           entries={order.history}
@@ -692,7 +678,7 @@ function Workspace() {
           activeId={page}
           onSelect={go}
           footer={
-            desktop ? (
+            desktop && (
               <Button
                 size="sm"
                 variant="ghost"
@@ -702,8 +688,6 @@ function Workspace() {
               >
                 {rail ? '»' : '« Collapse'}
               </Button>
-            ) : (
-              <span style={{ fontSize: 'var(--corpo-text-sm)' }}>Ana Sørensen</span>
             )
           }
         />
@@ -752,17 +736,8 @@ function Workspace() {
           />
         </Topbar>
         <AppShell.Content>
-          {notice && (
-            <p
-              role="status"
-              style={{ margin: '0 0 12px', fontSize: 'var(--corpo-text-sm)', color: 'var(--corpo-text-muted)' }}
-            >
-              {notice}
-            </p>
-          )}
           {onOrder ? (
             <RecordPage
-              eyebrow="Sales order"
               title={order.id}
               status={<StatusPill tone={order.tone}>{order.status}</StatusPill>}
               actions={
@@ -790,7 +765,6 @@ function Workspace() {
               }
               facts={[
                 { label: 'Client', value: order.client },
-                { label: 'Company', value: entityName },
                 { label: 'Total', value: money(total) },
               ]}
             >
@@ -798,11 +772,10 @@ function Workspace() {
                 key={order.id}
                 aria-label="Order sections"
                 overflow="menu"
-                tabs={orderTabs(order, total, entityName, update, log)}
+                tabs={orderTabs(order, total, update, log)}
               />
               <div style={{ marginTop: 20 }}>
                 <SplitButton
-                  variant="primary"
                   onClick={run('Saved')}
                   items={[
                     { id: 'save-new', label: 'Save and new', onClick: run('Saved, new order started') },
@@ -822,6 +795,11 @@ function Workspace() {
           )}
         </AppShell.Content>
       </AppShell.Main>
+      {notice && (
+        <Toaster>
+          <Toast title={notice} onDismiss={() => setNotice('')} />
+        </Toaster>
+      )}
       <CommandDialog
         open={palette}
         onClose={() => setPalette(false)}
@@ -849,5 +827,8 @@ export const AllLayers: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole('heading', { level: 1 })).toHaveTextContent('SO-2210');
     await expect(canvas.getByRole('button', { name: 'Switch company: Halcyon UK Ltd' })).toBeInTheDocument();
+    // Only the actionable count shows: pending approvals, not line or activity totals.
+    await expect(canvas.getByRole('tab', { name: 'Lines' })).toBeInTheDocument();
+    await expect(canvas.getByRole('tab', { name: /Approvals\s*1/ })).toBeInTheDocument();
   },
 };

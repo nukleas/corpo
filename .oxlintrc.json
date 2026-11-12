@@ -9,12 +9,17 @@
     "packages/*/dist/**",
     "packages/react-corpo/storybook-static/**",
     "pages_dist/**",
-    "tools/oxlint/anti-slop/**"
+    "tools/oxlint/anti-slop/**",
+    "packages/react-corpo/lint/composition/fixtures/**"
   ],
   "jsPlugins": [
     {
       "name": "anti-slop",
       "specifier": "./tools/oxlint/anti-slop/index.ts"
+    },
+    {
+      "name": "corpo",
+      "specifier": "./packages/react-corpo/lint/composition/index.ts"
     }
   ],
   "rules": {
@@ -43,5 +48,21 @@
     "anti-slop/no-unsafe-dictionary-type": "error",
     "anti-slop/no-widen-then-assert": "error",
     "anti-slop/require-safety-comment-for-type-assertion": "error"
-  }
+  },
+  // BUILDING.md composition rules (packages/react-corpo/lint), enforced on what agents copy: stories, examples and flows.
+  "overrides": [
+    {
+      "files": [
+        "packages/react-corpo/src/**/*.stories.tsx",
+        "packages/react-corpo/src/examples/**",
+        "packages/react-corpo/src/flows/**"
+      ],
+      "rules": {
+        "corpo/no-card-around-table": "error",
+        "corpo/no-card-list": "error",
+        "corpo/no-nested-card": "error",
+        "corpo/one-primary-action": "error"
+      }
+    }
+  ]
 }

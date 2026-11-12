@@ -122,5 +122,5 @@ pnpm storybook           # React Storybook (packages/react-corpo)
 | `--corpo-radius` / `--corpo-radius-lg` | 6px controls / 8px surfaces |
 | `--corpo-shadow-sm` / `-md` / `-lg` | quiet elevation, no glow |
 | `--corpo-font-sans` | Public Sans — body/headings |
-| `--corpo-font-mono` | JetBrains Mono — data, ids, code, eyebrows and table headers |
+| `--corpo-font-mono` | JetBrains Mono — figures, ids, codes, keys and table headers (never words) |
 | `--corpo-text-xs` … `--corpo-text-2xl` | rem-based type scale |
